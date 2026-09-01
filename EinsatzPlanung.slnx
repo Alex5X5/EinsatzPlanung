@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="Einsatzplanung.GUI/Einsatzplanung.GUI.csproj" />
   <Project Path="EinsatzPlanung/EinsatzPlanung.csproj" />
 </Solution>
