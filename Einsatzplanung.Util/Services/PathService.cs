@@ -13,11 +13,13 @@ public static class PathService {
 
 	public static readonly string APP_DATA_DIRECTORY = Path.Combine(GetAppDataDirectory(), APP_NAME);
 	public static readonly string ASSETS_DIRECTORY = Path.Combine(APP_DATA_DIRECTORY, "assets");
+	public static readonly string CRASHES_DIRECTORY = Path.Combine(APP_DATA_DIRECTORY, "logs");
 
 
 	static PathService() {
 		EnsurePathExists(APP_DATA_DIRECTORY);
 		EnsurePathExists(ASSETS_DIRECTORY);
+		EnsurePathExists(CRASHES_DIRECTORY);
 	}
 
 	private static void EnsurePathExists(string path) {
@@ -88,6 +90,9 @@ public static class PathService {
 
 	public static string AssetsPath(string fileName) =>
 		Path.Combine(ASSETS_DIRECTORY, fileName);
+
+	public static string CrashesPath(string fileName) =>
+		Path.Combine(CRASHES_DIRECTORY, fileName);
 
 	public static string DesktopPath(string fileName) =>
 		Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), fileName);

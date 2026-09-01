@@ -20,5 +20,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Einsatzplanung.GUI\Einsatzplanung.GUI.csproj" />
+		<ProjectReference Include="..\Einsatzplanung.Util\Einsatzplanung.Util.csproj" />
 	</ItemGroup>
 </Project>
