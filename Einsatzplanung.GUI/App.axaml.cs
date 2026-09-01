@@ -39,6 +39,10 @@ public partial class App : Application {
 	}
 
 	public static void AddAppServices(IServiceCollection collection) {
+		// Transient services are created each time they are requested.
+		// Singleton services are created once and then reused.
+		//Request services by calling App.Current.Services.GetService<AServiceType>()
+		// or just as an argument in a custructor
 		collection.AddTransient<MainWindowViewModel>();
 	}
 
