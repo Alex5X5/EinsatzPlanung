@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="Einsatzplanung.GUI/Einsatzplanung.GUI.csproj" />
+  <Project Path="Einsatzplanung.Util/Einsatzplanung.Util.csproj" Id="72a873f2-1eb6-44f0-818c-d87c7bf9988a" />
   <Project Path="EinsatzPlanung/EinsatzPlanung.csproj" />
 </Solution>

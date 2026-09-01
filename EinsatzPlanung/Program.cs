@@ -1,4 +1,6 @@
-﻿namespace EinsatzPlanung.GUI;
+﻿namespace EinsatzPlanung;
+
+using EinsatzPlanung.GUI;
 
 using Avalonia;
 using System;
