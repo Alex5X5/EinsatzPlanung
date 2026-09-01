@@ -1,4 +1,4 @@
-﻿namespace EinsatzPlanung.Models;
+﻿namespace Einsatzplanung.Types.Models;
 
 public class Topic
 {

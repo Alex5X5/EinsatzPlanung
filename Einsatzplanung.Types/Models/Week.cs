@@ -1,6 +1,6 @@
-﻿using System;
+﻿namespace Einsatzplanung.Types.Models;
 
-namespace EinsatzPlanung.Models;
+using System;
 
 public class Week
 {

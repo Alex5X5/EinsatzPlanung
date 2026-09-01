@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace Einsatzplanung.Types.Models;
 
-namespace EinsatzPlanung.Models;
+using System.Collections.Generic;
 
 public class Teacher
 {
