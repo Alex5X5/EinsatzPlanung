@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+
+        <ResourceDictionary x:Key="Light">
+            <Color x:Key="AppBackgroundStartColor">#FFFFFFFF</Color>
+            <Color x:Key="AppBackgroundEndColor">#FFE8F1FF</Color>
+            <Color x:Key="AppForegroundColor">#FF000000</Color>
+            <Color x:Key="CardBackgroundColor">#FFFFFF</Color>
+            <Color x:Key="CardBorderBrush">#000000</Color>
+
+            <LinearGradientBrush x:Key="AppBackgroundBrush"
+                                 StartPoint="0%,0%"
+                                 EndPoint="100%,100%">
+                <GradientStop Color="{StaticResource AppBackgroundStartColor}"
+                              Offset="0" />
+                <GradientStop Color="{StaticResource AppBackgroundEndColor}"
+                              Offset="1" />
+            </LinearGradientBrush>
+
+            <SolidColorBrush x:Key="AppForegroundBrush"
+                             Color="{StaticResource AppForegroundColor}" />
+            <SolidColorBrush x:Key="CardBackgroundBrush"
+                             Color="{StaticResource CardBackgroundColor}" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <Color x:Key="AppBackgroundStartColor">#211B2B</Color>
+            <Color x:Key="AppBackgroundEndColor">#2B2138</Color>
+            <Color x:Key="AppForegroundColor">#FFFFFFFF</Color>
+            <Color x:Key="CardBackgroundColor">#20FFFFFF</Color>
+            <Color x:Key="CardBorderBrush">#FFFFFF</Color>
+
+            <LinearGradientBrush x:Key="AppBackgroundBrush"
+                                 StartPoint="0%,0%"
+                                 EndPoint="100%,100%">
+                <GradientStop Color="{StaticResource AppBackgroundStartColor}"
+                              Offset="0" />
+                <GradientStop Color="{StaticResource AppBackgroundEndColor}"
+                              Offset="1" />
+            </LinearGradientBrush>
+
+            <SolidColorBrush x:Key="AppForegroundBrush"
+                             Color="{StaticResource AppForegroundColor}" />
+            <SolidColorBrush x:Key="CardBackgroundBrush"
+                             Color="{StaticResource CardBackgroundColor}" />
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>
