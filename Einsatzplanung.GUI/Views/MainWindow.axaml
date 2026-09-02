@@ -17,14 +17,11 @@
     
     <Window.Styles>
 
-        <Style Selector="Button">
-            <Setter Property="BorderThickness" Value="0.5" />
-            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
+        <Style Selector="Button.import-button">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
             <Setter Property="CornerRadius" Value="10" />
-            <Setter Property="Padding" Value="8,4,8,4" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="FontSize" Value="10"/>
         </Style>
 
     </Window.Styles>
@@ -44,6 +41,7 @@
         <DataTemplate x:DataType="vm:ImportCardViewModel">
 
             <Border
+                Classes="extending-border"
                 Background="{DynamicResource CardBackgroundBrush}"
                 Padding="20"
                 CornerRadius="10"
@@ -65,7 +63,7 @@
                         </Setter>
                     </Style>
 
-                    <Style Selector="Border:pointerover">
+                    <Style Selector="Border.extending-border:pointerover">
                         <Setter Property="Height" Value="155" />
                     </Style>
 
@@ -89,15 +87,70 @@
                         RowDefinitions="Auto,Auto">
 
                         <Button
-                            Margin="0,0,12,0"
+                            Margin="0,0,12,8"
                             Grid.Row="0"
                             Grid.Column="0"
-                            Content="Import Excel"
                             Command="{Binding ImportExcelCommand}"
-                            CommandParameter="{Binding #Root}" />
+                            CommandParameter="{Binding #Root}"
+                            Classes="import-button"
+                            Padding="0"
+                            MaxHeight="30"
+                            BorderThickness="0">
+
+                            <Border
+                                CornerRadius="10"
+                                ClipToBounds="True">
+
+                                <Grid ColumnDefinitions="Auto,*">
+
+                                    <Border
+                                        Grid.Column="0"
+                                        Background="{DynamicResource ButtonBackground}">
+
+                                        <Image
+                                            Source="{SvgImage /Assets/microsoft-excel.svg}"
+                                            Width="24"
+                                            Height="24"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+
+                                    </Border>
+
+                                    <Border Grid.Column="1">
+
+                                        <Border.Background>
+                                            <LinearGradientBrush
+                                                StartPoint="0%,0%"
+                                                EndPoint="100%,0%">
+
+                                                <GradientStop
+                                                    Color="#217346"
+                                                    Offset="0" />
+
+                                                <GradientStop
+                                                    Color="#33A852"
+                                                    Offset="1" />
+
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+
+                                        <TextBlock
+                                            Text="Einfügen"
+                                            Foreground="White"
+                                            Padding="8,1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+
+                                    </Border>
+
+                                </Grid>
+
+                            </Border>
+
+                        </Button>
 
                         <TextBlock
-                            Margin="0,0,0,0"
+                            Margin="0,0,0,8"
                             Grid.Row="0"
                             Grid.Column="1"
                             Text="{Binding ExcelFileStatus}"
@@ -106,7 +159,7 @@
                             TextTrimming="CharacterEllipsis" />
 
                         <Button
-                            Margin="0,8,12,0"
+                            Margin="0,0,12,8"
                             Grid.Row="1"
                             Grid.Column="0"
                             Content="Import PDF"
@@ -114,7 +167,7 @@
                             CommandParameter="{Binding #Root}" />
 
                         <TextBlock
-                            Margin="0,8,0,0"
+                            Margin="0,0,0,8"
                             Grid.Row="1"
                             Grid.Column="1"
                             Text="{Binding PdfFileStatus}"
@@ -129,6 +182,7 @@
             </Border>
 
         </DataTemplate>
+        
     </ItemsControl.ItemTemplate>
 
     </ItemsControl>

@@ -7,8 +7,12 @@
             <Color x:Key="AppBackgroundStartColor">#FFFFFFFF</Color>
             <Color x:Key="AppBackgroundEndColor">#FFE8F1FF</Color>
             <Color x:Key="AppForegroundColor">#FF000000</Color>
+            
             <Color x:Key="CardBackgroundColor">#FFFFFF</Color>
             <Color x:Key="CardBorderBrush">#000000</Color>
+            
+            <Color x:Key="ButtonBorderBrush">#000000</Color>
+            <Color x:Key="ButtonBackgroundColor">#FFFFFFFF</Color>
 
             <LinearGradientBrush x:Key="AppBackgroundBrush"
                                  StartPoint="0%,0%"
@@ -29,8 +33,12 @@
             <Color x:Key="AppBackgroundStartColor">#211B2B</Color>
             <Color x:Key="AppBackgroundEndColor">#2B2138</Color>
             <Color x:Key="AppForegroundColor">#FFFFFFFF</Color>
+            
             <Color x:Key="CardBackgroundColor">#20FFFFFF</Color>
             <Color x:Key="CardBorderBrush">#FFFFFF</Color>
+            
+            <Color x:Key="ButtonBorderBrush">#FFFFFF</Color>
+            <Color x:Key="ButtonBackgroundColor">#20FFFFFF</Color>
 
             <LinearGradientBrush x:Key="AppBackgroundBrush"
                                  StartPoint="0%,0%"
