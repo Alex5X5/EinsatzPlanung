@@ -65,12 +65,12 @@
 
 		[RelayCommand]
 		private async Task ImportExcel(Window window) {
-			ExcelFileStatus = await PickFileName(window, "Excel-Datei auswählen");
+			_excelFileStatus = await PickFileName(window, "Excel-Datei auswählen");
 		}
 
 		[RelayCommand]
 		private async Task ImportPdf(Window window) {
-			PdfFileStatus = await PickFileName(window, "PDF-Datei auswählen");
+			_pdfFileStatus = await PickFileName(window, "PDF-Datei auswählen");
 		}
 
 		private static async Task<string> PickFileName(Window window, string title) {
@@ -81,6 +81,15 @@
 			var files = await window.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions {
 				Title = title,
 				AllowMultiple = false,
+				FileTypeFilter = new[] {
+					new FilePickerFileType("Excel Files") {
+						Patterns = new[] { "*.xlsx", "*.xlsm", "*.xlsb", "*.csv" }
+					},
+					new FilePickerFileType("PDF Files") {
+						Patterns = new[] { "*.pdf" }
+					},
+					FilePickerFileTypes.All
+				}
 			});
 
 			var file = files.FirstOrDefault();
