@@ -1,5 +1,6 @@
 ﻿namespace EinsatzPlanung.ViewModels
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,6 +12,9 @@
 
     public partial class ImportCardViewModel : ObservableObject
     {
+        private string _excelFileStatus = "Keine Excel-Datei ausgewählt";
+        private string _pdfFileStatus = "Keine PDF-Datei ausgewählt";
+
         public ImportCardViewModel(string header)
         {
             Header = header;
@@ -18,41 +22,53 @@
 
         public string Header { get; }
 
-        [ObservableProperty] private string _excelFileStatus = "Keine Excel-Datei ausgewählt";
+        public string ExcelFileStatus
+        {
+            get => _excelFileStatus;
+            set => SetProperty(ref _excelFileStatus, value);
+        }
 
-        [ObservableProperty] private string _pdfFileStatus = "Keine PDF-Datei ausgewählt";
+        public string PdfFileStatus
+        {
+            get => _pdfFileStatus;
+            set => SetProperty(ref _pdfFileStatus, value);
+        }
 
         [RelayCommand]
         private async Task ImportExcel(Window window)
         {
-            _excelFileStatus = await PickFileName(window, "Excel-Datei auswählen");
+            ExcelFileStatus = await PickFileName(window, "Excel-Datei auswählen", [
+                new FilePickerFileType("Excel Files")
+                {
+                    Patterns = ["*.xlsx", "*.xlsm", "*.xlsb", "*.csv"]
+                },
+                FilePickerFileTypes.All
+            ]);
         }
 
         [RelayCommand]
         private async Task ImportPdf(Window window)
         {
-            _pdfFileStatus = await PickFileName(window, "PDF-Datei auswählen");
+            PdfFileStatus = await PickFileName(window, "PDF-Datei auswählen", [
+                new FilePickerFileType("PDF Files")
+                {
+                    Patterns = ["*.pdf"]
+                },
+                FilePickerFileTypes.All
+            ]);
         }
 
-        private static async Task<string> PickFileName(Window window, string title)
+        private static async Task<string> PickFileName(
+            Window window,
+            string title,
+            IReadOnlyList<FilePickerFileType> fileTypeFilter)
         {
 
             var files = await window.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 Title = title,
                 AllowMultiple = false,
-                FileTypeFilter = new[]
-                {
-                    new FilePickerFileType("Excel Files")
-                    {
-                        Patterns = ["*.xlsx", "*.xlsm", "*.xlsb", "*.csv"]
-                    },
-                    new FilePickerFileType("PDF Files")
-                    {
-                        Patterns = ["*.pdf"]
-                    },
-                    FilePickerFileTypes.All
-                }
+                FileTypeFilter = fileTypeFilter
             });
 
             var file = files.FirstOrDefault();
