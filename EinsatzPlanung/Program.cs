@@ -13,7 +13,7 @@ internal sealed class Program {
 	/// </summary>
 	[STAThread]
 	public static void Main(string[] args) {
-		PathService.ExtractFiles("Timespan");
+		PathService.ExtractFiles("EinsatzPlanung");
 		try {
 			BuildAvaloniaApp()
 				.StartWithClassicDesktopLifetime(args);

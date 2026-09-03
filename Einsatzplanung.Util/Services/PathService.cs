@@ -8,7 +8,7 @@ using System.Text;
 
 public static class PathService {
 
-	public const int ASSETS_VERSION = 6;
+	public const int ASSETS_VERSION = 0;
 	public const string APP_NAME = "Einsatzplanung";
 
 	public static readonly string APP_DATA_DIRECTORY = Path.Combine(GetAppDataDirectory(), APP_NAME);

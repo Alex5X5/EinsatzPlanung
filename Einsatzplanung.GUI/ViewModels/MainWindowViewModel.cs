@@ -1,4 +1,6 @@
-﻿namespace EinsatzPlanung.ViewModels {
+﻿using Einsatzplanung.Excel.Services;
+
+namespace EinsatzPlanung.ViewModels {
 	using System.Collections.ObjectModel;
 
 	public partial class MainWindowViewModel : ViewModelBase {
@@ -11,6 +13,15 @@
 			new("Praktikumszeiten"),
 			new("Schulwochen")
 		];
+
+		public MainWindowViewModel()
+		{
+			var excelImportService = new ExcelImportService();
+
+			excelImportService.PrintTable();
+		}
+
+        
 	}
 
 }

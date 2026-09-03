@@ -22,4 +22,9 @@
 		<ProjectReference Include="..\Einsatzplanung.GUI\Einsatzplanung.GUI.csproj" />
 		<ProjectReference Include="..\Einsatzplanung.Util\Einsatzplanung.Util.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Assets\**\*" />
+	</ItemGroup>
+
 </Project>
