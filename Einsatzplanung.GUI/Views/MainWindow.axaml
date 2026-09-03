@@ -14,17 +14,7 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-    
-    <Window.Styles>
-
-        <Style Selector="Button.import-button">
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="CornerRadius" Value="10" />
-        </Style>
-
-    </Window.Styles>
+   
     
    <ItemsControl ItemsSource="{Binding Cards}">
 
@@ -71,7 +61,7 @@
 
                 <Grid
                     ColumnDefinitions="350"
-                    RowDefinitions="20,*">
+                    RowDefinitions="20,20">
 
                     <TextBlock
                         Grid.Row="0"
@@ -83,7 +73,7 @@
                     <Grid
                         Grid.Row="1"
                         Margin="0,20,0,0"
-                        ColumnDefinitions="Auto,*"
+                        ColumnDefinitions="Auto,Auto"
                         RowDefinitions="Auto,Auto">
 
                         <Button
@@ -95,26 +85,22 @@
                             Classes="import-button"
                             Padding="0"
                             MaxHeight="30"
-                            BorderThickness="0">
+                            BorderThickness="0"
+                            CornerRadius="10">
 
-                            <Border
-                                CornerRadius="10"
-                                ClipToBounds="True">
 
                                 <Grid ColumnDefinitions="Auto,*">
 
-                                    <Border
-                                        Grid.Column="0"
-                                        Background="{DynamicResource ButtonBackground}">
+                                    <Panel
+                                        Grid.Column="0" Margin="1">
 
-                                        <Image
-                                            Source="{SvgImage /Assets/microsoft-excel.svg}"
-                                            Width="24"
-                                            Height="24"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
+                                        <Image Source="{SvgImage /Assets/microsoft-excel.svg}"
+                                               Width="24"
+                                               Height="24"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
 
-                                    </Border>
+                                    </Panel>
 
                                     <Border Grid.Column="1">
 
@@ -145,7 +131,7 @@
 
                                 </Grid>
 
-                            </Border>
+                           
 
                         </Button>
 
@@ -164,7 +150,59 @@
                             Grid.Column="0"
                             Content="Import PDF"
                             Command="{Binding ImportPdfCommand}"
-                            CommandParameter="{Binding #Root}" />
+                            CommandParameter="{Binding #Root}"
+                            Padding="0"
+                            MaxHeight="30"
+                            MaxWidth="120"
+                            BorderThickness="0"
+                            CornerRadius="10">
+
+                              <Grid ColumnDefinitions="Auto,*">
+
+                                    <Panel
+                                        Grid.Column="0" Margin="1">
+
+                                        <Image
+                                            Source="{SvgImage /Assets/pdf.svg}"
+                                            Width="24"
+                                            Height="24"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
+
+                                    </Panel>
+
+                                    <Border Grid.Column="1">
+
+                                        <Border.Background>
+                                            <LinearGradientBrush
+                                                StartPoint="0%,0%"
+                                                EndPoint="100%,0%">
+
+                                                <GradientStop
+                                                    Color="#B72834"
+                                                    Offset="0" />
+
+                                                <GradientStop
+                                                    Color="#FD3D4C"
+                                                    Offset="1" />
+
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+
+                                        <TextBlock
+                                            Text="Einfügen"
+                                            Foreground="White"
+                                            Padding="8,1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+
+                                    </Border>
+
+                                </Grid>
+
+                           
+
+                        </Button>
 
                         <TextBlock
                             Margin="0,0,0,8"
