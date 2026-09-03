@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
   <Project Path="Einsatzplanung.Excel/Einsatzplanung.Excel.csproj" Id="3d1302cb-b44c-48cb-bb6f-2fa690e1fa32" />
   <Project Path="Einsatzplanung.GUI/Einsatzplanung.GUI.csproj" />
   <Project Path="Einsatzplanung.Types/Einsatzplanung.Types.csproj" Id="352a3453-d19f-4317-865c-ee2c617f98d5" />
