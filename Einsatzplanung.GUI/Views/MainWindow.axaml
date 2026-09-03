@@ -14,215 +14,223 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-   
+
+   <Grid ColumnDefinitions="Auto" RowDefinitions="Auto,*">
     
-   <ItemsControl ItemsSource="{Binding Cards}">
+       <ItemsControl ItemsSource="{Binding Cards}" Grid.Column="0" Grid.Row="0">
 
-    <ItemsControl.ItemsPanel>
-        <ItemsPanelTemplate>
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="12" />
-        </ItemsPanelTemplate>
-    </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="12" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
 
-    <ItemsControl.ItemTemplate>
-        <DataTemplate x:DataType="vm:ImportCardViewModel">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:ImportCardViewModel">
 
-            <Border
-                Classes="extending-border"
-                Background="{DynamicResource CardBackgroundBrush}"
-                Padding="20"
-                CornerRadius="10"
-                BorderThickness="1"
-                BorderBrush="{DynamicResource CardBorderBrush}"
-                ClipToBounds="True">
+                <Border
+                    Classes="extending-border"
+                    Background="{DynamicResource CardBackgroundBrush}"
+                    Padding="20"
+                    CornerRadius="10"
+                    BorderThickness="1"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    ClipToBounds="True">
 
-                <Border.Styles>
+                    <Border.Styles>
 
-                    <Style Selector="Border">
-                        <Setter Property="Height" Value="60" />
-                        <Setter Property="Transitions">
-                            <Transitions>
-                                <DoubleTransition
-                                    Property="Height"
-                                    Duration="0:0:0.3"
-                                    Easing="CubicEaseOut" />
-                            </Transitions>
-                        </Setter>
-                    </Style>
+                        <Style Selector="Border">
+                            <Setter Property="Height" Value="60" />
+                            <Setter Property="Transitions">
+                                <Transitions>
+                                    <DoubleTransition
+                                        Property="Height"
+                                        Duration="0:0:0.3"
+                                        Easing="CubicEaseOut" />
+                                </Transitions>
+                            </Setter>
+                        </Style>
 
-                    <Style Selector="Border.extending-border:pointerover">
-                        <Setter Property="Height" Value="155" />
-                    </Style>
+                        <Style Selector="Border.extending-border:pointerover">
+                            <Setter Property="Height" Value="155" />
+                        </Style>
 
-                </Border.Styles>
-
-                <Grid
-                    ColumnDefinitions="350"
-                    RowDefinitions="20,20">
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Text="{Binding Header}"
-                        Foreground="{DynamicResource AppForegroundBrush}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center" />
+                    </Border.Styles>
 
                     <Grid
-                        Grid.Row="1"
-                        Margin="0,20,0,0"
-                        ColumnDefinitions="Auto,Auto"
-                        RowDefinitions="Auto,Auto">
+                        ColumnDefinitions="350"
+                        RowDefinitions="20,20">
 
-                        <Button
-                            Margin="0,0,12,8"
+                        <TextBlock
                             Grid.Row="0"
-                            Grid.Column="0"
-                            Command="{Binding ImportExcelCommand}"
-                            CommandParameter="{Binding #Root}"
-                            Classes="import-button"
-                            Padding="0"
-                            MaxHeight="30"
-                            BorderThickness="0"
-                            CornerRadius="10">
+                            Text="{Binding Header}"
+                            Foreground="{DynamicResource AppForegroundBrush}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
+                        <Grid
+                            Grid.Row="1"
+                            Margin="0,20,0,0"
+                            ColumnDefinitions="Auto,Auto"
+                            RowDefinitions="Auto,Auto">
+
+                            <Button
+                                Margin="0,0,12,8"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Command="{Binding ImportExcelCommand}"
+                                CommandParameter="{Binding #Root}"
+                                Classes="import-button"
+                                Padding="0"
+                                MaxHeight="30"
+                                BorderThickness="0"
+                                CornerRadius="10">
 
 
-                                <Grid ColumnDefinitions="Auto,*">
+                                    <Grid ColumnDefinitions="Auto,*">
 
-                                    <Panel
-                                        Grid.Column="0" Margin="1">
+                                        <Panel
+                                            Grid.Column="0" Margin="1">
 
-                                        <Image Source="{SvgImage /Assets/microsoft-excel.svg}"
-                                               Width="24"
-                                               Height="24"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center" />
+                                            <Image Source="{SvgImage /Assets/microsoft-excel.svg}"
+                                                   Width="24"
+                                                   Height="24"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
 
-                                    </Panel>
+                                        </Panel>
 
-                                    <Border Grid.Column="1">
+                                        <Border Grid.Column="1">
 
-                                        <Border.Background>
-                                            <LinearGradientBrush
-                                                StartPoint="0%,0%"
-                                                EndPoint="100%,0%">
+                                            <Border.Background>
+                                                <LinearGradientBrush
+                                                    StartPoint="0%,0%"
+                                                    EndPoint="100%,0%">
 
-                                                <GradientStop
-                                                    Color="#217346"
-                                                    Offset="0" />
+                                                    <GradientStop
+                                                        Color="#217346"
+                                                        Offset="0" />
 
-                                                <GradientStop
-                                                    Color="#33A852"
-                                                    Offset="1" />
+                                                    <GradientStop
+                                                        Color="#33A852"
+                                                        Offset="1" />
 
-                                            </LinearGradientBrush>
-                                        </Border.Background>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
 
-                                        <TextBlock
-                                            Text="Einfügen"
-                                            Foreground="White"
-                                            Padding="8,1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
+                                            <TextBlock
+                                                Text="Einfügen"
+                                                Foreground="White"
+                                                Padding="8,1"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
 
-                                    </Border>
+                                        </Border>
 
-                                </Grid>
+                                    </Grid>
 
                            
 
-                        </Button>
+                            </Button>
 
-                        <TextBlock
-                            Margin="0,0,0,8"
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Text="{Binding ExcelFileStatus}"
-                            Foreground="{DynamicResource AppForegroundBrush}"
-                            VerticalAlignment="Center"
-                            TextTrimming="CharacterEllipsis" />
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Text="{Binding ExcelFileStatus}"
+                                Foreground="{DynamicResource AppForegroundBrush}"
+                                VerticalAlignment="Center"
+                                TextTrimming="CharacterEllipsis" />
 
-                        <Button
-                            Margin="0,0,12,8"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Content="Import PDF"
-                            Command="{Binding ImportPdfCommand}"
-                            CommandParameter="{Binding #Root}"
-                            Padding="0"
-                            MaxHeight="30"
-                            MaxWidth="120"
-                            BorderThickness="0"
-                            CornerRadius="10">
+                            <Button
+                                Margin="0,0,12,8"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Content="Import PDF"
+                                Command="{Binding ImportPdfCommand}"
+                                CommandParameter="{Binding #Root}"
+                                Padding="0"
+                                MaxHeight="30"
+                                MaxWidth="120"
+                                BorderThickness="0"
+                                CornerRadius="10">
 
-                              <Grid ColumnDefinitions="Auto,*">
+                                  <Grid ColumnDefinitions="Auto,*">
 
-                                    <Panel
-                                        Grid.Column="0" Margin="1">
+                                        <Panel
+                                            Grid.Column="0" Margin="1">
 
-                                        <Image
-                                            Source="{SvgImage /Assets/pdf.svg}"
-                                            Width="24"
-                                            Height="24"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"/>
+                                            <Image
+                                                Source="{SvgImage /Assets/pdf.svg}"
+                                                Width="24"
+                                                Height="24"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"/>
 
-                                    </Panel>
+                                        </Panel>
 
-                                    <Border Grid.Column="1">
+                                        <Border Grid.Column="1">
 
-                                        <Border.Background>
-                                            <LinearGradientBrush
-                                                StartPoint="0%,0%"
-                                                EndPoint="100%,0%">
+                                            <Border.Background>
+                                                <LinearGradientBrush
+                                                    StartPoint="0%,0%"
+                                                    EndPoint="100%,0%">
 
-                                                <GradientStop
-                                                    Color="#B72834"
-                                                    Offset="0" />
+                                                    <GradientStop
+                                                        Color="#B72834"
+                                                        Offset="0" />
 
-                                                <GradientStop
-                                                    Color="#FD3D4C"
-                                                    Offset="1" />
+                                                    <GradientStop
+                                                        Color="#FD3D4C"
+                                                        Offset="1" />
 
-                                            </LinearGradientBrush>
-                                        </Border.Background>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
 
-                                        <TextBlock
-                                            Text="Einfügen"
-                                            Foreground="White"
-                                            Padding="8,1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
+                                            <TextBlock
+                                                Text="Einfügen"
+                                                Foreground="White"
+                                                Padding="8,1"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
 
-                                    </Border>
+                                        </Border>
 
-                                </Grid>
+                                    </Grid>
 
                            
 
-                        </Button>
+                            </Button>
 
-                        <TextBlock
-                            Margin="0,0,0,8"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Text="{Binding PdfFileStatus}"
-                            Foreground="{DynamicResource AppForegroundBrush}"
-                            VerticalAlignment="Center"
-                            TextTrimming="CharacterEllipsis" />
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding PdfFileStatus}"
+                                Foreground="{DynamicResource AppForegroundBrush}"
+                                VerticalAlignment="Center"
+                                TextTrimming="CharacterEllipsis" />
+
+                        </Grid>
 
                     </Grid>
 
-                </Grid>
+                </Border>
 
-            </Border>
-
-        </DataTemplate>
+            </DataTemplate>
         
-    </ItemsControl.ItemTemplate>
+        </ItemsControl.ItemTemplate>
 
-    </ItemsControl>
-    
+        </ItemsControl>
+
+       <Button Grid.Row="1">
+           <Button.Content>
+               Gen
+           </Button.Content>
+       </Button>
+
+    </Grid>
 </Window>
