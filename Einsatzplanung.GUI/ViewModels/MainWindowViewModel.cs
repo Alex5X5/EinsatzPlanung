@@ -1,20 +1,11 @@
-﻿using Einsatzplanung.Excel.Services;
+﻿namespace Einsatzplanung.GUI.ViewModels;
 
-namespace EinsatzPlanung.ViewModels {
-	using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 
-	public partial class MainWindowViewModel : ViewModelBase {
-		public ObservableCollection<ImportCardViewModel> Cards { get; } =
-		[
-			new("Ausbilder & Spezialisierungen"),
-			new("Ausbildungsgruppe"),
-			new("Ausbildungsinhalte"),
-			new("Urlaubswochen & Feiertage"),
-			new("Praktikumszeiten"),
-			new("Schulwochen")
-		];
+public partial class MainWindowViewModel : ViewModelBase {
 
-        
+	public MainWindowViewModel() : base() {
+		
 	}
-
+        
 }
