@@ -1,6 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿namespace Einsatzplanung.GUI.ViewModels;
 
-namespace EinsatzPlanung.ViewModels {
-	public class ViewModelBase : ObservableObject {
-	}
+using CommunityToolkit.Mvvm.ComponentModel;
+
+public class ViewModelBase : ObservableObject {
+	
 }

@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 
-namespace EinsatzPlanung.GUI.Views {
+namespace Einsatzplanung.GUI {
 	public partial class MainWindow : Window {
 		private Border? _activeCardBorder;
 

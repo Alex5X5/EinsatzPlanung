@@ -1,4 +1,4 @@
-﻿namespace EinsatzPlanung.ViewModels
+﻿namespace Einsatzplanung.GUI.ViewModels
 {
     using System.Collections.Generic;
     using System.Linq;
