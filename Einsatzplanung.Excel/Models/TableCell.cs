@@ -8,4 +8,8 @@ public class TableCell {
 
 	public string Value { get; set; } = "";
 
+	public bool Bold { get; set; }
+	public int TextRotation { get; set; }
+	public string BackgroundColor1 { get; set; } = "";
+
 }

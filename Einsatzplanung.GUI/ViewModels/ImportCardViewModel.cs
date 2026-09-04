@@ -9,7 +9,10 @@
 
     using CommunityToolkit.Mvvm.ComponentModel;
     using CommunityToolkit.Mvvm.Input;
-    using Einsatzplanung.Excel.Services;
+
+	using DocumentFormat.OpenXml.EMMA;
+
+	using Einsatzplanung.Excel.Services;
     using EinsatzPlanung.GUI;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -49,7 +52,7 @@
             ]);
             System.Console.WriteLine(ExcelFileStatus);
             ExcelImportService excelService = App.Current.Services.GetService<ExcelImportService>();
-            excelService.CreateTableObj(ExcelFileStatus);
+            Einsatzplanung.Excel.Models.Table table = excelService.CreateTableObj(ExcelFileStatus);
         }
 
         [RelayCommand]
