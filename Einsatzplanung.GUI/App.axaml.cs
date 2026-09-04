@@ -12,6 +12,7 @@ using Avalonia.Markup.Xaml;
 
 using EinsatzPlanung.ViewModels;
 using EinsatzPlanung.GUI.Views;
+using Einsatzplanung.Excel.Services;
 
 public partial class App : Application {
 
@@ -42,7 +43,9 @@ public partial class App : Application {
 		// Singleton services are created once and then reused.
 		//Request services by calling App.Current.Services.GetService<AServiceType>()
 		// or just as an argument in a custructor
+		collection.AddTransient<ExcelImportService>();
 		collection.AddTransient<MainWindowViewModel>();
+		
 	}
 
 }

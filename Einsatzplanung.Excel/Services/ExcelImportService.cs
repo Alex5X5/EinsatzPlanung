@@ -2,7 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+//using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+//using System.Text;
 
 using ClosedXML.Excel;
 
@@ -10,6 +13,7 @@ using Einsatzplanung.Util.Services;
 
 public class ExcelImportService {
 
+	
 	private System.Drawing.Color GetColorFromTheme(IXLTheme theme, XLThemeColor color) {
 		return color switch {
 			XLThemeColor.Background1 => theme.Background1.Color,
@@ -62,21 +66,44 @@ public class ExcelImportService {
 			Cells = cells
 		};
 	}
+	
+	public void CreateTableObj(string path)
+    {
 
-	public void PrintTable() {
-
-        string filePath = PathService.AssetsPath("Excel\\ExcelEinsatzplanImput.xlsx");
+        string filePath = PathService.AssetsPath(path);
         
-		Models.Table table = GetTable(filePath, 1);
-
-        foreach (var row in table.Cells)
+        if (!File.Exists(filePath))
         {
-            foreach (var cell in row)
-            {
-                Console.Write($"{cell.Value},");
-            }
-            Console.WriteLine();
+            Console.WriteLine($"File not found: {filePath}");
+            return;
         }
-	}
+
+        Models.Table table = new() 
+        {
+            Cells = new List<List<Models.TableCell>>()
+        };
+
+        XLWorkbook workbook = new(filePath);
+
+        var worksheet = workbook.Worksheet(1);
+
+        foreach (var row in worksheet.RowsUsed())
+        {
+            var tableRow = new List<Models.TableCell>();
+
+            foreach (var cell in row.CellsUsed())
+            {
+                if (cell != null)
+                {
+                    tableRow.Add(new Models.TableCell
+                    {
+                        Value = cell.Value.ToString()
+                    });
+                }
+            }
+            table.Cells.Add(tableRow);
+        }
+        Console.WriteLine("Loaded Table ;)");
+    }
 
 }
