@@ -8,8 +8,7 @@
         x:DataType="vm:MainWindowViewModel"
         x:Name="Root"
         Icon="/Assets/avalonia-logo.ico"
-        Title="EinsatzPlanung"
-        Background="{DynamicResource AppBackgroundBrush}">
+        Title="EinsatzPlanung">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -82,11 +81,11 @@
                                 Grid.Column="0"
                                 Command="{Binding ImportExcelCommand}"
                                 CommandParameter="{Binding #Root}"
-                                Classes="import-button"
                                 Padding="0"
                                 MaxHeight="30"
                                 BorderThickness="0"
-                                CornerRadius="10">
+                                CornerRadius="10"
+                                Background="{DynamicResource ImportButtonBackgroundColor}">
 
 
                                     <Grid ColumnDefinitions="Auto,*">
@@ -102,24 +101,9 @@
 
                                         </Panel>
 
-                                        <Border Grid.Column="1">
-
-                                            <Border.Background>
-                                                <LinearGradientBrush
-                                                    StartPoint="0%,0%"
-                                                    EndPoint="100%,0%">
-
-                                                    <GradientStop
-                                                        Color="#217346"
-                                                        Offset="0" />
-
-                                                    <GradientStop
-                                                        Color="#33A852"
-                                                        Offset="1" />
-
-                                                </LinearGradientBrush>
-                                            </Border.Background>
-
+                                        <Border Grid.Column="1" Classes="excel-bg"
+                                                Background="{DynamicResource ExcelImportButtonGradient}">
+                                            
                                             <TextBlock
                                                 Text="Einfügen"
                                                 Foreground="White"
@@ -128,11 +112,7 @@
                                                 VerticalAlignment="Center" />
 
                                         </Border>
-
                                     </Grid>
-
-                           
-
                             </Button>
 
                             <TextBlock
@@ -154,7 +134,8 @@
                                 MaxHeight="30"
                                 MaxWidth="120"
                                 BorderThickness="0"
-                                CornerRadius="10">
+                                CornerRadius="10"
+                                Background="{DynamicResource ImportButtonBackgroundColor}">
 
                                   <Grid ColumnDefinitions="Auto,*">
 
@@ -170,23 +151,8 @@
 
                                         </Panel>
 
-                                        <Border Grid.Column="1">
-
-                                            <Border.Background>
-                                                <LinearGradientBrush
-                                                    StartPoint="0%,0%"
-                                                    EndPoint="100%,0%">
-
-                                                    <GradientStop
-                                                        Color="#B72834"
-                                                        Offset="0" />
-
-                                                    <GradientStop
-                                                        Color="#FD3D4C"
-                                                        Offset="1" />
-
-                                                </LinearGradientBrush>
-                                            </Border.Background>
+                                        <Border Grid.Column="1" Classes="pdf-bg"
+                                                Background="{DynamicResource PdfImportButtonGradient}">
 
                                             <TextBlock
                                                 Text="Einfügen"
@@ -198,9 +164,7 @@
                                         </Border>
 
                                     </Grid>
-
-                           
-
+                                
                             </Button>
 
                             <TextBlock
@@ -225,7 +189,7 @@
         </ItemsControl>
         <StackPanel Grid.Row="1" Margin="0,20,0,0">
             
-            <Button Content="Erstellen" HorizontalAlignment="Center" Background="{DynamicResource ButtonBackgroundColor}"/>
+            <Button Classes="standard-button" Content="Erstellen" HorizontalAlignment="Center"/>
      
         </StackPanel>
        

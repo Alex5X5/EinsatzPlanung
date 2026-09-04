@@ -1,0 +1,29 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+    
+    <Style Selector="Window">
+        <Setter Property="Width" Value="1000"/>
+        <Setter Property="Height" Value="700"/>
+        <Setter Property="MinWidth" Value="1000"/>
+        <Setter Property="MinHeight" Value="700"/>
+        <Setter Property="Background" Value="{DynamicResource AppBackgroundBrush}"/>
+    </Style>
+    
+    <Style Selector="Button.standard-button">
+        <Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}"/>
+    </Style>
+    
+    <Style Selector="Border.excel-bg:pointerover">
+        <Setter Property="Background" Value="{DynamicResource HoverExcelImportButtonGradient}"/>
+    </Style>    
+    
+    <Style Selector="Border.pdf-bg:pointerover">
+        <Setter Property="Background" Value="{DynamicResource HoverPdfImportButtonGradient}"/>
+    </Style>
+    
+</Styles>

@@ -12,7 +12,9 @@
             <Color x:Key="CardBorderBrush">#000000</Color>
             
             <Color x:Key="ButtonBorderBrush">#000000</Color>
-            <Color x:Key="ButtonBackgroundColor">#FFFFFFFF</Color>
+            <Color x:Key="ImportButtonBackgroundColor">#DCD4D1D2</Color>
+            <Color x:Key="HoverImportButtonBackgroundColor">#95D4DFDF</Color>
+            <Color x:Key="StandardButtonBackgroundColor">#FFFFFFFF</Color>
 
             <LinearGradientBrush x:Key="AppBackgroundBrush"
                                  StartPoint="0%,0%"
@@ -29,6 +31,9 @@
                              Color="{StaticResource CardBackgroundColor}" />
         </ResourceDictionary>
 
+        
+        
+        <!-- DARK THEME -->
         <ResourceDictionary x:Key="Dark">
             <Color x:Key="AppBackgroundStartColor">#211B2B</Color>
             <Color x:Key="AppBackgroundEndColor">#2B2138</Color>
@@ -38,7 +43,9 @@
             <Color x:Key="CardBorderBrush">#FFFFFF</Color>
             
             <Color x:Key="ButtonBorderBrush">#FFFFFF</Color>
-            <Color x:Key="ButtonBackgroundColor">#20FFFFFF</Color>
+            <Color x:Key="ImportButtonBackgroundColor">#E1505050</Color>
+            <Color x:Key="HoverImportButtonBackgroundColor">#20FFFFFF</Color>
+            <Color x:Key="StandardButtonBackgroundColor">#20FFFFFF</Color>
 
             <LinearGradientBrush x:Key="AppBackgroundBrush"
                                  StartPoint="0%,0%"
@@ -56,5 +63,68 @@
         </ResourceDictionary>
 
     </ResourceDictionary.ThemeDictionaries>
+    
+    <!-- ALL THEMES -->
+                
+    <LinearGradientBrush x:Key="ExcelImportButtonGradient"
+                         StartPoint="0%,0%"
+                         EndPoint="100%,0%">
+
+        <GradientStop
+            Color="#217346"
+            Offset="0" />
+
+        <GradientStop
+            Color="#33A852"
+            Offset="1" />
+
+    </LinearGradientBrush>    
+    
+    
+    
+    <LinearGradientBrush x:Key="HoverExcelImportButtonGradient"
+                         StartPoint="50%,0%"
+                         EndPoint="100%,0%">
+
+        <GradientStop
+            Color="#217346"
+            Offset="0" />
+
+        <GradientStop
+            Color="#33A852"
+            Offset="1" />
+
+        
+    </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="PdfImportButtonGradient"
+        StartPoint="0%,0%"
+        EndPoint="100%,0%">
+
+        <GradientStop
+            Color="#B72834"
+            Offset="0" />
+
+        <GradientStop
+            Color="#FD3D4C"
+            Offset="1" />
+
+    </LinearGradientBrush>    
+    
+    <LinearGradientBrush x:Key="HoverPdfImportButtonGradient"
+                         StartPoint="50%,0%"
+                         EndPoint="100%,0%">
+
+        <GradientStop
+            Color="#B72834"
+            Offset="0" />
+
+        <GradientStop
+            Color="#FD3D4C"
+            Offset="1" />
+
+
+    </LinearGradientBrush>
+    
 
 </ResourceDictionary>
