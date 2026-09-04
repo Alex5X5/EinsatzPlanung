@@ -8,9 +8,9 @@
     
     <Style Selector="Window">
         <Setter Property="Width" Value="1000"/>
-        <Setter Property="Height" Value="700"/>
+        <Setter Property="Height" Value="667"/>
         <Setter Property="MinWidth" Value="1000"/>
-        <Setter Property="MinHeight" Value="700"/>
+        <Setter Property="MinHeight" Value="667"/>
         <Setter Property="Background" Value="{DynamicResource AppBackgroundBrush}"/>
     </Style>
     

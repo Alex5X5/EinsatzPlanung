@@ -13,9 +13,9 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-   <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" Margin="0,20,0,0">
+   <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" VerticalAlignment="Center">
     
-       <ItemsControl ItemsSource="{Binding Cards}" Grid.Column="0" Grid.Row="0">
+       <ItemsControl ItemsSource="{Binding Cards}" Grid.Column="0" Grid.Row="0" >
 
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
@@ -31,6 +31,7 @@
 
                 <Border
                     Classes="extending-border"
+                    PointerEntered="CardBorder_OnPointerEntered"
                     Background="{DynamicResource CardBackgroundBrush}"
                     Padding="20"
                     CornerRadius="10"
@@ -53,6 +54,10 @@
                         </Style>
 
                         <Style Selector="Border.extending-border:pointerover">
+                            <Setter Property="Height" Value="155" />
+                        </Style>
+
+                        <Style Selector="Border.extending-border.active">
                             <Setter Property="Height" Value="155" />
                         </Style>
 
