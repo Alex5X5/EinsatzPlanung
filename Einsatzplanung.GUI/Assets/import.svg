@@ -1,26 +1,56 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg fill="#000000" width="800px" height="800px" viewBox="-3.6 -3.6 31.20 31.20"
-     xmlns="http://www.w3.org/2000/svg" stroke="#000000" 
-     stroke-width="0.00024000000000000003">
 
-<g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)">
-
-<rect x="-3.6" y="-3.6" width="31.20" height="31.20" rx="15.6" fill="#cabfdf" />
-
-</g>
-
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" 
-   stroke="#CCCCCC" stroke-width="1.008"/>
-
-<g id="SVGRepo_iconCarrier">
-
-<path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,
-0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,
-.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,
-1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"/>
-
-</g>
-
+<svg
+   fill="#000000"
+   width="800"
+   height="800"
+   viewBox="-3.6 -3.6 31.2 31.2"
+   stroke="#000000"
+   stroke-width="0.00024"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="import.svg"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="0.96625"
+     inkscape:cx="595.08409"
+     inkscape:cy="335.83441"
+     inkscape:window-width="2400"
+     inkscape:window-height="1261"
+     inkscape:window-x="2391"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="31.200001"
+       height="31.200001"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <g
+     id="SVGRepo_bgCarrier"
+     stroke-width="0">
+    <path
+       id="rect1"
+       style="fill:#cabfdf;fill-opacity:1"
+       d="M 12,-3.6 C 3.3575998,-3.6 -3.6,3.3575998 -3.6,12 -3.6,20.6424 3.3575998,27.6 12,27.6 20.6424,27.6 27.6,20.6424 27.6,12 27.6,3.3575998 20.6424,-3.6 12,-3.6 Z m -0.06825,5.6023652 a 1,1 0 0 1 1.068234,0.9976231 v 9.5900387 l 2.290032,-2.300009 a 1.0040916,1.0040916 0 0 1 1.419996,1.419996 l -4.000014,4.000013 a 1,1 0 0 1 -0.329977,0.210006 0.94,0.94 0 0 1 -0.760042,0 1,1 0 0 1 -0.329977,-0.210006 L 7.2899883,11.710014 a 1.0040916,1.0040916 0 1 1 1.4199961,-1.419996 l 2.2900316,2.300009 V 2.9999883 A 1,1 0 0 1 11.93175,2.0023652 Z m 9.068262,11.9976038 a 1,1 0 0 1 0.999984,1.00006 v 3.999938 a 3,3 0 0 1 -3.000029,3.000029 H 5.0000332 A 3,3 0 0 1 2.0000039,18.999967 v -3.999938 a 1,1 0 0 1 1.9999688,0 v 3.999938 a 1,1 0 0 0 1.0000605,1.00006 H 18.999967 a 1,1 0 0 0 1.00006,-1.00006 v -3.999938 a 1,1 0 0 1 0.999985,-1.00006 z" />
+  </g>
 </svg>

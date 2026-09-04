@@ -13,6 +13,27 @@
 			<v:ImportView />
 		</DataTemplate>
 	</UserControl.DataTemplates>
+	
+	<Grid ColumnDefinitions="*" RowDefinitions="Auto,*">
+		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+			<Image Source="{SvgImage /Assets/import.svg}"
+			       Width="48"
+			       Height="48"/>
 
-	<ContentControl Content="{Binding CurrentPage}" />
+			
+			<Image Source="{SvgImage /Assets/edit.svg}"
+			       Width="48"
+			       Height="48"/>
+
+			
+           <Image Source="{SvgImage /Assets/save.svg}"
+                  Width="48"
+                  Height="48"/>
+
+
+		</StackPanel>
+	
+
+		<ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
+	</Grid>
 </UserControl>

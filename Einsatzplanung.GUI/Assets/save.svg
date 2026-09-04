@@ -1,29 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="-5.04 -5.04 34.08 34.08" 
-     fill="none" xmlns="http://www.w3.org/2000/svg">
 
-<g id="SVGRepo_bgCarrier" stroke-width="0">
-
-<rect x="-5.04" y="-5.04" width="34.08" height="34.08" rx="17.04" fill="#cabfdf"/>
-
-</g>
-
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-
-<g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" 
-                                   d="M18.1716 1C18.702 1 19.2107 1.21071 19.5858 
-                                   1.58579L22.4142 4.41421C22.7893 4.78929 23 5.29799 
-                                   23 5.82843V20C23 21.6569 21.6569 23 20 23H4C2.34315 
-                                   23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 
-                                   1H18.1716ZM4 3C3.44772 3 3 3.44772 3 4V20C3 20.5523 
-                                   3.44772 21 4 21L5 21L5 15C5 13.3431 6.34315 12 8 
-                                   12L16 12C17.6569 12 19 13.3431 19 15V21H20C20.5523 
-                                   21 21 20.5523 21 20V6.82843C21 6.29799 20.7893 
-                                   5.78929 20.4142 5.41421L18.5858 3.58579C18.2107 
-                                   3.21071 17.702 3 17.1716 3H17V5C17 6.65685 15.6569 
-                                   8 14 8H10C8.34315 8 7 6.65685 7 5V3H4ZM17 21V15C17 
-                                   14.4477 16.5523 14 16 14L8 14C7.44772 14 7 14.4477 
-                                   7 15L7 21L17 21ZM9 3H15V5C15 5.55228 14.5523 6 14 
-                                   6H10C9.44772 6 9 5.55228 9 5V3Z" fill="#0F0F0F"/> </g>
-
+<svg
+   width="800.00006"
+   height="800.00006"
+   viewBox="-5.04 -5.04 34.080003 34.080003"
+   fill="none"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="save.svg"
+   inkscape:export-filename="..\Pictures\SVG\Ausbildung\EinsatzplanGenerator\save,svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="34.080002"
+       height="34.080002"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <g
+     id="SVGRepo_bgCarrier"
+     stroke-width="0"
+     style="fill:#cabfdf;fill-opacity:1">
+    <path
+       id="rect1"
+       style="fill:#cabfdf;fill-opacity:1"
+       d="M 12,-5.04 C 2.5598395,-5.04 -5.04,2.5598395 -5.04,12 -5.04,21.440161 2.5598395,29.04 12,29.04 21.440161,29.04 29.04,21.440161 29.04,12 29.04,2.5598395 21.440161,-5.04 12,-5.04 Z M 4.0000195,0.99996445 H 18.171592 c 0.5304,0 1.039103,0.21075325 1.414203,0.58583325 l 2.828407,2.828407 c 0.3751,0.37508 0.585834,0.8837635 0.585834,1.4142035 V 19.99998 c 0,1.6569 -1.343156,3.000056 -3.000056,3.000056 H 4.0000195 c -1.65685,0 -3.00005505,-1.343156 -3.00005505,-3.000056 V 4.0000195 c 0,-1.65685 1.34320505,-3.00005505 3.00005505,-3.00005505 z m 0,2.00003675 c -0.55228,0 -1.0000183,0.4477383 -1.0000183,1.0000183 V 19.99998 c 0,0.5523 0.4477383,1.000019 1.0000183,1.000019 H 5.0000379 V 14.999972 C 5.0000379,13.343072 6.3431598,12 8.0000098,12 H 15.99999 c 1.6569,0 2.999972,1.343072 2.999972,2.999972 v 6.000027 h 1.000018 c 0.5523,0 1.000019,-0.447719 1.000019,-1.000019 V 6.8284266 c 0,-0.53044 -0.210733,-1.0391236 -0.585833,-1.4142036 L 18.585777,3.5857512 c -0.3751,-0.37508 -0.883804,-0.58575 -1.414204,-0.58575 h -0.171564 v 2.0000367 c 0,1.65685 -1.343072,2.9999719 -2.999972,2.9999719 H 9.9999633 c -1.65685,0 -2.9999719,-1.3431219 -2.9999719,-2.9999719 V 3.0000012 Z m 5.0000086,0 v 2.0000367 c 0,0.55228 0.4476552,0.9999351 0.9999352,0.9999351 h 4.0000737 c 0.5523,0 0.999935,-0.4476551 0.999935,-0.9999351 V 3.0000012 Z M 8.0000098,14.000037 c -0.55228,0 -1.0000184,0.447635 -1.0000184,0.999935 v 6.000027 H 17.000009 v -6.000027 c 0,-0.5523 -0.447719,-0.999935 -1.000019,-0.999935 z" />
+  </g>
 </svg>
