@@ -3,12 +3,15 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Avalonia;
     using Avalonia.Controls;
     using Avalonia.Platform.Storage;
 
     using CommunityToolkit.Mvvm.ComponentModel;
     using CommunityToolkit.Mvvm.Input;
+    using Einsatzplanung.Excel.Services;
+    using EinsatzPlanung.GUI;
+    using Microsoft.Extensions.DependencyInjection;
 
     public partial class ImportCardViewModel : ObservableObject
     {
@@ -37,13 +40,16 @@
         [RelayCommand]
         private async Task ImportExcel(Window window)
         {
-            ExcelFileStatus = await PickFileName(window, "Excel-Datei auswählen", [
+            string? ExcelFileStatus = await PickFileName(window, "Excel-Datei auswählen", [
                 new FilePickerFileType("Excel Files")
                 {
                     Patterns = ["*.xlsx", "*.xlsm", "*.xlsb", "*.csv"]
                 },
                 FilePickerFileTypes.All
             ]);
+            System.Console.WriteLine(ExcelFileStatus);
+            ExcelImportService excelService = App.Current.Services.GetService<ExcelImportService>();
+            excelService.CreateTableObj(ExcelFileStatus);
         }
 
         [RelayCommand]

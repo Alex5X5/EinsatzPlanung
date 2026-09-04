@@ -14,13 +14,6 @@ namespace EinsatzPlanung.ViewModels {
 			new("Schulwochen")
 		];
 
-		public MainWindowViewModel()
-		{
-			var excelImportService = new ExcelImportService();
-
-			excelImportService.PrintTable();
-		}
-
         
 	}
 
