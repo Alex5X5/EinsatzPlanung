@@ -43,7 +43,7 @@
             string? ExcelFileStatus = await PickFileName(window, "Excel-Datei auswählen", [
                 new FilePickerFileType("Excel Files")
                 {
-                    Patterns = ["*.xlsx", "*.xlsm", "*.xlsb", "*.csv"]
+                    Patterns = ["*.xlsx", "*.xlsm", "*.xltx", "*.xltm"]
                 },
                 FilePickerFileTypes.All
             ]);
@@ -79,7 +79,7 @@
 
             var file = files.FirstOrDefault();
 
-            return file?.Name ?? "Keine Datei ausgewählt";
+            return file?.Path.LocalPath ?? "Keine Datei ausgewählt";
         }
     }
 }
