@@ -15,6 +15,10 @@
             <Color x:Key="ImportButtonBackgroundColor">#DCD4D1D2</Color>
             <Color x:Key="HoverImportButtonBackgroundColor">#95D4DFDF</Color>
             <Color x:Key="StandardButtonBackgroundColor">#FFFFFFFF</Color>
+            
+            <SvgImage x:Key="SvgImportIco">  /Assets/Light/import.svg </SvgImage>
+            <SvgImage x:Key="SvgEditIco">  /Assets/Light/edit.svg </SvgImage>
+            <SvgImage x:Key="SvgSaveIco">  /Assets/Light/save.svg </SvgImage>
 
             <LinearGradientBrush x:Key="AppBackgroundBrush"
                                  StartPoint="0%,0%"
@@ -46,6 +50,10 @@
             <Color x:Key="ImportButtonBackgroundColor">#E1505050</Color>
             <Color x:Key="HoverImportButtonBackgroundColor">#20FFFFFF</Color>
             <Color x:Key="StandardButtonBackgroundColor">#20FFFFFF</Color>
+            
+             <SvgImage x:Key="SvgImportIco">  /Assets/Dark/import.svg </SvgImage>
+             <SvgImage x:Key="SvgEditIco">  /Assets/Dark/edit.svg </SvgImage>
+             <SvgImage x:Key="SvgSaveIco">  /Assets/Dark/save.svg </SvgImage>
 
             <LinearGradientBrush x:Key="AppBackgroundBrush"
                                  StartPoint="0%,0%"
