@@ -10,10 +10,12 @@ public partial class MainViewModel : ViewModelBase {
 	[ObservableProperty]
 	private ViewModelBase currentPage;
 	
+	// Check if the current page is the import/edit/save page
 	public bool IsImportPageActive => CurrentPage is ImportViewModel;
 	public bool IsEditPageActive => CurrentPage is EditViewModel;
 	public bool IsSavePageActive => CurrentPage is SaveViewModel;
 
+	// Check again when the current page changes
 	partial void OnCurrentPageChanged(ViewModelBase value) {
 		OnPropertyChanged(nameof(IsImportPageActive));
 		OnPropertyChanged(nameof(IsEditPageActive));
