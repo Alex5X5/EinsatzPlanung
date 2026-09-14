@@ -6,7 +6,7 @@ using EinsatzPlanung.Generation.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Excel.Models;
 
-public class BlockService : IEnttityService<Block> {
+public class BlockService : IEntityService<Block> {
 
 	public BlockService() {
 		

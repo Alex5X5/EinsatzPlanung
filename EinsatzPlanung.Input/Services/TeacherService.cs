@@ -8,7 +8,7 @@ using Einsatzplanung.Types.Models;
 using Einsatzplanung.Excel.Models;
 using System;
 
-public class TeacherService : IEnttityService<Teacher> {
+public class TeacherService : IEntityService<Teacher> {
 
 	public TeacherService() {
 

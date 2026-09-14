@@ -6,7 +6,7 @@ using EinsatzPlanung.Generation.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Excel.Models;
 
-public class TopicService : IEnttityService<Topic> {
+public class TopicService : IEntityService<Topic> {
 
 	public TopicService() {
 		
