@@ -1,21 +1,23 @@
 namespace EinsatzPlanung.GUI;
 
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using Avalonia.Platform;
 
 using Einsatzplanung.Excel.Services;
 using Einsatzplanung.GUI;
 using Einsatzplanung.GUI.ViewModels;
 using Einsatzplanung.GUI.Views;
+using Einsatzplanung.Types.Models;
+using Einsatzplanung.Util.Services;
+
+using EinsatzPlanung.Input.Interfaces;
+using EinsatzPlanung.Input.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using System;
-using System.Linq;
+using System.Collections.Generic;
 
 public partial class App : Application {
 
@@ -32,6 +34,9 @@ public partial class App : Application {
 		AddAppServices(serviceCollection);
 		Services = serviceCollection.BuildServiceProvider();
 
+
+		PathService.ExtractFiles("EinsatzPlanung");
+
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
 			desktop.MainWindow = new MainWindow() {
 				DataContext = Services.GetRequiredService<MainViewModel>(),
@@ -42,6 +47,7 @@ public partial class App : Application {
 				DataContext = Services.GetRequiredService<MainViewModel>()
 			};
 		}
+
 
 		base.OnFrameworkInitializationCompleted();
 	}
@@ -54,6 +60,11 @@ public partial class App : Application {
 
 		collection.AddTransient<ExcelImportService>();
 		collection.AddTransient<ExcelExportService>();
+
+		collection.AddSingleton<IEntityService<Topic>, TopicService>();
+		collection.AddSingleton<IEntityService<Group>, GroupService>();
+		collection.AddSingleton<IEntityService<Teacher>, TeacherService>();
+		collection.AddSingleton<IEntityService<Block>, BlockService>();
 
 		collection.AddTransient<MainViewModel>();
 		collection.AddTransient<ImportViewModel>();

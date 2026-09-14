@@ -1,8 +1,5 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Avalonia;
     using Avalonia.Controls;
     using Avalonia.Platform.Storage;
@@ -10,62 +7,83 @@
     using CommunityToolkit.Mvvm.ComponentModel;
     using CommunityToolkit.Mvvm.Input;
 
-	using DocumentFormat.OpenXml.EMMA;
+	using Einsatzplanung.Types.Models;
 
-	using Einsatzplanung.Excel.Services;
-    using EinsatzPlanung.GUI;
-    using Microsoft.Extensions.DependencyInjection;
+	using EinsatzPlanung.GUI;
+	using EinsatzPlanung.Input.Interfaces;
+
+	using Microsoft.Extensions.DependencyInjection;
+
+	using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public partial class ImportCardViewModel : ObservableObject
     {
-        private string _excelFileStatus = "Keine Excel-Datei ausgewählt";
-        private string _pdfFileStatus = "Keine PDF-Datei ausgewählt";
+		private IEntityService entityService;
 
-        public ImportCardViewModel(string header)
+		[ObservableProperty]
+		private string excelFileStatus = "Keine Excel-Datei ausgewählt";
+		[ObservableProperty]
+        private string pdfFileStatus = "Keine PDF-Datei ausgewählt";
+
+        public ImportCardViewModel(string header, IEntityService entityService)
         {
             Header = header;
+            this.entityService = entityService;
         }
 
         public string Header { get; }
 
-        public string ExcelFileStatus
-        {
-            get => _excelFileStatus;
-            set => SetProperty(ref _excelFileStatus, value);
-        }
+        //public string ExcelFileStatus
+        //{
+        //    get => _excelFileStatus;
+        //    set => SetProperty(ref _excelFileStatus, value);
+        //}
 
-        public string PdfFileStatus
-        {
-            get => _pdfFileStatus;
-            set => SetProperty(ref _pdfFileStatus, value);
-        }
+        //public string PdfFileStatus
+        //{
+        //    get => _pdfFileStatus;
+        //    set => SetProperty(ref _pdfFileStatus, value);
+        //}
 
         [RelayCommand]
         private async Task ImportExcel(Window window)
         {
-            string? ExcelFileStatus = await PickFileName(window, "Excel-Datei auswählen", [
+            string? status = await PickFileName(window, "Excel-Datei auswählen", [
                 new FilePickerFileType("Excel Files")
                 {
                     Patterns = ["*.xlsx", "*.xlsm", "*.xltx", "*.xltm"]
                 },
                 FilePickerFileTypes.All
             ]);
-            System.Console.WriteLine(ExcelFileStatus);
-            ExcelImportService excelService = App.Current.Services.GetService<ExcelImportService>();
-            Einsatzplanung.Excel.Models.Table table = excelService.CreateTableObj(ExcelFileStatus);
+			await Task.Run(() => {
+				ExcelFileStatus = status ?? "Keine Datei ausgewählt";
+				System.Console.WriteLine(ExcelFileStatus);
+				entityService.SetSource(ExcelFileStatus);
+				var list = App.Current.Services.GetRequiredService<IEntityService<Teacher>>().ParseSource();
+				foreach (var teacher in list) {
+					System.Console.WriteLine(teacher);
+				}
+			});
         }
 
         [RelayCommand]
         private async Task ImportPdf(Window window)
         {
-            PdfFileStatus = await PickFileName(window, "PDF-Datei auswählen", [
+			string? status = await PickFileName(window, "PDF-Datei auswählen", [
                 new FilePickerFileType("PDF Files")
                 {
                     Patterns = ["*.pdf"]
                 },
                 FilePickerFileTypes.All
             ]);
-        }
+			await Task.Run(() => {
+				ExcelFileStatus = status ?? "Keine Datei ausgewählt";
+				System.Console.WriteLine(ExcelFileStatus);
+				entityService.SetSource(PdfFileStatus);
+			});
+		}
 
         private static async Task<string> PickFileName(
             Window window,

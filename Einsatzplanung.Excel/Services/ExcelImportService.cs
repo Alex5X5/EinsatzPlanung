@@ -9,6 +9,8 @@ using System.Linq;
 
 using ClosedXML.Excel;
 
+using DocumentFormat.OpenXml.Spreadsheet;
+
 using Einsatzplanung.Util.Services;
 
 public class ExcelImportService {
@@ -36,18 +38,28 @@ public class ExcelImportService {
 		List<List<Models.TableCell>> cells = [];
 		if (!File.Exists(path))
 			return [];
+		
 		XLWorkbook workbook = new(path);
 		var worksheet = workbook.Worksheet(tableIndex);
 
-		foreach (var row in worksheet.RowsUsed()) {
+		int rowCount = worksheet.Rows().Count();
+		int columnCount = worksheet.Rows().Select(r => r.Cells().Count()).Max();
+
+		for (int row = 0; row < rowCount; row++) {
+
 			List<Models.TableCell> rowCells = [];
-			foreach (var cell in row.CellsUsed()) {
+		
+			for (int col = 0; col < columnCount; col++) {
+			
+				var cell = worksheet.Cell(row + 1, col + 1);
 				System.Drawing.Color background;
+				
 				if (cell.Style.Fill.BackgroundColor.ColorType == XLColorType.Theme) {
 					background = GetColorFromTheme(workbook.Theme, cell.Style.Fill.BackgroundColor.ThemeColor);
 				} else {
 					background = cell.Style.Fill.BackgroundColor.Color;
 				}
+				
 				rowCells.Add(new Models.TableCell() {
 					Value = cell.Value.ToString(),
 					BackgroundColor = new Avalonia.Media.Color(background.A, background.R, background.G, background.B)
@@ -59,7 +71,7 @@ public class ExcelImportService {
 		return cells;
 	}
 
-	public Models.Table GetTable(string path, int tableIndex) {
+	public Models.Table GetTable(string path, int tableIndex = 1) {
 		List<List<Models.TableCell>> cells = GetCellsFromFile(path, tableIndex);
 
 		return new Models.Table() {
