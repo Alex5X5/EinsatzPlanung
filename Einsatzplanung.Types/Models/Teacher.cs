@@ -14,4 +14,16 @@ public class Teacher {
 			string.Equals(topic.Name, block.Name, StringComparison.OrdinalIgnoreCase) ||
 			block.Name.Contains(topic.Name, StringComparison.OrdinalIgnoreCase));
 	}
+
+	public override string ToString() {
+		return $"Teacher[Name={Name}, Abbreviation={Abbreviation}, WeeklyHours={WeeklyHours}, " +
+			$"Specializations=[{string.Join(", ", Specializations.Select(t => t.Name))}]]";
+	}
+
+	public static Teacher Default => new() {
+		Name = "",
+		Abbreviation = "",
+		WeeklyHours = 0,
+		Specializations = []
+	};
 }

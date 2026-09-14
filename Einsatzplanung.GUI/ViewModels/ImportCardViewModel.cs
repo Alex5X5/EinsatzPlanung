@@ -7,9 +7,14 @@
     using CommunityToolkit.Mvvm.ComponentModel;
     using CommunityToolkit.Mvvm.Input;
 
+	using Einsatzplanung.Types.Models;
+
+	using EinsatzPlanung.GUI;
 	using EinsatzPlanung.Input.Interfaces;
 
-    using System.Collections.Generic;
+	using Microsoft.Extensions.DependencyInjection;
+
+	using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -56,6 +61,10 @@
 				ExcelFileStatus = status ?? "Keine Datei ausgewählt";
 				System.Console.WriteLine(ExcelFileStatus);
 				entityService.SetSource(ExcelFileStatus);
+				var list = App.Current.Services.GetRequiredService<IEntityService<Teacher>>().ParseSource();
+				foreach (var teacher in list) {
+					System.Console.WriteLine(teacher);
+				}
 			});
         }
 

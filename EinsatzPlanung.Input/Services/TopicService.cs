@@ -23,12 +23,10 @@ public class TopicService : IEntityService<Topic> {
 	}
 
 	public List<Topic> ParseSource() {
-		Table table = excelImportService.CreateTableObj(SourceFilePath);
+		Table table = excelImportService.GetTable(SourceFilePath);
 		List<Topic> topics = new List<Topic>();
 		for(int row=0; row < table.RowCount; row++) {
-			Topic topic = new() {
-				Name = table.Cells[row][0].Value
-			};
+			Topic topic = new(table.Cells[row][0].Value);
 			topics.Add(topic);
 		}
 		return topics;
