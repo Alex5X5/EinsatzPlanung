@@ -28,24 +28,25 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 	}
 
 	public List<AgeGroup> ParseSource() {
-		Table table = excelImportService.GetTable(SourceFilePath);
-		List<AgeGroup> ageGroups = [];
-		AgeGroup? group = null;
-		for (int row = 1; row < table.RowCount; row++) {
-			if (table[row, ABBREVIATION_COLUMN_INDEX]?.Value != "") {
-				if (group != null)
-					ageGroups.Add(group);
-				group = new() {
-					Name = table[row, NAME_COLUMN_INDEX]?.Value ?? "",
-					Abbreviation = table[row, ABBREVIATION_COLUMN_INDEX]?.Value ?? "",
-					WeeklyHours = int.Parse(table[row, WEEKLY_HOURS_COLUMN_INDEX]?.Value ?? "0"),
-					Specializations = []
-				};
-			}
-			if (group == null)
-				continue;
-			group.Specializations.Add(new Topic(table[row, SPECIALIZATION_COLUMN_INDEX]?.Value ?? ""));
-		}
-		return ageGroups;
+		//Table table = excelImportService.GetTable(SourceFilePath);
+		//List<AgeGroup> ageGroups = [];
+		//AgeGroup? group = null;
+		//for (int row = 1; row < table.RowCount; row++) {
+		//	if (table[row, ABBREVIATION_COLUMN_INDEX]?.Value != "") {
+		//		if (group != null)
+		//			ageGroups.Add(group);
+		//		group = new() {
+		//			Name = table[row, NAME_COLUMN_INDEX]?.Value ?? "",
+		//			Abbreviation = table[row, ABBREVIATION_COLUMN_INDEX]?.Value ?? "",
+		//			WeeklyHours = int.Parse(table[row, WEEKLY_HOURS_COLUMN_INDEX]?.Value ?? "0"),
+		//			Specializations = []
+		//		};
+		//	}
+		//	if (group == null)
+		//		continue;
+		//	group.Specializations.Add(new Topic(table[row, SPECIALIZATION_COLUMN_INDEX]?.Value ?? ""));
+		//}
+		//return ageGroups;
+		return [];
 	}
 }
