@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public class Teacher {
 	
-	public required long Id { set; get; }
 	public required string Name { set; get; }
-	public required string Kuerzel { set; get; }
+	public required string Abbreviation { set; get; }
 	public required int WeeklyHours { set; get; } = 40;
 	public List<Topic> Specializations { set; get; } = [];
 
