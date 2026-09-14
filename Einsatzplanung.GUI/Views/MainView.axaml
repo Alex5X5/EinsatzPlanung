@@ -15,20 +15,22 @@
 	</UserControl.DataTemplates>
 	
 	<Grid ColumnDefinitions="*" RowDefinitions="Auto,*">
-		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,5">
 			<Image Source="{DynamicResource SvgImportIco}"
-			       Width="48"
-			       Height="48"/>
-
+				   Width="48"
+				   Height="48"/>
+			
+			<Separator Height="2" Width="100" Background="{DynamicResource SeparatorColor}"/>
 			
 			<Image Source="{DynamicResource SvgEditIco}"
-			       Width="48"
-			       Height="48"/>
-
+				   Width="48"
+				   Height="48"/>
 			
-           <Image Source="{DynamicResource SvgSaveIco}"
-                  Width="48"
-                  Height="48"/>
+			<Separator Height="2" Width="100" Background="{DynamicResource SeparatorColor}"/>
+			
+		   <Image Source="{DynamicResource SvgSaveIco}"
+				  Width="48"
+				  Height="48"/>
 
 
 		</StackPanel>

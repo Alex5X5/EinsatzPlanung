@@ -32,8 +32,8 @@
     <inkscape:page
        x="0"
        y="0"
-       width="31.200001"
-       height="31.200001"
+       width="31.20000076293945"
+       height="31.20000076293945"
        id="page2"
        margin="0"
        bleed="0" />
@@ -53,12 +53,12 @@
        style="fill:#52396e;fill-opacity:1" />
   </g>
   <ellipse
-     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.39;stroke-dasharray:none;stroke-opacity:1"
+     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.384914;stroke-dasharray:none;stroke-opacity:1"
      id="path2"
-     ry="15.614497"
-     rx="15.607249"
-     cy="12.07022"
-     cx="11.971342" />
+     ry="15.40726470947266"
+     rx="15.40723323822021"
+     cy="12.00014019012451"
+     cx="12.00004100799561" />
   <g
      id="SVGRepo_iconCarrier"
      style="fill:#ffffff;fill-opacity:1">

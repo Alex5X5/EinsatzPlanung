@@ -9,7 +9,7 @@
    version="1.1"
    id="svg1"
    sodipodi:docname="edit.svg"
-   inkscape:export-filename="..\Pictures\SVGs\Ausbildung\EinsatzplanGenerator\dark\edit.svg"
+   inkscape:export-filename="edit.svg"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -30,8 +30,8 @@
     <inkscape:page
        x="0"
        y="0"
-       width="31.200001"
-       height="31.200001"
+       width="31.20000076293945"
+       height="31.20000076293945"
        id="page2"
        margin="0"
        bleed="0" />
@@ -63,10 +63,10 @@
        style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-opacity:1" />
   </g>
   <ellipse
-     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.39;stroke-dasharray:none;stroke-opacity:1"
+     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.384912;stroke-dasharray:none;stroke-opacity:1"
      id="path2"
-     ry="15.614497"
-     rx="15.607249"
-     cy="12.00314"
-     cx="12.045379" />
+     ry="15.40727043151855"
+     rx="15.40713500976562"
+     cy="12.00014686584473"
+     cx="12.00030136108398" />
 </svg>

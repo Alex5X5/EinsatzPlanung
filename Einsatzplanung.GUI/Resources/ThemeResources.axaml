@@ -11,6 +11,8 @@
             <Color x:Key="CardBackgroundColor">#FFFFFF</Color>
             <Color x:Key="CardBorderBrush">#000000</Color>
             
+            <Color x:Key="SeparatorColor">#d54407</Color>
+            
             <Color x:Key="ButtonBorderBrush">#000000</Color>
             <Color x:Key="ImportButtonBackgroundColor">#DCD4D1D2</Color>
             <Color x:Key="HoverImportButtonBackgroundColor">#95D4DFDF</Color>
@@ -45,6 +47,8 @@
             
             <Color x:Key="CardBackgroundColor">#20FFFFFF</Color>
             <Color x:Key="CardBorderBrush">#FFFFFF</Color>
+            
+            <Color x:Key="SeparatorColor">#FFFFFF</Color>
             
             <Color x:Key="ButtonBorderBrush">#FFFFFF</Color>
             <Color x:Key="ImportButtonBackgroundColor">#E1505050</Color>

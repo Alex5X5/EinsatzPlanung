@@ -30,8 +30,8 @@
     <inkscape:page
        x="0"
        y="0"
-       width="31.200001"
-       height="31.200001"
+       width="31.20000076293945"
+       height="31.20000076293945"
        id="page2"
        margin="0"
        bleed="0" />
@@ -63,10 +63,10 @@
        style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-opacity:1" />
   </g>
   <ellipse
-     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.39;stroke-dasharray:none;stroke-opacity:1"
+     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.384917;stroke-dasharray:none;stroke-opacity:1"
      id="path2"
-     ry="15.614497"
-     rx="15.607249"
-     cy="12.00314"
-     cx="12.045379" />
+     ry="15.40741348266602"
+     rx="15.40744400024414"
+     cy="12.00009441375732"
+     cx="11.99994468688965" />
 </svg>
