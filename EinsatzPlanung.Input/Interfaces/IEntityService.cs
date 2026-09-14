@@ -2,10 +2,14 @@
 
 using System.Collections.Generic;
 
-public interface IEntityService<T> {
-
-	public void SetSource(string path);
+public interface IEntityService<T> : IEntityService {
 
 	public List<T> ParseSource();
+
+}
+
+public interface IEntityService {
+
+	public void SetSource(string path);
 
 }

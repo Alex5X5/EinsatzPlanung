@@ -36,12 +36,6 @@ public partial class App : Application {
 
 
 		PathService.ExtractFiles("EinsatzPlanung");
-		var topicService = Services.GetRequiredService<IEntityService<Topic>>();
-		topicService.SetSource(PathService.AssetsPath("Excel/Themen.xlsx"));
-		List<Topic> topics = topicService.ParseSource();
-		foreach (Topic topic in topics)
-			Console.WriteLine(topic);
-
 
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
 			desktop.MainWindow = new MainWindow() {
@@ -68,7 +62,9 @@ public partial class App : Application {
 		collection.AddTransient<ExcelExportService>();
 
 		collection.AddSingleton<IEntityService<Topic>, TopicService>();
+		collection.AddSingleton<IEntityService<Group>, GroupService>();
 		collection.AddSingleton<IEntityService<Teacher>, TeacherService>();
+		collection.AddSingleton<IEntityService<Block>, BlockService>();
 
 		collection.AddTransient<MainViewModel>();
 		collection.AddTransient<ImportViewModel>();

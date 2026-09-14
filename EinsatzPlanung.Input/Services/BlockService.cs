@@ -1,4 +1,4 @@
-﻿namespace EinsatzPlanung.Generation.Services;
+﻿namespace EinsatzPlanung.Input.Services;
 
 using System.Collections.Generic;
 
