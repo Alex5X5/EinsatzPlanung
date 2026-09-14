@@ -10,6 +10,16 @@ public partial class MainViewModel : ViewModelBase {
 	[ObservableProperty]
 	private ViewModelBase currentPage;
 	
+	public bool IsImportPageActive => CurrentPage is ImportViewModel;
+	public bool IsEditPageActive => CurrentPage is EditViewModel;
+	public bool IsSavePageActive => CurrentPage is SaveViewModel;
+
+	partial void OnCurrentPageChanged(ViewModelBase value) {
+		OnPropertyChanged(nameof(IsImportPageActive));
+		OnPropertyChanged(nameof(IsEditPageActive));
+		OnPropertyChanged(nameof(IsSavePageActive));
+	}
+
 	private void ChangePage<T>() where T : ViewModelBase {
 		CurrentPage = App.Current.Services.GetRequiredService<T>();
 	}

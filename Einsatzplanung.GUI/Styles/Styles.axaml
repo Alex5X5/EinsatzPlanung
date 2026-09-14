@@ -26,4 +26,16 @@
         <Setter Property="Background" Value="{DynamicResource HoverPdfImportButtonGradient}"/>
     </Style>
     
+    <Style Selector="Image.glow">
+        <Setter Property="Effect">
+            <DropShadowEffect 
+                Color="{DynamicResource SeparatorColor}"
+                BlurRadius="40"
+                Opacity="0.9"
+                OffsetX="0"
+                OffsetY="0"
+                />
+        </Setter>
+    </Style>
+    
 </Styles>
