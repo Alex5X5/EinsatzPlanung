@@ -9,7 +9,7 @@ using Einsatzplanung.Excel.Models;
 public class BlockService : IEnttityService<Block> {
 
 	public BlockService() {
-
+		
 	}
 
 	public List<Block> ParseExcelTable(Table table) {
