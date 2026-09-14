@@ -2,7 +2,9 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
   </Folder>
+  <Project Path="EinsatzPlanung.Input/EinsatzPlanung.Input.csproj" Id="dab0f952-d7a8-4d48-bf13-465a299e3063" />
   <Project Path="Einsatzplanung.Excel/Einsatzplanung.Excel.csproj" Id="3d1302cb-b44c-48cb-bb6f-2fa690e1fa32" />
+  <Project Path="EinsatzPlanung.Generation/EinsatzPlanung.Generation.csproj" Id="298da9fc-c737-4d89-9025-6d7db911869c" />
   <Project Path="Einsatzplanung.GUI/Einsatzplanung.GUI.csproj" />
   <Project Path="Einsatzplanung.Types/Einsatzplanung.Types.csproj" Id="352a3453-d19f-4317-865c-ee2c617f98d5" />
   <Project Path="Einsatzplanung.Util/Einsatzplanung.Util.csproj" Id="72a873f2-1eb6-44f0-818c-d87c7bf9988a" />

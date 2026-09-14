@@ -1,6 +1,6 @@
 ﻿namespace Einsatzplanung.Types.Models;
 
-public class Class
+public class Group
 {
     public string Name { get; set; }
 }

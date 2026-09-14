@@ -1,6 +1,7 @@
 ﻿namespace Einsatzplanung.Types.Models;
 
-public class Topic
-{
-    public string Name { get; set; }
+public class Topic {
+
+    public required string Name { get; set; }
+
 }
