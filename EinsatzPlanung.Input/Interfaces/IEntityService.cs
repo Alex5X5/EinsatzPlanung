@@ -1,11 +1,11 @@
-﻿namespace EinsatzPlanung.Generation.Interfaces;
+﻿namespace EinsatzPlanung.Input.Interfaces;
 
 using System.Collections.Generic;
 
-using Einsatzplanung.Excel.Models;
-
 public interface IEntityService<T> {
-	
-	public List<T> ParseExcelTable(Table table);
+
+	public void SetSource(string path);
+
+	public List<T> ParseSource();
 
 }

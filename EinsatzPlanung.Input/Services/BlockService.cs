@@ -2,9 +2,10 @@
 
 using System.Collections.Generic;
 
-using EinsatzPlanung.Generation.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Excel.Models;
+
+using EinsatzPlanung.Input.Interfaces;
 
 public class BlockService : IEntityService<Block> {
 
@@ -12,7 +13,11 @@ public class BlockService : IEntityService<Block> {
 		
 	}
 
-	public List<Block> ParseExcelTable(Table table) {
-		return [];
+	public List<Block> ParseSource() {
+		throw new System.NotImplementedException();
+	}
+
+	public void SetSource(string path) {
+		throw new System.NotImplementedException();
 	}
 }

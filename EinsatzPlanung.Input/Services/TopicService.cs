@@ -2,17 +2,28 @@
 
 using System.Collections.Generic;
 
-using EinsatzPlanung.Generation.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Excel.Models;
+using Einsatzplanung.Excel.Services;
+
+using EinsatzPlanung.Input.Interfaces;
 
 public class TopicService : IEntityService<Topic> {
 
-	public TopicService() {
-		
+	private ExcelImportService excelImportService;
+
+	private string SourceFilePath { get; set; } = "";
+
+	public TopicService(ExcelImportService excelImportService) {
+		this.excelImportService = excelImportService;
 	}
 
-	public List<Topic> ParseExcelTable(Table table) {
+	public void SetSource(string path) {
+		SourceFilePath = path;
+	}
+
+	public List<Topic> ParseSource() {
+		Table table = excelImportService.CreateTableObj(SourceFilePath);
 		List<Topic> topics = new List<Topic>();
 		for(int row=0; row < table.RowCount; row++) {
 			Topic topic = new() {
