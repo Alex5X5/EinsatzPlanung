@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#000000"
+   width="800"
+   height="800"
+   viewBox="-3.6 -3.6 31.2 31.2"
+   stroke="#000000"
+   stroke-width="0.00024"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="import.svg"
+   inkscape:export-filename="..\Pictures\SVGs\Ausbildung\EinsatzplanGenerator\dark\import.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="31.200001"
+       height="31.200001"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <g
+     id="SVGRepo_bgCarrier"
+     stroke-width="0"
+     style="fill:#52396e;fill-opacity:1">
+    <rect
+       x="-3.5999999"
+       y="-3.5999999"
+       width="31.200001"
+       height="31.200001"
+       rx="15.6"
+       fill="#cabfdf"
+       id="rect1"
+       style="fill:#52396e;fill-opacity:1" />
+  </g>
+  <ellipse
+     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.39;stroke-dasharray:none;stroke-opacity:1"
+     id="path2"
+     ry="15.614497"
+     rx="15.607249"
+     cy="12.07022"
+     cx="11.971342" />
+  <g
+     id="SVGRepo_iconCarrier"
+     style="fill:#ffffff;fill-opacity:1">
+    <path
+       d="m 21,14 a 1,1 0 0 0 -1,1 v 4 a 1,1 0 0 1 -1,1 H 5 A 1,1 0 0 1 4,19 v -4 a 1,1 0 0 0 -2,0 v 4 a 3,3 0 0 0 3,3 h 14 a 3,3 0 0 0 3,-3 v -4 a 1,1 0 0 0 -1,-1 z m -9.71,1.71 a 1,1 0 0 0 0.33,0.21 0.94,0.94 0 0 0 0.76,0 1,1 0 0 0 0.33,-0.21 l 4,-4 A 1.0040916,1.0040916 0 0 0 15.29,10.29 L 13,12.59 V 3 a 1,1 0 0 0 -2,0 v 9.59 l -2.29,-2.3 a 1.0040916,1.0040916 0 1 0 -1.42,1.42 z"
+       id="path1"
+       style="fill:#ffffff;fill-opacity:1" />
+  </g>
+</svg>

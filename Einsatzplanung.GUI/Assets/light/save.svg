@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+
+<svg
+   width="800.00006"
+   height="800.00006"
+   viewBox="-5.04 -5.04 34.080003 34.080003"
+   fill="none"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="save.svg"
+   inkscape:export-filename="..\Pictures\SVGs\Ausbildung\EinsatzplanGenerator\save.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="34.080002"
+       height="34.080002"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <g
+     id="SVGRepo_bgCarrier"
+     stroke-width="0"
+     style="fill:#d54407;fill-opacity:1">
+    <rect
+       x="-5.04"
+       y="-5.04"
+       width="34.080002"
+       height="34.080002"
+       rx="17.040001"
+       fill="#cabfdf"
+       id="rect1"
+       style="fill:#d54407;fill-opacity:1" />
+  </g>
+  <g
+     id="SVGRepo_iconCarrier"
+     style="fill:#ffffff;fill-opacity:1">
+    <path
+       fill-rule="evenodd"
+       clip-rule="evenodd"
+       d="m 18.1716,1 c 0.5304,0 1.0391,0.21071 1.4142,0.58579 l 2.8284,2.82842 C 22.7893,4.78929 23,5.29799 23,5.82843 V 20 c 0,1.6569 -1.3431,3 -3,3 H 4 C 2.34315,23 1,21.6569 1,20 V 4 C 1,2.34315 2.34315,1 4,1 Z M 4,3 C 3.44772,3 3,3.44772 3,4 v 16 c 0,0.5523 0.44772,1 1,1 h 1 v -6 c 0,-1.6569 1.34315,-3 3,-3 h 8 c 1.6569,0 3,1.3431 3,3 v 6 h 1 c 0.5523,0 1,-0.4477 1,-1 V 6.82843 C 21,6.29799 20.7893,5.78929 20.4142,5.41421 L 18.5858,3.58579 C 18.2107,3.21071 17.702,3 17.1716,3 H 17 v 2 c 0,1.65685 -1.3431,3 -3,3 H 10 C 8.34315,8 7,6.65685 7,5 V 3 Z m 13,18 v -6 c 0,-0.5523 -0.4477,-1 -1,-1 H 8 c -0.55228,0 -1,0.4477 -1,1 v 6 z M 9,3 h 6 v 2 c 0,0.55228 -0.4477,1 -1,1 H 10 C 9.44772,6 9,5.55228 9,5 Z"
+       fill="#0F0F0F"
+       id="path1"
+       style="fill:#ffffff;fill-opacity:1" />
+  </g>
+  <ellipse
+     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.426;stroke-dasharray:none;stroke-opacity:1"
+     id="path2"
+     ry="17.055836"
+     rx="17.047918"
+     cy="11.989443"
+     cx="12.002639" />
+</svg>
