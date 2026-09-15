@@ -67,8 +67,9 @@ public partial class App : Application {
 		collection.AddSingleton<IEntityService<Teacher>, TeacherService>();
 		collection.AddSingleton<IEntityService<Block>, BlockService>();
 
-		collection.AddTransient<MainViewModel>();
+		collection.AddSingleton<MainViewModel>();
 		collection.AddTransient<ImportViewModel>();
+		collection.AddTransient<EditViewModel>();
 		collection.AddTransient<ImportCardViewModel>();
 		collection.AddTransient<WelcomeViewModel>();
 

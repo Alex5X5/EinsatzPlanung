@@ -61,10 +61,6 @@
 				ExcelFileStatus = status ?? "Keine Datei ausgewählt";
 				System.Console.WriteLine(ExcelFileStatus);
 				entityService.SetSource(ExcelFileStatus);
-				var list = App.Current.Services.GetRequiredService<IEntityService<Teacher>>().ParseSource();
-				foreach (var teacher in list) {
-					System.Console.WriteLine(teacher);
-				}
 			});
         }
 

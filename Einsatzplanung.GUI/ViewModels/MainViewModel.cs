@@ -22,7 +22,7 @@ public partial class MainViewModel : ViewModelBase {
 		OnPropertyChanged(nameof(IsSavePageActive));
 	}
 
-	private void ChangePage<T>() where T : ViewModelBase {
+	public void ChangePage<T>() where T : ViewModelBase {
 		CurrentPage = App.Current.Services.GetRequiredService<T>();
 	}
 

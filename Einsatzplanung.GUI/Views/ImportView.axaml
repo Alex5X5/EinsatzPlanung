@@ -187,7 +187,10 @@
         </ItemsControl>
         <StackPanel Grid.Row="1" Margin="0,20,0,0">
             
-            <Button Classes="standard-button" Content="Erstellen" HorizontalAlignment="Center"/>
+            <Button Classes="standard-button" 
+                    Content="Erstellen"
+                    HorizontalAlignment="Center"
+                    Command="{Binding GoToNextPageCommand}"/>
      
         </StackPanel>
        
