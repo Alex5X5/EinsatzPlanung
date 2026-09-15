@@ -1,10 +1,9 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿namespace Einsatzplanung.GUI.ViewModels;
 
-using EinsatzPlanung.GUI;
+using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Einsatzplanung.GUI.ViewModels;
 
 public partial class EditViewModel : ViewModelBase
 {
