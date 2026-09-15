@@ -15,10 +15,10 @@ public class GroupService : IEntityService<Group> {
 	private const int SCOOLWEEK_COLUMN_INDEX = 2;
 
 	private ExcelImportService excelImportService;
-	private  AgeGroupService ageGroupService;
+	private IEntityService<AgeGroup> ageGroupService;
 	private string SourceFilePath { get; set; } = "";
 
-	public GroupService(ExcelImportService excelImportService, AgeGroupService ageGroupService) {
+	public GroupService(ExcelImportService excelImportService, IEntityService<AgeGroup> ageGroupService) {
 		this.excelImportService = excelImportService;
 		this.ageGroupService = ageGroupService;
 	}

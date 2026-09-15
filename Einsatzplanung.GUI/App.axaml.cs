@@ -62,6 +62,7 @@ public partial class App : Application {
 		collection.AddTransient<ExcelExportService>();
 
 		collection.AddSingleton<IEntityService<Topic>, TopicService>();
+		collection.AddSingleton<IEntityService<AgeGroup>, AgeGroupService>();
 		collection.AddSingleton<IEntityService<Group>, GroupService>();
 		collection.AddSingleton<IEntityService<Teacher>, TeacherService>();
 		collection.AddSingleton<IEntityService<Block>, BlockService>();
