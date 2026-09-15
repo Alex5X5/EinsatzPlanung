@@ -2,8 +2,9 @@
 
 public class Group {
 
-    public string Name { get; set; }
+    public required string Name { set; get; }
 
-    public List<int> SchoolWeeks { get; set; }
+    public required List<int> SchoolWeeks { set; get; }
 
+	public required List<Block> Blocks { set; get; }
 }
