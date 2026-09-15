@@ -1,6 +1,6 @@
-﻿namespace Einsatzplanung.GUI.ViewModels;
+﻿using CommunityToolkit.Mvvm.Input;
 
-using CommunityToolkit.Mvvm.Input;
+namespace Einsatzplanung.GUI.ViewModels;
 
 using Microsoft.Extensions.DependencyInjection;
 

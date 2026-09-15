@@ -1,6 +1,17 @@
-﻿namespace Einsatzplanung.GUI.ViewModels;
+﻿using CommunityToolkit.Mvvm.Input;
 
-using System.Collections.ObjectModel;
+using EinsatzPlanung.GUI;
 
-	public class EditViewModel : ViewModelBase{
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Einsatzplanung.GUI.ViewModels;
+
+public partial class EditViewModel : ViewModelBase
+{
+
+	[RelayCommand]
+	private void OnGoToNextPage()
+	{
+		App.Current.Services.GetRequiredService<MainViewModel>().ChangePage<SaveViewModel>();
 	}
+}
