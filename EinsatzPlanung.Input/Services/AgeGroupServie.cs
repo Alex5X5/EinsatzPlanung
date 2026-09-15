@@ -10,10 +10,9 @@ using System.Collections.Generic;
 
 public class AgeGroupService : IEntityService<AgeGroup> {
 
-	private const int NAME_COLUMN_INDEX = 0;
-	private const int ABBREVIATION_COLUMN_INDEX = 1;
-	private const int SPECIALIZATION_COLUMN_INDEX = 2;
-	private const int WEEKLY_HOURS_COLUMN_INDEX = 3;
+	private const int AGE_COLUMN_INDEX = 0;
+	private const int CLASS_COLUMN_INDEX = 1;
+	private const int SCOOLWEEK_COLUMN_INDEX = 2;
 
 	private ExcelImportService excelImportService;
 
@@ -28,25 +27,37 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 	}
 
 	public List<AgeGroup> ParseSource() {
-		//Table table = excelImportService.GetTable(SourceFilePath);
-		//List<AgeGroup> ageGroups = [];
-		//AgeGroup? group = null;
-		//for (int row = 1; row < table.RowCount; row++) {
-		//	if (table[row, ABBREVIATION_COLUMN_INDEX]?.Value != "") {
-		//		if (group != null)
-		//			ageGroups.Add(group);
-		//		group = new() {
-		//			Name = table[row, NAME_COLUMN_INDEX]?.Value ?? "",
-		//			Abbreviation = table[row, ABBREVIATION_COLUMN_INDEX]?.Value ?? "",
-		//			WeeklyHours = int.Parse(table[row, WEEKLY_HOURS_COLUMN_INDEX]?.Value ?? "0"),
-		//			Specializations = []
-		//		};
-		//	}
-		//	if (group == null)
-		//		continue;
-		//	group.Specializations.Add(new Topic(table[row, SPECIALIZATION_COLUMN_INDEX]?.Value ?? ""));
-		//}
-		//return ageGroups;
-		return [];
+		Table table = excelImportService.GetTable(SourceFilePath);
+		List<AgeGroup> ageGroups = [];
+		AgeGroup? currentAgeGroup = null;
+		Group? currentGroup = null;
+
+		for (int row = 1; row < table.RowCount; row++) {
+
+			if (table[row, AGE_COLUMN_INDEX]?.Value != "") {
+
+				if (currentAgeGroup != null)
+					ageGroups.Add(currentAgeGroup);
+				currentAgeGroup = new AgeGroup() {
+					Name = table[row, AGE_COLUMN_INDEX]?.Value ?? "",
+					Groups = []
+				};
+			}
+
+			if (table[row, CLASS_COLUMN_INDEX]?.Value != "") {
+
+				if (currentGroup != null)
+					currentAgeGroup.Groups.Add(currentGroup);
+				currentGroup = new Group() {
+					Name = table[row, CLASS_COLUMN_INDEX]?.Value ?? "",
+					SchoolWeeks = []
+				};
+			}
+
+			currentGroup.SchoolWeeks.Add(int.Parse(table[row, SCOOLWEEK_COLUMN_INDEX]?.Value ?? "1"));
+
+			
+		}
+		return ageGroups;
 	}
 }
