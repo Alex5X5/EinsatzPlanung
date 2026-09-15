@@ -7,9 +7,10 @@
              x:Class="Einsatzplanung.GUI.Views.EditView"
              x:DataType="vm:EditViewModel">
     
-    <StackPanel>
-        <Button Content="Weiter" Command="{Binding GoToNextPageCommand}"/>
-    </StackPanel>
-    
+    <Grid ColumnDefinitions="*" RowDefinitions="*" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Column="0" Grid.Row="0">
+            <Button Content="Weiter" Command="{Binding GoToNextPageCommand}"/>
+        </StackPanel>
+    </Grid>
     
 </UserControl>
