@@ -22,6 +22,7 @@
 		<ProjectReference Include="..\Einsatzplanung.GUI\Einsatzplanung.GUI.csproj" />
 		<ProjectReference Include="..\Einsatzplanung.Util\Einsatzplanung.Util.csproj" />
 		<ProjectReference Include="..\Einsatzplanung.Input\Einsatzplanung.Input.csproj" />
+		<ProjectReference Include="..\Einsatzplanung.Generation\Einsatzplanung.Generation.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

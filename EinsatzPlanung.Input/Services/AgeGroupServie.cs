@@ -1,10 +1,10 @@
-﻿namespace EinsatzPlanung.Input.Services;
+﻿namespace Einsatzplanung.Input.Services;
 
 using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Excel.Services;
 using Einsatzplanung.Types.Models;
 
-using EinsatzPlanung.Input.Interfaces;
+using Einsatzplanung.Input.Interfaces;
 
 using System.Collections.Generic;
 

@@ -1,11 +1,11 @@
-﻿namespace EinsatzPlanung.Input.Services;
+﻿namespace Einsatzplanung.Input.Services;
 
 using System.Collections.Generic;
 
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Excel.Models;
 
-using EinsatzPlanung.Input.Interfaces;
+using Einsatzplanung.Input.Interfaces;
 
 public class BlockService : IEntityService<Block> {
 

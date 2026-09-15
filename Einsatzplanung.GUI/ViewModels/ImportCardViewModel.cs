@@ -9,8 +9,8 @@
 
 	using Einsatzplanung.Types.Models;
 
-	using EinsatzPlanung.GUI;
-	using EinsatzPlanung.Input.Interfaces;
+	using Einsatzplanung.GUI;
+	using Einsatzplanung.Input.Interfaces;
 
 	using Microsoft.Extensions.DependencyInjection;
 

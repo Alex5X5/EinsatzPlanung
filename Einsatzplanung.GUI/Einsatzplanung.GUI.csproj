@@ -26,7 +26,8 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\Einsatzplanung.Excel\Einsatzplanung.Excel.csproj" />
-		<ProjectReference Include="..\EinsatzPlanung.Input\EinsatzPlanung.Input.csproj" />
+		<ProjectReference Include="..\Einsatzplanung.Generation\Einsatzplanung.Generation.csproj" />
+		<ProjectReference Include="..\Einsatzplanung.Input\Einsatzplanung.Input.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

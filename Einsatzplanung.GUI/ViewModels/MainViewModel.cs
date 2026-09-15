@@ -3,7 +3,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-using EinsatzPlanung.GUI;
+using Einsatzplanung.GUI;
 
 public partial class MainViewModel : ViewModelBase {
 

@@ -1,4 +1,4 @@
-namespace EinsatzPlanung;
+namespace Einsatzplanung;
 
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;

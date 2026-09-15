@@ -1,11 +1,11 @@
-﻿namespace EinsatzPlanung.Input.Services;
+﻿namespace Einsatzplanung.Input.Services;
 
 using System.Collections.Generic;
 
 using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Excel.Services;
-using EinsatzPlanung.Input.Interfaces;
+using Einsatzplanung.Input.Interfaces;
 using System.Linq;
 
 public class GroupService : IEntityService<Group> {

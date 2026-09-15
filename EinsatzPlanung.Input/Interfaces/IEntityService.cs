@@ -1,4 +1,4 @@
-﻿namespace EinsatzPlanung.Input.Interfaces;
+﻿namespace Einsatzplanung.Input.Interfaces;
 
 using System.Collections.Generic;
 

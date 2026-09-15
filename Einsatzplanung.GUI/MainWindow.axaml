@@ -9,6 +9,6 @@
 		x:DataType="vm:MainWindowViewModel"
 		x:Name="Root"
 		Icon="/Assets/avalonia-logo.ico"
-		Title="EinsatzPlanung">
+		Title="Einsatzplanung">
 	<v:MainView />
 </Window>

@@ -1,4 +1,4 @@
-namespace EinsatzPlanung.GUI;
+namespace Einsatzplanung.GUI;
 
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -11,13 +11,15 @@ using Einsatzplanung.GUI.Views;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Util.Services;
 
-using EinsatzPlanung.Input.Interfaces;
-using EinsatzPlanung.Input.Services;
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Input.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using System;
 using System.Collections.Generic;
+using Einsatzplanung.Generation.Interfaces;
+using Einsatzplanung.Generation.Services;
 
 public partial class App : Application {
 
@@ -35,7 +37,7 @@ public partial class App : Application {
 		Services = serviceCollection.BuildServiceProvider();
 
 
-		PathService.ExtractFiles("EinsatzPlanung");
+		PathService.ExtractFiles("Einsatzplanung");
 
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
 			desktop.MainWindow = new MainWindow() {
@@ -66,6 +68,8 @@ public partial class App : Application {
 		collection.AddSingleton<IEntityService<Group>, GroupService>();
 		collection.AddSingleton<IEntityService<Teacher>, TeacherService>();
 		collection.AddSingleton<IEntityService<Block>, BlockService>();
+
+		collection.AddTransient<IGeneratorService, GeneratorService>();
 
 		collection.AddSingleton<MainViewModel>();
 		collection.AddTransient<ImportViewModel>();

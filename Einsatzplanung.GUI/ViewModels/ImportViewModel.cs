@@ -2,18 +2,17 @@
 
 using CommunityToolkit.Mvvm.Input;
 
-using Einsatzplanung.Types.Models;
-
-using EinsatzPlanung.GUI;
-using EinsatzPlanung.Input.Interfaces;
-
 using Microsoft.Extensions.DependencyInjection;
 
 using System.Collections.ObjectModel;
 
-public partial class ImportViewModel : ViewModelBase {
+using Einsatzplanung.GUI;
+using Einsatzplanung.Types.Models;
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Generation.Interfaces;
 
-	private MainViewModel Isabella;
+public partial class ImportViewModel : ViewModelBase {
+	
 	public ObservableCollection<ImportCardViewModel> Cards { get; }
 
 	public ImportViewModel() : base() {
@@ -21,7 +20,7 @@ public partial class ImportViewModel : ViewModelBase {
 	
 		Cards = [
 			new("Ausbilder & Spezialisierungen", services.GetRequiredService<IEntityService<Teacher>>()),
-			new("Ausbildungsgruppen", services.GetRequiredService<IEntityService<AgeGroup>>())
+			new("Ausbildungsgruppen & Themen", services.GetRequiredService<IEntityService<AgeGroup>>())
 			//new("Ausbildungsinhalte", services.GetRequiredService<IEntityService<Topic>>())
 			//new("Urlaubswochen & Feiertage", services.GetRequiredService<IEntityService<Block>>()),
 			//new("Praktikumszeiten", services.GetRequiredService<IEntityService<Teacher>>()),
@@ -31,6 +30,7 @@ public partial class ImportViewModel : ViewModelBase {
 
 	[RelayCommand]
 	private void OnGoToNextPage() {
-		App.Current.Services.GetRequiredService<MainViewModel>().ChangePage<EditViewModel>();
+		//App.Current.Services.GetRequiredService<MainViewModel>().ChangePage<EditViewModel>();
+		App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
 	}
 }

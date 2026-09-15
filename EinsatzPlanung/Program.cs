@@ -1,6 +1,6 @@
-﻿namespace EinsatzPlanung;
+﻿namespace Einsatzplanung;
 
-using EinsatzPlanung.GUI;
+using Einsatzplanung.GUI;
 using Einsatzplanung.Util.Services;
 
 using Avalonia;
@@ -13,7 +13,7 @@ internal sealed class Program {
 	[STAThread]
 	public static void Main(string[] args) {
 
-		PathService.ExtractFiles("EinsatzPlanung");
+		PathService.ExtractFiles("Einsatzplanung");
 
 #if !DEBUG
 		try {
