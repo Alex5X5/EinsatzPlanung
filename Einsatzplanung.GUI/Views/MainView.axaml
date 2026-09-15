@@ -15,6 +15,9 @@
 		<DataTemplate DataType="vm:EditViewModel">
 			<v:EditView />
 		</DataTemplate>
+		<DataTemplate DataType="vm:SaveViewModel">
+			<v:SaveView />
+		</DataTemplate>
 	</UserControl.DataTemplates>
 	
 	<Grid ColumnDefinitions="*" RowDefinitions="Auto,*">
