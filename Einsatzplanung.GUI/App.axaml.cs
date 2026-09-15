@@ -70,6 +70,7 @@ public partial class App : Application {
 		collection.AddSingleton<MainViewModel>();
 		collection.AddTransient<ImportViewModel>();
 		collection.AddTransient<EditViewModel>();
+		collection.AddTransient<SaveViewModel>();
 		collection.AddTransient<ImportCardViewModel>();
 		collection.AddTransient<WelcomeViewModel>();
 

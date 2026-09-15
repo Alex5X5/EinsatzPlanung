@@ -12,6 +12,9 @@
 		<DataTemplate DataType="vm:ImportViewModel">
 			<v:ImportView />
 		</DataTemplate>
+		<DataTemplate DataType="vm:EditViewModel">
+			<v:EditView />
+		</DataTemplate>
 	</UserControl.DataTemplates>
 	
 	<Grid ColumnDefinitions="*" RowDefinitions="Auto,*">
