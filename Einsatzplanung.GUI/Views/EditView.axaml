@@ -2,14 +2,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="4 50"
+             xmlns:pages="using:Einsatzplanung.GUI.Views.Edit"
              xmlns:vm="using:Einsatzplanung.GUI.ViewModels"
              x:Class="Einsatzplanung.GUI.Views.EditView"
              x:DataType="vm:EditViewModel">
     
-    <Grid ColumnDefinitions="*" RowDefinitions="*" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <StackPanel Grid.Column="0" Grid.Row="0">
-            <Button Content="Weiter" Command="{Binding GoToNextPageCommand}"/>
+    <Grid ColumnDefinitions="*" RowDefinitions="*, Auto" 
+          HorizontalAlignment="Center" VerticalAlignment="Top" 
+          Margin="0,20,0,0" Background="{DynamicResource AppBackgroundBrush}">
+        
+        <TabbedPage Grid.Row="0" TabPlacement="Top" Width="700" MinWidth="500" CornerRadius="20" Background="Transparent">
+
+            <ContentPage Header="Schulklassen"  
+                         Background="Transparent" 
+                         Margin="0,20,0,0" CornerRadius="0,0,20,20">
+                
+                <pages:ClassesPage />
+            </ContentPage>
+
+            <ContentPage Header="Ausbilder" 
+                         Background="Transparent" 
+                         Margin="0,20,0,20" CornerRadius="0,0,20,20">
+                
+                <pages:TeacherPage />
+            </ContentPage>
+
+        </TabbedPage>
+        
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <Button Content="Erstellen" Command="{Binding GoToNextPageCommand}"/>
         </StackPanel>
     </Grid>
     

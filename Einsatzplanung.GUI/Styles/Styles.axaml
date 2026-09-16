@@ -26,6 +26,14 @@
         <Setter Property="Background" Value="{DynamicResource HoverPdfImportButtonGradient}"/>
     </Style>
     
+    <Style Selector="Border.extending-border:pointerover">
+        <Setter Property="Height" Value="155" />
+    </Style>
+
+    <Style Selector="Border.extending-border.active">
+        <Setter Property="Height" Value="155" />
+    </Style>
+    
     <Style Selector="Image.glow">
         <Setter Property="Effect">
             <DropShadowEffect 
