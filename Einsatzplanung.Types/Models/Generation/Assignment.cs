@@ -1,6 +1,6 @@
-﻿namespace Einsatzplanung.Generation.Models;
+﻿namespace Einsatzplanung.Types.Models.Generation;
 
-internal sealed class Assignment {
+public sealed class Assignment {
 	public required string Trainer { get; init; }
 	public required string BlockName { get; init; }
 	public required string BlockColor { get; init; }

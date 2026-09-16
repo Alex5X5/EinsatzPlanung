@@ -1,7 +1,9 @@
 ﻿namespace Einsatzplanung.Generation.Interfaces;
 
+using Einsatzplanung.Types.Models.Generation;
+
 public interface IGeneratorService {
 
-	public void GeneratePlan();
+	public Plan GeneratePlan();
 
 }

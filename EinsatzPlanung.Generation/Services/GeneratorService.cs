@@ -3,7 +3,6 @@
 using ClosedXML.Excel;
 
 using Einsatzplanung.Generation.Interfaces;
-using Einsatzplanung.Generation.Models;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Util.Services;
 
@@ -13,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Einsatzplanung.Types.Models.Generation;
 
 public class GeneratorService : IGeneratorService {
 
@@ -49,11 +49,11 @@ public class GeneratorService : IGeneratorService {
 		weekStarts = GetWeekStarts(new DateTime(2026, 8, 17), new DateTime(2027, 7, 31));
 	}
 
-	public void GeneratePlan() {
-		const string outputPath = "Einsatzplan_2026_2027.xlsx";
+	public Plan GeneratePlan() {
+		//const string outputPath = "Einsatzplan_2026_2027.xlsx";
 
-		var assignments = BuildPlan();
-		ExportPlan(outputPath, assignments);
+		return BuildPlan();
+		//ExportPlan(outputPath, assignments);
 	}
 
 	private static List<DateTime> GetWeekStarts(DateTime schoolYearStart, DateTime schoolYearEnd) {
