@@ -6,7 +6,8 @@
              xmlns:vm="using:Einsatzplanung.GUI.ViewModels"
              x:Class="Einsatzplanung.GUI.Views.ImportView"
              x:DataType="vm:ImportViewModel">
-     <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" VerticalAlignment="Center">
+    
+    <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" VerticalAlignment="Center">
     
        <ItemsControl ItemsSource="{Binding Cards}" Grid.Column="0" Grid.Row="0" >
 
@@ -44,14 +45,6 @@
                                         Easing="CubicEaseOut" />
                                 </Transitions>
                             </Setter>
-                        </Style>
-
-                        <Style Selector="Border.extending-border:pointerover">
-                            <Setter Property="Height" Value="155" />
-                        </Style>
-
-                        <Style Selector="Border.extending-border.active">
-                            <Setter Property="Height" Value="155" />
                         </Style>
 
                     </Border.Styles>
