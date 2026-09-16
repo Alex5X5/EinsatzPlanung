@@ -30,7 +30,7 @@ public partial class ImportViewModel : ViewModelBase {
 
 	[RelayCommand]
 	private void OnGoToNextPage() {
-		//App.Current.Services.GetRequiredService<MainViewModel>().ChangePage<EditViewModel>();
-		App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
+		App.Current.Services.GetRequiredService<MainViewModel>().ChangePage<EditViewModel>();
+		//var plan = App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
 	}
 }
