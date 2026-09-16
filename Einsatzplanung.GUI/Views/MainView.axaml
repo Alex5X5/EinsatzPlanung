@@ -44,10 +44,13 @@
 			   Width="48"
 			   Height="48"/>
 
-
 		</StackPanel>
 	
+		<TransitioningContentControl Grid.Row="1" Content="{Binding CurrentPage}">
+			<TransitioningContentControl.PageTransition>
+				<CrossFade Duration="0:00:00.300" />
+			</TransitioningContentControl.PageTransition>
+		</TransitioningContentControl>
 
-		<ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
 	</Grid>
 </UserControl>
