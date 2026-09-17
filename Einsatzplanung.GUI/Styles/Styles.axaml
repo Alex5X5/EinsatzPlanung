@@ -20,7 +20,22 @@
     
     <Style Selector="Button.standard-button">
         <Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
+    
+    <Style Selector="Button.add-button">
+        <Setter Property="Content" Value="+"/>
+        <Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="CornerRadius" Value="16"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
     
     <!-- Border -->
     
