@@ -15,9 +15,17 @@ public class TeacherCardViewModel : ViewModelBase
 {
 
 	public string Header { get; }
+	public ObservableCollection<TeacherTopicCardViewModel> Topics { get; }
 
 	public TeacherCardViewModel(string header)
 	{
 		Header = header;
+		Topics =
+			[
+				new TeacherTopicCardViewModel("Mathe"),
+				new TeacherTopicCardViewModel("Frank"),
+				new TeacherTopicCardViewModel("Programmierung"),
+				new TeacherTopicCardViewModel("Netzwerke")
+			];
 	}
 }
