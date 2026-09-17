@@ -66,12 +66,17 @@ public partial class App : Application {
 		collection.AddTransient<ExcelExportService>();
 
 		collection.AddSingleton<IConfigService<Topic>, TopicService>();
+
 		collection.AddSingleton<IConfigService<TeacherConfig>, TeacherConfigService>();
+		collection.AddTransient<IEntityService<Teacher>, TeacherService>();
+
+		collection.AddSingleton<IConfigService<HolidayConfig>, HolidayConfigService>();
+		collection.AddTransient<IEntityService<Holiday>, HolidayService>();
+
 		collection.AddSingleton<IConfigService<AgeGroupConfig>, AgeGroupConfigService>();
 		collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
 		collection.AddSingleton<IMappedConfigService<GroupConfig, BlockConfig>, BlockConfigService>();
 
-		collection.AddSingleton<IEntityService<Teacher>, TeacherService>();
 		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
 		collection.AddTransient<IEntityService<Group>, GroupService>();
 		collection.AddTransient<IMappedEntityService<Group, Block>, BlockService>();

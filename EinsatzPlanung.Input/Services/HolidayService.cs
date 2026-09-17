@@ -17,6 +17,6 @@ public class HolidayService : IEntityService<Holiday> {
 
     public List<Holiday> GetEntities() {
         List<HolidayConfig> configs = configService.ParseSource();
-        return configs.Select(c => new Holiday { Von = c.Von, Bis = c.Bis }).ToList();
+        return configs.Select(c => new Holiday { From = c.From, To = c.To }).ToList();
     }
 }

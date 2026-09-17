@@ -1,10 +1,15 @@
 using System;
+using System.Xml.Linq;
 
 namespace Einsatzplanung.Types.Models;
 
 public class Holiday {
-    public DateOnly Von { get; set; }
-    public DateOnly? Bis { get; set; }
-    public bool IsSingleDay => Bis == null;
-    public bool IsPeriod => Bis != null;
+    public DateOnly From { get; set; }
+    public DateOnly? To { get; set; }
+    public bool IsSingleDay => To == null;
+    public bool IsPeriod => To != null;
+
+	public override string ToString() {
+		return $"Holiday[From={From}, To={To}]";
+	}
 }

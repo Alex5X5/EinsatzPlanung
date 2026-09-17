@@ -12,14 +12,16 @@ using System.Linq;
 
 public class GroupService : IEntityService<Group> {
 
-	private IConfigService<GroupConfig> configService;
+	private IConfigService<GroupConfig> groupConfigService;
+	private IEntityService<Holiday> holidayService;
 
-	public GroupService(IConfigService<GroupConfig> configService) {
-		this.configService = configService;
+	public GroupService(IConfigService<GroupConfig> groupConfigService, IEntityService<Holiday> holidayService) {
+		this.groupConfigService = groupConfigService;
+		this.holidayService = holidayService;
 	}
 
 	public List<Group> GetEntities() {
-		List<GroupConfig> configs = configService.ParseSource();
+		List<GroupConfig> configs = groupConfigService.ParseSource();
 		List<Group> groups = [];
 
 		foreach (var config in configs) {
