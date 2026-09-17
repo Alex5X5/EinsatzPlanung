@@ -1,10 +1,12 @@
-﻿namespace Einsatzplanung.Types.Models;
+﻿namespace Einsatzplanung.Types.Models.Configuration;
 
 using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public class Teacher {
+using Einsatzplanung.Types.Models;
+
+public class TeacherConfig {
 	
 	public required string Name { set; get; }
 	public required string Abbreviation { set; get; }
@@ -22,7 +24,7 @@ public class Teacher {
 			$"Specializations=[{string.Join(", ", Specializations.Select(t => t.Name))}]]";
 	}
 
-	public static Teacher Default => new() {
+	public static TeacherConfig Default => new() {
 		Name = "",
 		Abbreviation = "",
 		WeeklyHours = 0,

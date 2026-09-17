@@ -20,14 +20,14 @@
 
     public partial class ImportCardViewModel : ObservableObject
     {
-		private IEntityService entityService;
+		private IConfigService entityService;
 
 		[ObservableProperty]
 		private string excelFileStatus = "Keine Excel-Datei ausgewählt";
 		[ObservableProperty]
         private string pdfFileStatus = "Keine PDF-Datei ausgewählt";
 
-        public ImportCardViewModel(string header, IEntityService entityService)
+        public ImportCardViewModel(string header, IConfigService entityService)
         {
             Header = header;
             this.entityService = entityService;

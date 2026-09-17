@@ -2,14 +2,8 @@
 
 using System.Collections.Generic;
 
-public interface IEntityService<T> : IEntityService {
+public interface IEntityService<T> {
 
-	public List<T> ParseSource();
-
-}
-
-public interface IEntityService {
-
-	public void SetSource(string path);
+	public List<T> GetEntities();
 
 }

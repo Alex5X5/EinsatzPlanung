@@ -8,8 +8,10 @@
     using CommunityToolkit.Mvvm.ComponentModel;
     using CommunityToolkit.Mvvm.Input;
 
-    using Einsatzplanung.Input.Interfaces;
-	using Einsatzplanung.Types.Models;
+	using Einsatzplanung.Generation.Interfaces;
+	using Einsatzplanung.Types.Models.Generation;
+
+	using Microsoft.Extensions.DependencyInjection;
 
 	using System;
 	using System.IO;
@@ -45,6 +47,7 @@
     [RelayCommand]
     private void Export()
     {
+		Plan plan = App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
         // Hier später deine Export-Datei erzeugen und
         // z. B. unter Path.Combine(SelectedFolderPath, "export.xlsx") speichern
     }

@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using Einsatzplanung.Generation.Interfaces;
 using Einsatzplanung.Generation.Services;
+using Einsatzplanung.Types.Models.Configuration;
+using Einsatzplanung.Input.Services.Config;
 
 public partial class App : Application {
 
@@ -63,11 +65,16 @@ public partial class App : Application {
 		collection.AddTransient<ExcelImportService>();
 		collection.AddTransient<ExcelExportService>();
 
-		collection.AddSingleton<IEntityService<Topic>, TopicService>();
-		collection.AddSingleton<IEntityService<AgeGroup>, AgeGroupService>();
-		collection.AddSingleton<IEntityService<Group>, GroupService>();
+		collection.AddSingleton<IConfigService<Topic>, TopicService>();
+		collection.AddSingleton<IConfigService<TeacherConfig>, TeacherConfigService>();
+		collection.AddSingleton<IConfigService<AgeGroupConfig>, AgeGroupConfigService>();
+		collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
+		collection.AddSingleton<IMappedConfigService<GroupConfig, BlockConfig>, BlockConfigService>();
+
 		collection.AddSingleton<IEntityService<Teacher>, TeacherService>();
-		collection.AddSingleton<IEntityService<Block>, BlockService>();
+		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
+		collection.AddTransient<IEntityService<Group>, GroupService>();
+		collection.AddTransient<IMappedEntityService<Group, Block>, BlockService>();
 
 		collection.AddTransient<IGeneratorService, GeneratorService>();
 

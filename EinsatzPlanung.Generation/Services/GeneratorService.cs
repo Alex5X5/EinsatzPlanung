@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Einsatzplanung.Types.Models.Generation;
+using Einsatzplanung.Types.Models.Configuration;
 
 public class GeneratorService : IGeneratorService {
 
@@ -42,10 +43,10 @@ public class GeneratorService : IGeneratorService {
 	private List<Group> groups;
 	private List<DateTime> weekStarts;
 
-	public GeneratorService(IEntityService<AgeGroup> ageGroupService, IEntityService<Teacher> teacherService) {
-		teachers = teacherService.ParseSource();
-		ageGroups = ageGroupService.ParseSource();
-		groups = ageGroups.SelectMany(ageGroup => ageGroup.Groups).ToList();
+	public GeneratorService(IEntityService<AgeGroup> ageGroupService, IEntityService<Group> groupService, IEntityService<Teacher> teacherService) {
+		ageGroups = ageGroupService.GetEntities();
+		groups = groupService.GetEntities();
+		teachers = teacherService.GetEntities();
 		weekStarts = GetWeekStarts(new DateTime(2026, 8, 17), new DateTime(2027, 7, 31));
 	}
 
@@ -85,25 +86,22 @@ public class GeneratorService : IGeneratorService {
 	}
 
 	private static bool WeekHasOperationalDay(Group group, DateTime weekStart) {
+		for (var dayOffset = 0; dayOffset < 5; dayOffset++) {
+			var day = weekStart.AddDays(dayOffset);
+			if (PublicHolidays.Contains(day.Date))
+				continue;
+			if (IsSchoolWeek(group, day))
+				continue;
+			if (IsVacation(group, day))
+				continue;
+			return true;
+		}
 		return false;
-		//for (var dayOffset = 0; dayOffset < 5; dayOffset++) {
-		//	var day = weekStart.AddDays(dayOffset);
-
-		//	if (PublicHolidays.Contains(day.Date) || IsSchoolWeek(group, day) || IsVacation(group, day)) {
-		//		continue;
-		//	}
-
-		//	return true;
-		//}
-
-		//return false;
 	}
 
 	private static Block? GetBlockForWeek(Group group, DateTime weekStart) {
-		return null;
-		//var weekEnd = weekStart.AddDays(6);
-		//return group.Blocks.FirstOrDefault(block =>
-		//	block.From.Date <= weekEnd.Date && block.To.Date >= weekStart.Date);
+		var weekEnd = weekStart.AddDays(5);
+		return group.Blocks.FirstOrDefault(block => block.From.Date <= weekEnd.Date && block.To.Date >= weekStart.Date);
 	}
 
 	private static int WeekOfYear(DateTime date) {
@@ -176,7 +174,7 @@ public class GeneratorService : IGeneratorService {
 				plan.Assignments[item.Group][weekStart] = new Assignment() {
 					Trainer = selectedTrainer.Abbreviation,
 					BlockName = item.Block.Name,
-					BlockColor = item.Block.Farbe
+					BlockColor = item.Block.Color
 				};
 			}
 		}

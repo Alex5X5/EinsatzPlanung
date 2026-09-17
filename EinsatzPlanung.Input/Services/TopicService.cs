@@ -8,7 +8,7 @@ using Einsatzplanung.Excel.Services;
 
 using Einsatzplanung.Input.Interfaces;
 
-public class TopicService : IEntityService<Topic> {
+public class TopicService : IConfigService<Topic>, IEntityService<Topic> {
 
 	private ExcelImportService excelImportService;
 
@@ -30,5 +30,9 @@ public class TopicService : IEntityService<Topic> {
 			topics.Add(topic);
 		}
 		return topics;
+	}
+
+	public List<Topic> GetEntities() {
+		return ParseSource();
 	}
 }

@@ -1,4 +1,6 @@
-﻿namespace Einsatzplanung.Types.Models.Generation;
+﻿using Einsatzplanung.Types.Models.Configuration;
+
+namespace Einsatzplanung.Types.Models.Generation;
 
 public sealed class PlanItem {
 
