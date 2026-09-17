@@ -8,6 +8,12 @@
             <Color x:Key="AppBackgroundEndColor">#FFE8F1FF</Color>
             <Color x:Key="AppForegroundColor">#FF000000</Color>
             
+            <Color x:Key="TapItemBackgroundBrush">#D2EDFA</Color>
+            <Color x:Key="TapItemForegroundBrush">#d54407</Color>
+            <Color x:Key="SelectedTapItemBackgroundBrush">#d54407</Color>
+            <Color x:Key="SelectedTapItemForegroundBrush">#FFFFFF</Color>
+            <Color x:Key="PointeroverTapItemForegroundBrush">#d54407</Color>
+            
             <Color x:Key="CardBackgroundColor">#FFFFFF</Color>
             <Color x:Key="CardBorderBrush">#000000</Color>
             
@@ -44,6 +50,12 @@
             <Color x:Key="AppBackgroundStartColor">#211B2B</Color>
             <Color x:Key="AppBackgroundEndColor">#2B2138</Color>
             <Color x:Key="AppForegroundColor">#FFFFFFFF</Color>
+            
+            <Color x:Key="TapItemBackgroundBrush">#362F43</Color>
+            <Color x:Key="TapItemForegroundBrush">#FFFFFF</Color>
+            <Color x:Key="SelectedTapItemBackgroundBrush">#483D55</Color>
+            <Color x:Key="SelectedTapItemForegroundBrush">#FFFFFF</Color>
+            <Color x:Key="PointeroverTapItemForegroundBrush">#827CEA</Color>
             
             <Color x:Key="CardBackgroundColor">#20FFFFFF</Color>
             <Color x:Key="CardBorderBrush">#FFFFFF</Color>
