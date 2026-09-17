@@ -44,11 +44,15 @@
                             </Setter>
                         </Style>
 
+                        <Style Selector="Border.extending-border:pointerover">
+                            <Setter Property="MaxHeight" Value="300" />
+                        </Style>
+
                     </Border.Styles>
                     
                     <Grid
                         ColumnDefinitions="350"
-                        RowDefinitions="Auto">
+                        RowDefinitions="Auto, Auto">
 
                         <TextBlock
                             Grid.Row="0"
@@ -56,6 +60,37 @@
                             Foreground="{DynamicResource AppForegroundBrush}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
+
+                        <ItemsControl 
+                            Grid.Row="1" 
+                            ItemsSource="{Binding Topics}" 
+                            Margin="0,12,0,0">
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Spacing="8" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:TeacherTopicCardViewModel">
+                                    <Border
+                                        Background="{DynamicResource CardBackgroundBrush}"
+                                        BorderBrush="{DynamicResource CardBorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="6"
+                                        Padding="10">
+
+                                        <TextBlock
+                                            Text="{Binding Topic}"
+                                            Foreground="{DynamicResource AppForegroundBrush}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
                     </Grid>
                 </Border>
             </DataTemplate>
