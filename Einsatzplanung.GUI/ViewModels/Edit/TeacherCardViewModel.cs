@@ -22,9 +22,9 @@ public class TeacherCardViewModel : ViewModelBase
 		Header = header;
 		Topics =
 			[
-				new TeacherTopicCardViewModel("Mathe"),
-				new TeacherTopicCardViewModel("Frank"),
+				new TeacherTopicCardViewModel("Grundlagen"),
 				new TeacherTopicCardViewModel("Programmierung"),
+				new TeacherTopicCardViewModel("Projektmanagement"),
 				new TeacherTopicCardViewModel("Netzwerke")
 			];
 	}
