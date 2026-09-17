@@ -125,35 +125,19 @@
 
                                 <Button
                                     Grid.Row="2"
-                                    Grid.Column="0"
-                                    Content="+"
-                                    Width="32"
-                                    Height="32"
-                                    CornerRadius="16"
+                                    Grid.Column="1"
+                                    Classes="add-button"
                                     Margin="0,12,0,0"
-                                    Background="{DynamicResource StandardButtonBackgroundColor}"
-                                    BorderBrush="{DynamicResource ButtonBorderBrush}"
-                                    BorderThickness="1"
-                                    Foreground="{DynamicResource AppForegroundBrush}"
-                                    HorizontalAlignment="Left"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center" />
+                                    HorizontalAlignment="Right"/>
 
                                 <Button
                                     Grid.Row="2"
-                                    Grid.Column="1"
+                                    Grid.Column="0"
+                                    Classes="standard-button"
                                     Content="als Excel Importieren"
-                                    Height="32"
-                                    Margin="8,12,0,0"
+                                    Margin="0,12,0,0"
                                     Padding="12,0"
-                                    CornerRadius="6"
-                                    Background="{DynamicResource StandardButtonBackgroundColor}"
-                                    BorderBrush="{DynamicResource ButtonBorderBrush}"
-                                    BorderThickness="1"
-                                    Foreground="{DynamicResource AppForegroundBrush}"
-                                    HorizontalAlignment="Right"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center" />
+                                    HorizontalAlignment="Left"/>
                             </Grid>
                         </Border>
                     </DataTemplate>
