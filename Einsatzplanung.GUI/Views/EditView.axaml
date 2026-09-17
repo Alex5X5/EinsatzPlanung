@@ -15,11 +15,11 @@
         <TabbedPage Grid.Row="0" TabPlacement="Top" Width="800" MinWidth="500" CornerRadius="20" Background="Transparent">
 
             <ContentPage Header="Schulklassen" Background="Transparent">
-                <pages:ClassesPage />
+                <pages:ClassesView />
             </ContentPage>
 
             <ContentPage Header="Ausbilder" Background="Transparent">
-                <pages:TeacherPage />
+                <pages:TeacherView />
             </ContentPage>
 
         </TabbedPage>

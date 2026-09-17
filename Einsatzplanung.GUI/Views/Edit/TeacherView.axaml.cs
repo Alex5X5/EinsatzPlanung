@@ -1,19 +1,19 @@
-﻿using Einsatzplanung.GUI.ViewModels.Edit;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+
+using Einsatzplanung.Types.Models;
+using Einsatzplanung.GUI.ViewModels.Edit;
+using Avalonia.Input;
 
 namespace Einsatzplanung.GUI.Views.Edit;
 
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Markup.Xaml;
-
-public partial class ClassesPage : UserControl {
-	
-	private Border? _activeCardBorder;
-	public ClassesPage() {
+	public partial class TeacherView : UserControl {
+		private Border? _activeCardBorder;
+	public TeacherView() {
 		InitializeComponent();
 		
-		DataContext = new ClassesPageViewModel();
+		DataContext = new TeacherPageViewModel();
 	}
 	
 	private void CardBorder_OnPointerEntered(object? sender, PointerEventArgs e) {
@@ -28,5 +28,4 @@ public partial class ClassesPage : UserControl {
 		currentBorder.Classes.Add("active");
 		_activeCardBorder = currentBorder;
 	}
-	
 }
