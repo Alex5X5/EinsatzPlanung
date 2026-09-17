@@ -6,6 +6,8 @@
         </Border>
     </Design.PreviewWith>
     
+    <!-- Window -->
+    
     <Style Selector="Window">
         <Setter Property="Width" Value="1000"/>
         <Setter Property="Height" Value="667"/>
@@ -14,9 +16,13 @@
         <Setter Property="Background" Value="{DynamicResource AppBackgroundBrush}"/>
     </Style>
     
+    <!-- Button -->
+    
     <Style Selector="Button.standard-button">
         <Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}"/>
     </Style>
+    
+    <!-- Border -->
     
     <Style Selector="Border.excel-bg:pointerover">
         <Setter Property="Background" Value="{DynamicResource HoverExcelImportButtonGradient}"/>
@@ -33,6 +39,22 @@
     <Style Selector="Border.extending-border.active">
         <Setter Property="Height" Value="155" />
     </Style>
+    
+    <!-- TabItems -->
+    
+    <Style Selector="TabItem">
+        <Setter Property="Background" Value="{DynamicResource TapItemBackgroundBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
+        <Setter Property="CornerRadius" Value="20,20,0,0"/>
+    </Style>
+    
+    <Style Selector="TabItem:selected">
+        <Setter Property="Background" Value="#33A852" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    
+    <!-- img -->
     
     <Style Selector="Image.glow">
         <Setter Property="Effect">
