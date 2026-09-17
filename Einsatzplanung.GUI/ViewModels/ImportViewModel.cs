@@ -14,6 +14,12 @@ public partial class ImportViewModel : ViewModelBase {
 	
 	public ObservableCollection<ImportCardViewModel> Cards { get; }
 
+	[ObservableProperty]
+	private DateTime yearStartDate;
+
+	[ObservableProperty]
+	private DateTime yearEndDate;
+
 	public ImportViewModel() : base() {
 		var services = App.Current.Services;
 	
