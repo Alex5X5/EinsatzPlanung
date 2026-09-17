@@ -21,7 +21,7 @@
         <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="vm:TeacherCardViewModel">
                 <Border
-                    Classes="extending-border"
+                    Classes="extending-border teacher-card"
                     PointerEntered="CardBorder_OnPointerEntered"
                     Background="{DynamicResource CardBackgroundBrush}"
                     Padding="20"
@@ -31,8 +31,7 @@
                     ClipToBounds="True">
 
                     <Border.Styles>
-
-                        <Style Selector="Border">
+                        <Style Selector="Border.teacher-card">
                             <Setter Property="Height" Value="60" />
                             <Setter Property="Transitions">
                                 <Transitions>
@@ -44,12 +43,15 @@
                             </Setter>
                         </Style>
 
-                        <Style Selector="Border.extending-border:pointerover">
-                            <Setter Property="MaxHeight" Value="300" />
+                        <Style Selector="Border.teacher-card:pointerover">
+                            <Setter Property="Height" Value="300" />
                         </Style>
 
+                        <Style Selector="Border.teacher-card.active">
+                            <Setter Property="Height" Value="300" />
+                        </Style>
                     </Border.Styles>
-                    
+
                     <Grid
                         ColumnDefinitions="350"
                         RowDefinitions="Auto, Auto">
