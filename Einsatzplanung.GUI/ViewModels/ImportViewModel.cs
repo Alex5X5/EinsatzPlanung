@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿namespace Einsatzplanung.GUI.ViewModels;
 
-namespace Einsatzplanung.GUI.ViewModels;
+using System;
+using System.Collections.ObjectModel;
+
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using System.Collections.ObjectModel;
 
 using Einsatzplanung.GUI;
 using Einsatzplanung.Input.Interfaces;
