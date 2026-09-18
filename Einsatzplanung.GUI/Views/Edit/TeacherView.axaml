@@ -92,11 +92,14 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
 
-                        <ItemsControl 
-                            Grid.Row="1" 
+                        <ScrollViewer
+                            Grid.Row="1"
                             Grid.ColumnSpan="2"
-                            ItemsSource="{Binding Topics}" 
-                            Margin="0,12,0,0">
+                            Margin="0,12,0,0"
+                            MaxHeight="220"
+                            VerticalScrollBarVisibility="Hidden"
+                            HorizontalScrollBarVisibility="Disabled">
+                            <ItemsControl ItemsSource="{Binding Topics}">
 
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -122,7 +125,8 @@
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            </ItemsControl>
+                        </ScrollViewer>
 
                         <Button
                             Grid.Row="2"

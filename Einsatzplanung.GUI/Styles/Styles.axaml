@@ -36,7 +36,6 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
-    
     <!-- Border -->
     
     <Style Selector="Border.excel-bg:pointerover">
