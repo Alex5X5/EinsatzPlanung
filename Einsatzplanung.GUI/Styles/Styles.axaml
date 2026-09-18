@@ -46,24 +46,29 @@
     <Style Selector="Border.pdf-bg:pointerover">
         <Setter Property="Background" Value="{DynamicResource HoverPdfImportButtonGradient}"/>
     </Style>
-    
-    <Style Selector="Border.extending-border:pointerover">
-        <Setter Property="Height" Value="155" />
-    </Style>
 
     <Style Selector="Border.extending-border.active">
         <Setter Property="Height" Value="155" />
     </Style>
     
     
-    <Style Selector="Border.extending-calendar-border:pointerover">
-        <Setter Property="Height" Value="350" />
-    </Style>    
-    
-    <Style Selector="Border.extending-calendar-border.active">
-        <Setter Property="Height" Value="350" />
+    <Style Selector="Border.extending-calendar-border">
+        <Setter Property="Height" Value="60" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition
+                    Property="Height"
+                    Duration="0:0:0.3"
+                    Easing="CubicEaseOut" />
+            </Transitions>
+        </Setter>
     </Style>
     
+    <Style Selector="Border.extending-calendar-border.active">
+        <Setter Property="Height" Value="130" />
+    </Style>
+    
+
     <!-- Calendar -->
     <Style Selector="CalendarDatePicker">
         <Setter Property="IsDropDownOpen" Value="False"/> <!-- is buggy -->
