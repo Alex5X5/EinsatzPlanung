@@ -8,6 +8,8 @@ public class GroupConfig {
 
     public required string Name { set; get; }
 
+    public required string TeacherAbbreviation { set; get; }
+
     public required List<int> SchoolWeeks { set; get; }
 
 	public required List<BlockConfig> Blocks { set; get; }

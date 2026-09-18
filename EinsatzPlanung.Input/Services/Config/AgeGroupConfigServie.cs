@@ -11,10 +11,11 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 
 	private const int AGE_GROUP_COLUMN_INDEX = 0;
 	private const int CLASS_GROUP_COLUMN_INDEX = 1;
-	private const int SCOOLWEEK_COLUMN_INDEX = 2;
-	private const int TOPIC_COLUMN_INDEX = 3;
-	private const int TOPIC_WEEKS_COLUMN_INDEX = 4;
-	private const int TOPIC_COLOR_COLUMN_INDEX = 5;
+	private const int Teacher_COLUMN_INDEX = 2;
+	private const int SCOOLWEEK_COLUMN_INDEX = 3;
+	private const int TOPIC_COLUMN_INDEX = 4;
+	private const int TOPIC_WEEKS_COLUMN_INDEX = 5;
+	private const int TOPIC_COLOR_COLUMN_INDEX = 6;
 
 	private ExcelImportService excelImportService;
 
@@ -48,6 +49,7 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 				ageGroupBuilder.AddGroup(groupBuilder.Build());
 				groupBuilder = new();
 				groupBuilder.SetName(table[row, CLASS_GROUP_COLUMN_INDEX]?.Value ?? "");
+				groupBuilder.SetTeacher(table[row, Teacher_COLUMN_INDEX]?.Value ?? "");
 				// try to build the current age group and add it to the list of age groups
 				if (ageGroupBuilder.Build() is AgeGroupConfig group)
 					ageGroups.Add(group);
@@ -58,11 +60,12 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 				ageGroupBuilder.AddGroup(groupBuilder.Build());
 				groupBuilder = new();
 				groupBuilder.SetName(table[row, CLASS_GROUP_COLUMN_INDEX]?.Value ?? "");
+				groupBuilder.SetTeacher(table[row, Teacher_COLUMN_INDEX]?.Value ?? "");
 			}
-			
+
 			if (int.TryParse(table[row, SCOOLWEEK_COLUMN_INDEX]?.Value ?? "", out var schoolWeek))
 				groupBuilder.AddSchoolWeek(schoolWeek);
-			
+
 			if (int.TryParse(table[row, TOPIC_WEEKS_COLUMN_INDEX]?.Value ?? "", out var topicWeeks)) {
 				string name = table[row, TOPIC_COLUMN_INDEX]!.Value!;
 				string farbe = table[row, TOPIC_COLOR_COLUMN_INDEX]?.Value ?? "#FFFFFF";
@@ -115,6 +118,7 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 			current ??= new GroupConfig() {
 				Name = "",
 				SchoolWeeks = [],
+				TeacherAbbreviation = "",
 				Blocks = []
 			};
 		}
@@ -122,6 +126,12 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 		public GroupConfigurationBuilder SetName(string name) {
 			CreateCurrentIfNull();
 			current!.Name = name;
+			return this;
+		}
+
+		public GroupConfigurationBuilder SetTeacher(string abbreviation) {
+			CreateCurrentIfNull();
+			current!.TeacherAbbreviation = abbreviation;
 			return this;
 		}
 

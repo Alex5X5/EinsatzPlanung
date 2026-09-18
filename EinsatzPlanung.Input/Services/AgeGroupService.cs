@@ -1,24 +1,28 @@
 ﻿namespace Einsatzplanung.Input.Services;
 
+using System.Collections.Generic;
+using System.Linq;
+
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 public class AgeGroupService : IEntityService<AgeGroup> {
 
-	private IConfigService<AgeGroupConfig> configService;
+	private IConfigService<AgeGroupConfig> ageGroupService;
 	private IEntityService<Holiday> holidayService;
+	private IEntityService<Teacher> teacherService;
+	private GeneralConfigService configService;
 
-	public AgeGroupService(IConfigService<AgeGroupConfig> configService, IEntityService<Holiday> holidayService) {
+	public AgeGroupService(IConfigService<AgeGroupConfig> ageGroupService, IEntityService<Holiday> holidayService, IEntityService<Teacher> teacherService, GeneralConfigService configService) {
+		this.ageGroupService = ageGroupService;
+		this.holidayService = holidayService;
+		this.teacherService = teacherService;
 		this.configService = configService;
 	}
 
 	public List<AgeGroup> GetEntities() {
-		List<AgeGroupConfig> configs = configService.ParseSource();
+		List<AgeGroupConfig> configs = ageGroupService.ParseSource();
 		return configs.Select(MapAgeGroup).ToList();
 	}
 
@@ -32,8 +36,7 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 	private Group MapGroup(GroupConfig config) {
 		var blocks = new List<Block>();
 
-		var currentStart = new DateTime(1,1,2025);
-		//config.SchuljahrStart.Date;
+		var currentStart = configService.YearStartDate;
 
 		foreach (var block in config.Blocks) {
 			if (block.Anzahl <= 0) {
@@ -55,8 +58,9 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 
 		return new Group() {
 			Name = config.Name,
+			Teacher = teacherService.GetEntities().First(x=>x.Abbreviation == config.TeacherAbbreviation),
 			SchoolWeeks = config.SchoolWeeks,
-			Blocks = [],
+			Blocks = blocks,
 			Holidays = holidayService.GetEntities()
 		};
 	}

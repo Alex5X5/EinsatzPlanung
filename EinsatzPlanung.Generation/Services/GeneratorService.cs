@@ -5,7 +5,6 @@ using ClosedXML.Excel;
 using Einsatzplanung.Generation.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
-using Einsatzplanung.Types.Models.Configuration;
 using Einsatzplanung.Types.Models.Generation;
 using Einsatzplanung.Util.Services;
 
@@ -72,18 +71,18 @@ public class GeneratorService : IGeneratorService {
 	}
 
 	private static bool IsVacation(Group group, DateTime date) {
-		//return false;
 		return group.Holidays.Any(
 			period =>
-				DateOnly.FromDateTime(date) >= period.From 
-				&& DateOnly.FromDateTime(date) <= period.To);
+				DateOnly.FromDateTime(date) >= period.From &&
+				DateOnly.FromDateTime(date) <= period.To);
 	}
 
 	private static bool IsVacationWeek(Group group, DateTime weekStart) {
-		return false;
-		//var weekEnd = weekStart.AddDays(4);
-		//return group.VacationPeriods.Any(period =>
-		//	period.Von.Date <= weekEnd.Date && period.Bis.Date >= weekStart.Date);
+		var weekEnd = weekStart.AddDays(5);
+		return group.Holidays.Any(
+			period =>
+				period.From <= DateOnly.FromDateTime(weekEnd) &&
+				period.To >= DateOnly.FromDateTime(weekEnd));
 	}
 
 	private static bool WeekHasOperationalDay(Group group, DateTime weekStart) {
