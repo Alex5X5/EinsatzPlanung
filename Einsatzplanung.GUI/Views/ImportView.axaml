@@ -188,14 +188,15 @@
                 BorderThickness="1"
                 Margin="0,12,0,0"
                 BorderBrush="{DynamicResource CardBorderBrush}"
-                ClipToBounds="True">
+                ClipToBounds="True"
+                HorizontalAlignment="Center">
 
             <StackPanel HorizontalAlignment="Center">
 
                 <TextBlock
                     Text="Lehrjahrzeitraum"
                     HorizontalAlignment="Center"
-                    Margin="0,0,0,20" />
+                    Margin="0,0,0,25" />
 
                 <Grid
                     ColumnDefinitions="180,20,180"
@@ -204,7 +205,7 @@
                     <CalendarDatePicker
                         Grid.Column="0"
                         PlaceholderText="Jahr Start"
-                        HorizontalAlignment="Stretch" />
+                        HorizontalAlignment="Center" />
 
                     <Border
                         Grid.Column="1"
@@ -216,7 +217,7 @@
                     <CalendarDatePicker
                         Grid.Column="2"
                         PlaceholderText="Jahr Ende"
-                        HorizontalAlignment="Stretch" />
+                        HorizontalAlignment="Center" />
 
                 </Grid>
 
