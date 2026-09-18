@@ -22,6 +22,7 @@ using Einsatzplanung.Generation.Interfaces;
 using Einsatzplanung.Generation.Services;
 using Einsatzplanung.Types.Models.Configuration;
 using Einsatzplanung.Input.Services.Config;
+using Einsatzplanung.GUI.ViewModels.Edit;
 
 public partial class App : Application {
 
@@ -91,6 +92,12 @@ public partial class App : Application {
 		collection.AddTransient<SaveViewModel>();
 		collection.AddTransient<ImportCardViewModel>();
 		collection.AddTransient<WelcomeViewModel>();
+
+		collection.AddTransient<ClassesPageViewModel>();
+		collection.AddTransient<ClassCardViewModel>();
+		collection.AddTransient<TeacherPageViewModel>();
+		collection.AddTransient<TeacherCardViewModel>();
+		collection.AddTransient<TeacherTopicCardViewModel>();
 
 	}
 

@@ -1,10 +1,12 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 
-using Einsatzplanung.Types.Models;
 using Einsatzplanung.GUI.ViewModels.Edit;
-using Avalonia.Input;
+using Einsatzplanung.Types.Models;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Einsatzplanung.GUI.Views.Edit;
 
@@ -12,8 +14,7 @@ namespace Einsatzplanung.GUI.Views.Edit;
 		private Border? _activeCardBorder;
 	public TeacherView() {
 		InitializeComponent();
-		
-		DataContext = new TeacherPageViewModel();
+		DataContext = App.Current.Services.GetRequiredService<TeacherPageViewModel>();
 	}
 	
 	private void CardBorder_OnPointerEntered(object? sender, PointerEventArgs e) {
