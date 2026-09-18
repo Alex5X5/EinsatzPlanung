@@ -71,7 +71,8 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 		}
 
 		ageGroupBuilder.AddGroup(groupBuilder.Build());
-		ageGroups.Add(ageGroupBuilder.Build());
+		if(ageGroupBuilder.Build() is AgeGroupConfig ageGroup)
+			ageGroups.Add(ageGroup);
 
 		return ageGroups;
 	}
