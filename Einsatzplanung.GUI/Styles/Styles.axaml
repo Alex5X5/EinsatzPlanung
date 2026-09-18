@@ -9,8 +9,8 @@
     <!-- Window -->
     
     <Style Selector="Window">
-        <Setter Property="Width" Value="1000"/>
-        <Setter Property="Height" Value="667"/>
+        <Setter Property="Width" Value="1200"/>
+        <Setter Property="Height" Value="767"/>
         <Setter Property="MinWidth" Value="1000"/>
         <Setter Property="MinHeight" Value="667"/>
         <Setter Property="Background" Value="{DynamicResource AppBackgroundBrush}"/>
@@ -53,6 +53,20 @@
 
     <Style Selector="Border.extending-border.active">
         <Setter Property="Height" Value="155" />
+    </Style>
+    
+    
+    <Style Selector="Border.extending-calendar-border:pointerover">
+        <Setter Property="Height" Value="350" />
+    </Style>    
+    
+    <Style Selector="Border.extending-calendar-border.active">
+        <Setter Property="Height" Value="350" />
+    </Style>
+    
+    <!-- Calendar -->
+    <Style Selector="CalendarDatePicker">
+        <Setter Property="IsDropDownOpen" Value="False"/> <!-- is buggy -->
     </Style>
     
     <!-- TabItems -->
