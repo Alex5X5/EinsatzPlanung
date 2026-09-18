@@ -62,6 +62,8 @@ public partial class App : Application {
 		//Request services by calling App.Current.Services.GetService<AServiceType>()
 		// or just as an argument in a custructor
 
+		collection.AddSingleton<GeneralConfigService>();
+
 		collection.AddTransient<ExcelImportService>();
 		collection.AddTransient<ExcelExportService>();
 

@@ -11,18 +11,32 @@ using Microsoft.Extensions.DependencyInjection;
 using Einsatzplanung.GUI;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
+using Einsatzplanung.Input.Services;
 
 public partial class ImportViewModel : ViewModelBase {
-	
+
+	private GeneralConfigService configService;
+
 	public ObservableCollection<ImportCardViewModel> Cards { get; }
 
 	[ObservableProperty]
 	private DateTime yearStartDate;
 
+	partial void OnYearStartDateChanged(DateTime value) {
+		configService.YearStartDate = value;
+	}
+
 	[ObservableProperty]
 	private DateTime yearEndDate;
 
-	public ImportViewModel() : base() {
+	partial void OnYearEndDateChanged(DateTime value) {
+		configService.YearEndDate = value;
+	}
+
+	public ImportViewModel(GeneralConfigService configService) : base() {
+		
+		this.configService = configService;
+
 		var services = App.Current.Services;
 	
 		Cards = [
