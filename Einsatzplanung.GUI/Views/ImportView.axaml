@@ -204,7 +204,7 @@
 
                     <CalendarDatePicker
                         Grid.Column="0"
-                        PlaceholderText="Jahr Start"
+                        PlaceholderText="Start Datum"
                         HorizontalAlignment="Center" />
 
                     <Border
@@ -216,7 +216,7 @@
 
                     <CalendarDatePicker
                         Grid.Column="2"
-                        PlaceholderText="Jahr Ende"
+                        PlaceholderText="End Datum"
                         HorizontalAlignment="Center" />
 
                 </Grid>
