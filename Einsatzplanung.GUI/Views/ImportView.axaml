@@ -191,7 +191,7 @@
                 ClipToBounds="True"
                 HorizontalAlignment="Center">
 
-            <StackPanel HorizontalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" Width="350">
 
                 <TextBlock
                     Text="Lehrjahrzeitraum"
