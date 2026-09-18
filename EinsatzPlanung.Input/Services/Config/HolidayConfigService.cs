@@ -42,7 +42,7 @@ public class HolidayConfigService : IConfigService<HolidayConfig> {
                     bis = bisDate;
                 }
 
-                holidays.Add(new HolidayConfig { Von = von, Bis = bis });
+                holidays.Add(new HolidayConfig { From = von, To = bis });
             }
         }
 

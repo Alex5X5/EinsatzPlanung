@@ -3,17 +3,16 @@
 using ClosedXML.Excel;
 
 using Einsatzplanung.Generation.Interfaces;
-using Einsatzplanung.Types.Models;
-using Einsatzplanung.Util.Services;
-
 using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models;
+using Einsatzplanung.Types.Models.Configuration;
+using Einsatzplanung.Types.Models.Generation;
+using Einsatzplanung.Util.Services;
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Einsatzplanung.Types.Models.Generation;
-using Einsatzplanung.Types.Models.Configuration;
 
 public class GeneratorService : IGeneratorService {
 
@@ -44,7 +43,7 @@ public class GeneratorService : IGeneratorService {
 	private List<DateTime> weekStarts;
 
 	public GeneratorService(IEntityService<AgeGroup> ageGroupService, IEntityService<Group> groupService, IEntityService<Teacher> teacherService) {
-		ageGroups = ageGroupService.GetEntities();
+		//ageGroups = ageGroupService.GetEntities();
 		groups = groupService.GetEntities();
 		teachers = teacherService.GetEntities();
 		weekStarts = GetWeekStarts(new DateTime(2026, 8, 17), new DateTime(2027, 7, 31));
@@ -73,9 +72,11 @@ public class GeneratorService : IGeneratorService {
 	}
 
 	private static bool IsVacation(Group group, DateTime date) {
-		return false;
-		//return group.VacationPeriods.Any(period =>
-		//	date.Date >= period.Von.Date && date.Date <= period.Bis.Date);
+		//return false;
+		return group.Holidays.Any(
+			period =>
+				DateOnly.FromDateTime(date) >= period.From 
+				&& DateOnly.FromDateTime(date) <= period.To);
 	}
 
 	private static bool IsVacationWeek(Group group, DateTime weekStart) {

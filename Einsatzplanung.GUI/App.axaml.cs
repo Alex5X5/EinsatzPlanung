@@ -62,16 +62,23 @@ public partial class App : Application {
 		//Request services by calling App.Current.Services.GetService<AServiceType>()
 		// or just as an argument in a custructor
 
+		collection.AddSingleton<GeneralConfigService>();
+
 		collection.AddTransient<ExcelImportService>();
 		collection.AddTransient<ExcelExportService>();
 
 		collection.AddSingleton<IConfigService<Topic>, TopicService>();
+
 		collection.AddSingleton<IConfigService<TeacherConfig>, TeacherConfigService>();
+		collection.AddTransient<IEntityService<Teacher>, TeacherService>();
+
+		collection.AddSingleton<IConfigService<HolidayConfig>, HolidayConfigService>();
+		collection.AddTransient<IEntityService<Holiday>, HolidayService>();
+
 		collection.AddSingleton<IConfigService<AgeGroupConfig>, AgeGroupConfigService>();
 		collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
 		collection.AddSingleton<IMappedConfigService<GroupConfig, BlockConfig>, BlockConfigService>();
 
-		collection.AddSingleton<IEntityService<Teacher>, TeacherService>();
 		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
 		collection.AddTransient<IEntityService<Group>, GroupService>();
 		collection.AddTransient<IMappedEntityService<Group, Block>, BlockService>();

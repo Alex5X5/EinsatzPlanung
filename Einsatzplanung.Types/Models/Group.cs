@@ -12,9 +12,12 @@ public class Group {
 
 	public required List<Block> Blocks { set; get; }
 
+	public required List<Holiday> Holidays { set; get; }
+
 	public override string ToString() {
 		return $"Group[Name={Name}, " +
 			$"SchoolWeeks=[{string.Join(", ", SchoolWeeks.Select(t => Convert.ToString(t)))}], " +
-			$"Blocks=[{string.Join(", ", Blocks.Select(b => b.ToString()))}]]";
+			$"Blocks=[{string.Join(", ", Blocks.Select(b => b.ToString()))}]" +
+			$"Holidays=[{string.Join(", ", Holidays.Select(h => h.ToString()))}]]";
 	}
 }

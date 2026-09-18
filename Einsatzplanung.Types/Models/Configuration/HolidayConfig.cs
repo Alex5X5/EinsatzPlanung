@@ -3,9 +3,9 @@ using System;
 namespace Einsatzplanung.Types.Models.Configuration;
 
 public class HolidayConfig {
-    public DateOnly Von { get; set; }
-    public DateOnly? Bis { get; set; }
+    public DateOnly From { get; set; }
+    public DateOnly? To { get; set; }
 
-    public bool IsSingleDay => Bis == null;
-    public bool IsPeriod => Bis != null;
+    public bool IsSingleDay => To == null;
+    public bool IsPeriod => To != null;
 }
