@@ -1,31 +1,19 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
-using CommunityToolkit.Mvvm.Input;
 
-using Microsoft.Extensions.DependencyInjection;
-
+using System.Linq;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
-using Einsatzplanung.GUI;
 using Einsatzplanung.Types.Models;
-using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Generation.Interfaces;
 
 
-public class TeacherCardViewModel : ViewModelBase
-{
+public class TeacherCardViewModel : ViewModelBase {
 
 	public string Header { get; }
 	public ObservableCollection<TeacherTopicCardViewModel> Topics { get; }
 
-	public TeacherCardViewModel(string header)
-	{
+	public TeacherCardViewModel(string header, List<Topic> topics) {
 		Header = header;
-		Topics =
-			[
-				new TeacherTopicCardViewModel("Grundlagen"),
-				new TeacherTopicCardViewModel("Programmierung"),
-				new TeacherTopicCardViewModel("Projektmanagement"),
-				new TeacherTopicCardViewModel("Netzwerke")
-			];
+		Topics = new(topics.Select(t => new TeacherTopicCardViewModel(t.Name)));
 	}
 }

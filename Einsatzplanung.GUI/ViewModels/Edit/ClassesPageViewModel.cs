@@ -1,28 +1,17 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
-using CommunityToolkit.Mvvm.Input;
-
-using Microsoft.Extensions.DependencyInjection;
 
 using System.Collections.ObjectModel;
+using System.Linq;
 
-using Einsatzplanung.GUI;
-using Einsatzplanung.Types.Models;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Generation.Interfaces;
+using Einsatzplanung.Types.Models.Configuration;
 
-
-public class ClassesPageViewModel : ViewModelBase
-{
+public class ClassesPageViewModel : ViewModelBase {
 
 	public ObservableCollection<ClassCardViewModel> Cards { get; }
 
-	public ClassesPageViewModel()
-	{
-		Cards =
-		[
-			new ClassCardViewModel("FI24"),
-			new ClassCardViewModel("FI25"),
-			new ClassCardViewModel("FI26")
-		];
+	public ClassesPageViewModel(IConfigService<AgeGroupConfig> configService) {
+		var groups = configService.ParseSource().SelectMany(x => x.Groups);
+		Cards = new(groups.Select(g => new ClassCardViewModel(g.Name, g.Blocks)));
 	}
 }

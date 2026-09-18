@@ -1,20 +1,18 @@
-﻿using System.Collections.ObjectModel;
+﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
-namespace Einsatzplanung.GUI.ViewModels.Edit {
-	public class TeacherPageViewModel {
-		public string Header { get; }
+using System.Linq;
+using System.Collections.ObjectModel;
 
-		public ObservableCollection<TeacherCardViewModel> Cards { get; }
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models.Configuration;
 
-		public TeacherPageViewModel()
-		{
-			Cards =
-			[
-				new TeacherCardViewModel("Herr Schule"),
-				new TeacherCardViewModel("Herr Bla"),
-				new TeacherCardViewModel("Herr Schwank"),
-				new TeacherCardViewModel("Herr Lehnert")
-			];
-		}
+public class TeacherPageViewModel {
+	public string Header { get; }
+
+	public ObservableCollection<TeacherCardViewModel> Cards { get; }
+
+	public TeacherPageViewModel(IConfigService<TeacherConfig> configService) {
+		var teachers = configService.ParseSource();
+		Cards = new(teachers.Select(t => new TeacherCardViewModel(t.Name, t.Specializations)));
 	}
 }
