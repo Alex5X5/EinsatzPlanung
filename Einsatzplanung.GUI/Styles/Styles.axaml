@@ -54,7 +54,6 @@
     
     <Style Selector="Border.extending-calendar-border">
         <Setter Property="Height" Value="60" />
-        <Setter Property="Background" Value="Yellow"/> 
         <Setter Property="Transitions">
             <Transitions>
                 <DoubleTransition
@@ -66,7 +65,7 @@
     </Style>
     
     <Style Selector="Border.extending-calendar-border.active">
-        <Setter Property="Height" Value="350" />
+        <Setter Property="Height" Value="130" />
     </Style>
     
 
