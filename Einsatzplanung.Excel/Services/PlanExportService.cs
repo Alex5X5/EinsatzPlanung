@@ -1,6 +1,7 @@
 namespace Einsatzplanung.Excel.Services;
 
 using ClosedXML.Excel;
+using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Generation;
 using System;
@@ -9,7 +10,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 
-public sealed class PlanExportService
+public sealed class PlanExportService : IPlanExportService
 {
 	private readonly DateTime _yearStartDate;
 	private readonly DateTime _yearEndDate;
