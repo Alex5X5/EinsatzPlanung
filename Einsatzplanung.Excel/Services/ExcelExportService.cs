@@ -3,6 +3,7 @@
 using ClosedXML.Excel;
 
 using System;
+using System.Collections.Generic;
 
 public class ExcelExportService {
 	
@@ -20,21 +21,15 @@ public class ExcelExportService {
 		return cellAddress;
 	}
 
-	public void SaveTableToFile(string path, Models.Table table) {
-
+	public void SaveTable(string path, Models.Table table, int tableIndex = 1) {
 		XLWorkbook workbook = new(path);
-		var worksheet = workbook.Worksheet(table.Index);
-
-		int rowIndex = 0;
-		foreach (var row in table.Cells) {
-			int colIndex = 0;
-			foreach(var cell in row) {
-				var worksheetCell = worksheet.Cell(GetCellAddress(rowIndex, colIndex));
-				worksheetCell.Value = cell.Value;
-				worksheetCell.Style.Fill.BackgroundColor = XLColor.FromArgb(cell.BackgroundColor.A, cell.BackgroundColor.R, cell.BackgroundColor.G, cell.BackgroundColor.B);
-				colIndex++;
+		var worksheet = workbook.Worksheet(tableIndex);
+		for (int row = 0; row < table.RowCount; row++) {
+			for (int col = 0; col < table.ColumnCount; col++) {
+				var cell = worksheet.Cell(row, col);
+				cell.Value = table[row, col]?.Value ?? "";
+				cell.Value = table[row, col]?.BackgroundColor.ToString() ?? "#FFFFFFFF";
 			}
-			rowIndex++;
 		}
 	}
 }

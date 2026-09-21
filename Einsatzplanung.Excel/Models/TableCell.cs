@@ -10,6 +10,5 @@ public class TableCell {
 
 	public bool Bold { get; set; }
 	public int TextRotation { get; set; }
-	public string BackgroundColor1 { get; set; } = "";
 
 }
