@@ -139,22 +139,8 @@
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center" />
 
-                                <Button
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    Content="als Excel Importieren"
-                                    Height="32"
-                                    Margin="8,12,0,0"
-                                    Padding="12,0"
-                                    CornerRadius="6"
-                                    Background="{DynamicResource StandardButtonBackgroundColor}"
-                                    BorderBrush="{DynamicResource ButtonBorderBrush}"
-                                    BorderThickness="1"
-                                    Foreground="{DynamicResource AppForegroundBrush}"
-                                    HorizontalAlignment="Right"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center" />
                             </Grid>
+                            
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
