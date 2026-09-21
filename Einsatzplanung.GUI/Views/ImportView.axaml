@@ -198,26 +198,24 @@
                     HorizontalAlignment="Center"
                     Margin="0,0,0,25" />
 
-                <Grid
-                    ColumnDefinitions="180,20,180"
-                    HorizontalAlignment="Center">
+                <Grid ColumnDefinitions="180,20,180"
+                      HorizontalAlignment="Center">
 
-                    <CalendarDatePicker
-                        Grid.Column="0"
-                        PlaceholderText="Start Datum"
-                        HorizontalAlignment="Center" />
+                    <CalendarDatePicker Grid.Column="0"
+                                        PlaceholderText="Start Datum"
+                                        HorizontalAlignment="Center"
+                                        SelectedDate="{Binding YearStartDate}" />
 
-                    <Border
-                        Grid.Column="1"
-                        Width="1"
-                        Height="30"
-                        VerticalAlignment="Center"
-                        Background="{DynamicResource CardBorderBrush}" />
+                    <Border Grid.Column="1"
+                            Width="1"
+                            Height="30"
+                            VerticalAlignment="Center"
+                            Background="{DynamicResource CardBorderBrush}" />
 
-                    <CalendarDatePicker
-                        Grid.Column="2"
-                        PlaceholderText="End Datum"
-                        HorizontalAlignment="Center" />
+                    <CalendarDatePicker Grid.Column="2"
+                                        PlaceholderText="End Datum"
+                                        HorizontalAlignment="Center"
+                                        SelectedDate="{Binding YearEndDate}" />
 
                 </Grid>
 

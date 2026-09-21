@@ -2,6 +2,7 @@ namespace Einsatzplanung.Excel.Services;
 
 using ClosedXML.Excel;
 using Einsatzplanung.Excel.Interfaces;
+using Einsatzplanung.Util.Services;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Generation;
 using System;
@@ -15,16 +16,15 @@ public sealed class PlanExportService : IPlanExportService
 	private readonly DateTime _yearStartDate;
 	private readonly DateTime _yearEndDate;
 
-	public PlanExportService(DateTime yearStartDate, DateTime yearEndDate)
-	{
-		_yearStartDate = yearStartDate;
-		_yearEndDate = yearEndDate;
+	public PlanExportService(GeneralConfigService configService) {
+		_yearStartDate = configService.YearStartDate;
+		_yearEndDate = configService.YearEndDate;
 	}
 
 	public void ExportPlan(string filePath, Plan plan)
 	{
 		XLWorkbook workbook = new();
-		var worksheet = workbook.Worksheets.Add("2026_2027");
+		var worksheet = workbook.Worksheets.Add($"{_yearStartDate.Year}_{_yearStartDate.Year+1}");
 
 		// Header
 		worksheet.Cell("A1").Value = "Fachinformatiker";
@@ -42,8 +42,7 @@ public sealed class PlanExportService : IPlanExportService
 
 		// Week dates header
 		int colIndex = 6; // Column F
-		foreach (var weekStart in weeks)
-		{
+		foreach (var weekStart in weeks) {
 			worksheet.Cell(3, colIndex).Value = weekStart.ToString("dd.MM.yyyy");
 			colIndex++;
 		}
@@ -64,7 +63,7 @@ public sealed class PlanExportService : IPlanExportService
 			for (int day = 0; day < 5; day++)
 			{
 				worksheet.Cell(rowIndex, 1).Value = day == 0 ? "1. Lj." : "";
-				worksheet.Cell(rowIndex, 2).Value = day == 0 ? group.Name : "";
+				worksheet.Cell(rowIndex, 2).Value = day == 0 ? group : "";
 				worksheet.Cell(rowIndex, 3).Value = day == 0 ? "" : "";
 				worksheet.Cell(rowIndex, 4).Value = GetDayName(day);
 
@@ -173,10 +172,9 @@ public sealed class PlanExportService : IPlanExportService
 		workbook.SaveAs(filePath);
 	}
 
-	private static List<DateTime> GetWeeksInRange(DateTime startDate, DateTime endDate)
-	{
+	private static List<DateTime> GetWeeksInRange(DateTime startDate, DateTime endDate) {
 		var weeks = new List<DateTime>();
-		DateTime currentWeek = GetWeekStart(startDate);
+		DateTime currentWeek = DateTimeService.FloorWeek(startDate);
 
 		while (currentWeek <= endDate)
 		{
@@ -185,12 +183,6 @@ public sealed class PlanExportService : IPlanExportService
 		}
 
 		return weeks;
-	}
-
-	private static DateTime GetWeekStart(DateTime date)
-	{
-		int diff = (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7;
-		return date.AddDays(-diff).Date;
 	}
 
 	private static int GetIsoWeek(DateTime date)

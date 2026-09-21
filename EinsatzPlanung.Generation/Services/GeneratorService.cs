@@ -4,7 +4,6 @@ using ClosedXML.Excel;
 
 using Einsatzplanung.Generation.Interfaces;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Input.Services;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Generation;
 using Einsatzplanung.Util.Services;

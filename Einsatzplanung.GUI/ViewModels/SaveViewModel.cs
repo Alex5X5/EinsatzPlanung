@@ -1,61 +1,64 @@
-﻿namespace Einsatzplanung.GUI.ViewModels
-{
-    using Avalonia;
-    using Avalonia.Controls;
-    using Avalonia.Controls.ApplicationLifetimes;
-    using Avalonia.Platform.Storage;
+﻿namespace Einsatzplanung.GUI.ViewModels;
 
-    using CommunityToolkit.Mvvm.ComponentModel;
-    using CommunityToolkit.Mvvm.Input;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Platform.Storage;
 
-	using Einsatzplanung.Generation.Interfaces;
-	using Einsatzplanung.Types.Models.Generation;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
-	using Microsoft.Extensions.DependencyInjection;
+using Einsatzplanung.Excel.Interfaces;
+using Einsatzplanung.Generation.Interfaces;
+using Einsatzplanung.Types.Models.Generation;
+using Einsatzplanung.Util.Services;
 
-	using System;
-	using System.IO;
-	using System.Linq;
-    using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
-    public partial class SaveViewModel : ViewModelBase
-{
-    [ObservableProperty]
-    private string selectedFolderPath = GetDefaultDownloadsFolder();
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
-    [RelayCommand]
-    private async Task SavePath()
-    {
-        var window = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (window is null)
-        {
-            Console.WriteLine("Kein Fenster gefunden");
-            return;
-        }
+public partial class SaveViewModel : ViewModelBase {
 
-        var folders = await window.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
-        {
-            Title = "Ordner auswählen",
-            AllowMultiple = false
-        });
+	[ObservableProperty]
+	private string selectedFolderPath = GetDefaultDownloadsFolder();
 
-        var folder = folders.FirstOrDefault();
-        SelectedFolderPath = folder?.Path.LocalPath ?? SelectedFolderPath;
-        Console.WriteLine(SelectedFolderPath);
-    }
+	[RelayCommand]
+	private async Task SavePath() {
+		var window = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+		if (window is null) {
+			Console.WriteLine("Kein Fenster gefunden");
+			return;
+		}
 
-    [RelayCommand]
-    private void Export()
-    {
+		var folders = await window.StorageProvider.OpenFolderPickerAsync(
+			new FolderPickerOpenOptions {
+				Title = "Ordner auswählen",
+				AllowMultiple = false
+			});
+
+		var folder = folders.FirstOrDefault();
+		SelectedFolderPath = folder?.Path.LocalPath ?? SelectedFolderPath;
+		Console.WriteLine(SelectedFolderPath);
+	}
+
+	[RelayCommand]
+	private void Export() {
 		Plan plan = App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
-        // Hier später deine Export-Datei erzeugen und
-        // z. B. unter Path.Combine(SelectedFolderPath, "export.xlsx") speichern
-    }
+		App.Current.Services.GetRequiredService<IPlanExportService>().ExportPlan(GetFileName(), plan);
+		// Hier später deine Export-Datei erzeugen und
+		// z. B. unter Path.Combine(SelectedFolderPath, "export.xlsx") speichern
+	}
 
-    private static string GetDefaultDownloadsFolder()
-    {
-        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        return Path.Combine(userProfile, "Downloads");
-    }
-}
+	private static string GetDefaultDownloadsFolder() {
+		var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+		return Path.Combine(userProfile, "Downloads");
+	}
+
+	private string GetFileName() {
+		int year = App.Current.Services.GetRequiredService<GeneralConfigService>().YearStartDate.Year;
+		return Path.Join(SelectedFolderPath, $"Einsatzplan_{year}_{year+1}.xlsx");
+	}
 }

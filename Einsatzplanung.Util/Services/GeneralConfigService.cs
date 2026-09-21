@@ -1,4 +1,4 @@
-﻿namespace Einsatzplanung.Input.Services;
+﻿namespace Einsatzplanung.Util.Services;
 
 using System;
 

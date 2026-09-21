@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Einsatzplanung.GUI;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
-using Einsatzplanung.Input.Services;
+using Einsatzplanung.Util.Services;
 
 public partial class ImportViewModel : ViewModelBase {
 

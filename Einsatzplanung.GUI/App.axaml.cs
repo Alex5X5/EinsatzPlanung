@@ -1,32 +1,35 @@
 namespace Einsatzplanung.GUI;
 
+using System;
+
+using Microsoft.Extensions.DependencyInjection;
+
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
 using Einsatzplanung.Excel.Services;
-using Einsatzplanung.GUI;
-using Einsatzplanung.GUI.ViewModels;
+using Einsatzplanung.Excel.Interfaces;
+
+using Einsatzplanung.Generation.Interfaces;
+using Einsatzplanung.Generation.Services;
+
 using Einsatzplanung.GUI.Views;
-using Einsatzplanung.Types.Models;
-using Einsatzplanung.Util.Services;
+using Einsatzplanung.GUI.ViewModels;
+using Einsatzplanung.GUI.ViewModels.Edit;
 
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Input.Services;
-
-using Microsoft.Extensions.DependencyInjection;
-
-using System;
-using System.Collections.Generic;
-using Einsatzplanung.Generation.Interfaces;
-using Einsatzplanung.Generation.Services;
-using Einsatzplanung.Types.Models.Configuration;
 using Einsatzplanung.Input.Services.Config;
-using Einsatzplanung.GUI.ViewModels.Edit;
+
+using Einsatzplanung.Types.Models;
+using Einsatzplanung.Types.Models.Configuration;
+
+using Einsatzplanung.Util.Services;
 
 public partial class App : Application {
 
-	public static new App Current => (App)Application.Current;
+	public static new App Current => (Application.Current as App)!;
 
     public IServiceProvider Services { private set; get; }
 
@@ -85,6 +88,7 @@ public partial class App : Application {
 		collection.AddTransient<IMappedEntityService<Group, Block>, BlockService>();
 
 		collection.AddTransient<IGeneratorService, GeneratorService>();
+		collection.AddTransient<IPlanExportService, PlanExportService>();
 
 		collection.AddSingleton<MainViewModel>();
 		collection.AddTransient<ImportViewModel>();
