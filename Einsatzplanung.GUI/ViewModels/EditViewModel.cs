@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 using Einsatzplanung.GUI.ViewModels.Edit;
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Excel.Services;
@@ -16,10 +18,20 @@ using System.Linq;
 
 public partial class EditViewModel : ViewModelBase
 {
-	public ClassesPageViewModel ClassesPage { get; } = new();
-	public TeacherPageViewModel TeacherPage { get; } = new();
+	public ClassesPageViewModel ClassesPage { get; }
+	public TeacherPageViewModel TeacherPage { get; }
 
-	private readonly ExcelExportService excelExportService = new();
+	private readonly ExcelExportService excelExportService;
+
+	public EditViewModel(
+		IConfigService<AgeGroupConfig> ageGroupConfigService,
+		IConfigService<TeacherConfig> teacherConfigService,
+		ExcelExportService excelExportService)
+	{
+		ClassesPage = new ClassesPageViewModel(ageGroupConfigService);
+		TeacherPage = new TeacherPageViewModel(teacherConfigService);
+		this.excelExportService = excelExportService;
+	}
 
 	[ObservableProperty]
 	private int selectedPageIndex;

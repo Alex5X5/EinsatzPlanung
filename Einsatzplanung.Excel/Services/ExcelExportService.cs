@@ -2,6 +2,7 @@
 
 using ClosedXML.Excel;
 using System.Collections.Generic;
+using System;
 
 public class ExcelExportService {
 	
@@ -27,10 +28,17 @@ public class ExcelExportService {
 		int rowIndex = 0;
 		foreach (var row in table.Cells) {
 			int colIndex = 0;
-			foreach(var cell in row) {
+			foreach (var cell in row) {
 				var worksheetCell = worksheet.Cell(rowIndex + 1, colIndex + 1);
 				worksheetCell.Value = cell.Value;
 				colIndex++;
+			}
+			rowIndex++;
+		}
+
+		workbook.SaveAs(path);
+	}
+
 	public void SaveTable(string path, Models.Table table, int tableIndex = 1) {
 		XLWorkbook workbook = new(path);
 		var worksheet = workbook.Worksheet(tableIndex);

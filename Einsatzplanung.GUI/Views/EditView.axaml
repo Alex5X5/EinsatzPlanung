@@ -19,14 +19,14 @@
                          Background="Transparent" 
                          Margin="0,20,0,0" CornerRadius="0,0,20,20">
                 
-                <pages:ClassesPage DataContext="{Binding ClassesPage}" />
+                <pages:ClassesView DataContext="{Binding ClassesPage}" />
             </ContentPage>
 
             <ContentPage Header="Ausbilder" 
                          Background="Transparent" 
                          Margin="0,20,0,20" CornerRadius="0,0,20,20">
                 
-                <pages:TeacherPage DataContext="{Binding TeacherPage}" />
+                <pages:TeacherView DataContext="{Binding TeacherPage}" />
             </ContentPage>
 
         </TabbedPage>
