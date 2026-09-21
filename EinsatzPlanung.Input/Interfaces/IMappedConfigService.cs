@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-public interface IMappedConfigService<Tkey, TConfig> : IConfigService{
+public interface IMappedConfigService<Tkey, TConfig> : IConfigService where Tkey : notnull{
 
 	public Dictionary<Tkey, List<TConfig>> ParseSource();
 
