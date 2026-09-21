@@ -36,11 +36,41 @@ public partial class EditViewModel : ViewModelBase
 		
 		var table = new Table { Index = 1 };
 
-		foreach (var header in headers) {
-			table.Cells.Add(new List<TableCell>
+		if (SelectedPageIndex == 0)
+		{
+			table.Cells.Add(CreateRow("Ausbildungsgruppe", "Klasse", "Schulwoche", "Thema", "Themenwochen", "Farbe"));
+			foreach (var card in ClassesPage.Cards)
 			{
-				new() { Value = header }
-			});
+				var firstTopic = true;
+				foreach (var topic in card.Topics)
+				{
+					table.Cells.Add(CreateRow(
+						firstTopic ? card.Header : "",
+						firstTopic ? card.Header : "",
+						"",
+						topic.Topic,
+						"1",
+						"#FFFFFF"));
+					firstTopic = false;
+				}
+			}
+		}
+		else
+		{
+			table.Cells.Add(CreateRow("Name", "Kürzel", "Spezialisierung", "Wochenstunden"));
+			foreach (var card in TeacherPage.Cards)
+			{
+				var firstTopic = true;
+				foreach (var topic in card.Topics)
+				{
+					table.Cells.Add(CreateRow(
+						firstTopic ? card.Header : "",
+						firstTopic ? card.Header : "",
+						topic.Topic,
+						"40"));
+					firstTopic = false;
+				}
+			}
 		}
 		
 
@@ -62,6 +92,11 @@ public partial class EditViewModel : ViewModelBase
 
 		excelExportService.SaveTableToFile(file.Path.LocalPath, table);
 		
+	}
+
+	private static List<TableCell> CreateRow(params string[] values)
+	{
+		return values.Select(value => new TableCell { Value = value }).ToList();
 	}
 
 	[RelayCommand]
