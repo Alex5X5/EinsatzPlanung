@@ -5,6 +5,6 @@ using System.Collections.Generic;
 
 public sealed class Plan {
 
-	public Dictionary<Group, Dictionary<DateTime, Assignment>> Assignments = [];
+	public Dictionary<string, Dictionary<DateTime, Assignment>> Assignments = [];
 
 }

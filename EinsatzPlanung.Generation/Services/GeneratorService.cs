@@ -4,6 +4,7 @@ using ClosedXML.Excel;
 
 using Einsatzplanung.Generation.Interfaces;
 using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Input.Services;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Generation;
 using Einsatzplanung.Util.Services;
@@ -19,10 +20,10 @@ public class GeneratorService : IGeneratorService {
 	private readonly List<Group> groups;
 	private readonly List<DateTime> weekStarts;
 
-	public GeneratorService(IEntityService<AgeGroup> ageGroupService, IEntityService<Group> groupService, IEntityService<Teacher> teacherService) {
+	public GeneratorService(IEntityService<AgeGroup> ageGroupService, IEntityService<Group> groupService, IEntityService<Teacher> teacherService, GeneralConfigService configService) {
 		groups = groupService.GetEntities();
 		teachers = teacherService.GetEntities();
-		weekStarts = GetWeekStarts(new DateTime(2026, 8, 17), new DateTime(2027, 7, 31));
+		weekStarts = GetWeekStarts(configService.YearStartDate, configService.YearEndDate);
 	}
 
 	private static List<DateTime> GetWeekStarts(DateTime schoolYearStart, DateTime schoolYearEnd) {
@@ -120,7 +121,9 @@ public class GeneratorService : IGeneratorService {
 				occupiedTrainers.Add(selectedTrainer.Abbreviation);
 				assignmentsPerTeacher[selectedTrainer]++;
 
-				plan.Assignments[item.Group][weekStart] = new Assignment() {
+				plan.Assignments.TryAdd(item.Group.Name, []);
+
+				plan.Assignments[item.Group.Name][weekStart] = new Assignment() {
 					Trainer = selectedTrainer.Abbreviation,
 					BlockName = item.Block.Name,
 					BlockColor = item.Block.Color
