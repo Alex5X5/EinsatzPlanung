@@ -75,9 +75,9 @@
                 FilePickerFileTypes.All
             ]);
 			await Task.Run(() => {
-				ExcelFileStatus = status ?? "Keine Datei ausgewählt";
-				System.Console.WriteLine(ExcelFileStatus);
-				entityService.SetSource(PdfFileStatus);
+                PdfFileStatus = status ?? "Keine Datei ausgewählt";
+                System.Console.WriteLine(PdfFileStatus);
+                entityService.SetSource(PdfFileStatus);
 			});
 		}
 

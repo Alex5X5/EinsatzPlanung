@@ -37,6 +37,7 @@
                 Grid.Column="0"
                 Content="als Excel Importieren"
                 Command="{Binding PrintCurrentPageCommand}"
+                CommandParameter="{Binding $parent[Window]}"
                 Classes="standard-button"
                 Height="32"
                 Margin="8,12,0,0"

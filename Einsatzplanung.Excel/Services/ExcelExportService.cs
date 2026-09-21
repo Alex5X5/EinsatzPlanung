@@ -22,19 +22,21 @@ public class ExcelExportService {
 
 	public void SaveTableToFile(string path, Models.Table table) {
 
-		XLWorkbook workbook = new(path);
-		var worksheet = workbook.Worksheet(table.Index);
+		using var workbook = new XLWorkbook();
+		var worksheet = workbook.Worksheets.Add("Export");
 
 		int rowIndex = 0;
 		foreach (var row in table.Cells) {
 			int colIndex = 0;
 			foreach(var cell in row) {
-				var worksheetCell = worksheet.Cell(GetCellAddress(rowIndex, colIndex));
+				var worksheetCell = worksheet.Cell(rowIndex + 1, colIndex + 1);
 				worksheetCell.Value = cell.Value;
 				worksheetCell.Style.Fill.BackgroundColor = XLColor.FromArgb(cell.BackgroundColor.A, cell.BackgroundColor.R, cell.BackgroundColor.G, cell.BackgroundColor.B);
 				colIndex++;
 			}
 			rowIndex++;
 		}
+
+		workbook.SaveAs(path);
 	}
 }
