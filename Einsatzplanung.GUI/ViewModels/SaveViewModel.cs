@@ -48,8 +48,6 @@ public partial class SaveViewModel : ViewModelBase {
 	private void Export() {
 		Plan plan = App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
 		App.Current.Services.GetRequiredService<IPlanExportService>().ExportPlan(GetFileName(), plan);
-		// Hier später deine Export-Datei erzeugen und
-		// z. B. unter Path.Combine(SelectedFolderPath, "export.xlsx") speichern
 	}
 
 	private static string GetDefaultDownloadsFolder() {

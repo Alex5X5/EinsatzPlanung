@@ -26,6 +26,14 @@ public sealed class PlanExportService : IPlanExportService
 		XLWorkbook workbook = new();
 		var worksheet = workbook.Worksheets.Add($"{_yearStartDate.Year}_{_yearStartDate.Year+1}");
 
+		worksheet.Column(1).Width = 16.0;
+		worksheet.Column(2).Width = 13.0;
+		worksheet.Column(3).Width = 17.5;
+		worksheet.Column(4).Width = 3.5;
+		worksheet.Column(5).Width = 3.5;
+
+		worksheet.Range("B1:J1").Merge();
+
 		// Header
 		worksheet.Cell("A1").Value = "Fachinformatiker";
 		worksheet.Cell("B1").Value = $"Einsatzplan der Ausbilder / Ausbildungsinhalte {_yearStartDate.Year}/{_yearEndDate.Year}";
@@ -43,7 +51,9 @@ public sealed class PlanExportService : IPlanExportService
 		// Week dates header
 		int colIndex = 6; // Column F
 		foreach (var weekStart in weeks) {
-			worksheet.Cell(3, colIndex).Value = weekStart.ToString("dd.MM.yyyy");
+			var cell = worksheet.Cell(3, colIndex);
+			cell.Value = weekStart.ToString("dd.MM.yyyy");
+			cell.Style.Alignment.SetTextRotation(90);
 			colIndex++;
 		}
 
