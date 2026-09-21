@@ -12,19 +12,45 @@
           HorizontalAlignment="Center" VerticalAlignment="Top"
           Margin="0,20,0,0" Background="Transparent">
         
-        <TabbedPage Grid.Row="0" TabPlacement="Top" Width="800" MinWidth="500" CornerRadius="20" Background="Transparent">
+        <TabbedPage Grid.Row="0" TabPlacement="Top" Width="700" MinWidth="500" CornerRadius="20" Background="Transparent"
+                SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}">
 
-            <ContentPage Header="Schulklassen" Background="Transparent">
-                <pages:ClassesView />
+            <ContentPage Header="Schulklassen"  
+                         Background="Transparent" 
+                         Margin="0,20,0,0" CornerRadius="0,0,20,20">
+                
+                <pages:ClassesPage DataContext="{Binding ClassesPage}" />
             </ContentPage>
 
-            <ContentPage Header="Ausbilder" Background="Transparent">
-                <pages:TeacherView />
+            <ContentPage Header="Ausbilder" 
+                         Background="Transparent" 
+                         Margin="0,20,0,20" CornerRadius="0,0,20,20">
+                
+                <pages:TeacherPage DataContext="{Binding TeacherPage}" />
             </ContentPage>
 
         </TabbedPage>
         
         <StackPanel Grid.Column="0" Grid.Row="1">
+            <Button
+                Grid.Row="2"
+                Grid.Column="0"
+                Content="als Excel Importieren"
+                Command="{Binding PrintCurrentPageCommand}"
+                CommandParameter="{Binding $parent[Window]}"
+                Classes="standard-button"
+                Height="32"
+                Margin="8,12,0,0"
+                Padding="12,0"
+                CornerRadius="6"
+                Background="{DynamicResource StandardButtonBackgroundColor}"
+                BorderBrush="{DynamicResource ButtonBorderBrush}"
+                BorderThickness="1"
+                Foreground="{DynamicResource AppForegroundBrush}"
+                HorizontalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center" />
+
             <Button Content="Erstellen" Command="{Binding GoToNextPageCommand}" 
                     HorizontalAlignment="Center" Classes="standard-button" Margin="0,20,0,0"/>
         </StackPanel>

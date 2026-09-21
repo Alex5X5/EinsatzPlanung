@@ -144,6 +144,7 @@
                                     HorizontalAlignment="Left"/>
                                 -->
                             </Grid>
+                            
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

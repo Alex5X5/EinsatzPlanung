@@ -135,15 +135,6 @@
                             Margin="0,12,0,0"
                             HorizontalAlignment="Right"/>
 
-                        <Button
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Classes="standard-button"
-                            Content="als Excel Importieren"
-                            Margin="0,12,0,0"
-                            Padding="12,0"
-                            HorizontalAlignment="Left"/>
-
                     </Grid>
                 </Border>
             </DataTemplate>
