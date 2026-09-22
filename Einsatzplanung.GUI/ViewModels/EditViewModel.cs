@@ -23,13 +23,10 @@ public partial class EditViewModel : ViewModelBase
 
 	private readonly ExcelExportService excelExportService;
 
-	public EditViewModel(
-		IConfigService<AgeGroupConfig> ageGroupConfigService,
-		IConfigService<TeacherConfig> teacherConfigService,
-		ExcelExportService excelExportService)
+	public EditViewModel(ExcelExportService excelExportService)
 	{
-		ClassesPage = new ClassesPageViewModel(ageGroupConfigService);
-		TeacherPage = new TeacherPageViewModel(teacherConfigService);
+		ClassesPage = App.Current.Services.GetRequiredService<ClassesPageViewModel>();
+		TeacherPage = App.Current.Services.GetRequiredService<TeacherPageViewModel>();
 		this.excelExportService = excelExportService;
 	}
 
