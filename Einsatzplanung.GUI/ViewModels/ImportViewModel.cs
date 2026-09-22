@@ -12,6 +12,7 @@ using Einsatzplanung.GUI;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 using Einsatzplanung.Util.Services;
+using Einsatzplanung.Util.Interfaces;
 
 public partial class ImportViewModel : ViewModelBase {
 
@@ -38,13 +39,15 @@ public partial class ImportViewModel : ViewModelBase {
 		this.configService = configService;
 
 		var services = App.Current.Services;
-	
+
+		var selectionService = services.GetRequiredService<ILastSelectionService>();
+		var teacherService = services.GetRequiredService<IConfigService<TeacherConfig>>();
+
 		Cards = [
-			new("Ausbilder & Spezialisierungen", services.GetRequiredService<IConfigService<TeacherConfig>>()),
-			new("Ausbildungsgruppen & Themen", services.GetRequiredService<IConfigService<AgeGroupConfig>>()),
-			new("Urlaub & Feiertage", services.GetRequiredService<IConfigService<HolidayConfig>>())
+			new("Ausbilder & Spezialisierungen", teacherService, selectionService),
+			new("Ausbildungsgruppen & Themen", teacherService, selectionService),
+			new("Urlaub & Feiertage", teacherService, selectionService)
 			//new("Ausbildungsinhalte", services.GetRequiredService<IEntityService<Topic>>())
-			//new("Urlaubswochen & Feiertage", services.GetRequiredService<IEntityService<Block>>()),
 			//new("Praktikumszeiten", services.GetRequiredService<IEntityService<Teacher>>()),
 			//new("Schulwochen", services.GetRequiredService<IEntityService<Teacher>>())
 		];
@@ -52,6 +55,7 @@ public partial class ImportViewModel : ViewModelBase {
 
 	[RelayCommand]
 	private void OnGoToNextPage() {
+		App.Current.Services.GetRequiredService<ILastSelectionService>().SaveChanges();
 		App.Current.Services.GetRequiredService<MainViewModel>().ChangePage<EditViewModel>();
 		//var plan = App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
 	}

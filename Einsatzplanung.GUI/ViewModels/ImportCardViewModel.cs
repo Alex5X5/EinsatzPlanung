@@ -7,30 +7,44 @@
     using CommunityToolkit.Mvvm.ComponentModel;
     using CommunityToolkit.Mvvm.Input;
 
-	using Einsatzplanung.Types.Models;
-
-	using Einsatzplanung.GUI;
 	using Einsatzplanung.Input.Interfaces;
-
-	using Microsoft.Extensions.DependencyInjection;
+	using Einsatzplanung.Util.Interfaces;
 
 	using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
-    public partial class ImportCardViewModel : ObservableObject
-    {
-		private IConfigService entityService;
+    public partial class ImportCardViewModel : ObservableObject {
+		
+		private readonly IConfigService entityService;
+		private readonly ILastSelectionService selectionService;
 
 		[ObservableProperty]
 		private string excelFileStatus = "Keine Excel-Datei ausgewählt";
 		[ObservableProperty]
         private string pdfFileStatus = "Keine PDF-Datei ausgewählt";
 
-        public ImportCardViewModel(string header, IConfigService entityService)
-        {
+		partial void OnExcelFileStatusChanged(string value) {
+			string key = Header switch {
+				"Ausbilder & Spezialisierungen" => "ImportCard.Trainer",
+				"Ausbildungsgruppen & Themen" => "ImportCard.Groups",
+				"Urlaub & Feiertage" => "ImportCard.Holiday",
+				_ => ""
+			};
+			selectionService.SetSelection(key, value);
+		}
+
+        public ImportCardViewModel(string header, IConfigService entityService, ILastSelectionService selectionService) {
             Header = header;
-            this.entityService = entityService;
+			this.entityService = entityService;
+			this.selectionService = selectionService;
+			ExcelFileStatus = Header switch {
+				"Ausbilder & Spezialisierungen" => selectionService.GetSelection("ImportCard.Trainer") ?? "Keine Excel-Datei ausgewählt",
+				"Ausbildungsgruppen & Themen" => selectionService.GetSelection("ImportCard.Groups") ?? "Keine Excel-Datei ausgewählt",
+				"Urlaub & Feiertage" => selectionService.GetSelection("ImportCard.Holiday") ?? "Keine Excel-Datei ausgewählt",
+				_ => "Keine Excel-Datei ausgewählt"
+			};
+			this.entityService.SetSource(ExcelFileStatus);
         }
 
         public string Header { get; }
