@@ -20,28 +20,13 @@ public class ExcelExportService {
 		return cellAddress;
 	}
 
-	public void SaveTableToFile(string path, Models.Table table) {
-
-		using var workbook = new XLWorkbook();
-		var worksheet = workbook.Worksheets.Add("Export");
-
-		int rowIndex = 0;
-		foreach (var row in table.Cells) {
-			int colIndex = 0;
-			foreach (var cell in row) {
-				var worksheetCell = worksheet.Cell(rowIndex + 1, colIndex + 1);
-				worksheetCell.Value = cell.Value;
-				colIndex++;
-			}
-			rowIndex++;
-		}
-
-		workbook.SaveAs(path);
-	}
-
-	public void SaveTable(string path, Models.Table table, int tableIndex = 1) {
+	public void SaveTable(string path, Models.Table table, int tableIndex = 1, string sheetName="") {
 		XLWorkbook workbook = new(path);
 		var worksheet = workbook.Worksheet(tableIndex);
+		if(string.IsNullOrEmpty(sheetName))
+			worksheet.Name = $"Tabelle {tableIndex}";
+		else
+			worksheet.Name = sheetName;
 		for (int row = 0; row < table.RowCount; row++) {
 			for (int col = 0; col < table.ColumnCount; col++) {
 				var cell = worksheet.Cell(row, col);

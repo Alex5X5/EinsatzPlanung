@@ -99,7 +99,7 @@ public partial class EditViewModel : ViewModelBase
         if (file is null)
             return;
 
-		excelExportService.SaveTableToFile(file.Path.LocalPath, table);
+		excelExportService.SaveTable(file.Path.LocalPath, table, 1, "Export");
 		
 	}
 
