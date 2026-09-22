@@ -73,7 +73,7 @@ public sealed class PlanExportService : IPlanExportService
 			for (int day = 0; day < 5; day++)
 			{
 				worksheet.Cell(rowIndex, 1).Value = day == 0 ? "1. Lj." : "";
-				worksheet.Cell(rowIndex, 2).Value = day == 0 ? group : "";
+				worksheet.Cell(rowIndex, 2).Value = day == 0 ? group.Name : "";
 				worksheet.Cell(rowIndex, 3).Value = day == 0 ? "" : "";
 				worksheet.Cell(rowIndex, 4).Value = GetDayName(day);
 

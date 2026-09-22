@@ -39,23 +39,10 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 
 		var currentStart = configService.YearStartDate;
 
-		foreach (var block in config.Blocks) {
-			if (block.Anzahl <= 0) {
-				continue;
-			}
-
-			var from = currentStart;
-			var to = currentStart.AddDays(block.Anzahl * 7 - 1);
-
-			blocks.Add(new Block {
-				Name = block.Name,
-				From = from,
-				To = to,
-				Color = block.Color
-			});
-
-			currentStart = to.AddDays(1);
-		}
+		blocks = config.Blocks
+			.Where(x => x.Count > 0)
+			.Select(MapBlock)
+			.ToList();
 
 		return new Group() {
 			Name = config.Name,
@@ -63,6 +50,14 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 			SchoolWeeks = config.SchoolWeeks,
 			Blocks = blocks,
 			Holidays = holidayService.GetEntities()
+		};
+	}
+
+	private Block MapBlock(BlockConfig config) {
+		return new Block {
+			Name = config.Name,
+			Count = config.Count,
+			Color = config.Color
 		};
 	}
 }

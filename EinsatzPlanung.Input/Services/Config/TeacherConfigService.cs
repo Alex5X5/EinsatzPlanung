@@ -31,23 +31,71 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 
 	public List<TeacherConfig> ParseSource() {
 		Table table = excelImportService.GetTable(SourceFilePath);
+
 		List<TeacherConfig> teachers = [];
-		TeacherConfig? teacher = null;
+		
+		TeacherConfigBuilder builder = new();
+		
 		for (int row = 1; row < table.RowCount; row++) {
-			if (table[row, ABBREVIATION_COLUMN_INDEX]?.Value != "") {
-				if (teacher != null)
+			
+			if (!string.IsNullOrEmpty(table[row, NAME_COLUMN_INDEX]?.Value)) {
+				if (builder.Build() is TeacherConfig teacher)
 					teachers.Add(teacher);
-				teacher = new() {
-					Name = table[row, NAME_COLUMN_INDEX]?.Value ?? "",
-					Abbreviation = table[row, ABBREVIATION_COLUMN_INDEX]?.Value ?? "",
-					WeeklyHours = int.Parse(table[row, WEEKLY_HOURS_COLUMN_INDEX]?.Value ?? "0"),
-					Specializations = []
-				};
+				builder = new TeacherConfigBuilder()
+					.SetName(table[row, NAME_COLUMN_INDEX]?.Value ?? "")
+					.SetAbbreviation(table[row, ABBREVIATION_COLUMN_INDEX]?.Value ?? "");
+				if (int.TryParse(table[row, WEEKLY_HOURS_COLUMN_INDEX]?.Value ?? "", out var hours))
+					builder.SetHours(hours);
 			}
-			if(teacher == null)
-				continue;
-			teacher.Specializations.Add(new Topic(table[row, SPECIALIZATION_COLUMN_INDEX]?.Value ?? ""));
+			if (!string.IsNullOrEmpty(table[row, SPECIALIZATION_COLUMN_INDEX]?.Value))
+				builder.AddSpecialization(table[row, SPECIALIZATION_COLUMN_INDEX]!.Value);
 		}
+
+		if (builder.Build() is TeacherConfig t)
+			teachers.Add(t);
+
 		return teachers;
+	}
+
+	private class TeacherConfigBuilder {
+
+		private TeacherConfig? current;
+
+		private void CreateCurrentIfNull() {
+			current ??= new TeacherConfig() {
+				Name = "",
+				Abbreviation = "",
+				WeeklyHours = 0,
+				Specializations = []
+			};
+		}
+
+		public TeacherConfigBuilder SetName(string name) {
+			CreateCurrentIfNull();
+			current!.Name = name;
+			return this;
+		}
+
+		public TeacherConfigBuilder SetAbbreviation(string abbreviation) {
+			CreateCurrentIfNull();
+			current!.Abbreviation = abbreviation;
+			return this;
+		}
+
+		public TeacherConfigBuilder SetHours(int hours) {
+			CreateCurrentIfNull();
+			current!.WeeklyHours = hours;
+			return this;
+		}
+
+		public TeacherConfigBuilder AddSpecialization(string specialization) {
+			CreateCurrentIfNull();
+			current!.Specializations.Add(new Topic(specialization));
+			return this;
+		}
+
+		public TeacherConfig? Build() {
+			return current;
+		}
 	}
 }

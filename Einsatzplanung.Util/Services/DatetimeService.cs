@@ -1,6 +1,8 @@
 ﻿namespace Einsatzplanung.Util.Services;
 
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 public static partial class DateTimeService {
 
@@ -25,6 +27,13 @@ public static partial class DateTimeService {
 		long diffSeconds = ToSeconds(taskWeek) - ToSeconds(firstWeek);
 		double weeks = (double)diffSeconds / 604800.0;
 		return (int)Math.Floor(weeks);
+	}
+
+	public static int WeekOfYear(DateTime date) {
+		return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(
+			FloorWeek(date),
+			CalendarWeekRule.FirstFourDayWeek,
+			DayOfWeek.Monday);
 	}
 
 
@@ -173,4 +182,15 @@ public static partial class DateTimeService {
 
 	public static int GetWeekCountAtDate(DateTime start, DateTime date) =>
 		(int)Math.Floor(FloorWeek(date).Subtract(start).Days / 7.0) + 1;
+
+	public static List<DateTime> GetWeekStartsInIntervall(DateTime schoolYearStart, DateTime schoolYearEnd) {
+		var firstMonday = FloorWeek(schoolYearStart);
+
+		var weekStarts = new List<DateTime>();
+		for (var current = firstMonday; current <= schoolYearEnd.Date; current = current.AddDays(7)) {
+			weekStarts.Add(current);
+		}
+
+		return weekStarts;
+	}
 }

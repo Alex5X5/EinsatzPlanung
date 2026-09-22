@@ -69,7 +69,7 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 			if (int.TryParse(table[row, TOPIC_WEEKS_COLUMN_INDEX]?.Value ?? "", out var topicWeeks)) {
 				string name = table[row, TOPIC_COLUMN_INDEX]!.Value!;
 				string farbe = table[row, TOPIC_COLOR_COLUMN_INDEX]?.Value ?? "#FFFFFF";
-				groupBuilder.AddBlock(new BlockConfig() { Anzahl = topicWeeks, Name = name, Color = farbe });
+				groupBuilder.AddBlock(new BlockConfig() { Count = topicWeeks, Name = name, Color = farbe });
 			}
 		}
 
