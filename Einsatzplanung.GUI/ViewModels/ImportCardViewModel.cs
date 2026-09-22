@@ -32,6 +32,7 @@
 				_ => ""
 			};
 			selectionService.SetSelection(key, value);
+			entityService.SetSource(value);
 		}
 
         public ImportCardViewModel(string header, IConfigService entityService, ILastSelectionService selectionService) {
@@ -44,7 +45,6 @@
 				"Urlaub & Feiertage" => selectionService.GetSelection("ImportCard.Holiday") ?? "Keine Excel-Datei ausgewählt",
 				_ => "Keine Excel-Datei ausgewählt"
 			};
-			this.entityService.SetSource(ExcelFileStatus);
         }
 
         public string Header { get; }
