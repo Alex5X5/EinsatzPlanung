@@ -1,12 +1,13 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
+using CommunityToolkit.Mvvm.Input;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 
 using Einsatzplanung.Types.Models.Configuration;
 
-public class ClassCardViewModel : ViewModelBase {
+public partial class ClassCardViewModel : ViewModelBase {
 	
 	public string Header { get; }
 	public ObservableCollection<TeacherTopicCardViewModel> Topics { get; }
@@ -14,5 +15,10 @@ public class ClassCardViewModel : ViewModelBase {
 	public ClassCardViewModel(string header, List<BlockConfig> topics) {
 		Header = header;
 		Topics = new(topics.Select(x => new TeacherTopicCardViewModel(x.Name)));
+	}
+
+	[RelayCommand]
+	private void AddTopic() {
+		Topics.Add(new TeacherTopicCardViewModel("Neues Thema"));
 	}
 }
