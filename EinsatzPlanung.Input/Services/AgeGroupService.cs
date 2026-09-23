@@ -27,6 +27,10 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 		return configs.Select(MapAgeGroup).ToList();
 	}
 
+	public void SetSource(string path) {
+		ageGroupService.SetSource(path);
+	}
+
 	private AgeGroup MapAgeGroup(AgeGroupConfig config) {
 		return new AgeGroup() {
 			Name = config.Name,

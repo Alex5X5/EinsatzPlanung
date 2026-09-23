@@ -13,6 +13,7 @@ using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 using Einsatzplanung.Util.Services;
 using Einsatzplanung.Util.Interfaces;
+using Einsatzplanung.Types.Models;
 
 public partial class ImportViewModel : ViewModelBase {
 
@@ -43,9 +44,9 @@ public partial class ImportViewModel : ViewModelBase {
 		var selectionService = services.GetRequiredService<ILastSelectionService>();
 
 		Cards = [
-			new("Ausbilder & Spezialisierungen", services.GetRequiredService<IConfigService<TeacherConfig>>(), selectionService),
-			new("Ausbildungsgruppen & Themen", services.GetRequiredService<IConfigService<AgeGroupConfig>>(), selectionService),
-			new("Urlaub & Feiertage", services.GetRequiredService<IConfigService<HolidayConfig>>(), selectionService)
+			new("Ausbilder & Spezialisierungen", services.GetRequiredService<IEntityService<Teacher>>(), selectionService),
+			new("Ausbildungsgruppen & Themen", services.GetRequiredService<IEntityService<AgeGroup>>(), selectionService),
+			new("Urlaub & Feiertage", services.GetRequiredService<IEntityService<Holiday>>(), selectionService)
 			//new("Ausbildungsinhalte", services.GetRequiredService<IEntityService<Topic>>())
 			//new("Praktikumszeiten", services.GetRequiredService<IEntityService<Teacher>>()),
 			//new("Schulwochen", services.GetRequiredService<IEntityService<Teacher>>())

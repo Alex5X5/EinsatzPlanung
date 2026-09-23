@@ -10,13 +10,14 @@
 	using Einsatzplanung.Input.Interfaces;
 	using Einsatzplanung.Util.Interfaces;
 
+	using System;
 	using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     public partial class ImportCardViewModel : ObservableObject {
 		
-		private readonly IConfigService entityService;
+		private readonly IEntityService entityService;
 		private readonly ILastSelectionService selectionService;
 
 		[ObservableProperty]
@@ -35,7 +36,7 @@
 			entityService.SetSource(value);
 		}
 
-        public ImportCardViewModel(string header, IConfigService entityService, ILastSelectionService selectionService) {
+        public ImportCardViewModel(string header, IEntityService entityService, ILastSelectionService selectionService) {
             Header = header;
 			this.entityService = entityService;
 			this.selectionService = selectionService;

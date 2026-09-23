@@ -17,4 +17,8 @@ public class GroupService : IEntityService<Group> {
 	public List<Group> GetEntities() {
 		return ageGroupService.GetEntities().SelectMany((group) => group.Groups).ToList();
 	}
+
+	public void SetSource(string path) {
+		ageGroupService.SetSource(path);
+	}
 }
