@@ -42,7 +42,7 @@
             <Button
                 Grid.Row="2"
                 Grid.Column="0"
-                Content="als Excel Importieren"
+                Content="Zu Excel Exportieren"
                 Command="{Binding PrintCurrentPageCommand}"
                 CommandParameter="{Binding $parent[Window]}"
                 Classes="standard-button"
