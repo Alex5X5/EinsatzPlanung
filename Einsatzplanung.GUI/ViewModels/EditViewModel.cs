@@ -20,6 +20,7 @@ public partial class EditViewModel : ViewModelBase
 {
 	public ClassesPageViewModel ClassesPage { get; }
 	public TeacherPageViewModel TeacherPage { get; }
+	public HolidayViewModel HolidayPage { get; }
 
 	private readonly ExcelExportService excelExportService;
 
@@ -27,6 +28,7 @@ public partial class EditViewModel : ViewModelBase
 	{
 		ClassesPage = App.Current.Services.GetRequiredService<ClassesPageViewModel>();
 		TeacherPage = App.Current.Services.GetRequiredService<TeacherPageViewModel>();
+		HolidayPage = App.Current.Services.GetRequiredService<HolidayViewModel>();
 		this.excelExportService = excelExportService;
 	}
 

@@ -98,14 +98,10 @@ public partial class App : Application {
 		collection.AddTransient<EditViewModel>();
 		collection.AddTransient<SaveViewModel>();
 		collection.AddTransient<ImportCardViewModel>();
-		collection.AddTransient<WelcomeViewModel>();
 
+		collection.AddTransient<HolidayViewModel>();
 		collection.AddTransient<ClassesPageViewModel>();
-		collection.AddTransient<ClassCardViewModel>();
 		collection.AddTransient<TeacherPageViewModel>();
-		collection.AddTransient<TeacherCardViewModel>();
-		collection.AddTransient<TeacherTopicCardViewModel>();
-
 	}
 
 }

@@ -1,0 +1,104 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Einsatzplanung.GUI.ViewModels.Edit"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Einsatzplanung.GUI.Views.Edit.HolidayView"
+             x:DataType="vm:HolidayViewModel">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                      HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Cards}"
+                          Grid.Column="0"
+                          Grid.Row="0">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Spacing="12" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:HolidayCardViewModel">
+                        <Border Classes="extending-border teacher-card"
+                                PointerEntered="CardBorder_OnPointerEntered"
+                                Background="{DynamicResource CardBackgroundBrush}"
+                                Padding="20"
+                                CornerRadius="10"
+                                BorderThickness="1"
+                                BorderBrush="{DynamicResource CardBorderBrush}"
+                                MinWidth="420"
+                                ClipToBounds="True">
+
+                            <Border.Styles>
+                                <Style Selector="Border.teacher-card">
+                                    <Setter Property="Height" Value="60" />
+                                    <Setter Property="Transitions">
+                                        <Transitions>
+                                            <DoubleTransition
+                                                Property="Height"
+                                                Duration="0:0:0.3"
+                                                Easing="CubicEaseOut" />
+                                        </Transitions>
+                                    </Setter>
+                                </Style>
+
+                                <Style Selector="Border.teacher-card:pointerover">
+                                    <Setter Property="Height" Value="300" />
+                                </Style>
+
+                                <Style Selector="Border.teacher-card.active">
+                                    <Setter Property="Height" Value="300" />
+                                </Style>
+
+                                <Style Selector="Border.teacher-card ItemsControl">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </Style>
+
+                                <Style Selector="Border.teacher-card.active ItemsControl">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </Style>
+
+                                <Style Selector="Border.teacher-card:pointerover ItemsControl">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </Style>
+
+                                <Style Selector="Border.teacher-card Button">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </Style>
+
+                                <Style Selector="Border.teacher-card.active Button">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </Style>
+
+                                <Style Selector="Border.teacher-card:pointerover Button">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </Style>
+                            </Border.Styles>
+
+                            <Grid ColumnDefinitions="Auto, *" 
+                                  RowDefinitions="Auto, Auto, Auto">
+
+                                <TextBlock Grid.Row="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding Header}"
+                                           Foreground="{DynamicResource AppForegroundBrush}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+
+                                <Button Grid.Row="2"
+                                        Grid.Column="1"
+                                        Classes="add-button"
+                                        Margin="0,12,0,0"
+                                        HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

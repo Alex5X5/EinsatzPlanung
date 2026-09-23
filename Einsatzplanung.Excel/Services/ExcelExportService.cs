@@ -3,6 +3,7 @@
 using ClosedXML.Excel;
 using System.Collections.Generic;
 using System;
+using System.IO;
 
 public class ExcelExportService {
 	
@@ -21,7 +22,7 @@ public class ExcelExportService {
 	}
 
 	public void SaveTable(string path, Models.Table table, int tableIndex = 1, string sheetName="") {
-		XLWorkbook workbook = new(path);
+		XLWorkbook workbook = new();
 		var worksheet = workbook.Worksheet(tableIndex);
 		if(string.IsNullOrEmpty(sheetName))
 			worksheet.Name = $"Tabelle {tableIndex}";

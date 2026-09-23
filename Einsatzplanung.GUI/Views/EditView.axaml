@@ -13,7 +13,7 @@
           Margin="0,20,0,0" Background="Transparent">
         
         <TabbedPage Grid.Row="0" TabPlacement="Top" Width="700" MinWidth="500" CornerRadius="20" Background="Transparent"
-                SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}">
+                    SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}">
 
             <ContentPage Header="Schulklassen"  
                          Background="Transparent" 
@@ -27,6 +27,13 @@
                          Margin="0,20,0,20" CornerRadius="0,0,20,20">
                 
                 <pages:TeacherView DataContext="{Binding TeacherPage}" />
+            </ContentPage>
+
+            <ContentPage Header="Urlaub" 
+                         Background="Transparent" 
+                         Margin="0,20,0,20" CornerRadius="0,0,20,20">
+                
+                <pages:HolidayView DataContext="{Binding HolidayPage}" />
             </ContentPage>
 
         </TabbedPage>

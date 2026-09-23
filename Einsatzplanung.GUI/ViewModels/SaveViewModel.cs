@@ -45,9 +45,12 @@ public partial class SaveViewModel : ViewModelBase {
 	}
 
 	[RelayCommand]
-	private void Export() {
-		Plan plan = App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
-		App.Current.Services.GetRequiredService<IPlanExportService>().ExportPlan(GetFileName(), plan);
+	private async Task Export() {
+		await Task.Run(
+			() => {
+				Plan plan = App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
+				App.Current.Services.GetRequiredService<IPlanExportService>().ExportPlan(GetFileName(), plan);
+			});
 	}
 
 	private static string GetDefaultDownloadsFolder() {

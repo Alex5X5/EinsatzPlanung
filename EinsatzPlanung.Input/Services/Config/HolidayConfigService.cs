@@ -8,11 +8,12 @@ using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
 using System.Collections.Generic;
+using System.Globalization;
 
 public class HolidayConfigService : IConfigService<HolidayConfig> {
     
-    private const int VON_COLUMN_INDEX = 0;
-    private const int BIS_COLUMN_INDEX = 1;
+    private const int FROM_COLUMN_INDEX = 0;
+    private const int TO_COLUMN_INDEX = 1;
 
     private ExcelImportService excelImportService;
     private string SourceFilePath { get; set; } = "";
@@ -30,19 +31,20 @@ public class HolidayConfigService : IConfigService<HolidayConfig> {
         List<HolidayConfig> holidays = [];
 
         for (int row = 1; row < table.RowCount; row++) {
-            string? vonValue = table[row, VON_COLUMN_INDEX]?.Value;
-            string? bisValue = table[row, BIS_COLUMN_INDEX]?.Value;
+            if (DateTime.TryParseExact( table[row, FROM_COLUMN_INDEX]?.Value,
+				"dd.MM.yyyy HH:mm:ss",
+				CultureInfo.InvariantCulture,
+				DateTimeStyles.None, 
+				out var from)) {
 
-            if (string.IsNullOrEmpty(vonValue))
-                continue;
+				HolidayConfig config = new() {
+					From = DateOnly.FromDateTime(from)
+				};
+				
+                if (DateOnly.TryParse(table[row, TO_COLUMN_INDEX]?.Value, out var to))
+                    config.To = to;
 
-            if (DateOnly.TryParse(vonValue, out var von)) {
-                DateOnly? bis = null;
-                if (!string.IsNullOrEmpty(bisValue) && DateOnly.TryParse(bisValue, out var bisDate)) {
-                    bis = bisDate;
-                }
-
-                holidays.Add(new HolidayConfig { From = von, To = bis });
+                holidays.Add(config);
             }
         }
 
