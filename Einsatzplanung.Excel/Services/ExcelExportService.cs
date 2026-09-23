@@ -23,16 +23,14 @@ public class ExcelExportService {
 
 	public void SaveTable(string path, Models.Table table, int tableIndex = 1, string sheetName="") {
 		XLWorkbook workbook = new();
-		var worksheet = workbook.Worksheet(tableIndex);
-		if(string.IsNullOrEmpty(sheetName))
-			worksheet.Name = $"Tabelle {tableIndex}";
-		else
-			worksheet.Name = sheetName;
+		var worksheetName = string.IsNullOrEmpty(sheetName)
+			? $"Tabelle {tableIndex}"
+			: sheetName;
+		var worksheet = workbook.Worksheets.Add(worksheetName);
 		for (int row = 0; row < table.RowCount; row++) {
 			for (int col = 0; col < table.ColumnCount; col++) {
-				var cell = worksheet.Cell(row, col);
+				var cell = worksheet.Cell(row + 1, col + 1);
 				cell.Value = table[row, col]?.Value ?? "";
-				cell.Value = table[row, col]?.BackgroundColor.ToString() ?? "#FFFFFFFF";
 			}
 		}
 
