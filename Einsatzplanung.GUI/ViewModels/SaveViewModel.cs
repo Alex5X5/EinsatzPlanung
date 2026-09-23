@@ -25,6 +25,9 @@ public partial class SaveViewModel : ViewModelBase {
 	[ObservableProperty]
 	private string selectedFolderPath = GetDefaultDownloadsFolder();
 
+	[ObservableProperty]
+	private string errorString = "";
+
 	[RelayCommand]
 	private async Task SavePath() {
 		var window = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
@@ -46,11 +49,15 @@ public partial class SaveViewModel : ViewModelBase {
 
 	[RelayCommand]
 	private async Task Export() {
-		await Task.Run(
-			() => {
-				Plan plan = App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
-				App.Current.Services.GetRequiredService<IPlanExportService>().ExportPlan(GetFileName(), plan);
-			});
+		try {
+			await Task.Run(
+				() => {
+					Plan plan = App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
+					App.Current.Services.GetRequiredService<IPlanExportService>().ExportPlan(GetFileName(), plan);
+				});
+		} catch(InvalidOperationException e) {
+			ErrorString = e.Message;
+		}
 	}
 
 	private static string GetDefaultDownloadsFolder() {

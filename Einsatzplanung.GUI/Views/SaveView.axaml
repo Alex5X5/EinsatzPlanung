@@ -7,35 +7,36 @@
              x:Class="Einsatzplanung.GUI.Views.SaveView"
              x:DataType="vm:SaveViewModel">
 
-    <Grid ColumnDefinitions="*" RowDefinitions="*" VerticalAlignment="Top">
-
-        <Grid RowDefinitions="Auto,Auto" VerticalAlignment="Top" Margin="0,167,0,0"> <!-- left, top, right, bottom-->
+    <Grid RowDefinitions="Auto,Auto,Auto" VerticalAlignment="Top" Margin="0,167,0,0"> <!-- left, top, right, bottom-->
     
-            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
-                <Button 
-                Content="Ordner wählen" 
-                Background="{DynamicResource StandardButtonBackgroundColor}"
-                BorderBrush="{DynamicResource ButtonBorderBrush}"
-                Command="{Binding SavePathCommand}"
-                />
-                <Button 
-                Content="Export" 
-                Background="{DynamicResource StandardButtonBackgroundColor}"
-                BorderBrush="{DynamicResource ButtonBorderBrush}"
-                Command="{Binding ExportCommand}"
-                />
-            </StackPanel>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="20" HorizontalAlignment="Center">
+            <Button Content="Ordner wählen" 
+                    Background="{DynamicResource StandardButtonBackgroundColor}"
+                    BorderBrush="{DynamicResource ButtonBorderBrush}"
+                    Command="{Binding SavePathCommand}" />
+            <Button Content="Export" 
+                    Background="{DynamicResource StandardButtonBackgroundColor}"
+                    BorderBrush="{DynamicResource ButtonBorderBrush}"
+                    Command="{Binding ExportCommand}" />
+        </StackPanel>
 
-            <TextBlock 
-                Grid.Row="1"
-                Text="{Binding SelectedFolderPath}"  
-                HorizontalAlignment="Center"
-                TextAlignment="Center"
-                TextWrapping="Wrap"
-                Margin="20,6,20,0"
-                FontSize="11"
-                Foreground="#4CAF50" />
+        <TextBlock Grid.Row="1"
+                    Text="{Binding SelectedFolderPath}"  
+                    HorizontalAlignment="Center"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Margin="30,0,30,0"
+                    FontSize="11"
+                    Foreground="#4CAF50" />
 
-        </Grid>
+        <TextBlock Grid.Row="2"
+                    Text="{Binding ErrorString}"  
+                    HorizontalAlignment="Center"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Margin="30,0,30,0"
+                    FontSize="11"
+                    Foreground="#D44524" />
+
     </Grid>
 </UserControl>

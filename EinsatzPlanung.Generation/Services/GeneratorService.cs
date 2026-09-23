@@ -59,7 +59,6 @@ public class GeneratorService : IGeneratorService {
 			//the key is the week's date and the value is the assignment
 			Dictionary<DateTime, Assignment> groupAssignments = [];
 			
-			//save the assignments in the plan
 			plan.Assignments[group] = groupAssignments;
 
 			// only assign blocks to weeks, that aren't school weeks or vacations
@@ -73,6 +72,8 @@ public class GeneratorService : IGeneratorService {
 			var weekIndex = 0;
 
 			foreach (Block block in group.Blocks) {
+
+				//loop through each week of the current block and try to assign it
 				for (int assigned = 0; assigned < block.Count; assigned++) {
 					
 					if (weekIndex >= validWeeks.Count)
