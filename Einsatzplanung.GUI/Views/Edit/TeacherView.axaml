@@ -116,12 +116,12 @@
                                         CornerRadius="6"
                                         Padding="10">
 
-                                        <TextBlock
-                                            Text="{Binding Topic}"
+                                        <TextBox
+                                            Text="{Binding Topic, Mode=TwoWay}"
                                             TextWrapping="NoWrap"
                                             Foreground="{DynamicResource AppForegroundBrush}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center" />
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -132,6 +132,7 @@
                             Grid.Row="2"
                             Grid.Column="1"
                             Classes="add-button"
+                            Command="{Binding AddTopicCommand}"
                             Margin="0,12,0,0"
                             HorizontalAlignment="Right"/>
 
