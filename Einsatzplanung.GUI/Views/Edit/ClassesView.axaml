@@ -1,155 +1,56 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:Einsatzplanung.GUI.ViewModels.Edit"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Einsatzplanung.GUI.Views.Edit.ClassesView"
-             x:DataType="vm:ClassesPageViewModel">
-    <Grid>
-        <ScrollViewer
-            VerticalScrollBarVisibility="Hidden"
-            HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl ItemsSource="{Binding Cards}" Grid.Column="0" Grid.Row="0">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Spacing="12" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:Einsatzplanung.GUI.ViewModels.Edit"
+			 xmlns:ct="using:Einsatzplanung.GUI.Controls"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="Einsatzplanung.GUI.Views.Edit.ClassesView"
+			 x:DataType="vm:ClassesPageViewModel">
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ClassCardViewModel">
-                        <Border
-                            Classes="extending-border class-card"
-                            PointerEntered="CardBorder_OnPointerEntered"
-                            Background="{DynamicResource CardBackgroundBrush}"
-                            Padding="20"
-                            CornerRadius="10"
-                            BorderThickness="1"
-                            BorderBrush="{DynamicResource CardBorderBrush}"
-                            MinWidth="420"
-                            ClipToBounds="True">
+	<ct:EditCardsControl ItemsSource="{Binding Cards}">
+		
+		<ct:EditCardsControl.ItemTemplate>
+			
+			<DataTemplate x:DataType="vm:ClassCardViewModel">
+				<ct:ExtendingCard>
+					<ct:ExtendingCard.HeaderContent>
+						<TextBox Text="{Binding Header, Mode=TwoWay}"
+								 TextWrapping="NoWrap"
+								 Foreground="{DynamicResource AppForegroundBrush}"
+								 HorizontalContentAlignment="Center"
+								 VerticalContentAlignment="Center" />
+					</ct:ExtendingCard.HeaderContent>
 
-                            <Border.Styles>
-                                <Style Selector="Border.class-card">
-                                    <Setter Property="Height" Value="60" />
-                                    <Setter Property="Transitions">
-                                        <Transitions>
-                                            <DoubleTransition
-                                                Property="Height"
-                                                Duration="0:0:0.3"
-                                                Easing="CubicEaseOut" />
-                                        </Transitions>
-                                    </Setter>
-                                </Style>
+					<ItemsControl ItemsSource="{Binding Topics}">
 
-                                <Style Selector="Border.class-card:pointerover">
-                                    <Setter Property="Height" Value="300" />
-                                </Style>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											Spacing="12" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						
+						<ItemsControl.ItemTemplate>
+							<DataTemplate x:DataType="vm:TeacherTopicCardViewModel">
+								<Border Background="{DynamicResource CardBackgroundBrush}"
+										BorderBrush="{DynamicResource CardBorderBrush}"
+										BorderThickness="1"
+										CornerRadius="6"
+										Padding="10">
+									<TextBox Text="{Binding Topic, Mode=TwoWay}"
+											 TextWrapping="NoWrap"
+											 Foreground="{DynamicResource AppForegroundBrush}"
+											 HorizontalContentAlignment="Center"
+											 VerticalContentAlignment="Top" />
+								</Border>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
 
-                                <Style Selector="Border.class-card.active">
-                                    <Setter Property="Height" Value="300" />
-                                </Style>
-
-                                <Style Selector="Border.class-card ItemsControl">
-                                    <Setter Property="IsVisible" Value="False" />
-                                </Style>
-
-                                <Style Selector="Border.class-card.active ItemsControl">
-                                    <Setter Property="IsVisible" Value="True" />
-                                </Style>
-
-                                <Style Selector="Border.class-card:pointerover ItemsControl">
-                                    <Setter Property="IsVisible" Value="True" />
-                                </Style>
-
-                                <Style Selector="Border.class-card Button">
-                                    <Setter Property="IsVisible" Value="False" />
-                                </Style>
-
-                                <Style Selector="Border.class-card.active Button">
-                                    <Setter Property="IsVisible" Value="True" />
-                                </Style>
-
-                                <Style Selector="Border.class-card:pointerover Button">
-                                    <Setter Property="IsVisible" Value="True" />
-                                </Style>
-                            </Border.Styles>
-
-                            <Grid
-                                ColumnDefinitions="Auto, *"
-                                RowDefinitions="Auto, Auto, Auto">
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.ColumnSpan="2"
-                                    Text="{Binding Header}"
-                                    Foreground="{DynamicResource AppForegroundBrush}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center" />
-
-                                <ScrollViewer
-                                    Grid.Row="1"
-                                    Grid.ColumnSpan="2"
-                                    Margin="0,12,0,0"
-                                    MaxHeight="220"
-                                    VerticalScrollBarVisibility="Hidden"
-                                    HorizontalScrollBarVisibility="Disabled">
-                                    <ItemsControl ItemsSource="{Binding Topics}">
-
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Spacing="8" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="vm:TeacherTopicCardViewModel">
-                                            <Border
-                                                Background="{DynamicResource CardBackgroundBrush}"
-                                                BorderBrush="{DynamicResource CardBorderBrush}"
-                                                BorderThickness="1"
-                                                CornerRadius="6"
-                                                Padding="10">
-
-                                                <TextBox
-                                                    Text="{Binding Topic, Mode=TwoWay}"
-                                                    TextWrapping="NoWrap"
-                                                    Foreground="{DynamicResource AppForegroundBrush}"
-                                                    HorizontalContentAlignment="Center"
-                                                    VerticalContentAlignment="Center" />
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-
-                                <Button
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    Classes="add-button"
-                                    Command="{Binding AddTopicCommand}"
-                                    Margin="0,12,0,0"
-                                    HorizontalAlignment="Right"/>
-                                <!--
-                                <Button
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    Classes="standard-button"
-                                    Content="Exportieren"
-                                    Margin="0,12,0,0"
-                                    Padding="12,0"
-                                    HorizontalAlignment="Left"/>
-                                -->
-                            </Grid>
-                            
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </Grid>
+					</ItemsControl>
+				</ct:ExtendingCard>
+			</DataTemplate>
+		</ct:EditCardsControl.ItemTemplate>
+	</ct:EditCardsControl>
 </UserControl>
