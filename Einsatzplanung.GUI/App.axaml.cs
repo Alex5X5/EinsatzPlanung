@@ -84,11 +84,9 @@ public partial class App : Application {
 
 		collection.AddSingleton<IConfigService<AgeGroupConfig>, AgeGroupConfigService>();
 		collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
-		collection.AddSingleton<IMappedConfigService<GroupConfig, BlockConfig>, BlockConfigService>();
 
 		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
 		collection.AddTransient<IEntityService<Group>, GroupService>();
-		collection.AddTransient<IMappedEntityService<Group, Block>, BlockService>();
 
 		collection.AddTransient<IGeneratorService, GeneratorService>();
 		collection.AddTransient<IPlanExportService, PlanExportService>();
