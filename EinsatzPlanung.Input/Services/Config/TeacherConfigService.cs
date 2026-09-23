@@ -1,7 +1,7 @@
 ﻿namespace Einsatzplanung.Input.Services.Config;
 
 using Einsatzplanung.Excel.Models;
-using Einsatzplanung.Excel.Services;
+using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Types.Models;
 
 using Einsatzplanung.Input.Interfaces;
@@ -17,11 +17,11 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 	private const int SPECIALIZATION_COLUMN_INDEX = 2;
 	private const int WEEKLY_HOURS_COLUMN_INDEX = 3;
 
-	private ExcelImportService excelImportService;
+	private IExcelImportService excelImportService;
 
 	private string SourceFilePath { get; set; } = "";
 
-	public TeacherConfigService(ExcelImportService excelImportService) {
+	public TeacherConfigService(IExcelImportService excelImportService) {
 		this.excelImportService = excelImportService;
 	}
 

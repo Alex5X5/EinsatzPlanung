@@ -4,17 +4,17 @@ using System.Collections.Generic;
 
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Excel.Models;
-using Einsatzplanung.Excel.Services;
+using Einsatzplanung.Excel.Interfaces;
 
 using Einsatzplanung.Input.Interfaces;
 
 public class TopicService : IConfigService<Topic>, IEntityService<Topic> {
 
-	private ExcelImportService excelImportService;
+	private IExcelImportService excelImportService;
 
 	private string SourceFilePath { get; set; } = "";
 
-	public TopicService(ExcelImportService excelImportService) {
+	public TopicService(IExcelImportService excelImportService) {
 		this.excelImportService = excelImportService;
 	}
 

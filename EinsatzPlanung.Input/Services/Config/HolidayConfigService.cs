@@ -3,7 +3,7 @@ using System;
 namespace Einsatzplanung.Input.Services.Config;
 
 using Einsatzplanung.Excel.Models;
-using Einsatzplanung.Excel.Services;
+using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
@@ -15,10 +15,10 @@ public class HolidayConfigService : IConfigService<HolidayConfig> {
     private const int FROM_COLUMN_INDEX = 0;
     private const int TO_COLUMN_INDEX = 1;
 
-    private ExcelImportService excelImportService;
+    private IExcelImportService excelImportService;
     private string SourceFilePath { get; set; } = "";
 
-    public HolidayConfigService(ExcelImportService excelImportService) {
+    public HolidayConfigService(IExcelImportService excelImportService) {
         this.excelImportService = excelImportService;
     }
 

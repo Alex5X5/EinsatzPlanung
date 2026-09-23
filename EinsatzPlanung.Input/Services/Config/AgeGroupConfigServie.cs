@@ -1,7 +1,7 @@
 ﻿namespace Einsatzplanung.Input.Services.Config;
 
 using Einsatzplanung.Excel.Models;
-using Einsatzplanung.Excel.Services;
+using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
@@ -17,11 +17,11 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 	private const int TOPIC_WEEKS_COLUMN_INDEX = 5;
 	private const int TOPIC_COLOR_COLUMN_INDEX = 6;
 
-	private ExcelImportService excelImportService;
+	private IExcelImportService excelImportService;
 
 	private string SourceFilePath { get; set; } = "";
 
-	public AgeGroupConfigService(ExcelImportService excelImportService) {
+	public AgeGroupConfigService(IExcelImportService excelImportService) {
 		this.excelImportService = excelImportService;
 	}
 

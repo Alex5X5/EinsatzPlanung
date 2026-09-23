@@ -2,19 +2,14 @@
 
 using System;
 using System.Collections.Generic;
-//using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-//using System.Text;
 
 using ClosedXML.Excel;
 
-using DocumentFormat.OpenXml.Spreadsheet;
+using Einsatzplanung.Excel.Interfaces;
 
-using Einsatzplanung.Util.Services;
-
-public class ExcelImportService {
-
+public class ExcelImportService : IExcelImportService {
 	
 	private System.Drawing.Color GetColorFromTheme(IXLTheme theme, XLThemeColor color) {
 		return color switch {
@@ -78,54 +73,4 @@ public class ExcelImportService {
 			Cells = cells
 		};
 	}
-	
-	//public Models.Table CreateTableObj(string path, int tableIndex = 1)
-	//{
-	//	string filePath = PathService.AssetsPath(path);
-
-	//	Models.Table table = new() 
-	//	{
-	//		Cells = new List<List<Models.TableCell>>()
-	//	};
-		
-	//	if (!File.Exists(filePath))
-	//	{
-	//		Console.WriteLine($"File not found: {filePath}");
-	//		return table;
-	//	}
-
-	//	XLWorkbook workbook = new(filePath);
-	//	var worksheet = workbook.Worksheet(tableIndex);
-
-	//	try 
-	//	{
-	//		foreach (var row in worksheet.RowsUsed())
-	//		{
-	//			var tableRow = new List<Models.TableCell>();
-
-	//			foreach (var cell in row.CellsUsed())
-	//			{
-	//				if (cell != null)
-	//				{
-	//					tableRow.Add(new Models.TableCell
-	//					{
-	//						Value = cell.Value.ToString(),
-	//						Bold = cell.Style.Font.Bold,
-	//						TextRotation = cell.Style.Alignment.TextRotation,
-	//						//BackgroundColor1 = cell.Style.Fill.BackgroundColor.ToString()
-	//					});
-	//				}
-	//			}
-	//			table.Cells.Add(tableRow);
-	//		}
-	//		Console.WriteLine("Loaded Table ;)");
-	//	} 
-	//	catch (Exception e) 
-	//	{
-	//		Console.WriteLine($"Exception occured: {e}");
-	//	}
-
-	//	return table;
-	//}
-
 }
