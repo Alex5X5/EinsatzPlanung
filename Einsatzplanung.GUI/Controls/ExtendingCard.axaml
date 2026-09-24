@@ -3,6 +3,7 @@
 					xmlns:ct="using:Einsatzplanung.GUI.Controls">
 
 	<ControlTheme x:Key="{x:Type ct:ExtendingCard}" TargetType="ct:ExtendingCard">
+		<!--set the contents of the templated controll ExtendingCard-->
 		<Setter Property="Template">
 			<ControlTemplate>
 				<Border Name="PART_Border"
@@ -14,11 +15,13 @@
 						BorderBrush="{DynamicResource CardBorderBrush}"
 						ClipToBounds="True">
 					<StackPanel Spacing="8">
+						<!--displays the Header content which is always visible-->
 						<ContentPresenter Name="PART_HeaderPresenter"
 										  Content="{TemplateBinding HeaderContent}"
 										  ContentTemplate="{TemplateBinding HeaderContentTemplate}"
 										  VerticalAlignment="Center" />
 
+						<!--displays the body content which is only visible when pointer is over-->
 						<ContentPresenter Name="PART_ContentPresenter"
 										  Content="{TemplateBinding Content}"
 										  ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -28,6 +31,7 @@
 			</ControlTemplate>
 		</Setter>
 
+		<!--set the transition duration of the border of the template-->
 		<Style Selector="^ /template/ Border#PART_Border">
 			<Setter Property="Height" Value="60" />
 			<Setter Property="Transitions" >
@@ -40,14 +44,17 @@
 		</Style>
 
 
+		<!--set the height of the border of the template to 300 when active-->
 		<Style Selector="^:pointerover /template/ Border#PART_Border">
 			<Setter Property="Height" Value="300" />
 		</Style>
 
+		<!--set the height of the border of the template to 300 when pointer is over-->
 		<Style Selector="^:active /template/ Border#PART_Border">
 			<Setter Property="Height" Value="300" />
 		</Style>
 
+		<!--apply the transition to the border of the template-->
 		<Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="IsVisible" Value="False" />
 			<Setter Property="Opacity" Value="0" />
@@ -58,11 +65,13 @@
 			</Setter>
 		</Style>
 
+		<!--show the body when pointer is over-->
 		<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="IsVisible" Value="True" />
 			<Setter Property="Opacity" Value="1" />
 		</Style>
 
+		<!--show the body when pointer when pseudoclass 'active' exists-->
 		<Style Selector="^:active /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="IsVisible" Value="True" />
 			<Setter Property="Opacity" Value="1" />
