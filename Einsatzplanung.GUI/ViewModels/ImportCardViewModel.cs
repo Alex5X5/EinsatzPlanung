@@ -50,6 +50,14 @@
 
         public string Header { get; }
 
+        public string HelpText => Header switch
+        {
+            "Ausbilder & Spezialisierungen" => "Hier werden Ausbilder und ihre Spezialisierungen importiert. Diese Daten werden für die Zuordnung der Einsatzzeiten verwendet.",
+            "Ausbildungsgruppen & Themen" => "Hier werden Ausbildungsgruppen und zugehörige Themen geladen. Damit können Klassen und Fächer korrekt in die Planung übernommen werden.",
+            "Urlaub & Feiertage" => "Hier werden Urlaubstage und Feiertage importiert. Diese Tage werden bei der Planung berücksichtigt und nicht als normale Arbeitstage behandelt.",
+            _ => "Hier können relevante Daten für diesen Bereich importiert werden."
+        };
+
         //public string ExcelFileStatus
         //{
         //    get => _excelFileStatus;

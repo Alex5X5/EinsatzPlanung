@@ -48,8 +48,7 @@
 											 TextWrapping="NoWrap"
 											 Foreground="{DynamicResource AppForegroundBrush}"
 											 HorizontalContentAlignment="Center"
-											 VerticalContentAlignment="Top"
-											 ToolTip.Tip="Ausbildungsinhalt von dieser Klasse" />
+											 VerticalContentAlignment="Top" />
 								</Border>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
