@@ -22,7 +22,7 @@
 								 Foreground="{DynamicResource AppForegroundBrush}"
 								 HorizontalContentAlignment="Center"
 								 VerticalContentAlignment="Center"
-								 ToolTip.Tip="This is a rectangle" />
+								 ToolTip.Tip="Urlaubs- oder Feiertagsbezeichnung" />
 					</ct:ExtendingCard.HeaderContent>
 
 				</ct:ExtendingCard>

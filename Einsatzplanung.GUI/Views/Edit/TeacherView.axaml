@@ -54,7 +54,13 @@
 
 					</ItemsControl>
 
-				</ct:ExtendingCard>
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Classes="add-button"
+                            Command="{Binding AddTopicCommand}"
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Right"/>
 
 			</DataTemplate>
 

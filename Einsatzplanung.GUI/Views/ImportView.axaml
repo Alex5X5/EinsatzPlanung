@@ -76,8 +76,8 @@
                                 MaxHeight="30"
                                 BorderThickness="0"
                                 CornerRadius="10"
-                                Background="{DynamicResource ImportButtonBackgroundColor}">
-
+                                Background="{DynamicResource ImportButtonBackgroundColor}"
+                                ToolTip.Tip="formatierte Excel-Datei mit Passenden Informationen einfügen">
 
                                     <Grid ColumnDefinitions="Auto,*">
 
@@ -126,7 +126,8 @@
                                 MaxWidth="120"
                                 BorderThickness="0"
                                 CornerRadius="10"
-                                Background="{DynamicResource ImportButtonBackgroundColor}">
+                                Background="{DynamicResource ImportButtonBackgroundColor}"
+                                ToolTip.Tip="PDF-Datei mit Ausbilder Informationen einfügen">
 
                                   <Grid ColumnDefinitions="Auto,*">
 
@@ -204,7 +205,8 @@
                     <CalendarDatePicker Grid.Column="0"
                                         PlaceholderText="Start Datum"
                                         HorizontalAlignment="Center"
-                                        SelectedDate="{Binding YearStartDate}" />
+                                        SelectedDate="{Binding YearStartDate}"
+                                        ToolTip.Tip="Startdatum des Lehrjahres festlegen" />
 
                     <Border Grid.Column="1"
                             Width="1"
@@ -215,7 +217,8 @@
                     <CalendarDatePicker Grid.Column="2"
                                         PlaceholderText="End Datum"
                                         HorizontalAlignment="Center"
-                                        SelectedDate="{Binding YearEndDate}" />
+                                        SelectedDate="{Binding YearEndDate}"
+                                        ToolTip.Tip="Enddatum des Lehrjahres festlegen" />
 
                 </Grid>
 
@@ -228,7 +231,8 @@
             <Button Classes="standard-button" 
                     Content="Weiter"
                     HorizontalAlignment="Center"
-                    Command="{Binding GoToNextPageCommand}"/>
+                    Command="{Binding GoToNextPageCommand}"
+                    ToolTip.Tip="Zur Bearbeitungsansicht weitergehen"/>
      
         </StackPanel>
        

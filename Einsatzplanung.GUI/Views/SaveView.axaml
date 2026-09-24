@@ -13,11 +13,13 @@
             <Button Content="Ordner wählen" 
                     Background="{DynamicResource StandardButtonBackgroundColor}"
                     BorderBrush="{DynamicResource ButtonBorderBrush}"
-                    Command="{Binding SavePathCommand}" />
+                    Command="{Binding SavePathCommand}"
+                    ToolTip.Tip="Zielordner für den Export auswählen" />
             <Button Content="Export" 
                     Background="{DynamicResource StandardButtonBackgroundColor}"
                     BorderBrush="{DynamicResource ButtonBorderBrush}"
-                    Command="{Binding ExportCommand}" />
+                    Command="{Binding ExportCommand}"
+                    ToolTip.Tip="Passenden Ablageort für das Ergebniss aussuchen" />
         </StackPanel>
 
         <TextBlock Grid.Row="1"

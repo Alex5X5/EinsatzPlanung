@@ -21,7 +21,8 @@
 								 Foreground="{DynamicResource AppForegroundBrush}"
 								 HorizontalAlignment="Stretch"
 								 HorizontalContentAlignment="Center"
-								 VerticalContentAlignment="Center" />
+								 VerticalContentAlignment="Center"
+								 ToolTip.Tip="Klassenbezeichnung eingeben" />
 					</ct:ExtendingCard.HeaderContent>
 
 					<ItemsControl ItemsSource="{Binding Topics}"
@@ -47,7 +48,8 @@
 											 TextWrapping="NoWrap"
 											 Foreground="{DynamicResource AppForegroundBrush}"
 											 HorizontalContentAlignment="Center"
-											 VerticalContentAlignment="Top" />
+											 VerticalContentAlignment="Top"
+											 ToolTip.Tip="Ausbildungsinhalt von dieser Klasse" />
 								</Border>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
