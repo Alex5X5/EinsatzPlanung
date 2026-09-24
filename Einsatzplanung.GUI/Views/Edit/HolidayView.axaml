@@ -14,7 +14,7 @@
 			
 			<DataTemplate x:DataType="vm:HolidayCardViewModel">
 
-				<ct:ExtendingCard AllowExtend="False" AddButtonCommand="{Binding }">
+				<ct:ExtendingCard AllowExtend="False">
 
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Header, Mode=TwoWay}"

@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="4 50"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:pages="using:Einsatzplanung.GUI.Views.Edit"
              xmlns:vm="using:Einsatzplanung.GUI.ViewModels"
              x:Class="Einsatzplanung.GUI.Views.EditView"
@@ -19,47 +19,43 @@
                          Background="Transparent" 
                          Margin="0,20,0,0" CornerRadius="0,0,20,20">
                 
-                <pages:ClassesView DataContext="{Binding ClassesPage}" />
+                <pages:ClassesView />
             </ContentPage>
 
             <ContentPage Header="Ausbilder" 
                          Background="Transparent" 
                          Margin="0,20,0,20" CornerRadius="0,0,20,20">
                 
-                <pages:TeacherView DataContext="{Binding TeacherPage}" />
+                <pages:TeacherView />
             </ContentPage>
 
             <ContentPage Header="Urlaub" 
                          Background="Transparent" 
                          Margin="0,20,0,20" CornerRadius="0,0,20,20">
                 
-                <pages:HolidayView DataContext="{Binding HolidayPage}" />
+                <pages:HolidayView />
             </ContentPage>
 
         </TabbedPage>
         
-        <StackPanel Grid.Column="0" Grid.Row="1">
-            <Button
-                Grid.Row="2"
-                Grid.Column="0"
-                Content="Zu Excel Exportieren"
-                Command="{Binding PrintCurrentPageCommand}"
-                CommandParameter="{Binding $parent[Window]}"
-                Classes="standard-button"
-                Height="32"
-                Margin="8,12,0,0"
-                Padding="12,0"
-                CornerRadius="6"
-                Background="{DynamicResource StandardButtonBackgroundColor}"
-                BorderBrush="{DynamicResource ButtonBorderBrush}"
-                BorderThickness="1"
-                Foreground="{DynamicResource AppForegroundBrush}"
-                HorizontalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center" />
+        <StackPanel HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="20"
+                    Grid.Column="0"
+                    Grid.Row="1">
 
-            <Button Content="Erstellen" Command="{Binding GoToNextPageCommand}" 
+            <Button Content="Zu Excel Exportieren" 
+                    Command="{Binding PrintCurrentPageCommand}"
+                    CommandParameter="{Binding $parent[Window]}"
                     HorizontalAlignment="Center" Classes="standard-button" Margin="0,20,0,0"/>
+
+            <Button Content="Hinzufügen"
+                    Command="{Binding AddCommand}" 
+                    HorizontalAlignment="Center" Classes="standard-button" Margin="0,20,0,0"/>
+            
+            <Button Content="Weiter" Command="{Binding GoToNextPageCommand}" 
+                    HorizontalAlignment="Center" Classes="standard-button" Margin="0,20,0,0"/>
+
         </StackPanel>
     </Grid>
     

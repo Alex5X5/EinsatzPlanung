@@ -97,9 +97,9 @@ public partial class App : Application {
 		collection.AddTransient<SaveViewModel>();
 		collection.AddTransient<ImportCardViewModel>();
 
-		collection.AddTransient<HolidayViewModel>();
-		collection.AddTransient<ClassesPageViewModel>();
-		collection.AddTransient<TeacherPageViewModel>();
+		collection.AddSingleton<HolidayViewModel>();
+		collection.AddSingleton<ClassesPageViewModel>();
+		collection.AddSingleton<TeacherPageViewModel>();
 	}
 
 }

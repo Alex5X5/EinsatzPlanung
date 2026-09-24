@@ -2,6 +2,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-public class ViewModelBase : ObservableObject {
-	
+using System.ComponentModel;
+
+public class ViewModelBase : ObservableObject, INotifyPropertyChanged {
 }

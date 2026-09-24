@@ -10,6 +10,7 @@ using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Generation.Interfaces;
+using Einsatzplanung.GUI.Services;
 using Einsatzplanung.Types.Models.Generation;
 using Einsatzplanung.Util.Services;
 
@@ -17,7 +18,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 public partial class SaveViewModel : ViewModelBase {
@@ -30,20 +30,7 @@ public partial class SaveViewModel : ViewModelBase {
 
 	[RelayCommand]
 	private async Task SavePath() {
-		var window = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-		if (window is null) {
-			Console.WriteLine("Kein Fenster gefunden");
-			return;
-		}
-
-		var folders = await window.StorageProvider.OpenFolderPickerAsync(
-			new FolderPickerOpenOptions {
-				Title = "Ordner auswählen",
-				AllowMultiple = false
-			});
-
-		var folder = folders.FirstOrDefault();
-		SelectedFolderPath = folder?.Path.LocalPath ?? SelectedFolderPath;
+		SelectedFolderPath = (await FilePickerService.PickFileName("Ordner auswählen", false)) ?? SelectedFolderPath;
 		Console.WriteLine(SelectedFolderPath);
 	}
 

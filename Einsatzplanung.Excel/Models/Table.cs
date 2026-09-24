@@ -12,8 +12,6 @@ public class Table {
 		get => Cells.Select(x => x.Count).Max();
 	}
 
-	public int Index { get; set; }
-
 	public List<List<TableCell>> Cells { set; get; } = [];
 
 	public TableCell? this[int row, int col] {
@@ -24,5 +22,13 @@ public class Table {
 				return null;
 			return Cells[row][col];
 		} 
+	}
+
+	public void AddRow(List<TableCell> cells) {
+		Cells.Add(cells);
+	}
+
+	public void AddRow(List<string> cells) {
+		Cells.Add(cells.Select(value => new TableCell { Value = value }).ToList());
 	}
 }

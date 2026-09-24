@@ -15,11 +15,11 @@ public partial class TeacherCardViewModel : ViewModelBase {
 
 	public TeacherCardViewModel(string header, List<Topic> topics) {
 		Header = header;
-		Topics = new(topics.Select(t => new TopicCardViewModel(t.Name, AddTopicCommand)));
+		Topics = new(topics.Select(t => new TopicCardViewModel(t.Name, 0, AddTopicCommand)));
 	}
 
 	[RelayCommand]
 	private void AddTopic() {
-		Topics.Add(new TopicCardViewModel("Neue Spezialisierung", AddTopicCommand));
+		Topics.Add(new TopicCardViewModel("Neue Spezialisierung", 0, AddTopicCommand));
 	}
 }

@@ -14,11 +14,11 @@ public partial class ClassCardViewModel : ViewModelBase {
 
 	public ClassCardViewModel(string header, List<Block> topics) {
 		Header = header;
-		Topics = new(topics.Select(x => new TopicCardViewModel(x.Name, AddTopicCommand)));
+		Topics = new(topics.Select(x => new TopicCardViewModel(x.Name, x.Count, AddTopicCommand)));
 	}
 
 	[RelayCommand]
 	private void AddTopic() {
-		Topics.Add(new TopicCardViewModel("Neues Thema", AddTopicCommand));
+		Topics.Add(new TopicCardViewModel("Neues Thema", 1, AddTopicCommand));
 	}
 }

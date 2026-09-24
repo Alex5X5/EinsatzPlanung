@@ -13,7 +13,8 @@
 		<ct:EditCardsControl.ItemTemplate>
 			
 			<DataTemplate x:DataType="vm:ClassCardViewModel">
-				<ct:ExtendingCard AllowExtend="True">
+
+				<ct:ExtendingCard AllowExtend="True" AddButtonCommand="{Binding AddTopicCommand}">
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
 								 TextWrapping="NoWrap"
@@ -52,8 +53,13 @@
 						</ItemsControl.ItemTemplate>
 
 					</ItemsControl>
+
 				</ct:ExtendingCard>
+
 			</DataTemplate>
+
 		</ct:EditCardsControl.ItemTemplate>
+	
 	</ct:EditCardsControl>
+	
 </UserControl>
