@@ -21,7 +21,8 @@
 								 TextWrapping="NoWrap"
 								 Foreground="{DynamicResource AppForegroundBrush}"
 								 HorizontalContentAlignment="Center"
-								 VerticalContentAlignment="Center" />
+								 VerticalContentAlignment="Center"
+								 ToolTip.Tip="Urlaubs- oder Feiertagsbezeichnung" />
 					</ct:ExtendingCard.HeaderContent>
 
 				</ct:ExtendingCard>

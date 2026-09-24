@@ -56,10 +56,12 @@
                 Foreground="{DynamicResource AppForegroundBrush}"
                 HorizontalAlignment="Center"
                 HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center" />
+                VerticalContentAlignment="Center"
+                ToolTip.Tip="Aktuelle Seite als Excel-Datei exportieren" />
 
             <Button Content="Erstellen" Command="{Binding GoToNextPageCommand}" 
-                    HorizontalAlignment="Center" Classes="standard-button" Margin="0,20,0,0"/>
+                    HorizontalAlignment="Center" Classes="standard-button" Margin="0,20,0,0"
+                    ToolTip.Tip="Zur Export seite Wechseln"/>
         </StackPanel>
     </Grid>
     
