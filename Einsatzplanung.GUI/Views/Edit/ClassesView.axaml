@@ -13,29 +13,32 @@
 		<ct:EditCardsControl.ItemTemplate>
 			
 			<DataTemplate x:DataType="vm:ClassCardViewModel">
-				<ct:ExtendingCard>
+				<ct:ExtendingCard AllowExtend="True">
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
 								 TextWrapping="NoWrap"
 								 Foreground="{DynamicResource AppForegroundBrush}"
+								 HorizontalAlignment="Stretch"
 								 HorizontalContentAlignment="Center"
 								 VerticalContentAlignment="Center" />
 					</ct:ExtendingCard.HeaderContent>
 
-					<ItemsControl ItemsSource="{Binding Topics}">
+					<ItemsControl ItemsSource="{Binding Topics}"
+								  HorizontalAlignment="Stretch">
 
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
-								<StackPanel HorizontalAlignment="Center"
+								<StackPanel HorizontalAlignment="Stretch"
 											VerticalAlignment="Center"
 											Spacing="12" />
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						
 						<ItemsControl.ItemTemplate>
-							<DataTemplate x:DataType="vm:TeacherTopicCardViewModel">
+							<DataTemplate x:DataType="vm:TopicCardViewModel">
 								<Border Background="{DynamicResource CardBackgroundBrush}"
 										BorderBrush="{DynamicResource CardBorderBrush}"
+										HorizontalAlignment="Stretch"
 										BorderThickness="1"
 										CornerRadius="6"
 										Padding="10">

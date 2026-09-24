@@ -108,7 +108,7 @@
                             </ItemsControl.ItemsPanel>
 
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="vm:TeacherTopicCardViewModel">
+                                <DataTemplate x:DataType="vm:TopicCardViewModel">
                                     <Border
                                         Background="{DynamicResource CardBackgroundBrush}"
                                         BorderBrush="{DynamicResource CardBorderBrush}"

@@ -10,16 +10,16 @@ using Einsatzplanung.Types.Models;
 
 public partial class TeacherCardViewModel : ViewModelBase {
 
-	public string Header { get; }
-	public ObservableCollection<TeacherTopicCardViewModel> Topics { get; }
+	public string Header { init; get; }
+	public ObservableCollection<TopicCardViewModel> Topics { get; }
 
 	public TeacherCardViewModel(string header, List<Topic> topics) {
 		Header = header;
-		Topics = new(topics.Select(t => new TeacherTopicCardViewModel(t.Name)));
+		Topics = new(topics.Select(t => new TopicCardViewModel(t.Name, AddTopicCommand)));
 	}
 
 	[RelayCommand]
 	private void AddTopic() {
-		Topics.Add(new TeacherTopicCardViewModel("Neue Spezialisierung"));
+		Topics.Add(new TopicCardViewModel("Neue Spezialisierung", AddTopicCommand));
 	}
 }

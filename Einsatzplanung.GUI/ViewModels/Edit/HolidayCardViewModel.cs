@@ -1,8 +1,11 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
-public class HolidayCardViewModel : ViewModelBase {
+using CommunityToolkit.Mvvm.ComponentModel;
 
-	public string Header { get; }
+public partial class HolidayCardViewModel : ViewModelBase {
+
+	[ObservableProperty]
+	private string header;
 
 	public HolidayCardViewModel(string header) {
 		Header = header;

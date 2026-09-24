@@ -14,15 +14,18 @@
 						Background="{DynamicResource CardBackgroundBrush}"
 						BorderBrush="{DynamicResource CardBorderBrush}"
 						ClipToBounds="True">
-					<Grid RowDefinitions="Auto,*">
+					<Grid RowDefinitions="Auto,*,Auto" 
+						  ColumnDefinitions="Auto, *">
 						<!--displays the Header content which is always visible-->
 						<ContentPresenter Name="PART_HeaderPresenter"
 										  Grid.Row="0"
+										  Grid.ColumnSpan="2"
 										  Content="{TemplateBinding HeaderContent}"
 										  ContentTemplate="{TemplateBinding HeaderContentTemplate}"
 										  VerticalAlignment="Center" />
 						<!--displays the body content which is only visible when pointer is over-->
 						<ScrollViewer Grid.Row="1"
+									  Grid.ColumnSpan="2"
 									  VerticalScrollBarVisibility="Hidden"
 									  HorizontalScrollBarVisibility="Disabled"
 									  Margin="0,8,0,0">
@@ -31,6 +34,12 @@
 											  ContentTemplate="{TemplateBinding ContentTemplate}"
 											  VerticalAlignment="Top" />
 						</ScrollViewer>
+						<Button Grid.Row="2"
+								Grid.Column="1"
+								Classes="add-button"
+								HorizontalAlignment="Right"
+								Margin="0,12,0,0" 
+								Command="{TemplateBinding AddButtonCommand}" />
 					</Grid>
 				</Border>
 			</ControlTemplate>
@@ -50,11 +59,6 @@
 
 
 		<!--set the height of the border of the template to 300 when active-->
-		<Style Selector="^:pointerover /template/ Border#PART_Border">
-			<Setter Property="Height" Value="300" />
-		</Style>
-
-		<!--set the height of the border of the template to 300 when pointer is over-->
 		<Style Selector="^:active /template/ Border#PART_Border">
 			<Setter Property="Height" Value="300" />
 		</Style>

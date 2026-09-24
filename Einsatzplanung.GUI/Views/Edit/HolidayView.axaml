@@ -14,14 +14,15 @@
 			
 			<DataTemplate x:DataType="vm:HolidayCardViewModel">
 
-				<ct:ExtendingCard>
+				<ct:ExtendingCard AllowExtend="False" AddButtonCommand="{Binding }">
 
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
 								 TextWrapping="NoWrap"
 								 Foreground="{DynamicResource AppForegroundBrush}"
 								 HorizontalContentAlignment="Center"
-								 VerticalContentAlignment="Center" />
+								 VerticalContentAlignment="Center"
+								 ToolTip.Tip="This is a rectangle" />
 					</ct:ExtendingCard.HeaderContent>
 
 				</ct:ExtendingCard>
