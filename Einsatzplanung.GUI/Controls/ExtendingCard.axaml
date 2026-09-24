@@ -14,19 +14,24 @@
 						Background="{DynamicResource CardBackgroundBrush}"
 						BorderBrush="{DynamicResource CardBorderBrush}"
 						ClipToBounds="True">
-					<StackPanel Spacing="8">
+					<Grid RowDefinitions="Auto,*">
 						<!--displays the Header content which is always visible-->
 						<ContentPresenter Name="PART_HeaderPresenter"
+										  Grid.Row="0"
 										  Content="{TemplateBinding HeaderContent}"
 										  ContentTemplate="{TemplateBinding HeaderContentTemplate}"
 										  VerticalAlignment="Center" />
-
 						<!--displays the body content which is only visible when pointer is over-->
-						<ContentPresenter Name="PART_ContentPresenter"
-										  Content="{TemplateBinding Content}"
-										  ContentTemplate="{TemplateBinding ContentTemplate}"
-										  VerticalAlignment="Top" />
-					</StackPanel>
+						<ScrollViewer Grid.Row="1"
+									  VerticalScrollBarVisibility="Hidden"
+									  HorizontalScrollBarVisibility="Disabled"
+									  Margin="0,8,0,0">
+							<ContentPresenter Name="PART_ContentPresenter"
+											  Content="{TemplateBinding Content}"
+											  ContentTemplate="{TemplateBinding ContentTemplate}"
+											  VerticalAlignment="Top" />
+						</ScrollViewer>
+					</Grid>
 				</Border>
 			</ControlTemplate>
 		</Setter>
