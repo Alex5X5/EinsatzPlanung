@@ -1,4 +1,12 @@
-﻿namespace Einsatzplanung.GUI.ViewModels;
+﻿using CommunityToolkit.Mvvm.Input;
+
+using DocumentFormat.OpenXml.Math;
+
+using Einsatzplanung.Util.Interfaces;
+
+using System;
+
+namespace Einsatzplanung.GUI.ViewModels;
 
 using Microsoft.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -28,6 +36,16 @@ public partial class MainViewModel : ViewModelBase {
 
 	public MainViewModel() : base() {
 		CurrentPage = App.Current.Services.GetRequiredService<ImportViewModel>();
+	}
+	
+	[RelayCommand]
+	private void OnNavBarClick(Type type) {
+		
+		var method = GetType()
+			.GetMethod(nameof(ChangePage))
+			?.MakeGenericMethod(type);
+
+		method?.Invoke(this, null);
 	}
         
 }

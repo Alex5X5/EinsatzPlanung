@@ -22,7 +22,9 @@
 	
 	<Grid ColumnDefinitions="*" RowDefinitions="Auto,*">
 		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,5">
-			<Button Classes="nav-bar-button">
+			<Button Classes="nav-bar-button"
+			        Command="{Binding NavBarClickCommand}" 
+			        CommandParameter="{x:Type vm:ImportViewModel}">
 				<Image 
 					Classes.glow="{Binding IsImportPageActive}"
 					Source="{DynamicResource SvgImportIco}"
@@ -32,7 +34,9 @@
 			
 			<Separator Height="1.5" Width="100" Background="{DynamicResource SeparatorColor}"/>
 			
-			<Button Classes="nav-bar-button">
+			<Button Classes="nav-bar-button"
+			        Command="{Binding NavBarClickCommand}" 
+			        CommandParameter="{x:Type vm:EditViewModel}">
 				<Image
 					Classes.glow="{Binding IsEditPageActive}"
 					Source="{DynamicResource SvgEditIco}"
@@ -42,7 +46,9 @@
 			
 			<Separator Height="1.5" Width="100" Background="{DynamicResource SeparatorColor}"/>
 			
-			<Button Classes="nav-bar-button">
+			<Button Classes="nav-bar-button" 
+			        Command="{Binding NavBarClickCommand}" 
+			        CommandParameter="{x:Type vm:SaveViewModel}">
 			   <Image 
 				   Classes.glow="{Binding IsSavePageActive}"
 				   Source="{DynamicResource SvgSaveIco}"
