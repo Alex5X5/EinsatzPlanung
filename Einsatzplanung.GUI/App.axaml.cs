@@ -88,7 +88,7 @@ public partial class App : Application {
 		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
 		collection.AddTransient<IEntityService<Group>, GroupService>();
 
-		collection.AddTransient<IGeneratorService, GeneratorService>();
+		collection.AddTransient<IGeneratorService, SolverGeneratorService>();
 		collection.AddTransient<IPlanExportService, PlanExportService>();
 
 		collection.AddSingleton<MainViewModel>();
