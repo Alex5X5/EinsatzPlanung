@@ -50,42 +50,35 @@
                     </Border.Styles>
 
                     <Grid
-                        ColumnDefinitions="340, 10"
+                        ColumnDefinitions="5, 340, 5"
                         RowDefinitions="20,20">
 
-                        <StackPanel 
-                            Grid.Row="0" 
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2" 
-                            Orientation="Horizontal" 
-                            HorizontalAlignment="Center" 
+                        <TextBlock 
+                            Grid.Column="1"
+                            Text="{Binding Header}" 
+                            Foreground="{DynamicResource AppForegroundBrush}" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
+                        <Border
+                            Grid.Column="2"
+                            Width="18"
+                            Height="18"
+                            Margin="6,0,0,0"
+                            CornerRadius="9"
+                            BorderBrush="{DynamicResource CardBorderBrush}"
+                            BorderThickness="1"
+                            Background="{DynamicResource StandardButtonBackgroundColor}"
+                            ToolTip.Tip="{Binding HelpText}"
                             VerticalAlignment="Center">
-
-                            <TextBlock 
-                                Text="{Binding Header}" 
-                                Foreground="{DynamicResource AppForegroundBrush}" 
+                            
+                            <TextBlock
+                                Text="?"
+                                FontWeight="Bold"
+                                FontSize="11"
+                                HorizontalAlignment="Center"
                                 VerticalAlignment="Center" />
-
-                            <Border
-                                Width="18"
-                                Height="18"
-                                Margin="6,0,0,0"
-                                CornerRadius="9"
-                                BorderBrush="{DynamicResource CardBorderBrush}"
-                                BorderThickness="1"
-                                Background="{DynamicResource StandardButtonBackgroundColor}"
-                                ToolTip.Tip="{Binding HelpText}"
-                                VerticalAlignment="Center">
-                                
-                                <TextBlock
-                                    Text="?"
-                                    FontWeight="Bold"
-                                    FontSize="11"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center" />
-                            </Border>
-
-                        </StackPanel>
+                        </Border>
 
                         <Grid
                             Grid.Row="1"
@@ -220,15 +213,41 @@
                 ClipToBounds="True"
                 HorizontalAlignment="Center">
 
-            <StackPanel HorizontalAlignment="Center" Width="350">
+            <Grid ColumnDefinitions="5,340,5" RowDefinitions="20,Auto" HorizontalAlignment="Center">
 
                 <TextBlock
+                    Grid.Column="1"
                     Text="Lehrjahrzeitraum"
+                    Foreground="{DynamicResource AppForegroundBrush}"
                     HorizontalAlignment="Center"
-                    Margin="0,0,0,25" />
+                    VerticalAlignment="Center" />
 
-                <Grid ColumnDefinitions="180,20,180"
-                      HorizontalAlignment="Center">
+                <Border
+                    Grid.Column="2"
+                    Width="18"
+                    Height="18"
+                    Margin="6,0,0,0"
+                    CornerRadius="9"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1"
+                    Background="{DynamicResource StandardButtonBackgroundColor}"
+                    ToolTip.Tip="Legt den Start- und Endzeitpunkt des Lehrjahres fest."
+                    VerticalAlignment="Center">
+
+                    <TextBlock
+                        Text="?"
+                        FontWeight="Bold"
+                        FontSize="11"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                </Border>
+
+                <Grid
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    Margin="0,20,0,0"
+                    ColumnDefinitions="180,20,180"
+                    HorizontalAlignment="Center">
 
                     <CalendarDatePicker Grid.Column="0"
                                         PlaceholderText="Start Datum"
@@ -250,7 +269,7 @@
 
                 </Grid>
 
-            </StackPanel>
+            </Grid>
 
         </Border>
         
