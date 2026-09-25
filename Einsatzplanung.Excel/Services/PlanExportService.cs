@@ -80,8 +80,8 @@ public sealed class PlanExportService : IPlanExportService
 				colIndex = 6;
 				foreach (var weekStart in weeks)
 				{
-					DateTime currentDate = weekStart.AddDays(day);
-					if (assignments.TryGetValue(currentDate, out var assignment))
+					// DateTime currentDate = weekStart.AddDays(day);
+					if (assignments.TryGetValue(weekStart, out var assignment))
 					{
 						worksheet.Cell(rowIndex, colIndex).Value = assignment.Trainer;
 

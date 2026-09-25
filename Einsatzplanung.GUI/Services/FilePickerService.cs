@@ -41,6 +41,23 @@ public class FilePickerService {
 		return file?.Path.LocalPath ?? "";
 	}
 
+	public static async Task<string?> PickFolder(string title) {
+		var window = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+
+		if (window is null)
+			return await Task.FromResult<string?>(null);
+
+		var folders = await window.StorageProvider.OpenFolderPickerAsync(
+			new FolderPickerOpenOptions {
+				Title = title,
+				AllowMultiple = false
+			});
+
+		var folder = folders.FirstOrDefault();
+
+		return folder?.Path.LocalPath ?? "";
+	}
+
 	public static async Task<string?> PickSaveLocation(FilePickerSaveOptions options) {
 		var window = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
 
