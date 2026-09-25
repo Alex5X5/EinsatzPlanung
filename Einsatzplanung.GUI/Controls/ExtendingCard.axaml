@@ -74,12 +74,6 @@
 			</Setter>
 		</Style>
 
-		<!--show the body when pointer is over-->
-		<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-			<Setter Property="IsVisible" Value="True" />
-			<Setter Property="Opacity" Value="1" />
-		</Style>
-
 		<!--show the body when pointer when pseudoclass 'active' exists-->
 		<Style Selector="^:active /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="IsVisible" Value="True" />

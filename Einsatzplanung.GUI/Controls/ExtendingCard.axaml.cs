@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Input;
 
 using System;
 using System.Windows.Input;
@@ -52,19 +53,51 @@ public partial class ExtendingCard : ContentControl {
 		set => SetValue(AllowExtendProperty, value);
 	}
 
+	private Border? _partBorder;
+
+	protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
+		base.OnApplyTemplate(e);
+
+		if (_partBorder is not null) {
+			_partBorder.PointerEntered -= OnBorderPointerEntered;
+			_partBorder.PointerExited -= OnBorderPointerExited;
+		}
+
+		_partBorder = e.NameScope.Find<Border>("PART_Border");
+
+		if (_partBorder is not null) {
+			_partBorder.PointerEntered += OnBorderPointerEntered;
+			_partBorder.PointerExited += OnBorderPointerExited;
+		}
+	}
+
+	private void OnBorderPointerEntered(object? sender, PointerEventArgs e) {
+		IsActive = true;
+	}
+
+	private void OnBorderPointerExited(object? sender, PointerEventArgs e) {
+		if (_partBorder is null)
+			return;
+
+		var position = e.GetPosition(_partBorder);
+		var bounds = new Rect(_partBorder.Bounds.Size);
+
+		if (bounds.Contains(position))
+			return;
+
+		IsActive = false;
+	}
+
 	static ExtendingCard() {
-		IsPointerOverProperty.Changed.AddClassHandler<ExtendingCard>(
+
+		IsActiveProperty.Changed.AddClassHandler<ExtendingCard>(
 			(c, e) => {
 				bool newValue = (c.AllowExtend) ? (bool)e.NewValue! : false;
 				if (newValue) {
-					Console.WriteLine("setting active");
 					c.PseudoClasses.Set(":active", true);
 				} else {
-					Console.WriteLine("removing active");
 					c.PseudoClasses.Remove(":active");
 				}
 			});
-		//IsActiveProperty.Changed.AddClassHandler<ExtendingCard>(
-		//	(c, e) => c.PseudoClasses.Set(":active", c.AllowExtend ? (bool)e.NewValue! : false ));
 	}
 }
