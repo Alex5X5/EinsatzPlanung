@@ -1,8 +1,10 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:ct="using:Einsatzplanung.GUI.Controls">
+					xmlns:ct="using:Einsatzplanung.GUI.Controls"
+                    xmlns:packaging="using:DocumentFormat.OpenXml.Packaging"
+					xmlns:vm="using:Einsatzplanung.GUI.Interfaces">
 
-	<ControlTheme x:Key="{x:Type ct:RemovableCard}" TargetType="ct:RemovableCard">
+	<ControlTheme x:Key="{x:Type ct:RemovableCard}" TargetType="ct:RemovableCard" x:DataType="vm:IRemovableCardViewModel">
 		<Setter Property="Template">
 			<ControlTemplate>
 
@@ -33,7 +35,8 @@
 						<Button Name="PART_RemoveButton"
 								Grid.Column="1"
 								Classes="list-button rem"
-								Command="{TemplateBinding RemoveButtonCommand}" />
+								Command="{TemplateBinding RemoveButtonCommand}"
+								CommandParameter="{Binding}"/>
 
 					</Grid>
 

@@ -7,7 +7,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.Input;
 
 using System;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 
 public partial class ExtendingCard : ItemsControl {
 	
@@ -22,8 +22,8 @@ public partial class ExtendingCard : ItemsControl {
 	public static readonly StyledProperty<bool> IsActiveProperty =
 		AvaloniaProperty.Register<ExtendingCard, bool>(nameof(IsActive));
 
-	public static readonly StyledProperty<ICommand?> AddButtonCommandProperty =
-		AvaloniaProperty.Register<ExtendingCard, ICommand?>(nameof(AddButtonCommand));
+	public static readonly StyledProperty<RelayCommand?> AddButtonCommandProperty =
+		AvaloniaProperty.Register<ExtendingCard, RelayCommand?>(nameof(AddButtonCommand));
 
 	public static readonly StyledProperty<bool> AllowExtendProperty =
 		AvaloniaProperty.Register<ExtendingCard, bool>(nameof(AllowExtend), defaultValue:true);
@@ -43,7 +43,7 @@ public partial class ExtendingCard : ItemsControl {
 		set => SetValue(IsActiveProperty, value);
 	}
 
-	public ICommand? AddButtonCommand {
+	public RelayCommand? AddButtonCommand {
 		get => GetValue(AddButtonCommandProperty);
 		set => SetValue(AddButtonCommandProperty, value);
 	}

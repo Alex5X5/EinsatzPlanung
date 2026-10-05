@@ -5,19 +5,21 @@ using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-public partial class TopicCardViewModel : ViewModelBase {
+using Einsatzplanung.GUI.Interfaces;
+
+public partial class TopicCardViewModel : ViewModelBase, IRemovableCardViewModel {
 	
 	[ObservableProperty]
-	private string topic;
+	private string header;
 
 	[ObservableProperty]
 	private string count;
 
-	public IRelayCommand AddCommand { init; get; }
+	public IRelayCommand<object> RemoveCommand { init; get; }
 
-    public TopicCardViewModel(string topic, int count, IRelayCommand addCommand) {
-        this.topic = topic;
-		this.count = Convert.ToString(count);
-		AddCommand = addCommand;
+    public TopicCardViewModel(string header, int count, IRelayCommand<object> removeCommand) {
+        Header = header;
+		Count = Convert.ToString(count);
+		RemoveCommand = removeCommand;
     }
 }

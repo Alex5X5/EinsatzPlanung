@@ -38,7 +38,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 				table.AddRow([
 					firstTopic ? card.Header : "",
 					firstTopic ? card.Header : "",
-					topic.Topic,
+					topic.Header,
 					"40"
 				]);
 				firstTopic = false;

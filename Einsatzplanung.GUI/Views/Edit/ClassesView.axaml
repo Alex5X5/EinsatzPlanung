@@ -34,9 +34,9 @@
 
 						<DataTemplate x:DataType="vm:TopicCardViewModel">
 
-								<ct:RemovableCard>
+								<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
-									<TextBox Text="{Binding Topic, Mode=TwoWay}"
+									<TextBox Text="{Binding Header, Mode=TwoWay}"
 											 TextWrapping="NoWrap"
 											 Foreground="{DynamicResource AppForegroundBrush}"
 											 HorizontalContentAlignment="Center"

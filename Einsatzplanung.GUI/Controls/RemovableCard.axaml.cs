@@ -1,12 +1,14 @@
 ﻿namespace Einsatzplanung.GUI.Controls;
 
+using System;
+
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 
-using System;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
+
 
 public partial class RemovableCard : ContentControl {
 	
@@ -15,15 +17,15 @@ public partial class RemovableCard : ContentControl {
 	public static readonly StyledProperty<bool> IsActiveProperty =
 		AvaloniaProperty.Register<RemovableCard, bool>(nameof(IsActive));
 
-	public static readonly StyledProperty<ICommand?> RemoveButtonCommandProperty =
-		AvaloniaProperty.Register<RemovableCard, ICommand?>(nameof(RemoveButtonCommand));
+	public static readonly StyledProperty<RelayCommand<object>?> RemoveButtonCommandProperty =
+		AvaloniaProperty.Register<RemovableCard, RelayCommand<object>?>(nameof(RemoveButtonCommand));
 
 	public bool IsActive {
 		get => GetValue(IsActiveProperty);
 		set => SetValue(IsActiveProperty, value);
 	}
 
-	public ICommand? RemoveButtonCommand {
+	public RelayCommand<object>? RemoveButtonCommand {
 		get => GetValue(RemoveButtonCommandProperty);
 		set => SetValue(RemoveButtonCommandProperty, value);
 	}

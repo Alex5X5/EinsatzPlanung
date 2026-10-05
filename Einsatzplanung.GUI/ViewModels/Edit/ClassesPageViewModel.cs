@@ -30,7 +30,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	public void ExportCards(string path) {
 		Table table = new();
 
-		table.AddRow(["Ausbildungsgruppe", "Klasse", "Schulwoche", "Thema", "Themenwochen", "Farbe"]);
+		table.AddRow(["Lehrjahr", "Klasse", "Ausbilder", "Schulwoche", "Thema", "Wochen", "Farbe"]);
 		
 		foreach (var card in Cards) {
 			var firstTopic = true;
@@ -39,7 +39,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 					firstTopic ? card.Header : "",
 					firstTopic ? card.Header : "",
 					"",
-					topic.Topic,
+					topic.Header,
 					topic.Count,
 					"#FFFFFF"
 				]);
