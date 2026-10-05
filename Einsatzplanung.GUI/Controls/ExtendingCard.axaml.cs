@@ -80,7 +80,7 @@ public partial class ExtendingCard : ItemsControl {
 			return;
 
 		var position = e.GetPosition(_partBorder);
-		var bounds = new Rect(_partBorder.Bounds.Size);
+		var bounds = new Rect(10, 10, _partBorder.Bounds.Width - 20, _partBorder.Bounds.Height - 20);
 
 		if (bounds.Contains(position))
 			return;

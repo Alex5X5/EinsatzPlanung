@@ -55,8 +55,7 @@ public partial class RemovableCard : ContentControl {
 			return;
 
 		var position = e.GetPosition(_partRoot);
-		var bounds = new Rect(_partRoot.Bounds.Size);
-		bounds = new(bounds.X+10, bounds.Y+10, bounds.Width-20, bounds.Height-20);
+		var bounds = new Rect(10, 10, _partRoot.Bounds.Width - 20, _partRoot.Bounds.Height - 20);
 
 		if (bounds.Contains(position))
 			return;
@@ -67,10 +66,7 @@ public partial class RemovableCard : ContentControl {
 	static RemovableCard() {
 
 		IsActiveProperty.Changed.AddClassHandler<RemovableCard>(
-			(c, e) => {
-				Console.WriteLine($"IsActive changed to {e.NewValue}");
-				c.PseudoClasses.Set(":active", (bool)e.NewValue!);
-			});
+			(c, e) => c.PseudoClasses.Set(":active", (bool)e.NewValue!));
 
 	}
 }
