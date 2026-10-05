@@ -38,18 +38,13 @@
 						
 						<ItemsControl.ItemTemplate>
 							<DataTemplate x:DataType="vm:TopicCardViewModel">
-								<Border Background="{DynamicResource CardBackgroundBrush}"
-										BorderBrush="{DynamicResource CardBorderBrush}"
-										HorizontalAlignment="Stretch"
-										BorderThickness="1"
-										CornerRadius="6"
-										Padding="10">
+								<ct:RemovableCard>
 									<TextBox Text="{Binding Topic, Mode=TwoWay}"
 											 TextWrapping="NoWrap"
 											 Foreground="{DynamicResource AppForegroundBrush}"
 											 HorizontalContentAlignment="Center"
 											 VerticalContentAlignment="Top" />
-								</Border>
+								</ct:RemovableCard>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
 

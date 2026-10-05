@@ -34,10 +34,4 @@
 		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Compile Update="Views\EditView.axaml.cs">
-	    <DependentUpon>EditView.axaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
 </Project>

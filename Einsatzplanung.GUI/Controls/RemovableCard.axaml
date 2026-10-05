@@ -1,0 +1,80 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:ct="using:Einsatzplanung.GUI.Controls">
+
+	<ControlTheme x:Key="{x:Type ct:RemovableCard}" TargetType="ct:RemovableCard">
+		<Setter Property="Template">
+			<ControlTemplate>
+
+				<Panel Name="PART_Root" Background="Transparent">
+
+					<Border Name="PART_ContentBorder"
+							CornerRadius="6"				
+							HorizontalAlignment="Stretch"
+							BorderThickness="1"				
+							Padding="10"
+							Margin="0"
+							Background="{DynamicResource CardBackgroundBrush}"
+							BorderBrush="{DynamicResource CardBorderBrush}"
+							ClipToBounds="True">
+
+						<ContentPresenter Name="PART_ContentPresenter"
+										  Grid.Row="0"
+										  Grid.ColumnSpan="2"
+										  HorizontalAlignment="Stretch"
+										  VerticalAlignment="Stretch"
+										  Content="{TemplateBinding Content}"
+										  ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+					</Border>
+					
+					<Grid ColumnDefinitions="*,Auto">
+
+						<Button Name="PART_RemoveButton"
+								Grid.Column="1"
+								Classes="list-button rem"
+								Command="{TemplateBinding RemoveButtonCommand}" />
+
+					</Grid>
+
+				</Panel>
+
+			</ControlTemplate>
+		</Setter>
+		
+		<Style Selector="^ /template/ Border#PART_ContentBorder">
+			<Setter Property="Transitions">
+				<Transitions>
+					<ThicknessTransition Property="Margin"
+										 Delay="0:0:0"
+										 Duration="0:0:0.3"
+										 Easing="CubicEaseOut" />
+				</Transitions>
+			</Setter>
+		</Style>
+
+		<Style Selector="^:active /template/ Border#PART_ContentBorder">
+			<Setter Property="Margin" Value="0,0,50,0" />
+		</Style>
+
+		<Style Selector="^ /template/ Button#PART_RemoveButton">
+			<Setter Property="IsVisible" Value="False" />
+			<Setter Property="Opacity" Value="0" />
+			<Setter Property="Transitions">
+				<Transitions>
+					<DoubleTransition Property="Opacity"
+									  Delay="0:0:0.25"
+									  Duration="0:0:0.1"
+									  Easing="CubicEaseOut" />
+				</Transitions>
+			</Setter>
+		</Style>
+
+		<Style Selector="^:active /template/ Button#PART_RemoveButton">
+			<Setter Property="IsVisible" Value="True" />
+			<Setter Property="Opacity" Value="1" />
+		</Style>
+
+	</ControlTheme>
+
+</ResourceDictionary>

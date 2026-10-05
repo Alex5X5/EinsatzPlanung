@@ -25,8 +25,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
     
-    <Style Selector="Button.add-button">
-        <Setter Property="Content" Value="+"/>
+    <Style Selector="Button.list-button">
         <Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}"/>
         <Setter Property="Height" Value="32"/>
         <Setter Property="Width" Value="32"/>
@@ -34,6 +33,14 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Style Selector="^.add">
+            <Setter Property="Content" Value="+"/>
+        </Style>
+
+        <Style Selector="^.rem">
+            <Setter Property="Content" Value="-"/>
+        </Style>
     </Style>
     
     <Style Selector="Button.nav-bar-button">
