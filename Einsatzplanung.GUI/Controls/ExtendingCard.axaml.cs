@@ -9,7 +9,7 @@ using Avalonia.Input;
 using System;
 using System.Windows.Input;
 
-public partial class ExtendingCard : ContentControl {
+public partial class ExtendingCard : ItemsControl {
 	
 	protected override Type StyleKeyOverride => typeof(ExtendingCard);
 

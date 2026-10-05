@@ -14,41 +14,39 @@
 			
 			<DataTemplate x:DataType="vm:TeacherCardViewModel">
 
-				<ct:ExtendingCard AllowExtend="True" AddButtonCommand="{Binding AddTopicCommand}">
+				<ct:ExtendingCard AllowExtend="True"
+								  ItemsSource="{Binding Topics}"
+								  AddButtonCommand="{Binding AddTopicCommand}">
+
 					<ct:ExtendingCard.HeaderContent>
+
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
 								 TextWrapping="NoWrap"
 								 Foreground="{DynamicResource AppForegroundBrush}"
 								 HorizontalAlignment="Stretch"
 								 HorizontalContentAlignment="Center"
 								 VerticalContentAlignment="Center" />
+
 					</ct:ExtendingCard.HeaderContent>
-
-					<ItemsControl ItemsSource="{Binding Topics}"
-								  HorizontalAlignment="Stretch">
 						
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel HorizontalAlignment="Stretch"
-											VerticalAlignment="Center"
-											Spacing="12" />
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						
-						<ItemsControl.ItemTemplate>
-							<DataTemplate x:DataType="vm:TopicCardViewModel">
-								<ct:RemovableCard>
-									<TextBox Text="{Binding Topic, Mode=TwoWay}"
-											 TextWrapping="NoWrap"
-											 Foreground="{DynamicResource AppForegroundBrush}"
-											 HorizontalContentAlignment="Stretch"
-											 VerticalContentAlignment="Stretch" />
-								</ct:RemovableCard>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
+					<ct:ExtendingCard.ItemTemplate>
 
-					</ItemsControl>
-				
+						<DataTemplate x:DataType="vm:TopicCardViewModel">
+
+							<ct:RemovableCard>
+
+								<TextBox Text="{Binding Topic, Mode=TwoWay}"
+										 TextWrapping="NoWrap"
+										 Foreground="{DynamicResource AppForegroundBrush}"
+										 HorizontalContentAlignment="Stretch"
+										 VerticalContentAlignment="Stretch" />
+
+							</ct:RemovableCard>
+
+						</DataTemplate>
+
+					</ct:ExtendingCard.ItemTemplate>
+
 				</ct:ExtendingCard>
 
 			</DataTemplate>

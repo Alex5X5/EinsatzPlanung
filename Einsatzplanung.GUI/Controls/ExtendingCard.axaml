@@ -3,6 +3,15 @@
 					xmlns:ct="using:Einsatzplanung.GUI.Controls">
 
 	<ControlTheme x:Key="{x:Type ct:ExtendingCard}" TargetType="ct:ExtendingCard">
+
+		<Setter Property="ItemsPanel">
+			<ItemsPanelTemplate>
+				<StackPanel Spacing="12"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center" />
+			</ItemsPanelTemplate>
+		</Setter>
+		
 		<!--set the contents of the templated controll ExtendingCard-->
 		<Setter Property="Template">
 			<ControlTemplate>
@@ -16,6 +25,7 @@
 						ClipToBounds="True">
 					<Grid RowDefinitions="Auto,*,Auto" 
 						  ColumnDefinitions="Auto, *">
+
 						<!--displays the Header content which is always visible-->
 						<ContentPresenter Name="PART_HeaderPresenter"
 										  Grid.Row="0"
@@ -23,17 +33,20 @@
 										  Content="{TemplateBinding HeaderContent}"
 										  ContentTemplate="{TemplateBinding HeaderContentTemplate}"
 										  VerticalAlignment="Center" />
+
 						<!--displays the body content which is only visible when pointer is over-->
-						<ScrollViewer Grid.Row="1"
+						<ScrollViewer Name="PART_Body"
+									  Grid.Row="1"
 									  Grid.ColumnSpan="2"
 									  VerticalScrollBarVisibility="Hidden"
 									  HorizontalScrollBarVisibility="Disabled"
 									  Margin="0,8,0,0">
-							<ContentPresenter Name="PART_ContentPresenter"
-											  Content="{TemplateBinding Content}"
-											  ContentTemplate="{TemplateBinding ContentTemplate}"
-											  VerticalAlignment="Top" />
+
+							<ItemsPresenter Name="PART_ItemsPresenter"
+											ItemsPanel="{TemplateBinding ItemsPanel}"
+											VerticalAlignment="Top" />
 						</ScrollViewer>
+
 						<Button Grid.Row="2"
 								Grid.Column="1"
 								Classes="list-button add"
@@ -64,7 +77,7 @@
 		</Style>
 
 		<!--apply the transition to the border of the template-->
-		<Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+		<Style Selector="^ /template/ ScrollViewer#PART_Body">
 			<Setter Property="IsVisible" Value="False" />
 			<Setter Property="Opacity" Value="0" />
 			<Setter Property="Transitions">
@@ -75,7 +88,7 @@
 		</Style>
 
 		<!--show the body when pointer when pseudoclass 'active' exists-->
-		<Style Selector="^:active /template/ ContentPresenter#PART_ContentPresenter">
+		<Style Selector="^:active /template/ ScrollViewer#PART_Body">
 			<Setter Property="IsVisible" Value="True" />
 			<Setter Property="Opacity" Value="1" />
 		</Style>

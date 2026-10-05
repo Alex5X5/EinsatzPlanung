@@ -28,6 +28,7 @@
 				</ct:ExtendingCard>
 			
 			</DataTemplate>
+
 		</ct:EditCardsControl.ItemTemplate>
 	
 	</ct:EditCardsControl>

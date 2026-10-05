@@ -11,11 +11,15 @@
 	<ct:EditCardsControl ItemsSource="{Binding Cards}">
 		
 		<ct:EditCardsControl.ItemTemplate>
-			
+
 			<DataTemplate x:DataType="vm:ClassCardViewModel">
 
-				<ct:ExtendingCard AllowExtend="True" AddButtonCommand="{Binding AddTopicCommand}">
+				<ct:ExtendingCard AllowExtend="True"
+								  ItemsSource="{Binding Topics}"
+								  AddButtonCommand="{Binding AddTopicCommand}">
+
 					<ct:ExtendingCard.HeaderContent>
+
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
 								 TextWrapping="NoWrap"
 								 Foreground="{DynamicResource AppForegroundBrush}"
@@ -23,32 +27,26 @@
 								 HorizontalContentAlignment="Center"
 								 VerticalContentAlignment="Center"
 								 ToolTip.Tip="Klassenbezeichnung eingeben" />
+
 					</ct:ExtendingCard.HeaderContent>
-
-					<ItemsControl ItemsSource="{Binding Topics}"
-								  HorizontalAlignment="Stretch">
-
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel HorizontalAlignment="Stretch"
-											VerticalAlignment="Center"
-											Spacing="12" />
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
 						
-						<ItemsControl.ItemTemplate>
-							<DataTemplate x:DataType="vm:TopicCardViewModel">
+					<ct:ExtendingCard.ItemTemplate>
+
+						<DataTemplate x:DataType="vm:TopicCardViewModel">
+
 								<ct:RemovableCard>
+
 									<TextBox Text="{Binding Topic, Mode=TwoWay}"
 											 TextWrapping="NoWrap"
 											 Foreground="{DynamicResource AppForegroundBrush}"
 											 HorizontalContentAlignment="Center"
 											 VerticalContentAlignment="Top" />
-								</ct:RemovableCard>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
 
-					</ItemsControl>
+								</ct:RemovableCard>
+
+							</DataTemplate>
+
+					</ct:ExtendingCard.ItemTemplate>
 
 				</ct:ExtendingCard>
 
