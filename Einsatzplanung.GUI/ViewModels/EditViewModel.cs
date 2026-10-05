@@ -15,10 +15,6 @@ using Einsatzplanung.GUI.Services;
 
 public partial class EditViewModel : ViewModelBase {
 
-	public ClassesPageViewModel ClassesPage { get; }
-	public TeacherPageViewModel TeacherPage { get; }
-	public HolidayViewModel HolidayPage { get; }
-
 	[ObservableProperty]
 	private IEditViewChild currentPage;
 
