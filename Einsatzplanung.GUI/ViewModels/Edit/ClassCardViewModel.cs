@@ -7,13 +7,14 @@ using System.Collections.Generic;
 
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.GUI.Interfaces;
+using Einsatzplanung.Types.Models.Configuration;
 
 public partial class ClassCardViewModel : ViewModelBase {
 	
 	public string Header { get; }
 	public ObservableCollection<TopicCardViewModel> Topics { get; }
 
-	public ClassCardViewModel(string header, List<Block> topics) {
+	public ClassCardViewModel(string header, List<BlockConfig> topics) {
 		Header = header;
 		Topics = new(topics.Select(x => new TopicCardViewModel(x.Name, x.Count, RemoveTopicCommand)));
 	}

@@ -22,4 +22,8 @@ public class GroupConfigService : IConfigService<GroupConfig> {
 		return ageGroupService.ParseSource().SelectMany((group) => group.Groups).ToList();
 	}
 
+	public void SetData(List<GroupConfig> data) {
+		
+	}
+
 }

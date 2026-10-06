@@ -57,6 +57,10 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 		return teachers;
 	}
 
+	public void SetData(List<TeacherConfig> data) {
+		
+	}
+
 	private class TeacherConfigBuilder {
 
 		private TeacherConfig? current;

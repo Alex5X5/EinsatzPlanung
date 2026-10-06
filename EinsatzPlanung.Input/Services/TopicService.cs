@@ -35,4 +35,7 @@ public class TopicService : IConfigService<Topic>, IEntityService<Topic> {
 	public List<Topic> GetEntities() {
 		return ParseSource();
 	}
+
+	public void SetData(List<Topic> entities) {
+	}
 }

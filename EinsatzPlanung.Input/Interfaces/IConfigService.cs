@@ -6,6 +6,7 @@ public interface IConfigService<T> : IConfigService {
 
 	public List<T> ParseSource();
 
+	public void SetData(List<T> data);
 }
 
 public interface IConfigService {

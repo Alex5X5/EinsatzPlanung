@@ -80,6 +80,10 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 		return ageGroups;
 	}
 
+	public void SetData(List<AgeGroupConfig> data) {
+		
+	}
+
 	private class AgeGroupBuilder {
 
 		private AgeGroupConfig? current;

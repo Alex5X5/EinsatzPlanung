@@ -3,6 +3,9 @@
 public interface IEditViewChild {
 
 	public void AddCard();
+
 	public void ExportCards(string path);
+
+	public void SetEntitiesFromState();
 
 }

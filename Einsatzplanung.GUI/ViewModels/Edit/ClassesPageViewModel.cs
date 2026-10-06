@@ -1,25 +1,26 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
-using System.Collections.ObjectModel;
-using System.Linq;
-
-using CommunityToolkit.Mvvm.Input;
-
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Excel.Models;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Types.Models;
+using Einsatzplanung.Types.Models.Configuration;
+
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
 	private IExcelExportService exportService;
+	private IConfigService<GroupConfig> configService;
 
 	public ObservableCollection<ClassCardViewModel> Cards { get; }
 
-	public ClassesPageViewModel(IEntityService<Group> configService, IExcelExportService exportService) {
+	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IExcelExportService exportService) {
 		this.exportService = exportService;
-		var groups = configService.GetEntities();
+		this.configService = configService;
+		var groups = configService.ParseSource();
 		Cards = new(groups.Select(g => new ClassCardViewModel(g.Name, g.Blocks)));
 	}
 
@@ -48,5 +49,33 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 		}
 
 		exportService.SaveTable(path, table);
+	}
+
+	public override void OnUnload() {
+		SetEntitiesFromState();
+	}
+
+
+	public void SetEntitiesFromState() {
+		List<GroupConfig> groups = new();
+
+		foreach (var card in Cards) {
+
+			var group = new GroupConfig() {
+				Name = "",
+				TeacherAbbreviation = "",
+				SchoolWeeks = [],
+				Blocks = card.Topics.Select(
+					t => new BlockConfig() {
+						Name = t.Header,
+						Count = int.Parse(t.Count),
+						Color = "#FF0000"
+					}).ToList()
+			};
+
+			groups.Add(group);
+		}
+
+		configService.SetData(groups);
 	}
 }

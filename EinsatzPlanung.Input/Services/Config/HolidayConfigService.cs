@@ -49,5 +49,9 @@ public class HolidayConfigService : IConfigService<HolidayConfig> {
         }
 
         return holidays;
-    }
+	}
+
+	public void SetData(List<HolidayConfig> data) {
+		
+	}
 }

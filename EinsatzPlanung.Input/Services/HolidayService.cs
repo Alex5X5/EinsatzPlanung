@@ -20,6 +20,10 @@ public class HolidayService : IEntityService<Holiday> {
         return configs.Select(c => new Holiday { From = c.From, To = c.To ?? c.From }).ToList();
 	}
 
+	public void SetEntities(List<Group> entities) {
+		throw new System.NotImplementedException();
+	}
+
 	public void SetSource(string path) {
 		configService.SetSource(path);
 	}

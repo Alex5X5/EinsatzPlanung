@@ -21,6 +21,9 @@ public class TeacherService : IEntityService<Teacher> {
 		return configService.ParseSource().Select(MapTeacher).ToList();
 	}
 
+	public void SetEntities(List<Teacher> entities) {
+	}
+
 	public void SetSource(string path) {
 		configService.SetSource(path);
 	}

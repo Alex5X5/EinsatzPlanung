@@ -1,25 +1,27 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-
-using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Excel.Models;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
+using Einsatzplanung.Types.Models.Configuration;
 
 public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 
 	private IExcelExportService exportService;
+	private IConfigService<TeacherConfig> configService;
 
 	public ObservableCollection<TeacherCardViewModel> Cards { get; }
 
-	public TeacherPageViewModel(IEntityService<Teacher> configService, IExcelExportService exportService) {
+	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, IExcelExportService exportService) {
 		this.exportService = exportService;
-		var teachers = configService.GetEntities();
+		this.configService = configService;
+		var teachers = configService.ParseSource();
 		Cards = new(teachers.Select(t => new TeacherCardViewModel(t.Name, t.Specializations)));
 	}
 
@@ -46,5 +48,14 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 		}
 
 		exportService.SaveTable(path, table);
+	}
+
+	public override void OnUnload() {
+		SetEntitiesFromState();
+	}
+
+	public void SetEntitiesFromState() {
+		List<TeacherConfig> configs = [];
+		configService.SetData(configs);
 	}
 }
