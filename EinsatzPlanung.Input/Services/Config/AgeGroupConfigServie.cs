@@ -48,6 +48,7 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 				// try to build the current group and add it to the current age group
 				ageGroupBuilder.AddGroup(groupBuilder.Build());
 				groupBuilder = new();
+				groupBuilder.SetAgeGroupName(ageGroupBuilder.Build()?.Name ?? "");
 				groupBuilder.SetName(table[row, CLASS_GROUP_COLUMN_INDEX]?.Value ?? "");
 				groupBuilder.SetTeacher(table[row, Teacher_COLUMN_INDEX]?.Value ?? "");
 				// try to build the current age group and add it to the list of age groups
@@ -59,6 +60,7 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 				// build only the current group and add it to the current age group
 				ageGroupBuilder.AddGroup(groupBuilder.Build());
 				groupBuilder = new();
+				groupBuilder.SetAgeGroupName(ageGroupBuilder.Build()?.Name ?? "");
 				groupBuilder.SetName(table[row, CLASS_GROUP_COLUMN_INDEX]?.Value ?? "");
 				groupBuilder.SetTeacher(table[row, Teacher_COLUMN_INDEX]?.Value ?? "");
 			}
@@ -121,6 +123,7 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 		private void CreateCurrentIfNull() {
 			current ??= new GroupConfig() {
 				Name = "",
+				AgeGroupName = "",
 				SchoolWeeks = [],
 				TeacherAbbreviation = "",
 				Blocks = []
@@ -130,6 +133,12 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 		public GroupConfigurationBuilder SetName(string name) {
 			CreateCurrentIfNull();
 			current!.Name = name;
+			return this;
+		}
+
+		public GroupConfigurationBuilder SetAgeGroupName(string name) {
+			CreateCurrentIfNull();
+			current!.AgeGroupName = name;
 			return this;
 		}
 
