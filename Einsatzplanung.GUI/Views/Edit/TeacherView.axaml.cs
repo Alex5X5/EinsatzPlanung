@@ -1,14 +1,10 @@
 ﻿namespace Einsatzplanung.GUI.Views.Edit;
 
-using Avalonia.Markup.Xaml;
-
-using Microsoft.Extensions.DependencyInjection;
-
 using Einsatzplanung.GUI.ViewModels.Edit;
 
-public partial class TeacherView : ViewBase {
+public partial class TeacherView : ViewBase<TeacherPageViewModel> {
 
-	public TeacherView() : base(App.Current.Services.GetRequiredService<TeacherPageViewModel>()) {
+	public TeacherView() : base() {
 		InitializeComponent();
 	}
 }

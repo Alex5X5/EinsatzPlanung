@@ -1,14 +1,10 @@
 ﻿namespace Einsatzplanung.GUI.Views.Edit;
 
-using Avalonia.Markup.Xaml;
-
-using Microsoft.Extensions.DependencyInjection;
-
 using Einsatzplanung.GUI.ViewModels.Edit;
 
-public partial class HolidayView : ViewBase {
+public partial class HolidayView : ViewBase<HolidayViewModel> {
 
-	public HolidayView() : base(App.Current.Services.GetRequiredService<HolidayViewModel>()) {
+	public HolidayView() : base() {
 		InitializeComponent();
 	}
 }

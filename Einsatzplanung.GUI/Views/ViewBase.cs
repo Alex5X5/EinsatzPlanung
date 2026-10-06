@@ -1,13 +1,15 @@
-﻿using Avalonia.Controls;
+﻿namespace Einsatzplanung.GUI.Views;
+
+using Avalonia.Controls;
 using Avalonia.Data;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.GUI.CodeGenerators.Attributes;
 using Einsatzplanung.GUI.ViewModels;
 using Einsatzplanung.GUI.Views.Edit;
-
-namespace Einsatzplanung.GUI.Views;
 
 public partial class ViewBase : UserControl {
 
@@ -23,4 +25,10 @@ public partial class ViewBase : UserControl {
 		Bind(LoadCommandProperty, new Binding(nameof(vm.LoadCommand)) { Source = vm });
 		Bind(UnloadCommandProperty, new Binding(nameof(vm.UnloadCommand)) { Source = vm });
 	}
+}
+
+public class ViewBase<T> : ViewBase where T : ViewModelBase {
+
+	public ViewBase() : base(App.Current.Services.GetRequiredService<T>()) { }
+
 }
