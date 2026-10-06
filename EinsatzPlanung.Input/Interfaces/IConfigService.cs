@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public interface IConfigService<T> : IConfigService {
 
-	public List<T> ParseSource();
+	public List<T> GetData();
 
 	public void SetData(List<T> data);
 }

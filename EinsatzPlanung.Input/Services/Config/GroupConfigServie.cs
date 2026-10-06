@@ -18,8 +18,8 @@ public class GroupConfigService : IConfigService<GroupConfig> {
 		ageGroupService.SetSource(path);
 	}
 
-	public List<GroupConfig> ParseSource() {
-		return ageGroupService.ParseSource().SelectMany((group) => group.Groups).ToList();
+	public List<GroupConfig> GetData() {
+		return ageGroupService.GetData().SelectMany((group) => group.Groups).ToList();
 	}
 
 	public void SetData(List<GroupConfig> data) {

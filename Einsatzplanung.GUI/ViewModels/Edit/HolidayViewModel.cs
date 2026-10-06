@@ -25,7 +25,7 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 	public HolidayViewModel(IConfigService<HolidayConfig> configService, IExcelExportService exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
-		var holidays = configService.ParseSource();
+		var holidays = configService.GetData();
 		Cards = new(holidays.Select(t => {
 			if(t.To == null)
 				return new HolidayCardViewModel($"{t.From:dd.MM.yyyy}");

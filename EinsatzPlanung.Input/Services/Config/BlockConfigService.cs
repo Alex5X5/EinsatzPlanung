@@ -19,7 +19,7 @@ public class BlockConfigService : IMappedConfigService<GroupConfig, BlockConfig>
 	}
 
 	public Dictionary<GroupConfig, List<BlockConfig>> ParseSource() {
-		var groups = groupService.ParseSource();
+		var groups = groupService.GetData();
 		return groups.ToDictionary(group => group, group => group.Blocks);
 	}
 }

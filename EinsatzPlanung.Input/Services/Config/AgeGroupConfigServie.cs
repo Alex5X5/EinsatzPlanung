@@ -29,7 +29,7 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 		SourceFilePath = path;
 	}
 
-	public List<AgeGroupConfig> ParseSource() {
+	public List<AgeGroupConfig> GetData() {
 		Table table = excelImportService.GetTable(SourceFilePath);
 
 		List<AgeGroupConfig> ageGroups = [];

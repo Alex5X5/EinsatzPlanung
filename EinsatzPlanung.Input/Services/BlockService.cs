@@ -24,7 +24,7 @@ public class BlockService : IMappedEntityService<Group, Block> {
 		Dictionary<Group, List<Block>> blocks = [];
 		Dictionary<GroupConfig, List<BlockConfig>> blockConfigs = blockConfigService.ParseSource();
 		
-		foreach (var groupConfig in groupConfigService.ParseSource()) {
+		foreach (var groupConfig in groupConfigService.GetData()) {
 			
 		}
 

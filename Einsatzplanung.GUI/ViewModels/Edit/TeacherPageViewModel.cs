@@ -21,7 +21,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, IExcelExportService exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
-		var teachers = configService.ParseSource();
+		var teachers = configService.GetData();
 		Cards = new(teachers.Select(t => new TeacherCardViewModel(t.Name, t.Specializations)));
 	}
 

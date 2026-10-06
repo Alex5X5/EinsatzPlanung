@@ -20,7 +20,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IExcelExportService exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
-		var groups = configService.ParseSource();
+		var groups = configService.GetData();
 		Cards = new(groups.Select(g => new ClassCardViewModel(g.Name, g.Blocks)));
 	}
 

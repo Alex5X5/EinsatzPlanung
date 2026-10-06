@@ -29,7 +29,7 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 		SourceFilePath = path;
 	}
 
-	public List<TeacherConfig> ParseSource() {
+	public List<TeacherConfig> GetData() {
 		Table table = excelImportService.GetTable(SourceFilePath);
 
 		List<TeacherConfig> teachers = [];

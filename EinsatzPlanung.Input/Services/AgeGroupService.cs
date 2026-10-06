@@ -23,7 +23,7 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 	}
 
 	public List<AgeGroup> GetEntities() {
-		List<AgeGroupConfig> configs = ageGroupService.ParseSource();
+		List<AgeGroupConfig> configs = ageGroupService.GetData();
 		return configs.Select(MapAgeGroup).ToList();
 	}
 

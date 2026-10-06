@@ -18,7 +18,7 @@ public class TeacherService : IEntityService<Teacher> {
 	}
 
 	public List<Teacher> GetEntities() {
-		return configService.ParseSource().Select(MapTeacher).ToList();
+		return configService.GetData().Select(MapTeacher).ToList();
 	}
 
 	public void SetEntities(List<Teacher> entities) {

@@ -22,7 +22,7 @@ public class TopicService : IConfigService<Topic>, IEntityService<Topic> {
 		SourceFilePath = path;
 	}
 
-	public List<Topic> ParseSource() {
+	public List<Topic> GetData() {
 		Table table = excelImportService.GetTable(SourceFilePath);
 		List<Topic> topics = new List<Topic>();
 		for(int row=0; row < table.RowCount; row++) {
@@ -33,7 +33,7 @@ public class TopicService : IConfigService<Topic>, IEntityService<Topic> {
 	}
 
 	public List<Topic> GetEntities() {
-		return ParseSource();
+		return GetData();
 	}
 
 	public void SetData(List<Topic> entities) {

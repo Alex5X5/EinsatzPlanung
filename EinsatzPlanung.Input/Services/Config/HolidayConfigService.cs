@@ -26,7 +26,7 @@ public class HolidayConfigService : IConfigService<HolidayConfig> {
         SourceFilePath = path;
     }
 
-    public List<HolidayConfig> ParseSource() {
+    public List<HolidayConfig> GetData() {
         Table table = excelImportService.GetTable(SourceFilePath);
         List<HolidayConfig> holidays = [];
 
