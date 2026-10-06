@@ -19,11 +19,26 @@ public class GroupConfigService : IConfigService<GroupConfig> {
 	}
 
 	public List<GroupConfig> GetData() {
-		return ageGroupService.GetData().SelectMany((group) => group.Groups).ToList();
+		return ageGroupService
+			.GetData()
+			.SelectMany((group) => group.Groups)
+			.ToList();
 	}
 
 	public void SetData(List<GroupConfig> data) {
+		var groupsByYear = data
+			.GroupBy((g) => g.AgeGroupName)
+			.ToDictionary((g) => g.Key, (g) => g.ToList());
 		
+		var ageGroups = groupsByYear
+			.Select(
+				pair => new AgeGroupConfig() {
+					Name = pair.Key,
+					Groups = pair.Value
+				})
+			.ToList();
+		
+		ageGroupService.SetData(ageGroups);
 	}
 
 }

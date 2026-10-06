@@ -21,6 +21,8 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 
 	private string SourceFilePath { get; set; } = "";
 
+	private List<AgeGroupConfig>? bufferedData;
+
 	public AgeGroupConfigService(IExcelImportService excelImportService) {
 		this.excelImportService = excelImportService;
 	}
@@ -30,6 +32,9 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 	}
 
 	public List<AgeGroupConfig> GetData() {
+		if (bufferedData != null)
+			return bufferedData;
+
 		Table table = excelImportService.GetTable(SourceFilePath);
 
 		List<AgeGroupConfig> ageGroups = [];
@@ -48,7 +53,6 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 				// try to build the current group and add it to the current age group
 				ageGroupBuilder.AddGroup(groupBuilder.Build());
 				groupBuilder = new();
-				groupBuilder.SetAgeGroupName(ageGroupBuilder.Build()?.Name ?? "");
 				groupBuilder.SetName(table[row, CLASS_GROUP_COLUMN_INDEX]?.Value ?? "");
 				groupBuilder.SetTeacher(table[row, Teacher_COLUMN_INDEX]?.Value ?? "");
 				// try to build the current age group and add it to the list of age groups
@@ -56,6 +60,7 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 					ageGroups.Add(group);
 				ageGroupBuilder = new();
 				ageGroupBuilder.SetName(table[row, AGE_GROUP_COLUMN_INDEX]?.Value ?? "");
+				groupBuilder.SetAgeGroupName(ageGroupBuilder.Build()?.Name ?? "");
 			} else if (newGroup) {
 				// build only the current group and add it to the current age group
 				ageGroupBuilder.AddGroup(groupBuilder.Build());
@@ -78,12 +83,12 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 		ageGroupBuilder.AddGroup(groupBuilder.Build());
 		if(ageGroupBuilder.Build() is AgeGroupConfig ageGroup)
 			ageGroups.Add(ageGroup);
-
+		
 		return ageGroups;
 	}
 
 	public void SetData(List<AgeGroupConfig> data) {
-		
+		bufferedData = data;
 	}
 
 	private class AgeGroupBuilder {

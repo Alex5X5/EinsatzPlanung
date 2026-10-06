@@ -18,6 +18,8 @@ public class HolidayConfigService : IConfigService<HolidayConfig> {
     private IExcelImportService excelImportService;
     private string SourceFilePath { get; set; } = "";
 
+	private List<HolidayConfig>? bufferedData;
+
     public HolidayConfigService(IExcelImportService excelImportService) {
         this.excelImportService = excelImportService;
     }
@@ -27,7 +29,10 @@ public class HolidayConfigService : IConfigService<HolidayConfig> {
     }
 
     public List<HolidayConfig> GetData() {
-        Table table = excelImportService.GetTable(SourceFilePath);
+		if(bufferedData != null)
+			return bufferedData;
+
+		Table table = excelImportService.GetTable(SourceFilePath);
         List<HolidayConfig> holidays = [];
 
         for (int row = 1; row < table.RowCount; row++) {
@@ -48,10 +53,12 @@ public class HolidayConfigService : IConfigService<HolidayConfig> {
             }
         }
 
-        return holidays;
+		bufferedData = holidays;
+
+		return holidays;
 	}
 
 	public void SetData(List<HolidayConfig> data) {
-		
+		bufferedData = data;
 	}
 }

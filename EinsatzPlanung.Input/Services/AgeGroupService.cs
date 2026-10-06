@@ -47,10 +47,12 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 			.Where(x => x.Count > 0)
 			.Select(MapBlock)
 			.ToList();
-
+		
+		var teachers = teacherService.GetEntities();
 		return new Group() {
 			Name = config.Name,
-			Teacher = teacherService.GetEntities().First(x=>x.Abbreviation == config.TeacherAbbreviation),
+			AgeGroupName = config.AgeGroupName,
+			Teacher = teachers.First(x=>x.Abbreviation == config.TeacherAbbreviation),
 			SchoolWeeks = config.SchoolWeeks,
 			Blocks = blocks,
 			Holidays = holidayService.GetEntities()
