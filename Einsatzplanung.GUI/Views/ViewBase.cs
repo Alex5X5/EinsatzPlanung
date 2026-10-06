@@ -2,14 +2,17 @@
 
 using Avalonia.Controls;
 using Avalonia.Data;
-
-using Microsoft.Extensions.DependencyInjection;
+using Avalonia.Interactivity;
 
 using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.GUI.CodeGenerators.Attributes;
 using Einsatzplanung.GUI.ViewModels;
 using Einsatzplanung.GUI.Views.Edit;
+
+using Microsoft.Extensions.DependencyInjection;
+
+using System;
 
 public partial class ViewBase : UserControl {
 
@@ -24,6 +27,18 @@ public partial class ViewBase : UserControl {
 		ViewModelBase vm = (DataContext as ViewModelBase)!;
 		Bind(LoadCommandProperty, new Binding(nameof(vm.LoadCommand)) { Source = vm });
 		Bind(UnloadCommandProperty, new Binding(nameof(vm.UnloadCommand)) { Source = vm });
+		AddHandler(LoadedEvent, OnLoad);
+		AddHandler(UnloadedEvent, OnUnload);
+	}
+
+	private void OnLoad(object? sender, RoutedEventArgs args) {
+		if (LoadCommand?.CanExecute(EventArgs.Empty) ?? false)
+			LoadCommand.Execute(EventArgs.Empty);
+	}
+
+	private void OnUnload(object? sender, RoutedEventArgs args) {
+		if (UnloadCommand?.CanExecute(EventArgs.Empty) ?? false)
+			UnloadCommand.Execute(EventArgs.Empty);
 	}
 }
 

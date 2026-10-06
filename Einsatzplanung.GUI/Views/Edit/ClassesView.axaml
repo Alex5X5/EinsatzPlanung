@@ -36,11 +36,21 @@
 
 								<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
-									<TextBox Text="{Binding Header, Mode=TwoWay}"
-											 TextWrapping="NoWrap"
-											 Foreground="{DynamicResource AppForegroundBrush}"
-											 HorizontalContentAlignment="Center"
-											 VerticalContentAlignment="Top" />
+									<Grid RowDefinitions="*" ColumnDefinitions="16*, *, 6*">
+										<TextBox Grid.Column="0"
+												 Text="{Binding Header, Mode=TwoWay}"
+												 TextWrapping="NoWrap"
+												 Foreground="{DynamicResource AppForegroundBrush}"
+												 HorizontalContentAlignment="Center"
+												 VerticalContentAlignment="Top" />
+										<TextBox Grid.Column="2"
+												 Text="{Binding Count, Mode=TwoWay}"
+												 TextWrapping="NoWrap"
+												 Foreground="{DynamicResource AppForegroundBrush}"
+												 HorizontalContentAlignment="Center"
+												 VerticalContentAlignment="Top" />
+										
+									</Grid>
 
 								</ct:RemovableCard>
 
