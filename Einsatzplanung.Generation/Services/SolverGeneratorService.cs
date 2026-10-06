@@ -14,13 +14,14 @@ using Einsatzplanung.Util.Services;
 
 public class SolverGeneratorService : IGeneratorService {
 
-	private readonly List<Teacher> teachers;
-	private readonly List<Group> groups;
+	private IEntityService<Group> groupService;
+	private IEntityService<Teacher> teacherService;
+
 	private readonly List<DateTime> weekStarts;
 
-	public SolverGeneratorService(IEntityService<AgeGroup> ageGroupService, IEntityService<Group> groupService, IEntityService<Teacher> teacherService, GeneralConfigService configService) {
-		groups = groupService.GetEntities();
-		teachers = teacherService.GetEntities();
+	public SolverGeneratorService(IEntityService<Group> groupService, IEntityService<Teacher> teacherService, GeneralConfigService configService) {
+		this.groupService = groupService;
+		this.teacherService = teacherService;
 		weekStarts = DateTimeService.GetWeekStartsInIntervall(configService.YearStartDate, configService.YearEndDate);
 	}
 
@@ -38,6 +39,9 @@ public class SolverGeneratorService : IGeneratorService {
 
 	public Plan GeneratePlan() {
 		var plan = new Plan();
+
+		List<Group> groups = groupService.GetEntities();
+		List<Teacher> teachers = teacherService.GetEntities();
 
 		var slots = new List<Slot>();
 

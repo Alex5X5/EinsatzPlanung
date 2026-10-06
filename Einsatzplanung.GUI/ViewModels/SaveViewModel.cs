@@ -1,10 +1,4 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels;
-
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Platform.Storage;
-
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -39,10 +33,12 @@ public partial class SaveViewModel : ViewModelBase {
 		try {
 			await Task.Run(
 				() => {
-					Plan plan = App.Current.Services.GetRequiredService<IGeneratorService>().GeneratePlan();
-					App.Current.Services.GetRequiredService<IPlanExportService>().ExportPlan(GetFileName(), plan);
+					var generator = App.Current.Services.GetRequiredService<IGeneratorService>();
+					var export = App.Current.Services.GetRequiredService<IPlanExportService>();
+					var plan = generator.GeneratePlan();
+					export.ExportPlan(GetFileName(), plan);
 				});
-		} catch(InvalidOperationException e) {
+		} catch(Exception e) {
 			ErrorString = e.Message;
 		}
 	}
