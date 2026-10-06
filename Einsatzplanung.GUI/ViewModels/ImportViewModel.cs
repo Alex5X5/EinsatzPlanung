@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -10,14 +11,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Einsatzplanung.GUI;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Types.Models.Configuration;
 using Einsatzplanung.Util.Services;
 using Einsatzplanung.Util.Interfaces;
 using Einsatzplanung.Types.Models;
 
 public partial class ImportViewModel : ViewModelBase {
 
+	private const string YEAR_START_KEY = "ImportViewModel.YearStart";
+	private const string YEAR_END_KEY = "ImportViewModel.YearEnd";
+
 	private GeneralConfigService configService;
+	private ILastSelectionService selectionService;
 
 	public ObservableCollection<ImportCardViewModel> Cards { get; }
 
@@ -26,6 +30,7 @@ public partial class ImportViewModel : ViewModelBase {
 
 	partial void OnYearStartDateChanged(DateTime value) {
 		configService.YearStartDate = value;
+		selectionService.SetSelection(YEAR_START_KEY, value.ToString("dd.MM.yyyy"));
 	}
 
 	[ObservableProperty]
@@ -33,15 +38,37 @@ public partial class ImportViewModel : ViewModelBase {
 
 	partial void OnYearEndDateChanged(DateTime value) {
 		configService.YearEndDate = value;
+		selectionService.SetSelection(YEAR_END_KEY, value.ToString("dd.MM.yyyy"));
 	}
 
-	public ImportViewModel(GeneralConfigService configService) : base() {
+	public ImportViewModel(GeneralConfigService configService, ILastSelectionService selectionService) : base() {
 		
 		this.configService = configService;
+		this.selectionService = selectionService;
+
+		if (DateTime.TryParseExact(
+			selectionService.GetSelection(YEAR_START_KEY) ?? "",
+			"dd.MM.yyyy",
+			CultureInfo.InvariantCulture,
+			DateTimeStyles.None,
+			out var start)) {
+			YearStartDate = start;
+		} else {
+			YearStartDate = new(2026, 1, 1);
+		}
+
+		if (DateTime.TryParseExact(
+			selectionService.GetSelection(YEAR_END_KEY) ?? "",
+			"dd.MM.yyyy",
+			CultureInfo.InvariantCulture,
+			DateTimeStyles.None,
+			out var stop)) {
+			YearEndDate = stop;
+		} else {
+			YearEndDate = new(2027, 1, 1);
+		}
 
 		var services = App.Current.Services;
-
-		var selectionService = services.GetRequiredService<ILastSelectionService>();
 
 		Cards = [
 			new("Ausbilder & Spezialisierungen", services.GetRequiredService<IEntityService<Teacher>>(), selectionService),
