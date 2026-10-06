@@ -21,11 +21,19 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 		this.exportService = exportService;
 		this.configService = configService;
 		var groups = configService.GetData();
-		Cards = new(groups.Select(g => new ClassCardViewModel(g.Name, g.Blocks)));
+		Cards = new(groups.Select(g => new ClassCardViewModel(g)));
 	}
 
 	public void AddCard() {
-		Cards.Add(new ClassCardViewModel("Neue Klasse", []));
+		var group = new GroupConfig() {
+			Name = "Neue Klasse",
+			AgeGroupName = "",
+			TeacherAbbreviation = "",
+			SchoolWeeks = [],
+			Blocks = []
+		};
+
+		Cards.Add(new ClassCardViewModel(group));
 	}
 
 	public void ExportCards(string path) {
@@ -55,24 +63,23 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 		SetEntitiesFromState();
 	}
 
-
 	public void SetEntitiesFromState() {
-		List<GroupConfig> groups = new();
+		List<GroupConfig> groups = [];
 
 		foreach (var card in Cards) {
-
+			var blocks = card.Topics.Select(
+				t => new BlockConfig() {
+					Name = t.Header,
+					Count = int.Parse(t.Count),
+					Color = "#FF0000"
+				}).ToList();
 			var group = new GroupConfig() {
-				Name = "",
-				TeacherAbbreviation = "",
-				SchoolWeeks = [],
-				Blocks = card.Topics.Select(
-					t => new BlockConfig() {
-						Name = t.Header,
-						Count = int.Parse(t.Count),
-						Color = "#FF0000"
-					}).ToList()
+				Name = card.Header,
+				AgeGroupName = card.Config.AgeGroupName,
+				TeacherAbbreviation = card.Config.TeacherAbbreviation,
+				SchoolWeeks = card.Config.SchoolWeeks,
+				Blocks = blocks
 			};
-
 			groups.Add(group);
 		}
 

@@ -8,6 +8,8 @@ public class Group {
 
     public required string Name { set; get; }
 
+    public required string AgeGroupName { set; get; }
+
 	public required Teacher Teacher { set; get; }
 
     public required List<int> SchoolWeeks { set; get; }
