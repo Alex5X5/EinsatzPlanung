@@ -26,8 +26,9 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\Einsatzplanung.Excel\Einsatzplanung.Excel.csproj" />
-		<ProjectReference Include="..\Einsatzplanung.Generation\Einsatzplanung.Generation.csproj" />
 		<ProjectReference Include="..\Einsatzplanung.Input\Einsatzplanung.Input.csproj" />
+		<ProjectReference Include="..\Einsatzplanung.Generation\Einsatzplanung.Generation.csproj" />
+		<ProjectReference Include="..\Einsatzplanung.GUI.CodeGenerators\Einsatzplanung.GUI.CodeGenerators.csproj" OutputItemType="Analyzer" />
 	</ItemGroup>
 
 	<ItemGroup>

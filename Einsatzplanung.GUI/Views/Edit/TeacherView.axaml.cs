@@ -1,19 +1,14 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Markup.Xaml;
+﻿namespace Einsatzplanung.GUI.Views.Edit;
 
-using Einsatzplanung.GUI.ViewModels.Edit;
-using Einsatzplanung.Types.Models;
+using Avalonia.Markup.Xaml;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Einsatzplanung.GUI.Views.Edit;
+using Einsatzplanung.GUI.ViewModels.Edit;
 
-	public partial class TeacherView : UserControl {
+public partial class TeacherView : ViewBase {
 
-	public TeacherView() {
+	public TeacherView() : base(App.Current.Services.GetRequiredService<TeacherPageViewModel>()) {
 		InitializeComponent();
-		DataContext = App.Current.Services.GetRequiredService<TeacherPageViewModel>();
 	}
 }

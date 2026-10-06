@@ -1,19 +1,14 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Markup.Xaml;
+﻿namespace Einsatzplanung.GUI.Views.Edit;
 
-using Einsatzplanung.GUI.ViewModels.Edit;
-using Einsatzplanung.Types.Models;
+using Avalonia.Markup.Xaml;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Einsatzplanung.GUI.Views.Edit;
+using Einsatzplanung.GUI.ViewModels.Edit;
 
-	public partial class HolidayView : UserControl {
+public partial class HolidayView : ViewBase {
 
-	public HolidayView() {
+	public HolidayView() : base(App.Current.Services.GetRequiredService<HolidayViewModel>()) {
 		InitializeComponent();
-		DataContext = App.Current.Services.GetRequiredService<HolidayViewModel>();
 	}
 }
