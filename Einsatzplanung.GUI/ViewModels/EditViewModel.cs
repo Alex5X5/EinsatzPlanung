@@ -59,14 +59,16 @@ public partial class EditViewModel : ViewModelBase {
 	}
 
 	[RelayCommand]
-	private async Task OnPrintCurrentPageAsync(Window? window) {
-		if (window is null)
-			return;
-
+	private async Task OnExport() {
 		var file = await FilePickerService.PickSaveLocation(
 			new FilePickerSaveOptions {
 				Title = "Export als Excel speichern",
-				SuggestedFileName = SelectedPageIndex == 0 ? "Schulklassen.xlsx" : "Ausbilder.xlsx",
+				SuggestedFileName = SelectedPageIndex switch {
+					0 => "Schulklassen.xlsx",
+					1 => "Ausbilder.xlsx",
+					2 => "Ferien.xlsx",
+					_ => "Export.xlsx"
+				},
 				FileTypeChoices = [
 					new FilePickerFileType("Excel-Datei") {
 						Patterns = [ "*.xlsx" ]

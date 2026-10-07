@@ -45,8 +45,7 @@
                     Grid.Row="1">
 
             <Button Content="Zu Excel Exportieren" 
-                    Command="{Binding PrintCurrentPageCommand}"
-                    CommandParameter="{Binding $parent[Window]}"
+                    Command="{Binding ExportCommand}"
                     HorizontalAlignment="Center" Classes="standard-button" Margin="0,20,0,0"/>
 
             <Button Content="Hinzufügen"
