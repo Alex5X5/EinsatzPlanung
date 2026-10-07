@@ -30,15 +30,8 @@
 					</ct:ExtendingCard.HeaderContent>
 						
 					
-					<ItemsControl ItemsSource="{Binding Topics}">
-
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel Spacing="12"
-											HorizontalAlignment="Stretch"
-											VerticalAlignment="Center" />
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
+					<ItemsControl ItemsSource="{Binding Topics}"
+								  ItemsPanel="{StaticResource ExtendingCardItemsPanel}">
 
 						<ItemsControl.ItemTemplate>
 

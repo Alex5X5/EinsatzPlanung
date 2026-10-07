@@ -104,4 +104,11 @@
 
 	</ControlTheme>
 
+
+	<ItemsPanelTemplate x:Key="ExtendingCardItemsPanel">
+        <StackPanel Spacing="12"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center" />
+    </ItemsPanelTemplate>
+
 </ResourceDictionary>
