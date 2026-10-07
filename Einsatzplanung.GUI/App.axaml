@@ -13,8 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="avares://Einsatzplanung.GUI/Resources/ThemeResources.axaml" />
-                <ResourceInclude Source="avares://Einsatzplanung.GUI/Controls/ExtendingCard.axaml"/>
-                <ResourceInclude Source="avares://Einsatzplanung.GUI/Controls/RemovableCard.axaml"/>
+                <ResourceInclude Source="avares://Einsatzplanung.GUI/Resources/ControlResources.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
