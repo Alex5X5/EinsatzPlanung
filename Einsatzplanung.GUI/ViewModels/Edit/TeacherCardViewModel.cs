@@ -7,15 +7,26 @@ using System.Collections.Generic;
 
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.GUI.Interfaces;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Einsatzplanung.Types.Models.Configuration;
+using Avalonia.Controls.Primitives;
 
 public partial class TeacherCardViewModel : ViewModelBase {
 
-	public string Header { get; }
+	[ObservableProperty]
+	private string header;
+	[ObservableProperty]
+	private string abbreviation;
+	[ObservableProperty]
+	private int weeklyHours;
 	public ObservableCollection<TopicCardViewModel> Topics { get; }
 
-	public TeacherCardViewModel(string header, List<Topic> topics) {
-		Header = header;
-		Topics = new(topics.Select(t => new TopicCardViewModel(t.Name, 0, RemoveTopicCommand)));
+	public TeacherCardViewModel(TeacherConfig teacher) {
+		Header = teacher.Name;
+		Abbreviation = teacher.Abbreviation;
+		WeeklyHours = teacher.WeeklyHours;
+		Topics = new(teacher.Specializations.Select(t => new TopicCardViewModel(t.Name, 0, RemoveTopicCommand)));
 	}
 
 	[RelayCommand]
