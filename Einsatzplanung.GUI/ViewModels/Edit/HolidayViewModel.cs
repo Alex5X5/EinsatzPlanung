@@ -7,22 +7,20 @@ using System.Globalization;
 using System.Linq;
 
 using Einsatzplanung.Excel.Interfaces;
-using Einsatzplanung.Excel.Models;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
 public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 
-	private IExcelExportService exportService;
+	private IHolidayExportService exportService;
 	private IConfigService<HolidayConfig> configService;
 
 	public string Header { get; }
 
 	public ObservableCollection<HolidayCardViewModel> Cards { get; }
 
-	public HolidayViewModel(IConfigService<HolidayConfig> configService, IExcelExportService exportService) {
+	public HolidayViewModel(IConfigService<HolidayConfig> configService, IHolidayExportService exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		var holidays = configService.GetData();
@@ -39,21 +37,11 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	public void ExportCards(string path) {
-		Table table = new();
-
-		table.AddRow(["Ausbildungsgruppe", "Klasse", "Schulwoche", "Thema", "Themenwochen", "Farbe"]);
-
-		
-
-		exportService.SaveTable(path, table);
-	}
-
-	public override void OnLoad() {
-		Console.WriteLine("loaded holliday view");
+		SetEntitiesFromState();
+		exportService.ExportHolidays(path, configService.GetData());
 	}
 
 	public override void OnUnload() {
-		Console.WriteLine("unloaded holliday view");
 		SetEntitiesFromState();
 	}
 

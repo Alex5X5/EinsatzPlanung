@@ -3,6 +3,6 @@ namespace Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 using System.Collections.Generic;
 
-public interface IGroupExportService {
-	void ExportGroups(string filePath, List<GroupConfig> groups);
+public interface ITeacherExportService {
+	void ExportTeachers(string filePath, List<TeacherConfig> teachers);
 }

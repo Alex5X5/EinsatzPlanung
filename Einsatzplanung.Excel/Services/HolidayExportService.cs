@@ -1,18 +1,17 @@
 ﻿namespace Einsatzplanung.Excel.Services;
 
 using Einsatzplanung.Excel.Interfaces;
-using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Types.Models.Configuration;
 using System.Collections.Generic;
 
-public class GroupExportService : IGroupExportService {
+public class HolidayExportService : IHolidayExportService {
 	
 	private readonly IExcelExportService excelExportService;
 
-	public GroupExportService(IExcelExportService excelExportService) {
+	public HolidayExportService(IExcelExportService excelExportService) {
 		this.excelExportService = excelExportService;
 	}
 
-	public void ExportGroups(string filePath, List<GroupConfig> groups) {
+	public void ExportHolidays(string filePath, List<HolidayConfig> holidays) {
 	}
 }

@@ -12,13 +12,13 @@ using Einsatzplanung.Types.Models.Configuration;
 
 public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 
-	private IGroupExportService groupExportService;
+	private ITeacherExportService exportService;
 	private IConfigService<TeacherConfig> configService;
 
 	public ObservableCollection<TeacherCardViewModel> Cards { get; }
 
-	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, IGroupExportService groupExportService) {
-		this.groupExportService = groupExportService;
+	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, ITeacherExportService exportService) {
+		this.exportService = exportService;
 		this.configService = configService;
 		var teachers = configService.GetData();
 		Cards = new(teachers.Select(t => new TeacherCardViewModel(t)));
@@ -29,14 +29,8 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	public void ExportCards(string path) {
-		List<TeacherConfig> teachers = Cards.Select(card => new TeacherConfig {
-			Name = card.Header,
-			Abbreviation = card.Abbreviation,
-			WeeklyHours = card.WeeklyHours,
-			Specializations = card.Topics.Select(topic => new Topic(topic.Header)).ToList()
-		}).ToList();
-
-		groupExportService.ExportTeachers(path, teachers);
+		SetEntitiesFromState();
+		exportService.ExportTeachers(path, configService.GetData());
 	}
 
 	public override void OnUnload() {
@@ -44,7 +38,13 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	public void SetEntitiesFromState() {
-		List<TeacherConfig> configs = [];
-		configService.SetData(configs);
+		List<TeacherConfig> teachers = Cards.Select(card => new TeacherConfig {
+			Name = card.Header,
+			Abbreviation = card.Abbreviation,
+			WeeklyHours = card.WeeklyHours,
+			Specializations = card.Topics.Select(topic => new Topic(topic.Header)).ToList()
+		}).ToList();
+
+		configService.SetData(teachers);
 	}
 }

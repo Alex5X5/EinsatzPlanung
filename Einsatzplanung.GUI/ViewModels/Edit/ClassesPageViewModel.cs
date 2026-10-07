@@ -12,12 +12,12 @@ using System.Linq;
 
 public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
-	private IExcelExportService exportService;
+	private IGroupExportService exportService;
 	private IConfigService<GroupConfig> configService;
 
 	public ObservableCollection<ClassCardViewModel> Cards { get; }
 
-	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IExcelExportService exportService) {
+	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IGroupExportService exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		var groups = configService.GetData();
@@ -37,26 +37,8 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	public void ExportCards(string path) {
-		Table table = new();
-
-		table.AddRow(["Lehrjahr", "Klasse", "Ausbilder", "Schulwoche", "Thema", "Wochen", "Farbe"]);
-		
-		foreach (var card in Cards) {
-			var firstTopic = true;
-			foreach (var topic in card.Topics) {
-				table.AddRow([
-					firstTopic ? card.Header : "",
-					firstTopic ? card.Header : "",
-					"",
-					topic.Header,
-					topic.Count,
-					"#FFFFFF"
-				]);
-				firstTopic = false;
-			}
-		}
-
-		exportService.SaveTable(path, table);
+		SetEntitiesFromState();
+		exportService.ExportGroups(path, configService.GetData());
 	}
 
 	public override void OnUnload() {
