@@ -13,24 +13,25 @@
 		<ct:EditCardsControl.ItemTemplate>
 			
 			<DataTemplate x:DataType="vm:HolidayCardViewModel">
-		
+
 				<ct:ExtendingCard AllowExtend="False">
 
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
 								 TextWrapping="NoWrap"
 								 Foreground="{DynamicResource AppForegroundBrush}"
+								 HorizontalAlignment="Stretch"
 								 HorizontalContentAlignment="Center"
 								 VerticalContentAlignment="Center"
 								 ToolTip.Tip="Urlaubs- oder Feiertagsbezeichnung" />
 					</ct:ExtendingCard.HeaderContent>
 
 				</ct:ExtendingCard>
-			
+
 			</DataTemplate>
 
 		</ct:EditCardsControl.ItemTemplate>
-	
+
 	</ct:EditCardsControl>
 
 </UserControl>

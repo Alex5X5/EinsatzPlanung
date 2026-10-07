@@ -1,62 +1,82 @@
 ﻿namespace Einsatzplanung.GUI.Controls;
 
+using System;
+
+using CommunityToolkit.Mvvm.Input;
+
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Templates;
 using Avalonia.Input;
+using Avalonia.Layout;
+using Avalonia.Metadata;
 
-using System;
-using CommunityToolkit.Mvvm.Input;
+using Einsatzplanung.GUI.CodeGenerators.Attributes;
 
-public partial class ExtendingCard : ItemsControl {
-	
+
+public partial class ExtendingCard : UserControl {
+
 	protected override Type StyleKeyOverride => typeof(ExtendingCard);
 
-	public static readonly StyledProperty<object?> HeaderContentProperty =
-	AvaloniaProperty.Register<ExtendingCard, object?>(nameof(HeaderContent));
+	[BasicStyledProperty<ExtendingCard>]
+	private Orientation headerOrientation = Avalonia.Layout.Orientation.Vertical;
 
-	public static readonly StyledProperty<IDataTemplate?> HeaderContentTemplateProperty =
-		AvaloniaProperty.Register<ExtendingCard, IDataTemplate?>(nameof(HeaderContentTemplate));
+	[BasicStyledProperty<ExtendingCard>]
+	private Orientation bodyOrientation = Avalonia.Layout.Orientation.Vertical;
 
-	public static readonly StyledProperty<bool> IsActiveProperty =
-		AvaloniaProperty.Register<ExtendingCard, bool>(nameof(IsActive));
+	[BasicStyledProperty<ExtendingCard>]
+	private bool allowExtend = true;
 
-	public static readonly StyledProperty<RelayCommand?> AddButtonCommandProperty =
-		AvaloniaProperty.Register<ExtendingCard, RelayCommand?>(nameof(AddButtonCommand));
+	[BasicStyledProperty<ExtendingCard>]
+	private bool isActive = false;
 
-	public static readonly StyledProperty<bool> AllowExtendProperty =
-		AvaloniaProperty.Register<ExtendingCard, bool>(nameof(AllowExtend), defaultValue:true);
+	[BasicStyledProperty<ExtendingCard>]
+	private RelayCommand? addButtonCommand;
 
-	public object? HeaderContent {
-		get => GetValue(HeaderContentProperty);
-		set => SetValue(HeaderContentProperty, value);
-	}
-
-	public IDataTemplate? HeaderContentTemplate {
-		get => GetValue(HeaderContentTemplateProperty);
-		set => SetValue(HeaderContentTemplateProperty, value);
-	}
-
-	public bool IsActive {
-		get => GetValue(IsActiveProperty);
-		set => SetValue(IsActiveProperty, value);
-	}
-
-	public RelayCommand? AddButtonCommand {
-		get => GetValue(AddButtonCommandProperty);
-		set => SetValue(AddButtonCommandProperty, value);
-	}
-
-	public bool AllowExtend {
-		get => GetValue(AllowExtendProperty);
-		set => SetValue(AllowExtendProperty, value);
-	}
+	private readonly Controls _children = new();
+	private readonly Controls _headerContent = new();
 
 	private Border? _partBorder;
+	private StackPanel? _headerPanel;
+	private StackPanel? _bodyPanel;
+
+
+	[Content]
+	public Controls Children => _children;
+
+	public Controls HeaderContent {
+		get => _headerContent;
+	}
+
+	public ExtendingCard() {
+		_children.CollectionChanged += (_, _) => SyncPanel(_bodyPanel, _children);
+		_headerContent.CollectionChanged += (_, _) => SyncPanel(_headerPanel, _headerContent);
+	}
+
+	static ExtendingCard() {
+
+		IsActiveProperty.Changed.AddClassHandler<ExtendingCard>(
+			(c, e) => {
+				bool newValue = (c.AllowExtend) ? (bool)e.NewValue! : false;
+				if (newValue) {
+					c.PseudoClasses.Set(":active", true);
+				} else {
+					c.PseudoClasses.Remove(":active");
+				}
+			});
+	}
 
 	protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
 		base.OnApplyTemplate(e);
+
+		_headerPanel?.Children.Clear();
+		_bodyPanel?.Children.Clear();
+
+		_headerPanel = e.NameScope.Find<StackPanel>("PART_HeaderPanel");
+		_bodyPanel = e.NameScope.Find<StackPanel>("PART_BodyPanel");
+
+		SyncPanel(_headerPanel, _headerContent);
+		SyncPanel(_bodyPanel, _children);
 
 		if (_partBorder is not null) {
 			_partBorder.PointerEntered -= OnBorderPointerEntered;
@@ -69,6 +89,13 @@ public partial class ExtendingCard : ItemsControl {
 			_partBorder.PointerEntered += OnBorderPointerEntered;
 			_partBorder.PointerExited += OnBorderPointerExited;
 		}
+	}
+
+	private static void SyncPanel(Panel? panel, Controls source) {
+		if (panel is null)
+			return;
+		panel.Children.Clear();
+		panel.Children.AddRange(source);
 	}
 
 	private void OnBorderPointerEntered(object? sender, PointerEventArgs e) {
@@ -88,16 +115,25 @@ public partial class ExtendingCard : ItemsControl {
 		IsActive = false;
 	}
 
-	static ExtendingCard() {
+	protected override Size MeasureOverride(Size availableSize) {
+		_partBorder?.Measure(availableSize);
+		return _partBorder?.DesiredSize ?? new Size(0.0, 0.0);
+	}
 
-		IsActiveProperty.Changed.AddClassHandler<ExtendingCard>(
-			(c, e) => {
-				bool newValue = (c.AllowExtend) ? (bool)e.NewValue! : false;
-				if (newValue) {
-					c.PseudoClasses.Set(":active", true);
-				} else {
-					c.PseudoClasses.Remove(":active");
-				}
-			});
+	protected override Size ArrangeOverride(Size finalSize) {
+		_partBorder?.Arrange(new Rect(finalSize));
+		return finalSize;
+	}
+
+	protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
+		base.OnPropertyChanged(change);
+
+		if (change.Property == HeaderOrientationProperty)
+			if (_headerPanel is not null)
+				_headerPanel.Orientation = change.GetNewValue<Orientation>();
+
+		if (change.Property == BodyOrientationProperty)
+			if (_bodyPanel is not null)
+				_bodyPanel.Orientation = change.GetNewValue<Orientation>();
 	}
 }

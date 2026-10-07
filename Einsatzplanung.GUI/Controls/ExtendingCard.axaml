@@ -2,15 +2,22 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:ct="using:Einsatzplanung.GUI.Controls">
 
-	<ControlTheme x:Key="{x:Type ct:ExtendingCard}" TargetType="ct:ExtendingCard">
+	<Design.PreviewWith>
+		<Panel>
+			<ct:ExtendingCard>
+				<ct:ExtendingCard.HeaderContent>
+					<TextBlock Text="Header" FontWeight="Bold" />
+					<Button Content="Refresh" />
+				</ct:ExtendingCard.HeaderContent>
 
-		<Setter Property="ItemsPanel">
-			<ItemsPanelTemplate>
-				<StackPanel Spacing="12"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Center" />
-			</ItemsPanelTemplate>
-		</Setter>
+				<TextBlock Text="First" />
+				<Button Content="Second" />
+
+			</ct:ExtendingCard>
+		</Panel>
+    </Design.PreviewWith>
+
+	<ControlTheme x:Key="{x:Type ct:ExtendingCard}" TargetType="ct:ExtendingCard">
 		
 		<!--set the contents of the templated controll ExtendingCard-->
 		<Setter Property="Template">
@@ -23,36 +30,38 @@
 						Background="{DynamicResource CardBackgroundBrush}"
 						BorderBrush="{DynamicResource CardBorderBrush}"
 						ClipToBounds="True">
-					<Grid RowDefinitions="Auto,*,Auto" 
-						  ColumnDefinitions="Auto, *">
 
-						<!--displays the Header content which is always visible-->
-						<ContentPresenter Name="PART_HeaderPresenter"
-										  Grid.Row="0"
-										  Grid.ColumnSpan="2"
-										  Content="{TemplateBinding HeaderContent}"
-										  ContentTemplate="{TemplateBinding HeaderContentTemplate}"
-										  VerticalAlignment="Center" />
+					<Grid Name="Part_Root"
+						  RowDefinitions="Auto,*,Auto">
 
-						<!--displays the body content which is only visible when pointer is over-->
+						<StackPanel Name="PART_HeaderPanel"
+									Grid.Row="0"
+									Orientation="{TemplateBinding HeaderOrientation}"
+									HorizontalAlignment="Stretch"
+									Margin="0,0,0,20" />
+
 						<ScrollViewer Name="PART_Body"
 									  Grid.Row="1"
-									  Grid.ColumnSpan="2"
 									  VerticalScrollBarVisibility="Hidden"
 									  HorizontalScrollBarVisibility="Disabled"
-									  Margin="0,8,0,0">
+									  Margin="0,0,0,20">
 
-							<ItemsPresenter Name="PART_ItemsPresenter"
-											ItemsPanel="{TemplateBinding ItemsPanel}"
-											VerticalAlignment="Top" />
+							<StackPanel Name="PART_BodyPanel"
+										Grid.Row="1"
+										Orientation="{TemplateBinding BodyOrientation}"
+										HorizontalAlignment="Stretch"
+										Spacing="12" />
+							
 						</ScrollViewer>
+						
+						<Grid ColumnDefinitions="Auto, *"
+							  Grid.Row="2">
+							<Button Grid.Column="1"
+									Classes="list-button add"
+									HorizontalAlignment="Right"
+									Command="{TemplateBinding AddButtonCommand}" />
+						</Grid>
 
-						<Button Grid.Row="2"
-								Grid.Column="1"
-								Classes="list-button add"
-								HorizontalAlignment="Right"
-								Margin="0,12,0,0" 
-								Command="{TemplateBinding AddButtonCommand}" />
 					</Grid>
 				</Border>
 			</ControlTemplate>
