@@ -1,287 +1,261 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             xmlns:vm="using:Einsatzplanung.GUI.ViewModels"
-             x:Class="Einsatzplanung.GUI.Views.ImportView"
-             x:DataType="vm:ImportViewModel">
-    
-    <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,*" VerticalAlignment="Center">
-    
-       <ItemsControl ItemsSource="{Binding Cards}" Grid.Column="0" Grid.Row="0" >
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vm="using:Einsatzplanung.GUI.ViewModels"
+			 x:Class="Einsatzplanung.GUI.Views.ImportView"
+			 x:DataType="vm:ImportViewModel">
+	
+	<Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,*" VerticalAlignment="Center">
+	
+	   <ItemsControl ItemsSource="{Binding Cards}" Grid.Column="0" Grid.Row="0" >
 
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Spacing="12" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
+		<ItemsControl.ItemsPanel>
+			<ItemsPanelTemplate>
+				<StackPanel HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							Spacing="12" />
+			</ItemsPanelTemplate>
+		</ItemsControl.ItemsPanel>
 
-        <ItemsControl.ItemTemplate>
-            <DataTemplate x:DataType="vm:ImportCardViewModel">
+		<ItemsControl.ItemTemplate>
+			<DataTemplate x:DataType="vm:ImportCardViewModel">
 
-                <Border
-                    Classes="extending-border"
-                    PointerEntered="CardBorder_OnPointerEntered"
-                    Background="{DynamicResource CardBackgroundBrush}"
-                    Padding="20"
-                    CornerRadius="10"
-                    BorderThickness="1"
-                    BorderBrush="{DynamicResource CardBorderBrush}"
-                    ClipToBounds="True">
+				<Border Classes="extending-border"
+						PointerEntered="CardBorder_OnPointerEntered"
+						Background="{DynamicResource CardBackgroundBrush}"
+						Padding="20"
+						CornerRadius="10"
+						BorderThickness="1"
+						BorderBrush="{DynamicResource CardBorderBrush}"
+						ClipToBounds="True">
 
-                    <Border.Styles>
+					<Border.Styles>
 
-                        <Style Selector="Border">
-                            <Setter Property="Height" Value="60" />
-                            <Setter Property="Transitions">
-                                <Transitions>
-                                    <DoubleTransition
-                                        Property="Height"
-                                        Duration="0:0:0.3"
-                                        Easing="CubicEaseOut" />
-                                </Transitions>
-                            </Setter>
-                        </Style>
+						<Style Selector="Border">
+							<Setter Property="Height" Value="60" />
+							<Setter Property="Transitions">
+								<Transitions>
+									<DoubleTransition Property="Height"
+													  Duration="0:0:0.3"
+													  Easing="CubicEaseOut" />
+								</Transitions>
+							</Setter>
+						</Style>
 
-                    </Border.Styles>
+					</Border.Styles>
 
-                    <Grid
-                        ColumnDefinitions="5, 340, 5"
-                        RowDefinitions="20,20">
+					<Grid ColumnDefinitions="5, 340, 5" RowDefinitions="20,20">
 
-                        <TextBlock 
-                            Grid.Column="1"
-                            Text="{Binding Header}" 
-                            Foreground="{DynamicResource AppForegroundBrush}" 
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center" />
+						<TextBlock Grid.Column="1"
+								   Text="{Binding Header}"
+								   Foreground="{DynamicResource AppForegroundBrush}"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center" />
 
-                        <Border
-                            Grid.Column="2"
-                            Width="18"
-                            Height="18"
-                            Margin="6,0,0,0"
-                            CornerRadius="9"
-                            BorderBrush="{DynamicResource CardBorderBrush}"
-                            BorderThickness="1"
-                            Background="{DynamicResource StandardButtonBackgroundColor}"
-                            ToolTip.Tip="{Binding HelpText}"
-                            VerticalAlignment="Center">
-                            
-                            <TextBlock
-                                Text="?"
-                                FontWeight="Bold"
-                                FontSize="11"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </Border>
+						<Border Grid.Column="2" 
+								Width="18"
+								Height="18"
+								Margin="6,0,0,0"
+								CornerRadius="9"
+								BorderBrush="{DynamicResource CardBorderBrush}"
+								BorderThickness="1"
+								Background="{DynamicResource StandardButtonBackgroundColor}"
+								ToolTip.Tip="{Binding HelpText}"
+								VerticalAlignment="Center">
+							
+							<TextBlock Text="?"
+									   FontWeight="Bold"
+									   FontSize="11"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Center" />
+						</Border>
 
-                        <Grid
-                            Grid.Row="1"
-                            Grid.ColumnSpan="2"
-                            Margin="0,20,0,0"
-                            ColumnDefinitions="Auto,Auto"
-                            RowDefinitions="Auto,Auto">
+						<Grid Grid.Row="1"
+							  Grid.ColumnSpan="2"
+							  Margin="0,20,0,0"
+							  ColumnDefinitions="Auto,Auto"
+							  RowDefinitions="Auto,Auto">
 
-                            <Button
-                                Margin="0,0,12,8"
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Command="{Binding ImportExcelCommand}"
-                                CommandParameter="{Binding $parent[Window]}"
-                                Padding="0"
-                                MaxHeight="30"
-                                BorderThickness="0"
-                                CornerRadius="10"
-                                Background="{DynamicResource ImportButtonBackgroundColor}"
-                                ToolTip.Tip="formatierte Excel-Datei mit Passenden Informationen einfügen">
+							<Button Margin="0,0,12,8"
+									Grid.Row="0"
+									Grid.Column="0"
+									Command="{Binding ImportExcelCommand}"
+									CommandParameter="{Binding $parent[Window]}"
+									Padding="0"
+									MaxHeight="30"
+									BorderThickness="0"
+									CornerRadius="10"
+									Background="{DynamicResource ImportButtonBackgroundColor}"
+									ToolTip.Tip="formatierte Excel-Datei mit Passenden Informationen einfügen">
 
-                                    <Grid ColumnDefinitions="Auto,*">
+									<Grid ColumnDefinitions="Auto,*">
 
-                                        <Panel
-                                            Grid.Column="0" Margin="1">
+										<Panel Grid.Column="0" Margin="1">
 
-                                            <Image Source="{SvgImage /Assets/microsoft-excel.svg}"
-                                                   Width="24"
-                                                   Height="24"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center" />
+											<Image Source="{SvgImage /Assets/microsoft-excel.svg}"
+												   Width="24"
+												   Height="24"
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Center" />
 
-                                        </Panel>
+										</Panel>
 
-                                        <Border Grid.Column="1" Classes="excel-bg"
-                                                Background="{DynamicResource ExcelImportButtonGradient}">
-                                            
-                                            <TextBlock
-                                                Text="Einfügen"
-                                                Foreground="White"
-                                                Padding="8,1"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center" />
+										<Border Grid.Column="1" Classes="excel-bg"
+												Background="{DynamicResource ExcelImportButtonGradient}">
+											
+											<TextBlock Text="Einfügen"
+													   Foreground="White"
+													   Padding="8,1"
+													   HorizontalAlignment="Center"
+													   VerticalAlignment="Center" />
 
-                                        </Border>
-                                    </Grid>
-                            </Button>
+										</Border>
 
-                            <TextBlock
-                                Margin="0,0,0,8"
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                Text="{Binding ExcelFileStatus}"
-                                Foreground="{DynamicResource AppForegroundBrush}"
-                                VerticalAlignment="Center"
-                                TextTrimming="CharacterEllipsis" />
+									</Grid>
 
-                            <Button
-                                Margin="0,0,12,8"
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Command="{Binding ImportPdfCommand}"
-                                CommandParameter="{Binding $parent[Window]}"
-                                Padding="0"
-                                MaxHeight="30"
-                                MaxWidth="120"
-                                BorderThickness="0"
-                                CornerRadius="10"
-                                Background="{DynamicResource ImportButtonBackgroundColor}"
-                                ToolTip.Tip="PDF-Datei mit Ausbilder Informationen einfügen">
+							</Button>
 
-                                  <Grid ColumnDefinitions="Auto,*">
+							<TextBlock Margin="0,0,0,8"
+									   Grid.Row="0"
+									   Grid.Column="1"
+									   Text="{Binding ExcelFileStatus}"
+									   Foreground="{DynamicResource AppForegroundBrush}"
+									   VerticalAlignment="Center"
+									   TextTrimming="CharacterEllipsis" />
 
-                                        <Panel
-                                            Grid.Column="0" Margin="1">
+							<Button Margin="0,0,12,8"
+									Grid.Row="1"
+									Grid.Column="0"
+									Command="{Binding ImportPdfCommand}"
+									CommandParameter="{Binding $parent[Window]}"
+									Padding="0"
+									MaxHeight="30"
+									MaxWidth="120"
+									BorderThickness="0"
+									CornerRadius="10"
+									Background="{DynamicResource ImportButtonBackgroundColor}"
+									ToolTip.Tip="PDF-Datei mit Ausbilder Informationen einfügen">
 
-                                            <Image
-                                                Source="{SvgImage /Assets/pdf.svg}"
-                                                Width="24"
-                                                Height="24"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"/>
+								  <Grid ColumnDefinitions="Auto,*">
+										<Image Source="{SvgImage /Assets/pdf.svg}"
+											   Width="24"
+											   Height="24"
+											   Grid.Column="0"
+											   Margin="1"
+											   HorizontalAlignment="Center"
+											   VerticalAlignment="Center"/>
 
-                                        </Panel>
+										<Border Grid.Column="1"
+												Classes="pdf-bg"
+												Background="{DynamicResource PdfImportButtonGradient}">
+											<TextBlock Text="Einfügen"
+													   Foreground="White"
+													   Padding="8,1"
+													   HorizontalAlignment="Center"
+													   VerticalAlignment="Center" />
+										</Border>
+									</Grid>
+								
+							</Button>
 
-                                        <Border Grid.Column="1" Classes="pdf-bg"
-                                                Background="{DynamicResource PdfImportButtonGradient}">
+							<TextBlock Margin="0,0,0,8"
+									   Grid.Row="1"
+									   Grid.Column="1"
+									   Text="{Binding PdfFileStatus}"
+									   Foreground="{DynamicResource AppForegroundBrush}"
+									   VerticalAlignment="Center"
+									   TextTrimming="CharacterEllipsis" />
+						</Grid>
 
-                                            <TextBlock
-                                                Text="Einfügen"
-                                                Foreground="White"
-                                                Padding="8,1"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center" />
+					</Grid>
 
-                                        </Border>
+				</Border>
 
-                                    </Grid>
-                                
-                            </Button>
+			</DataTemplate>
+		
+		</ItemsControl.ItemTemplate>
 
-                            <TextBlock
-                                Margin="0,0,0,8"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Text="{Binding PdfFileStatus}"
-                                Foreground="{DynamicResource AppForegroundBrush}"
-                                VerticalAlignment="Center"
-                                TextTrimming="CharacterEllipsis" />
+		</ItemsControl>
+		
+		<Border Grid.Row="1" 
+				Classes="extending-calendar-border"
+				PointerEntered="CardBorder_OnPointerEntered"
+				Background="{DynamicResource CardBackgroundBrush}"
+				Padding="20"
+				CornerRadius="10"
+				BorderThickness="1"
+				Margin="0,12,0,0"
+				BorderBrush="{DynamicResource CardBorderBrush}"
+				ClipToBounds="True"
+				HorizontalAlignment="Center">
 
-                        </Grid>
+			<Grid ColumnDefinitions="5,340,5" RowDefinitions="20,Auto" HorizontalAlignment="Center">
 
-                    </Grid>
+				<TextBlock Grid.Column="1"
+						   Text="Lehrjahrzeitraum"
+						   Foreground="{DynamicResource AppForegroundBrush}"
+						   HorizontalAlignment="Center"
+						   VerticalAlignment="Center" />
 
-                </Border>
+				<Border Grid.Column="2"
+						Width="18"
+						Height="18"
+						Margin="6,0,0,0"
+						CornerRadius="9"
+						BorderBrush="{DynamicResource CardBorderBrush}"
+						BorderThickness="1"
+						Background="{DynamicResource StandardButtonBackgroundColor}"
+						ToolTip.Tip="Legt den Start- und Endzeitpunkt des Lehrjahres fest."
+						VerticalAlignment="Center">
 
-            </DataTemplate>
-        
-        </ItemsControl.ItemTemplate>
+					<TextBlock Text="?"
+							   FontWeight="Bold"
+							   FontSize="11"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center" />
+				</Border>
 
-        </ItemsControl>
-        
-        <Border Grid.Row="1" 
-                Classes="extending-calendar-border"
-                PointerEntered="CardBorder_OnPointerEntered"
-                Background="{DynamicResource CardBackgroundBrush}"
-                Padding="20"
-                CornerRadius="10"
-                BorderThickness="1"
-                Margin="0,12,0,0"
-                BorderBrush="{DynamicResource CardBorderBrush}"
-                ClipToBounds="True"
-                HorizontalAlignment="Center">
+				<Grid Grid.Row="1"
+					  Grid.ColumnSpan="3"
+					  Margin="0,20,0,0"
+					  ColumnDefinitions="180,20,180"
+					  HorizontalAlignment="Center">
 
-            <Grid ColumnDefinitions="5,340,5" RowDefinitions="20,Auto" HorizontalAlignment="Center">
+					<CalendarDatePicker Grid.Column="0"
+										PlaceholderText="Start Datum"
+										HorizontalAlignment="Center"
+										SelectedDate="{Binding YearStartDate}"
+										ToolTip.Tip="Startdatum des Lehrjahres festlegen" />
 
-                <TextBlock
-                    Grid.Column="1"
-                    Text="Lehrjahrzeitraum"
-                    Foreground="{DynamicResource AppForegroundBrush}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
+					<Border Grid.Column="1"
+							Width="1"
+							Height="30"
+							VerticalAlignment="Center"
+							Background="{DynamicResource CardBorderBrush}" />
 
-                <Border
-                    Grid.Column="2"
-                    Width="18"
-                    Height="18"
-                    Margin="6,0,0,0"
-                    CornerRadius="9"
-                    BorderBrush="{DynamicResource CardBorderBrush}"
-                    BorderThickness="1"
-                    Background="{DynamicResource StandardButtonBackgroundColor}"
-                    ToolTip.Tip="Legt den Start- und Endzeitpunkt des Lehrjahres fest."
-                    VerticalAlignment="Center">
+					<CalendarDatePicker Grid.Column="2"
+										PlaceholderText="End Datum"
+										HorizontalAlignment="Center"
+										SelectedDate="{Binding YearEndDate}"
+										ToolTip.Tip="Enddatum des Lehrjahres festlegen" />
 
-                    <TextBlock
-                        Text="?"
-                        FontWeight="Bold"
-                        FontSize="11"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center" />
-                </Border>
+				</Grid>
 
-                <Grid
-                    Grid.Row="1"
-                    Grid.ColumnSpan="3"
-                    Margin="0,20,0,0"
-                    ColumnDefinitions="180,20,180"
-                    HorizontalAlignment="Center">
+			</Grid>
 
-                    <CalendarDatePicker Grid.Column="0"
-                                        PlaceholderText="Start Datum"
-                                        HorizontalAlignment="Center"
-                                        SelectedDate="{Binding YearStartDate}"
-                                        ToolTip.Tip="Startdatum des Lehrjahres festlegen" />
-
-                    <Border Grid.Column="1"
-                            Width="1"
-                            Height="30"
-                            VerticalAlignment="Center"
-                            Background="{DynamicResource CardBorderBrush}" />
-
-                    <CalendarDatePicker Grid.Column="2"
-                                        PlaceholderText="End Datum"
-                                        HorizontalAlignment="Center"
-                                        SelectedDate="{Binding YearEndDate}"
-                                        ToolTip.Tip="Enddatum des Lehrjahres festlegen" />
-
-                </Grid>
-
-            </Grid>
-
-        </Border>
-        
-        <StackPanel Grid.Row="2" Margin="0,20,0,0">
-            
-            <Button Classes="standard-button" 
-                    Content="Weiter"
-                    HorizontalAlignment="Center"
-                    Command="{Binding GoToNextPageCommand}"
-                    ToolTip.Tip="Zur Bearbeitungsansicht weitergehen"/>
-     
-        </StackPanel>
-       
-    </Grid>
+		</Border>
+		
+		<StackPanel Grid.Row="2" Margin="0,20,0,0">
+			
+			<Button Classes="standard-button" 
+					Content="Weiter"
+					HorizontalAlignment="Center"
+					Command="{Binding GoToNextPageCommand}"
+					ToolTip.Tip="Zur Bearbeitungsansicht weitergehen"/>
+	 
+		</StackPanel>
+	   
+	</Grid>
 </UserControl>
