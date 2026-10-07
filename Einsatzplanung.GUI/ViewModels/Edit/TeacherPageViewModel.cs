@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 
 using Einsatzplanung.Excel.Interfaces;
-using Einsatzplanung.Excel.Models;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
@@ -13,41 +12,31 @@ using Einsatzplanung.Types.Models.Configuration;
 
 public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 
-	private IExcelExportService exportService;
+	private IGroupExportService groupExportService;
 	private IConfigService<TeacherConfig> configService;
 
 	public ObservableCollection<TeacherCardViewModel> Cards { get; }
 
-	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, IExcelExportService exportService) {
-		this.exportService = exportService;
+	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, IGroupExportService groupExportService) {
+		this.groupExportService = groupExportService;
 		this.configService = configService;
 		var teachers = configService.GetData();
-		Cards = new(teachers.Select(t => new TeacherCardViewModel(t.Name, t.Specializations)));
+		Cards = new(teachers.Select(t => new TeacherCardViewModel(t)));
 	}
 
 	public void AddCard() {
-		Cards.Add(new TeacherCardViewModel("Neuer Ausbilder", []));
+		Cards.Add(new TeacherCardViewModel(new TeacherConfig(){Name = "Neuer Ausbilder", Abbreviation="Au", Specializations=[], WeeklyHours=40}));
 	}
 
 	public void ExportCards(string path) {
-		Table table = new();
+		List<TeacherConfig> teachers = Cards.Select(card => new TeacherConfig {
+			Name = card.Header,
+			Abbreviation = card.Abbreviation,
+			WeeklyHours = card.WeeklyHours,
+			Specializations = card.Topics.Select(topic => new Topic(topic.Header)).ToList()
+		}).ToList();
 
-		table.AddRow(["Name", "Kürzel", "Themen", "Wochenstunden"]);
-
-		foreach (var card in Cards) {
-			var firstTopic = true;
-			foreach (var topic in card.Topics) {
-				table.AddRow([
-					firstTopic ? card.Header : "",
-					firstTopic ? card.Header : "",
-					topic.Header,
-					"40"
-				]);
-				firstTopic = false;
-			}
-		}
-
-		exportService.SaveTable(path, table);
+		groupExportService.ExportTeachers(path, teachers);
 	}
 
 	public override void OnUnload() {

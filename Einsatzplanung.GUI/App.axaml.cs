@@ -73,6 +73,7 @@ public partial class App : Application {
 
 		collection.AddTransient<IExcelImportService, ExcelImportService>();
 		collection.AddTransient<IExcelExportService, ExcelExportService>();
+		collection.AddTransient<IGroupExportService, GroupExportService>();
 
 		collection.AddSingleton<IConfigService<Topic>, TopicService>();
 
