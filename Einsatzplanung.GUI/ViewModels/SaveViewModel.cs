@@ -24,8 +24,9 @@ public partial class SaveViewModel : ViewModelBase {
 
 	[RelayCommand]
 	private async Task SavePath() {
-		SelectedFolderPath = (await FilePickerService.PickFolder("Ordner auswählen")) ?? SelectedFolderPath;
-		Console.WriteLine(SelectedFolderPath);
+		string? path = await FilePickerService.PickFolder("Ordner auswählen");
+		if(!string.IsNullOrEmpty(path))
+			SelectedFolderPath = path!;
 	}
 
 	[RelayCommand]
