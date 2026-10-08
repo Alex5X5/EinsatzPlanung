@@ -4,14 +4,14 @@
 
 	<Design.PreviewWith>
 		<Panel>
-			<ct:ExtendingCard>
+			<ct:ExtendingCard HeaderOrientation="Horizontal">
 				<ct:ExtendingCard.HeaderContent>
 					<TextBlock Text="Header" FontWeight="Bold" />
 					<Button Content="Refresh" />
 				</ct:ExtendingCard.HeaderContent>
 
 				<TextBlock Text="First" />
-				<Button Content="Second" />
+				<TextBlock Text="Second" />
 
 			</ct:ExtendingCard>
 		</Panel>
@@ -55,7 +55,8 @@
 						</ScrollViewer>
 						
 						<Grid ColumnDefinitions="Auto, *"
-							  Grid.Row="2">
+							  Grid.Row="2"
+							  IsVisible="{TemplateBinding ShowAddButton}">
 							<Button Grid.Column="1"
 									Classes="list-button add"
 									HorizontalAlignment="Right"

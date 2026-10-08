@@ -28,6 +28,9 @@ public partial class ExtendingCard : UserControl {
 	private bool allowExtend = true;
 
 	[BasicStyledProperty<ExtendingCard>]
+	private bool showAddButton = true;
+
+	[BasicStyledProperty<ExtendingCard>]
 	private bool isActive = false;
 
 	[BasicStyledProperty<ExtendingCard>]
