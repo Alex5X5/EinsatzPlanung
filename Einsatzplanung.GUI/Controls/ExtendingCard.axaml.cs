@@ -42,6 +42,7 @@ public partial class ExtendingCard : UserControl {
 	private Border? _partBorder;
 	private StackPanel? _headerPanel;
 	private StackPanel? _bodyPanel;
+	private ScrollViewer? _bodyScrollViewer;
 
 
 	[Content]
@@ -77,7 +78,6 @@ public partial class ExtendingCard : UserControl {
 
 		_headerPanel = e.NameScope.Find<StackPanel>("PART_HeaderPanel");
 		_bodyPanel = e.NameScope.Find<StackPanel>("PART_BodyPanel");
-
 		SyncPanel(_headerPanel, _headerContent);
 		SyncPanel(_bodyPanel, _children);
 
@@ -92,6 +92,10 @@ public partial class ExtendingCard : UserControl {
 			_partBorder.PointerEntered += OnBorderPointerEntered;
 			_partBorder.PointerExited += OnBorderPointerExited;
 		}
+
+		_bodyScrollViewer?.PointerWheelChanged -= OnScroll;
+		_bodyScrollViewer = e.NameScope.Find<ScrollViewer>("PART_Body");
+		_bodyScrollViewer?.PointerWheelChanged += OnScroll;
 	}
 
 	private static void SyncPanel(Panel? panel, Controls source) {
@@ -99,6 +103,12 @@ public partial class ExtendingCard : UserControl {
 			return;
 		panel.Children.Clear();
 		panel.Children.AddRange(source);
+	}
+
+	public void OnScroll(object? sender, PointerWheelEventArgs e) {
+		if (sender is not ScrollViewer sv)
+			return;
+		e.Handled = true;
 	}
 
 	private void OnBorderPointerEntered(object? sender, PointerEventArgs e) {
