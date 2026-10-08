@@ -3,16 +3,12 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Linq;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
 
-using Einsatzplanung.Types.Models;
 using Einsatzplanung.GUI.Interfaces;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Einsatzplanung.Types.Models.Configuration;
-using Avalonia.Controls.Primitives;
 
-public partial class TeacherCardViewModel : ViewModelBase {
+public partial class TeacherCardViewModel : CardViewModel {
 
 	[ObservableProperty]
 	private string header;
@@ -22,7 +18,7 @@ public partial class TeacherCardViewModel : ViewModelBase {
 	private int weeklyHours;
 	public ObservableCollection<TopicCardViewModel> Topics { get; }
 
-	public TeacherCardViewModel(TeacherConfig teacher) {
+	public TeacherCardViewModel(TeacherConfig teacher, int index) : base(index) {
 		Header = teacher.Name;
 		Abbreviation = teacher.Abbreviation;
 		WeeklyHours = teacher.WeeklyHours;

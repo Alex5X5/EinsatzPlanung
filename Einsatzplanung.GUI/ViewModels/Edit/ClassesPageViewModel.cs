@@ -1,5 +1,7 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
@@ -16,11 +18,15 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
 	public ObservableCollection<ClassCardViewModel> Cards { get; }
 
+	[ObservableProperty]
+	private int activeCardIndex = -1;
+
 	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IConfigExportService<GroupConfig> exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		var groups = configService.GetData();
-		Cards = new(groups.Select(g => new ClassCardViewModel(g)));
+		int i = 0;
+		Cards = new(groups.Select(g => new ClassCardViewModel(g, i++)));
 	}
 
 	public void AddCard() {
@@ -32,7 +38,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 			Blocks = []
 		};
 
-		Cards.Add(new ClassCardViewModel(group));
+		Cards.Add(new ClassCardViewModel(group, Cards.Count));
 	}
 
 	public void ExportCards(string path) {

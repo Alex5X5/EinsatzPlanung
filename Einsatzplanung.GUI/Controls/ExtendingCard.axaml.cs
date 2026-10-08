@@ -31,6 +31,12 @@ public partial class ExtendingCard : UserControl {
 	private bool showAddButton = true;
 
 	[BasicStyledProperty<ExtendingCard>]
+	private int? activeCardIndex;
+
+	[BasicStyledProperty<ExtendingCard>]
+	private int index = 0;
+
+	[BasicStyledProperty<ExtendingCard>]
 	private bool isActive = false;
 
 	[BasicStyledProperty<ExtendingCard>]
@@ -112,20 +118,20 @@ public partial class ExtendingCard : UserControl {
 	}
 
 	private void OnBorderPointerEntered(object? sender, PointerEventArgs e) {
-		IsActive = true;
+		//IsActive = true;
+		ActiveCardIndex = Index;
 	}
 
 	private void OnBorderPointerExited(object? sender, PointerEventArgs e) {
-		if (_partBorder is null)
-			return;
+		//if (_partBorder is null)
+		//	return;
 
-		var position = e.GetPosition(_partBorder);
-		var bounds = new Rect(10, 10, _partBorder.Bounds.Width - 20, _partBorder.Bounds.Height - 20);
+		//var position = e.GetPosition(_partBorder);
+		//var bounds = new Rect(10, 10, _partBorder.Bounds.Width - 20, _partBorder.Bounds.Height - 20);
 
-		if (bounds.Contains(position))
-			return;
-
-		IsActive = false;
+		//if (bounds.Contains(position))
+		//	return;
+		//IsActive = false;
 	}
 
 	protected override Size MeasureOverride(Size availableSize) {
@@ -148,5 +154,9 @@ public partial class ExtendingCard : UserControl {
 		if (change.Property == BodyOrientationProperty)
 			if (_bodyPanel is not null)
 				_bodyPanel.Orientation = change.GetNewValue<Orientation>();
+
+		if (change.Property == ActiveCardIndexProperty) {
+			IsActive = ActiveCardIndex == Index;
+		}
 	}
 }

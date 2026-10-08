@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
@@ -20,20 +22,24 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 
 	public ObservableCollection<HolidayCardViewModel> Cards { get; }
 
+	[ObservableProperty]
+	private int activeCardIndex = -1;
+
 	public HolidayViewModel(IConfigService<HolidayConfig> configService, IConfigExportService<HolidayConfig> exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		var holidays = configService.GetData();
+		int i = 0;
 		Cards = new(holidays.Select(t => {
 			if(t.To == null)
-				return new HolidayCardViewModel($"{t.From:dd.MM.yyyy}");
+				return new HolidayCardViewModel($"{t.From:dd.MM.yyyy}", i++);
 			else
-				return new HolidayCardViewModel($"{t.From:dd.MM.yyyy} - {t.To:dd.MM.yyyy}");
+				return new HolidayCardViewModel($"{t.From:dd.MM.yyyy} - {t.To:dd.MM.yyyy}", i++);
 		}));
 	}
 	
 	public void AddCard() {
-		Cards.Add(new HolidayCardViewModel($"{DateTime.Now.Date:dd.MM.yyyy} - {DateTime.Now.Date:dd.MM.yyyy}"));
+		Cards.Add(new HolidayCardViewModel($"{DateTime.Now.Date:dd.MM.yyyy} - {DateTime.Now.Date:dd.MM.yyyy}", Cards.Count));
 	}
 
 	public void ExportCards(string path) {

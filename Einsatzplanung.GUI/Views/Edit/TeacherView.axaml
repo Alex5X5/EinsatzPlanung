@@ -6,7 +6,8 @@
 			 xmlns:ct="using:Einsatzplanung.GUI.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Einsatzplanung.GUI.Views.Edit.TeacherView"
-             x:DataType="vm:TeacherPageViewModel">
+             x:DataType="vm:TeacherPageViewModel"
+			 Name="Root">
 
 	<ct:EditCardsControl ItemsSource="{Binding Cards}">
 		
@@ -14,8 +15,9 @@
 			
 			<DataTemplate x:DataType="vm:TeacherCardViewModel">
 
-				<ct:ExtendingCard AllowExtend="True"
-								   AddButtonCommand="{Binding AddTopicCommand}">
+				<ct:ExtendingCard Index="{Binding Index}"
+								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
+								  AddButtonCommand="{Binding AddTopicCommand}">
 
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Header, Mode=TwoWay}"

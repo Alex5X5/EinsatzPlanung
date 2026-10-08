@@ -11,14 +11,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-public partial class ClassCardViewModel : ViewModelBase {
+public partial class ClassCardViewModel : CardViewModel {
 	
 	[ObservableProperty]
 	private string header;
 	public ObservableCollection<TopicCardViewModel> Topics { get; }
 	public GroupConfig Config { init; get; }
 
-	public ClassCardViewModel(GroupConfig group) {
+	public ClassCardViewModel(GroupConfig group, int index) : base(index) {
 		Config = group;
 		Header = group.Name;
 		Topics = new(group.Blocks.Select(x => new TopicCardViewModel(x.Name, x.Count, RemoveTopicCommand)));

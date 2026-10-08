@@ -2,12 +2,12 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-public partial class HolidayCardViewModel : ViewModelBase {
+public partial class HolidayCardViewModel : CardViewModel {
 
 	[ObservableProperty]
 	private string header;
 
-	public HolidayCardViewModel(string header) {
+	public HolidayCardViewModel(string header, int index) : base(index) {
 		Header = header;
 	}
 }
