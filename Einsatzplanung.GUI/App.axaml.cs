@@ -74,20 +74,20 @@ public partial class App : Application {
 		collection.AddTransient<IExcelImportService, ExcelImportService>();
 		collection.AddTransient<IExcelExportService, ExcelExportService>();
 
-		collection.AddTransient<IGroupExportService, GroupExportService>();
-		collection.AddTransient<ITeacherExportService, TeacherExportService>();
-		collection.AddTransient<IHolidayExportService, HolidayExportService>();
 
 		collection.AddSingleton<IConfigService<Topic>, TopicService>();
 
 		collection.AddSingleton<IConfigService<TeacherConfig>, TeacherConfigService>();
+		collection.AddTransient<IConfigExportService<TeacherConfig>, TeacherExportService>();
 		collection.AddTransient<IEntityService<Teacher>, TeacherService>();
 
 		collection.AddSingleton<IConfigService<HolidayConfig>, HolidayConfigService>();
 		collection.AddTransient<IEntityService<Holiday>, HolidayService>();
+		collection.AddTransient<IConfigExportService<HolidayConfig>, HolidayExportService>();
 
 		collection.AddSingleton<IConfigService<AgeGroupConfig>, AgeGroupConfigService>();
 		collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
+		collection.AddTransient<IConfigExportService<GroupConfig>, GroupExportService>();
 
 		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
 		collection.AddTransient<IEntityService<Group>, GroupService>();

@@ -1,11 +1,10 @@
 ﻿namespace Einsatzplanung.Excel.Services;
 
-using Einsatzplanung.Excel.Interfaces;
-using Einsatzplanung.Excel.Models;
-using Einsatzplanung.Types.Models.Configuration;
 using System.Collections.Generic;
+using Einsatzplanung.Types.Models.Configuration;
+using Einsatzplanung.Excel.Interfaces;
 
-public class GroupExportService : IGroupExportService {
+public class GroupExportService : IConfigExportService<GroupConfig> {
 	
 	private readonly IExcelExportService excelExportService;
 
@@ -13,6 +12,6 @@ public class GroupExportService : IGroupExportService {
 		this.excelExportService = excelExportService;
 	}
 
-	public void ExportGroups(string filePath, List<GroupConfig> groups) {
+	public void Export(string filePath, List<GroupConfig> groups) {
 	}
 }

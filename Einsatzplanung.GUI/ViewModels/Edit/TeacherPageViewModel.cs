@@ -12,12 +12,12 @@ using Einsatzplanung.Types.Models.Configuration;
 
 public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 
-	private ITeacherExportService exportService;
+	private IConfigExportService<TeacherConfig> exportService;
 	private IConfigService<TeacherConfig> configService;
 
 	public ObservableCollection<TeacherCardViewModel> Cards { get; }
 
-	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, ITeacherExportService exportService) {
+	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, IConfigExportService<TeacherConfig> exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		var teachers = configService.GetData();
@@ -30,7 +30,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 
 	public void ExportCards(string path) {
 		SetEntitiesFromState();
-		exportService.ExportTeachers(path, configService.GetData());
+		exportService.Export(path, configService.GetData());
 	}
 
 	public override void OnUnload() {

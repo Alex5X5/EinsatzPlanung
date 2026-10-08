@@ -4,7 +4,7 @@ using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 using System.Collections.Generic;
 
-public class HolidayExportService : IHolidayExportService {
+public class HolidayExportService : IConfigExportService<HolidayConfig> {
 	
 	private readonly IExcelExportService excelExportService;
 
@@ -12,6 +12,6 @@ public class HolidayExportService : IHolidayExportService {
 		this.excelExportService = excelExportService;
 	}
 
-	public void ExportHolidays(string filePath, List<HolidayConfig> holidays) {
+	public void Export(string filePath, List<HolidayConfig> holidays) {
 	}
 }

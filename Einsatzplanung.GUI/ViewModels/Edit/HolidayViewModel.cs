@@ -13,14 +13,14 @@ using Einsatzplanung.Types.Models.Configuration;
 
 public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 
-	private IHolidayExportService exportService;
+	private IConfigExportService<HolidayConfig> exportService;
 	private IConfigService<HolidayConfig> configService;
 
 	public string Header { get; }
 
 	public ObservableCollection<HolidayCardViewModel> Cards { get; }
 
-	public HolidayViewModel(IConfigService<HolidayConfig> configService, IHolidayExportService exportService) {
+	public HolidayViewModel(IConfigService<HolidayConfig> configService, IConfigExportService<HolidayConfig> exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		var holidays = configService.GetData();
@@ -38,7 +38,7 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 
 	public void ExportCards(string path) {
 		SetEntitiesFromState();
-		exportService.ExportHolidays(path, configService.GetData());
+		exportService.Export(path, configService.GetData());
 	}
 
 	public override void OnUnload() {

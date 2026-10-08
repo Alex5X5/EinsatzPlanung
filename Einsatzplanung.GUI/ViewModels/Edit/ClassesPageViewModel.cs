@@ -1,7 +1,6 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
 using Einsatzplanung.Excel.Interfaces;
-using Einsatzplanung.Excel.Models;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
@@ -12,12 +11,12 @@ using System.Linq;
 
 public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
-	private IGroupExportService exportService;
+	private IConfigExportService<GroupConfig> exportService;
 	private IConfigService<GroupConfig> configService;
 
 	public ObservableCollection<ClassCardViewModel> Cards { get; }
 
-	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IGroupExportService exportService) {
+	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IConfigExportService<GroupConfig> exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		var groups = configService.GetData();
@@ -38,7 +37,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
 	public void ExportCards(string path) {
 		SetEntitiesFromState();
-		exportService.ExportGroups(path, configService.GetData());
+		exportService.Export(path, configService.GetData());
 	}
 
 	public override void OnUnload() {

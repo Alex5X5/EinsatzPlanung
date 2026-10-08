@@ -5,7 +5,7 @@ using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Types.Models.Configuration;
 using System.Collections.Generic;
 
-public class TeacherExportService : ITeacherExportService {
+public class TeacherExportService : IConfigExportService<TeacherConfig> {
 	
 	private readonly IExcelExportService excelExportService;
 
@@ -13,7 +13,7 @@ public class TeacherExportService : ITeacherExportService {
 		this.excelExportService = excelExportService;
 	}
 
-	public void ExportTeachers(string filePath, List<TeacherConfig> teachers) {
+	public void Export(string filePath, List<TeacherConfig> teachers) {
 		Table table = new();
 		table.AddRow(["Name", "Kürzel", "Themen", "Wochenstunden"]);
 
