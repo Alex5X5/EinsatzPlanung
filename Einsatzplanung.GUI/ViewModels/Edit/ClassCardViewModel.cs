@@ -1,13 +1,13 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
+using Avalonia.Media;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.GUI.Interfaces;
-using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -21,7 +21,14 @@ public partial class ClassCardViewModel : CardViewModel {
 	public ClassCardViewModel(GroupConfig group, int index) : base(index) {
 		Config = group;
 		Header = group.Name;
-		Topics = new(group.Blocks.Select(x => new TopicCardViewModel(x.Name, x.Count, RemoveTopicCommand)));
+		var models = group.Blocks.Select(
+			x => {
+				if(Color.TryParse(x.Color, out var color))
+					return new TopicCardViewModel(x.Name, color, x.Count, RemoveTopicCommand);
+				else
+					return new TopicCardViewModel(x.Name, x.Count, RemoveTopicCommand);
+			});
+		Topics = new(models);
 	}
 
 	[RelayCommand]
