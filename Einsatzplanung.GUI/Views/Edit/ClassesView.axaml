@@ -48,18 +48,18 @@
 													 Foreground="{DynamicResource AppForegroundBrush}"
 													 HorizontalContentAlignment="Center"
 													 VerticalContentAlignment="Center" 
-													 ToolTip.Tip="Der Klassenname"/>
+													 ToolTip.Tip="Der Name des Themas"/>
 											<TextBox Grid.Column="2"
 													 Text="{Binding Count, Mode=TwoWay}"
 													 TextWrapping="NoWrap"
 													 Foreground="{DynamicResource AppForegroundBrush}"
 													 HorizontalContentAlignment="Center"
 													 VerticalContentAlignment="Center" 
-													 ToolTip.Tip="Die Anzahl an Tagen"/> <!-- BITTE ANPASSEN. ICH HAB KEIN PLAN WAS DA DRIN STEHT -->
+													 ToolTip.Tip="Die Anzahl an Wochen des Themas"/>
 										
 											<ColorPicker Grid.Column="4"
 											             Color="{Binding SelectedColor, Mode=TwoWay}" 
-											             ToolTip.Tip="Die Farbe die die Klasse in der Excel haben wird"/>
+											             ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
 										
 										</Grid>
 
