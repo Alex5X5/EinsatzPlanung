@@ -4,20 +4,20 @@
     <ResourceDictionary.ThemeDictionaries>
 
         <ResourceDictionary x:Key="Light">
-            <Color x:Key="AppBackgroundStartColor">#e0fcff</Color>
-            <Color x:Key="AppBackgroundEndColor">#FFE8F1FF</Color>
+            <Color x:Key="AppBackgroundStartColor">#FFFF</Color>
+            <Color x:Key="AppBackgroundEndColor">#FFFF</Color>
             <Color x:Key="AppForegroundColor">#FF000000</Color>
             
-            <Color x:Key="TapItemBackgroundBrush">#D2EDFA</Color>
-            <Color x:Key="TapItemForegroundBrush">#d54407</Color>
-            <Color x:Key="SelectedTapItemBackgroundBrush">#d54407</Color>
-            <Color x:Key="SelectedTapItemForegroundBrush">#FFFFFF</Color>
-            <Color x:Key="PointeroverTapItemForegroundBrush">#d54407</Color>
+            <Color x:Key="TapItemBackgroundBrush">#FFF</Color>
+            <Color x:Key="TapItemForegroundBrush">Black</Color>
+            <Color x:Key="SelectedTapItemBackgroundBrush">#BA7296</Color>
+            <Color x:Key="SelectedTapItemForegroundBrush">#FFF</Color>
+            <Color x:Key="PointeroverTapItemForegroundBrush">#BA7296</Color>
             
-            <Color x:Key="CardBackgroundColor">#FFFFFF</Color>
-            <Color x:Key="CardBorderBrush">#000000</Color>
+            <Color x:Key="CardBackgroundColor">#F2F0FF</Color>
+            <Color x:Key="CardBorderBrush">#40000000</Color>
             
-            <Color x:Key="SeparatorColor">#d54407</Color>
+            <Color x:Key="SeparatorColor">#87375F</Color>
             
             <Color x:Key="ButtonBorderBrush">#000000</Color>
             <Color x:Key="ImportButtonBackgroundColor">#DCD4D1D2</Color>
