@@ -125,7 +125,7 @@
 									   VerticalAlignment="Center"
 									   TextTrimming="CharacterEllipsis" />
 
-							<Button Margin="0,0,12,8"
+							<!--<Button Margin="0,0,12,8"
 									Grid.Row="1"
 									Grid.Column="0"
 									Command="{Binding ImportPdfCommand}"
@@ -138,7 +138,7 @@
 									Background="{DynamicResource ImportButtonBackgroundColor}"
 									ToolTip.Tip="PDF-Datei mit Ausbilder Informationen einfügen">
 
-								  <!--<Grid ColumnDefinitions="Auto,*">
+								  ~1~<Grid ColumnDefinitions="Auto,*">
 										<Image Source="{SvgImage /Assets/pdf.svg}"
 											   Width="24"
 											   Height="24"
@@ -156,7 +156,7 @@
 													   HorizontalAlignment="Center"
 													   VerticalAlignment="Center" />
 										</Border>
-									</Grid>-->
+									</Grid>@1@
 								
 							</Button>
 
@@ -166,7 +166,7 @@
 									   Text="{Binding PdfFileStatus}"
 									   Foreground="{DynamicResource AppForegroundBrush}"
 									   VerticalAlignment="Center"
-									   TextTrimming="CharacterEllipsis" />
+									   TextTrimming="CharacterEllipsis" />-->
 						</Grid>
 
 					</Grid>
