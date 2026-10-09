@@ -58,7 +58,8 @@
 													 ToolTip.Tip="Die Anzahl an Wochen des Themas"/>
 										
 											<ColorPicker Grid.Column="4"
-											             Color="{Binding SelectedColor, Mode=TwoWay}" 
+											             Color="{Binding SelectedColor, Mode=TwoWay}"
+											             IsAlphaEnabled="False" IsAlphaVisible="False"
 											             ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
 										
 										</Grid>
