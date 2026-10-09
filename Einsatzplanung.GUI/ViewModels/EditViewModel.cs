@@ -76,11 +76,8 @@ public partial class EditViewModel : ViewModelBase {
 				]
 			});
 
-		await Task.Run(
-			()=>{
-				if (file is not null)
-					CurrentPage.ExportCards(file);
-			});
+		if (file is not null)
+			await CurrentPage.ExportCardsAsync(file);
 	}
 
 	[RelayCommand]

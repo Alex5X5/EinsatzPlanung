@@ -1,7 +1,8 @@
 namespace Einsatzplanung.Excel.Interfaces;
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IConfigExportService<T> {
-	void Export(string filePath, List<T> entities);
+	Task ExportAsync(string filePath, List<T> entities);
 }
