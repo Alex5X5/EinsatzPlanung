@@ -8,6 +8,11 @@
 		x:Class="Einsatzplanung.GUI.MainWindow"
 		x:DataType="vm:MainWindowViewModel"
 		x:Name="Root"
+		Width="1200"
+		Height="767"
+		MinWidth="1000"
+		MinHeight="667"
+		Background="{DynamicResource AppBackgroundBrush}"
 		Icon="/Assets/avalonia-logo.ico"
 		Title="Einsatzplanung">
 	<v:MainView />
