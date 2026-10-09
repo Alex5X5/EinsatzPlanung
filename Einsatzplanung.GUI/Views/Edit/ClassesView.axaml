@@ -41,19 +41,28 @@
 
 									<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
-										<Grid RowDefinitions="*" ColumnDefinitions="16*, *, 6*">
+										<Grid RowDefinitions="*" ColumnDefinitions="16*, *, 6*, *, 4*">
 											<TextBox Grid.Column="0"
 													 Text="{Binding Header, Mode=TwoWay}"
 													 TextWrapping="NoWrap"
 													 Foreground="{DynamicResource AppForegroundBrush}"
 													 HorizontalContentAlignment="Center"
-													 VerticalContentAlignment="Top" />
+													 VerticalContentAlignment="Center" />
 											<TextBox Grid.Column="2"
 													 Text="{Binding Count, Mode=TwoWay}"
 													 TextWrapping="NoWrap"
 													 Foreground="{DynamicResource AppForegroundBrush}"
 													 HorizontalContentAlignment="Center"
-													 VerticalContentAlignment="Top" />
+													 VerticalContentAlignment="Center" />
+											
+											<StackPanel Grid.Column="4" Spacing="10">
+												<TextBlock Text="Farbe" />
+
+												<ColorPicker
+													Color="{Binding SelectedColor, Mode=TwoWay}" />
+												
+											</StackPanel>
+
 										
 										</Grid>
 
