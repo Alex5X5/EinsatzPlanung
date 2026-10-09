@@ -71,7 +71,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 					t => new BlockConfig() {
 						Name = t.Header,
 						Count = int.Parse(t.Count),
-						Color = "#FF0000"
+						Color = t.SelectedColor.ToString()
 					}).ToList();
 				var group = new GroupConfig() {
 					Name = card.Header,

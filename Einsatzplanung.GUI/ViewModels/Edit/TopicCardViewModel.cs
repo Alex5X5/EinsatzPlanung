@@ -22,10 +22,13 @@ public partial class TopicCardViewModel : ViewModelBase, IRemovableCardViewModel
 
 	public IRelayCommand<object> RemoveCommand { init; get; }
 
-    public TopicCardViewModel(string header, int count, IRelayCommand<object> removeCommand) {
-        Header = header;
+    public TopicCardViewModel(string header, int count, IRelayCommand<object> removeCommand)
+		: this (header, Colors.White, count, removeCommand) {  }
+
+	public TopicCardViewModel(string header, Color selectedColor, int count, IRelayCommand<object> removeCommand) {
+		Header = header;
+		SelectedColor = selectedColor;
 		Count = Convert.ToString(count);
 		RemoveCommand = removeCommand;
-    }
-
+	}
 }
