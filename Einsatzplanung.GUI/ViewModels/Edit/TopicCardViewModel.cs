@@ -1,3 +1,5 @@
+using Avalonia.Media;
+
 namespace Einsatzplanung.GUI.ViewModels.Edit;
 
 using System;
@@ -14,6 +16,9 @@ public partial class TopicCardViewModel : ViewModelBase, IRemovableCardViewModel
 
 	[ObservableProperty]
 	private string count;
+	    
+	[ObservableProperty]
+	private Color selectedColor = Colors.DarkRed;
 
 	public IRelayCommand<object> RemoveCommand { init; get; }
 
@@ -22,4 +27,5 @@ public partial class TopicCardViewModel : ViewModelBase, IRemovableCardViewModel
 		Count = Convert.ToString(count);
 		RemoveCommand = removeCommand;
     }
+
 }
