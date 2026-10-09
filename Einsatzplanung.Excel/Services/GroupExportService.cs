@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using Einsatzplanung.Types.Models.Configuration;
 using Einsatzplanung.Excel.Interfaces;
+using System.Threading.Tasks;
 
 public class GroupExportService : IConfigExportService<GroupConfig> {
 	
@@ -12,6 +13,8 @@ public class GroupExportService : IConfigExportService<GroupConfig> {
 		this.excelExportService = excelExportService;
 	}
 
-	public void Export(string filePath, List<GroupConfig> groups) {
+	public async Task ExportAsync(string filePath, List<GroupConfig> groups) {
+		await Task.Run(() => {
+		});
 	}
 }
