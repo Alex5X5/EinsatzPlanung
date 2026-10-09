@@ -54,15 +54,9 @@
 													 Foreground="{DynamicResource AppForegroundBrush}"
 													 HorizontalContentAlignment="Center"
 													 VerticalContentAlignment="Center" />
-											
-											<StackPanel Grid.Column="4" Spacing="10">
-												<TextBlock Text="Farbe" />
-
-												<ColorPicker
-													Color="{Binding SelectedColor, Mode=TwoWay}" />
-												
-											</StackPanel>
-
+										
+											<ColorPicker Grid.Column="4"
+											             Color="{Binding SelectedColor, Mode=TwoWay}" />
 										
 										</Grid>
 
