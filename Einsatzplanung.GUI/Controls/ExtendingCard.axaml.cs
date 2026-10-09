@@ -31,7 +31,7 @@ public partial class ExtendingCard : UserControl {
 	private bool showAddButton = true;
 
 	[BasicStyledProperty<ExtendingCard>]
-	private int? activeCardIndex;
+	private int activeCardIndex = -1;
 
 	[BasicStyledProperty<ExtendingCard>]
 	private int index = 0;
@@ -64,15 +64,21 @@ public partial class ExtendingCard : UserControl {
 	}
 
 	static ExtendingCard() {
+		
+		IndexProperty.Changed.AddClassHandler<ExtendingCard>(
+			(c, e) => {
+				c.IsActive = c.ActiveCardIndex == (int)e.NewValue!;
+			});
+
+		ActiveCardIndexProperty.Changed.AddClassHandler<ExtendingCard>(
+			(c, e) => {
+				c.IsActive = c.Index == (int)e.NewValue!;
+			});
 
 		IsActiveProperty.Changed.AddClassHandler<ExtendingCard>(
 			(c, e) => {
-				bool newValue = (c.AllowExtend) ? (bool)e.NewValue! : false;
-				if (newValue) {
-					c.PseudoClasses.Set(":active", true);
-				} else {
-					c.PseudoClasses.Remove(":active");
-				}
+				var newValue = (c.AllowExtend) ? (bool)e.NewValue! : false;
+				c.PseudoClasses.Set(":active", newValue);
 			});
 	}
 
@@ -154,9 +160,5 @@ public partial class ExtendingCard : UserControl {
 		if (change.Property == BodyOrientationProperty)
 			if (_bodyPanel is not null)
 				_bodyPanel.Orientation = change.GetNewValue<Orientation>();
-
-		if (change.Property == ActiveCardIndexProperty) {
-			IsActive = ActiveCardIndex == Index;
-		}
 	}
 }
