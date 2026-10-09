@@ -77,7 +77,7 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 				if (!DateTime.TryParseExact(parts[0], "dd.MM.yyyy", null, DateTimeStyles.None, out DateTime from))
 					continue;
 
-				DateTime to = from;
+				DateTime? to = null;
 
 				if (parts.Length == 2) {
 					if (!DateTime.TryParseExact(parts[1], "dd.MM.yyyy", null, DateTimeStyles.None, out DateTime to_)) {
@@ -85,13 +85,11 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 					} else {
 						to = to_;
 					}
-				} else {
-					to = from;
 				}
 
 				var holiday = new HolidayConfig {
 					From = DateOnly.FromDateTime(from),
-					To = DateOnly.FromDateTime(to)
+					To = to == null ? null : DateOnly.FromDateTime(to.Value)
 				};
 
 				holidays.Add(holiday);

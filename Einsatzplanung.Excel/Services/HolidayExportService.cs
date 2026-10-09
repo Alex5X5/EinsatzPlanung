@@ -1,7 +1,7 @@
 ﻿namespace Einsatzplanung.Excel.Services;
 
 using Einsatzplanung.Excel.Interfaces;
-using Einsatzplanung.Types.Models;
+using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
 using System.Collections.Generic;
@@ -17,6 +17,24 @@ public class HolidayExportService : IConfigExportService<HolidayConfig> {
 
 	public async Task ExportAsync(string filePath, List<HolidayConfig> holidays) {
 		await Task.Run(() => {
+
+			Table table = new();
+			table.AddRow(["Von", "Bis"]);
+
+			foreach (HolidayConfig holiday in holidays) {
+				if (holiday.To is null) {
+					table.AddRow([
+						holiday.From.ToString("dd.MM.yyyy"),
+					]);
+				} else {
+					table.AddRow([
+						holiday.From.ToString("dd.MM.yyyy"),
+						holiday.To?.ToString("dd.MM.yyyy")!
+					]);
+				}
+			}
+
+			excelExportService.SaveTable(filePath, table, sheetName: "Urlaub");
 		});
 	}
 }
