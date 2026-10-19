@@ -16,7 +16,6 @@
 			<DataTemplate x:DataType="vm:TopicCardViewModel">
 
 				<ct:ExtendingCard AllowExtend="False"
-								  Index="{}"
 								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}">
 
 					<ct:ExtendingCard.HeaderContent>
