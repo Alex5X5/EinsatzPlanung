@@ -11,6 +11,10 @@ using CommunityToolkit.Mvvm.Input;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
+using Microsoft.Extensions.DependencyInjection;
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Input.Services;
+using Einsatzplanung.Types.Models;
 
 public partial class ClassCardViewModel : CardViewModel {
 	
@@ -24,10 +28,8 @@ public partial class ClassCardViewModel : CardViewModel {
 		Header = group.Name;
 		var models = group.Blocks.Select(
 			x => {
-				if(Color.TryParse(x.Color, out var color))
-					return new BlockCardViewModel(x.Name, color, x.Count, RemoveTopicCommand);
-				else
-					return new BlockCardViewModel(x.Name, x.Count, RemoveTopicCommand);
+				var topic = App.Current.Services.GetRequiredService<IEntityService<Topic>>().GetTopicByName(x.Topic);
+				return new BlockCardViewModel(topic.Name, x.Count, RemoveTopicCommand);
 			});
 		Topics = new(models);
 	}
