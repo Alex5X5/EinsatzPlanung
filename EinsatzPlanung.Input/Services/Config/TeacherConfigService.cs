@@ -9,6 +9,7 @@ using Einsatzplanung.Input.Interfaces;
 using System;
 using System.Collections.Generic;
 using Einsatzplanung.Types.Models.Configuration;
+using System.Linq;
 
 public class TeacherConfigService : IConfigService<TeacherConfig> {
 
@@ -18,11 +19,13 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 	private const int WEEKLY_HOURS_COLUMN_INDEX = 3;
 
 	private IExcelImportService excelImportService;
+	private IEntityService<Topic> topicService;
 
 	private string SourceFilePath { get; set; } = "";
 
-	public TeacherConfigService(IExcelImportService excelImportService) {
+	public TeacherConfigService(IExcelImportService excelImportService, IEntityService<Topic> topicService) {
 		this.excelImportService = excelImportService;
+		this.topicService = topicService;
 	}
 
 	public void SetSource(string path) {
@@ -47,8 +50,14 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 				if (int.TryParse(table[row, WEEKLY_HOURS_COLUMN_INDEX]?.Value ?? "", out var hours))
 					builder.SetHours(hours);
 			}
-			if (!string.IsNullOrEmpty(table[row, SPECIALIZATION_COLUMN_INDEX]?.Value))
-				builder.AddSpecialization(table[row, SPECIALIZATION_COLUMN_INDEX]!.Value);
+
+			string specialization = table[row, SPECIALIZATION_COLUMN_INDEX]?.Value ?? "";
+			if (string.IsNullOrEmpty(specialization))
+				continue;
+			var topic = topicService.GetEntities().FirstOrDefault(t => t.Name == specialization);
+			if(topic is null)
+				continue;
+			builder.AddSpecialization(topic);
 		}
 
 		if (builder.Build() is TeacherConfig t)
@@ -92,9 +101,9 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 			return this;
 		}
 
-		public TeacherConfigBuilder AddSpecialization(string specialization) {
+		public TeacherConfigBuilder AddSpecialization(Topic specialization) {
 			CreateCurrentIfNull();
-			current!.Specializations.Add(new Topic(specialization));
+			current!.Specializations.Add(specialization);
 			return this;
 		}
 

@@ -75,7 +75,8 @@ public partial class App : Application {
 		collection.AddTransient<IExcelExportService, ExcelExportService>();
 
 
-		collection.AddSingleton<IConfigService<Topic>, TopicService>();
+		collection.AddSingleton<IConfigService<TopicConfig>, TopicConfigService>();
+		collection.AddSingleton<IEntityService<Topic>, TopicService>();
 
 		collection.AddSingleton<IConfigService<TeacherConfig>, TeacherConfigService>();
 		collection.AddTransient<IConfigExportService<TeacherConfig>, TeacherExportService>();

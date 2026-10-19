@@ -1,41 +1,46 @@
 ﻿namespace Einsatzplanung.Input.Services;
 
-using System.Collections.Generic;
-
-using Einsatzplanung.Types.Models;
-using Einsatzplanung.Excel.Models;
-using Einsatzplanung.Excel.Interfaces;
-
 using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models;
+using Einsatzplanung.Types.Models.Configuration;
 
-public class TopicService : IConfigService<Topic>, IEntityService<Topic> {
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-	private IExcelImportService excelImportService;
+public class TopicService : IEntityService<Topic> {
 
-	private string SourceFilePath { get; set; } = "";
+	private IConfigService<TopicConfig> configService;
 
-	public TopicService(IExcelImportService excelImportService) {
-		this.excelImportService = excelImportService;
-	}
-
-	public void SetSource(string path) {
-		SourceFilePath = path;
-	}
-
-	public List<Topic> GetData() {
-		Table table = excelImportService.GetTable(SourceFilePath);
-		List<Topic> topics = new List<Topic>();
-		for(int row=0; row < table.RowCount; row++) {
-			Topic topic = new(table.Cells[row][0].Value);
-			topics.Add(topic);
-		}
-		return topics;
+	public TopicService(IConfigService<TopicConfig> configService) {
+		this.configService = configService;
 	}
 
 	public List<Topic> GetEntities() {
-		return GetData();
+		List<TopicConfig> configs = configService.GetData();
+		return configs.Select(c => new Topic(c.Name, c.Color)).ToList();
 	}
 
-	public void SetData(List<Topic> entities) {
+	public void SetSource(string path) {
+		configService.SetSource(path);
 	}
+}
+
+public static class TopicServiceExtensions {
+
+	public static Topic GetTopicByName(this IEntityService<Topic> service, string name) {
+		return service.GetEntities().First(t => t.Name.Equals(name, StringComparison.Ordinal));
+	}
+
+	public static bool TryGetTopicByName(this IEntityService<Topic> service, string name, out Topic? result) {
+
+		if (string.IsNullOrEmpty(name)) {
+			result = service.GetEntities().FirstOrDefault(t => t.Name.Equals(name, StringComparison.Ordinal));
+		} else {
+			result = null;
+		}
+
+		return result != null;
+	}
+
 }

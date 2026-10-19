@@ -1,11 +1,13 @@
 ﻿namespace Einsatzplanung.Input.Services.Config;
 
+using System.Collections.Generic;
+using System.Linq;
+
 using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
-
-using System.Collections.Generic;
 
 public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 
@@ -18,12 +20,13 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 	private const int TOPIC_COLOR_COLUMN_INDEX = 6;
 
 	private IExcelImportService excelImportService;
+	private IEntityService<Topic> topicService;
 
 	private string SourceFilePath { get; set; } = "";
 
 	private List<AgeGroupConfig>? bufferedData;
 
-	public AgeGroupConfigService(IExcelImportService excelImportService) {
+	public AgeGroupConfigService(IExcelImportService excelImportService, IEntityService<Topic> topicService) {
 		this.excelImportService = excelImportService;
 	}
 
@@ -74,9 +77,8 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 				groupBuilder.AddSchoolWeek(schoolWeek);
 
 			if (int.TryParse(table[row, TOPIC_WEEKS_COLUMN_INDEX]?.Value ?? "", out var topicWeeks)) {
-				string name = table[row, TOPIC_COLUMN_INDEX]!.Value!;
-				string farbe = table[row, TOPIC_COLOR_COLUMN_INDEX]?.Value ?? "#FFFFFF";
-				groupBuilder.AddBlock(new BlockConfig() { Count = topicWeeks, Name = name, Color = farbe });
+				string topicName = table[row, TOPIC_COLUMN_INDEX]?.Value ?? "";
+				groupBuilder.AddBlock(new BlockConfig() { Count = topicWeeks, Topic = topicName });
 			}
 		}
 
