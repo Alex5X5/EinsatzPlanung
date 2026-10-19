@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Input.Services;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
@@ -17,8 +18,8 @@ using System.Threading.Tasks;
 
 public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 
-	private IConfigExportService<Topic> exportService;
-	private IConfigService<Topic> configService;
+	private IConfigExportService<TopicConfig> exportService;
+	private IConfigService<TopicConfig> configService;
 
 	public string Header { get; }
 
@@ -28,7 +29,7 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private int activeCardIndex = -1;
 
-	public TopicViewModel(IConfigService<Topic> configService, IConfigExportService<Topic> exportService) {
+	public TopicViewModel(IConfigService<TopicConfig> configService, IConfigExportService<TopicConfig> exportService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		Cards = [];
@@ -40,12 +41,10 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 
 	protected override async Task OnLoadAsync() {
 		List<TopicCardViewModel> cards = await Task.Run(
-			() => {
-				var topics = configService.GetData();
-				return topics
-					.Select(t => new TopicCardViewModel(t))
-					.ToList();
-			});
+			() => configService
+				.GetData()
+				.Select(t => new TopicCardViewModel(t))
+				.ToList());
 		Cards = new(cards);
 	}
 
@@ -53,17 +52,19 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 		await SetEntitiesFromStateAsync();
 	}
 
-	public Task ExportCardsAsync(string path) {
-		return Task.CompletedTask;
+	public async Task ExportCardsAsync(string path) {
+		await SetEntitiesFromStateAsync();
+		await exportService.ExportAsync(path, configService.GetData());
 	}
 
 	public async Task SetEntitiesFromStateAsync() {
 		await Task.Run(() => {
-			//List<Topic> teachers = Cards.Select(card => new Topic {
-			//	Name = card.Header
-			//}).ToList();
+			List<TopicConfig> topics = Cards.Select(card => new TopicConfig {
+				Name = card.Header,
+				Color = card.SelectedColor.ToString()
+			}).ToList();
 
-			//configService.SetData(teachers);
+			configService.SetData(topics);
 		});
 	}
 }

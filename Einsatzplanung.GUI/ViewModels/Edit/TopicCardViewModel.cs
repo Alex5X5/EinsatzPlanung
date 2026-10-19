@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-using Einsatzplanung.Types.Models;
+using Einsatzplanung.Types.Models.Configuration;
 
 public partial class TopicCardViewModel : ViewModelBase {
 	
@@ -14,7 +14,7 @@ public partial class TopicCardViewModel : ViewModelBase {
 	[ObservableProperty]
 	private Color selectedColor = Colors.DarkRed;
 
-	public TopicCardViewModel(Topic topic) : this(topic.Name, Color.Parse("#FFFFFFFFF")) { }
+	public TopicCardViewModel(TopicConfig topic) : this(topic.Name, Color.Parse(topic.Color)) { }
 
 	public TopicCardViewModel(string header, Color selectedColor) {
 		Header = header;

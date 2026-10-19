@@ -1,15 +1,15 @@
 ﻿namespace Einsatzplanung.Excel.Services;
 
 using Einsatzplanung.Excel.Interfaces;
-using Einsatzplanung.Types.Models;
+using Einsatzplanung.Types.Models.Configuration;
 
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-public class TopicExportService : IConfigExportService<Topic> {
-	public Task ExportAsync(string filePath, List<Topic> entities) {
+public class TopicExportService : IConfigExportService<TopicConfig> {
+	public Task ExportAsync(string filePath, List<TopicConfig> entities) {
 		throw new NotImplementedException();
 	}
 }
