@@ -1,33 +1,37 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
-using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
-using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Types.Models.Configuration;
 
-public partial class TopicViewModel : ViewModelBase{ // IEditViewChild  missing for skeleton
+public partial class TopicViewModel : ViewModelBase, IEditViewChild { // IEditViewChild  missing for skeleton
 
-	public string Header {
-		get;
-	}
+	public string Header { get; }
 
-	[ObservableProperty] private ObservableCollection<TopicCardViewModel> cards;
+	[ObservableProperty]
+	private ObservableCollection<TopicCardViewModel> cards;
 
-	[ObservableProperty] private int activeCardIndex = -1;
+	[ObservableProperty]
+	private int activeCardIndex = -1;
 
 	public TopicViewModel() {
 		Cards = [];
 	}
-	
+
+	public void AddCard() {
+		
+	}
+
+	public Task ExportCardsAsync(string path) {
+		return Task.CompletedTask;
+	}
+
+	public Task SetEntitiesFromStateAsync() {
+		return Task.CompletedTask;
+	}
 }
 
 // public void AddCard() {

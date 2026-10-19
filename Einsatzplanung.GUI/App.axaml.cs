@@ -100,6 +100,7 @@ public partial class App : Application {
 		collection.AddTransient<EditViewModel>();
 		collection.AddTransient<SaveViewModel>();
 		collection.AddTransient<ImportCardViewModel>();
+		collection.AddTransient<TopicViewModel>();
 
 		collection.AddSingleton<HolidayViewModel>();
 		collection.AddSingleton<ClassesPageViewModel>();
