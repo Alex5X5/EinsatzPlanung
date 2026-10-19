@@ -16,16 +16,31 @@
 			<DataTemplate x:DataType="vm:TopicCardViewModel">
 
 				<ct:ExtendingCard AllowExtend="False"
-								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}">
+								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
+								  HeaderOrientation="Vertical">
 
 					<ct:ExtendingCard.HeaderContent>
-						<TextBox Text="{Binding Header, Mode=TwoWay}"
-								 TextWrapping="NoWrap"
-								 Foreground="{DynamicResource AppForegroundBrush}"
-								 HorizontalAlignment="Stretch"
-								 HorizontalContentAlignment="Center"
-								 VerticalContentAlignment="Center"
-								 ToolTip.Tip="" />
+
+						<Grid RowDefinitions="*"
+							  ColumnDefinitions="16*, *, 3*"
+							  HorizontalAlignment="Stretch">
+
+							<TextBox Grid.Column="0"
+									 Text="{Binding Header, Mode=TwoWay}"
+									 TextWrapping="NoWrap"
+									 Foreground="{DynamicResource AppForegroundBrush}"
+									 HorizontalContentAlignment="Center"
+									 VerticalContentAlignment="Center"
+									 ToolTip.Tip="Der Name des Themas"/>
+							<ColorPicker Grid.Column="2"
+										 Color="{Binding SelectedColor, Mode=TwoWay}"
+										 IsAlphaEnabled="False"
+										 IsAlphaVisible="False"
+										 HorizontalAlignment="Stretch"
+										 ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
+						
+						</Grid>
+
 					</ct:ExtendingCard.HeaderContent>
 
 				</ct:ExtendingCard>

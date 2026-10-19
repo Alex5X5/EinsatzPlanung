@@ -14,7 +14,6 @@
 		<ct:EditCardsControl.ItemTemplate>
 
 			<DataTemplate x:DataType="vm:ClassCardViewModel">
-
 				<ct:ExtendingCard Index="{Binding Index}"
 								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
 								  AddButtonCommand="{Binding AddTopicCommand}">
@@ -56,12 +55,6 @@
 													 HorizontalContentAlignment="Center"
 													 VerticalContentAlignment="Center" 
 													 ToolTip.Tip="Die Anzahl an Wochen des Themas"/>
-										
-											<ColorPicker Grid.Column="4"
-											             Color="{Binding SelectedColor, Mode=TwoWay}"
-											             IsAlphaEnabled="False" IsAlphaVisible="False"
-											             ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
-										
 										</Grid>
 
 									</ct:RemovableCard>
