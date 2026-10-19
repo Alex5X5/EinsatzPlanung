@@ -1,13 +1,24 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
+using Avalonia.Media;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
+using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models;
+using Einsatzplanung.Types.Models.Configuration;
 
-public partial class TopicViewModel : ViewModelBase, IEditViewChild { // IEditViewChild  missing for skeleton
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+
+public partial class TopicViewModel : ViewModelBase, IEditViewChild {
+
+	private IConfigExportService<Topic> exportService;
+	private IConfigService<Topic> configService;
 
 	public string Header { get; }
 
@@ -17,20 +28,43 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild { // IEditVi
 	[ObservableProperty]
 	private int activeCardIndex = -1;
 
-	public TopicViewModel() {
+	public TopicViewModel(IConfigService<Topic> configService, IConfigExportService<Topic> exportService) {
+		this.exportService = exportService;
+		this.configService = configService;
 		Cards = [];
 	}
 
 	public void AddCard() {
-		
+		Cards.Add(new TopicCardViewModel("New Topic", Colors.White));
+	}
+
+	protected override async Task OnLoadAsync() {
+		List<TopicCardViewModel> cards = await Task.Run(
+			() => {
+				var topics = configService.GetData();
+				return topics
+					.Select(t => new TopicCardViewModel(t))
+					.ToList();
+			});
+		Cards = new(cards);
+	}
+
+	protected override async Task OnUnloadAsync() {
+		await SetEntitiesFromStateAsync();
 	}
 
 	public Task ExportCardsAsync(string path) {
 		return Task.CompletedTask;
 	}
 
-	public Task SetEntitiesFromStateAsync() {
-		return Task.CompletedTask;
+	public async Task SetEntitiesFromStateAsync() {
+		await Task.Run(() => {
+			//List<Topic> teachers = Cards.Select(card => new Topic {
+			//	Name = card.Header
+			//}).ToList();
+
+			//configService.SetData(teachers);
+		});
 	}
 }
 
