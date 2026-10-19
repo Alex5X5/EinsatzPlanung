@@ -5,12 +5,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-using CommunityToolkit.Mvvm.ComponentModel;
-
 using Avalonia.Media;
+
+using CommunityToolkit.Mvvm.ComponentModel;
 
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
+using Einsatzplanung.GUI.Helpers;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
@@ -59,7 +60,7 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 		await Task.Run(() => {
 			List<TopicConfig> topics = Cards.Select(card => new TopicConfig {
 				Name = card.Header,
-				Color = card.SelectedColor.ToString()
+				Color = card.SelectedColor.ToRgbHex()
 			}).ToList();
 
 			configService.SetData(topics);

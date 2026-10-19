@@ -40,7 +40,7 @@ namespace Einsatzplanung.Input.Interfaces {
 
 		public static bool TryGetTopicByName(this IEntityService<Topic> service, string name, out Topic? result) {
 
-			if (string.IsNullOrEmpty(name)) {
+			if (!string.IsNullOrEmpty(name)) {
 				result = service.GetEntities().FirstOrDefault(t => t.Name.Equals(name, StringComparison.Ordinal));
 			} else {
 				result = null;

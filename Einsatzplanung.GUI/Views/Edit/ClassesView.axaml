@@ -40,7 +40,7 @@
 
 									<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
-										<Grid RowDefinitions="*" ColumnDefinitions="16*, *, 6*, *, 4*">
+										<Grid RowDefinitions="*" ColumnDefinitions="19*, *, 3*">
 											<TextBox Grid.Column="0"
 													 Text="{Binding Header, Mode=TwoWay}"
 													 TextWrapping="NoWrap"
