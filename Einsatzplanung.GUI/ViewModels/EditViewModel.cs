@@ -70,9 +70,10 @@ public partial class EditViewModel : ViewModelBase {
 			new FilePickerSaveOptions {
 				Title = "Export als Excel speichern",
 				SuggestedFileName = SelectedPageIndex switch {
-					0 => "Lehrjahre.xlsx",
-					1 => "Ausbilder.xlsx",
-					2 => "Urlaub.xlsx",
+					0 => "Themen.xlsx",
+					1 => "Lehrjahre.xlsx",
+					2 => "Ausbilder.xlsx",
+					3 => "Urlaub.xlsx",
 					_ => "Export.xlsx"
 				},
 				FileTypeChoices = [
