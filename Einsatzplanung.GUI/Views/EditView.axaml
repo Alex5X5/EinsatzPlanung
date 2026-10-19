@@ -16,24 +16,27 @@
                     SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}">
 
             <ContentPage Header="Schulklassen"  
-                         Background="Transparent" 
-                         Margin="0,20,0,0" CornerRadius="0,0,20,20">
+                         Classes="content-page-default-style">
                 
                 <pages:ClassesView />
             </ContentPage>
 
             <ContentPage Header="Ausbilder" 
-                         Background="Transparent" 
-                         Margin="0,20,0,20" CornerRadius="0,0,20,20">
+                         Classes="content-page-default-style">
                 
                 <pages:TeacherView />
             </ContentPage>
 
             <ContentPage Header="Urlaub" 
-                         Background="Transparent" 
-                         Margin="0,20,0,20" CornerRadius="0,0,20,20">
+                         Classes="content-page-default-style">
                 
                 <pages:HolidayView />
+            </ContentPage>
+            
+            <ContentPage Header="Themen"
+                         Classes="content-page-default-style">
+                
+                <pages:TopicView />
             </ContentPage>
 
         </TabbedPage>

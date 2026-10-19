@@ -2,9 +2,9 @@
 
 using Einsatzplanung.GUI.ViewModels.Edit;
 
-public partial class HolidayView : ViewBase<HolidayViewModel> {
+public partial class TopicView : ViewBase<TopicViewModel> {
 
-	public HolidayView() : base() {
+	public TopicView() : base() {
 		InitializeComponent();
 	}
 }

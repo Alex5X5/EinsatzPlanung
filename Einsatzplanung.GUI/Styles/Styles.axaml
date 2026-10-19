@@ -99,6 +99,12 @@
         <Setter Property="Foreground" Value="{DynamicResource PointeroverTapItemForegroundBrush}"/>
     </Style>
     
+    <Style Selector="ContentPage.content-page-default-style">
+        <Setter Property="CornerRadius" Value="0,0,20,20"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Margin" Value="0,20,0,20"/> 
+    </Style>
+    
     <!-- img -->
     
     <Style Selector="Image.glow">
