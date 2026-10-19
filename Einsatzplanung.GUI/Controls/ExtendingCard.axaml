@@ -42,14 +42,38 @@
 
 						<ScrollViewer Name="PART_Body"
 									  Grid.Row="1"
-									  VerticalScrollBarVisibility="Hidden"
-									  HorizontalScrollBarVisibility="Disabled"
-									  Margin="0,0,0,20">
+									  Margin="0,0,-10,0"
+									  AllowAutoHide="False">
+
+							<ScrollViewer.Resources>
+								<x:Double x:Key="ScrollBarSize">8</x:Double>
+								<x:Double x:Key="ScrollBarThumbSize">6</x:Double>
+							</ScrollViewer.Resources>
+
+							<ScrollViewer.Styles>
+								<Style Selector="ScrollBar /template/ RepeatButton">
+									<Setter Property="IsVisible" Value="False"/>
+								</Style>
+								<Style Selector="ScrollBar /template/ Thumb">
+									<Setter Property="CornerRadius" Value="4"/>
+									<Setter Property="Width" Value="4"/>
+									<Setter Property="Transitions">
+										<Transitions>
+											<DoubleTransition Property="Width" Duration="0:0:0.12" />
+										</Transitions>
+									</Setter>
+								</Style>
+
+								<Style Selector="ScrollBar /template/ Border#ScrollBarTrack">
+									<Setter Property="Opacity" Value="0" />
+								</Style>
+							</ScrollViewer.Styles>
 
 							<StackPanel Name="PART_BodyPanel"
 										Grid.Row="1"
 										Orientation="{TemplateBinding BodyOrientation}"
 										HorizontalAlignment="Stretch"
+										Margin="0,0,10,0"
 										Spacing="12" />
 							
 						</ScrollViewer>

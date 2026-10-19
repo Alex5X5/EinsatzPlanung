@@ -8,8 +8,31 @@
 	 
 	<ItemsControl.Template>
 		<ControlTemplate TargetType="ItemsControl">
-			<ScrollViewer HorizontalScrollBarVisibility="Disabled"
-						  VerticalScrollBarVisibility="Hidden">
+			<ScrollViewer 
+				Margin="0,0,0,0">
+				<ScrollViewer.Resources>
+					<x:Double x:Key="ScrollBarSize">8</x:Double>
+					<x:Double x:Key="ScrollBarThumbSize">6</x:Double>
+				</ScrollViewer.Resources>
+
+				<ScrollViewer.Styles>
+					<Style Selector="ScrollBar /template/ RepeatButton">
+						<Setter Property="IsVisible" Value="False"/>
+					</Style>
+					<Style Selector="ScrollBar /template/ Thumb">
+						<Setter Property="CornerRadius" Value="4"/>
+						<Setter Property="Width" Value="4"/>
+						<Setter Property="Transitions">
+							<Transitions>
+								<DoubleTransition Property="Width" Duration="0:0:0.12" />
+							</Transitions>
+						</Setter>
+					</Style>
+
+					<Style Selector="ScrollBar /template/ Border#ScrollBarTrack">
+						<Setter Property="Opacity" Value="0" />
+					</Style>
+				</ScrollViewer.Styles>
 				<ItemsPresenter Name="PART_ItemsPresenter"
 								ItemsPanel="{TemplateBinding ItemsPanel}" />
 			</ScrollViewer>
