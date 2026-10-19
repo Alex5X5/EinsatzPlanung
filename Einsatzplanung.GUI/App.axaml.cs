@@ -77,6 +77,7 @@ public partial class App : Application {
 
 		collection.AddSingleton<IConfigService<TopicConfig>, TopicConfigService>();
 		collection.AddSingleton<IEntityService<Topic>, TopicService>();
+		collection.AddTransient<IConfigExportService<TopicConfig>, TopicExportService>();
 
 		collection.AddSingleton<IConfigService<TeacherConfig>, TeacherConfigService>();
 		collection.AddTransient<IConfigExportService<TeacherConfig>, TeacherExportService>();
@@ -101,6 +102,7 @@ public partial class App : Application {
 		collection.AddTransient<EditViewModel>();
 		collection.AddTransient<SaveViewModel>();
 		collection.AddTransient<ImportCardViewModel>();
+		collection.AddTransient<TopicViewModel>();
 
 		collection.AddSingleton<HolidayViewModel>();
 		collection.AddSingleton<ClassesPageViewModel>();

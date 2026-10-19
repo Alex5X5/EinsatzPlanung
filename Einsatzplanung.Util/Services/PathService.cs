@@ -99,7 +99,7 @@ public static class PathService {
 
 	public static string GetMainEntryPointPath() {
 		// Method 1: Try to get the entry assembly (most reliable for executable applications)
-		Assembly entryAssembly = Assembly.GetEntryAssembly();
+		Assembly? entryAssembly = Assembly.GetEntryAssembly();
 		if (entryAssembly != null) {
 			string assemblyPath = entryAssembly.Location;
 			if (!string.IsNullOrEmpty(assemblyPath) && File.Exists(assemblyPath)) {
@@ -166,12 +166,12 @@ public static class PathService {
 
 			// Look for the Main method in the stack trace
 			for (int i = 0; i < stackTrace.FrameCount; i++) {
-				StackFrame frame = stackTrace.GetFrame(i);
-				MethodBase method = frame.GetMethod();
+				StackFrame? frame = stackTrace.GetFrame(i);
+				MethodBase? method = frame?.GetMethod();
 
 				if (method != null && method.Name == "Main" &&
 					method.DeclaringType != null) {
-					string fileName = frame.GetFileName();
+					string fileName = frame?.GetFileName() ?? "";
 					if (!string.IsNullOrEmpty(fileName) && File.Exists(fileName)) {
 						return fileName;
 					}
@@ -181,7 +181,7 @@ public static class PathService {
 			// Stack trace information might not be available
 		}
 
-		return null;
+		return "";
 	}
 
 	public static string GetAppDataDirectory() =>
@@ -195,7 +195,7 @@ public static class PathService {
 		Console.WriteLine($"Entry Point File Name: {GetMainEntryPointFileName() ?? "Not available"}");
 
 		// Entry Assembly
-		Assembly entryAssembly = Assembly.GetEntryAssembly();
+		Assembly? entryAssembly = Assembly.GetEntryAssembly();
 		Console.WriteLine($"Entry Assembly: {entryAssembly?.FullName ?? "Not available"}");
 		Console.WriteLine($"Entry Assembly Location: {entryAssembly?.Location ?? "Not available"}");
 

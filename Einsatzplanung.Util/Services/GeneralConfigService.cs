@@ -2,7 +2,7 @@
 
 using System;
 
-public partial class GeneralConfigService {
+public class GeneralConfigService {
 
 	public DateTime YearStartDate { set; get; } = new(2024, 1, 1);
 
