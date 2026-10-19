@@ -32,7 +32,7 @@
 								  ItemsPanel="{StaticResource ExtendingCardItemsPanel}">
 
 						<ItemsControl.ItemTemplate>
-							<DataTemplate x:DataType="vm:TopicCardViewModel">
+							<DataTemplate x:DataType="vm:SpecializationCardViewModel">
 								<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
 									<TextBox Text="{Binding Header, Mode=TwoWay}"

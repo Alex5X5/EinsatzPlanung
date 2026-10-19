@@ -1,34 +1,23 @@
-using Avalonia.Media;
-
 namespace Einsatzplanung.GUI.ViewModels.Edit;
 
-using System;
+using Avalonia.Media;
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
-using Einsatzplanung.GUI.Interfaces;
+using Einsatzplanung.Types.Models.Configuration;
 
-public partial class TopicCardViewModel : ViewModelBase, IRemovableCardViewModel {
+public partial class TopicCardViewModel : ViewModelBase {
 	
 	[ObservableProperty]
 	private string header;
-
-	[ObservableProperty]
-	private string count;
 	    
 	[ObservableProperty]
 	private Color selectedColor = Colors.DarkRed;
 
-	public IRelayCommand<object> RemoveCommand { init; get; }
+	public TopicCardViewModel(TopicConfig topic) : this(topic.Name, Color.Parse(topic.Color)) { }
 
-    public TopicCardViewModel(string header, int count, IRelayCommand<object> removeCommand)
-		: this (header, Colors.White, count, removeCommand) {  }
-
-	public TopicCardViewModel(string header, Color selectedColor, int count, IRelayCommand<object> removeCommand) {
+	public TopicCardViewModel(string header, Color selectedColor) {
 		Header = header;
 		SelectedColor = selectedColor;
-		Count = Convert.ToString(count);
-		RemoveCommand = removeCommand;
 	}
 }

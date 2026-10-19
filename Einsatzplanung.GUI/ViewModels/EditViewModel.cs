@@ -22,14 +22,18 @@ public partial class EditViewModel : ViewModelBase {
 		set {
 			switch(value) {
 				case 0: {
-					ChangePage<ClassesPageViewModel>();
+					ChangePage<TopicViewModel>();
 					break;
 				}
 				case 1: {
-					ChangePage<TeacherPageViewModel>();
+					ChangePage<ClassesPageViewModel>();
 					break;
 				}
 				case 2: {
+					ChangePage<TeacherPageViewModel>();
+					break;
+				}
+				case 3: {
 					ChangePage<HolidayViewModel>();
 					break;
 				}
@@ -40,12 +44,14 @@ public partial class EditViewModel : ViewModelBase {
 			OnPropertyChanged(nameof(SelectedPageIndex));
 		}
 		get {
-			if(CurrentPage.GetType() == typeof(ClassesPageViewModel))
+			if (CurrentPage.GetType() == typeof(TopicViewModel))
 				return 0;
-			if (CurrentPage.GetType() == typeof(TeacherPageViewModel))
+			if (CurrentPage.GetType() == typeof(ClassesPageViewModel))
 				return 1;
-			if (CurrentPage.GetType() == typeof(HolidayViewModel))
+			if (CurrentPage.GetType() == typeof(TeacherPageViewModel))
 				return 2;
+			if (CurrentPage.GetType() == typeof(HolidayViewModel))
+				return 3;
 			return 0;
 		}	
 	}
@@ -64,9 +70,10 @@ public partial class EditViewModel : ViewModelBase {
 			new FilePickerSaveOptions {
 				Title = "Export als Excel speichern",
 				SuggestedFileName = SelectedPageIndex switch {
-					0 => "Lehrjahre.xlsx",
-					1 => "Ausbilder.xlsx",
-					2 => "Urlaub.xlsx",
+					0 => "Themen.xlsx",
+					1 => "Lehrjahre.xlsx",
+					2 => "Ausbilder.xlsx",
+					3 => "Urlaub.xlsx",
 					_ => "Export.xlsx"
 				},
 				FileTypeChoices = [

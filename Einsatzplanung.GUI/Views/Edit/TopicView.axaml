@@ -1,0 +1,54 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:Einsatzplanung.GUI.ViewModels.Edit"
+			 xmlns:ct="using:Einsatzplanung.GUI.Controls"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="Einsatzplanung.GUI.Views.Edit.TopicView"
+			 x:DataType="vm:TopicViewModel"
+			 Name="Root">
+
+	<ct:EditCardsControl ItemsSource="{Binding Cards}">
+		
+		<ct:EditCardsControl.ItemTemplate>
+			
+			<DataTemplate x:DataType="vm:TopicCardViewModel">
+
+				<ct:ExtendingCard AllowExtend="False"
+								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
+								  HeaderOrientation="Vertical">
+
+					<ct:ExtendingCard.HeaderContent>
+
+						<Grid RowDefinitions="*"
+							  ColumnDefinitions="16*, *, 3*"
+							  HorizontalAlignment="Stretch">
+
+							<TextBox Grid.Column="0"
+									 Text="{Binding Header, Mode=TwoWay}"
+									 TextWrapping="NoWrap"
+									 Foreground="{DynamicResource AppForegroundBrush}"
+									 HorizontalContentAlignment="Center"
+									 VerticalContentAlignment="Center"
+									 ToolTip.Tip="Der Name des Themas"/>
+							<ColorPicker Grid.Column="2"
+										 Color="{Binding SelectedColor, Mode=TwoWay}"
+										 IsAlphaEnabled="False"
+										 IsAlphaVisible="False"
+										 HorizontalAlignment="Stretch"
+										 ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
+						
+						</Grid>
+
+					</ct:ExtendingCard.HeaderContent>
+
+				</ct:ExtendingCard>
+
+			</DataTemplate>
+
+		</ct:EditCardsControl.ItemTemplate>
+
+	</ct:EditCardsControl>
+
+</UserControl>

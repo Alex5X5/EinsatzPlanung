@@ -14,25 +14,24 @@
         
         <TabbedPage Grid.Row="0" TabPlacement="Top" Width="700" MinWidth="500" CornerRadius="20" Background="Transparent"
                     SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}">
+            
+            <ContentPage Header="Themen"
+                         Classes="content-page-default-style">
+                <pages:TopicView />
+            </ContentPage>
 
             <ContentPage Header="Schulklassen"  
-                         Background="Transparent" 
-                         Margin="0,20,0,0" CornerRadius="0,0,20,20">
-                
+                         Classes="content-page-default-style">
                 <pages:ClassesView />
             </ContentPage>
 
             <ContentPage Header="Ausbilder" 
-                         Background="Transparent" 
-                         Margin="0,20,0,20" CornerRadius="0,0,20,20">
-                
+                         Classes="content-page-default-style">
                 <pages:TeacherView />
             </ContentPage>
 
             <ContentPage Header="Urlaub" 
-                         Background="Transparent" 
-                         Margin="0,20,0,20" CornerRadius="0,0,20,20">
-                
+                         Classes="content-page-default-style">
                 <pages:HolidayView />
             </ContentPage>
 
