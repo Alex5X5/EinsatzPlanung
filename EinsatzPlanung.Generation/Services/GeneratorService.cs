@@ -78,22 +78,22 @@ public class GeneratorService : IGeneratorService {
 					
 					if (weekIndex >= validWeeks.Count)
 						throw new InvalidOperationException(
-							$"Not enough remaining valid weeks to schedule block '{block.Name}' for group '{group.Name}'.");
+							$"Not enough remaining valid weeks to schedule block '{block.Topic.Name}' for group '{group.Name}'.");
 					
 					DateTime week = validWeeks[weekIndex++];
 
 					Teacher? trainer = FindAvailableTeacher(group, block, week, trainerBusyWeeks);
 					if (trainer is null)
 						throw new InvalidOperationException(
-							$"No qualified, available trainer found for block '{block.Name}' " +
+							$"No qualified, available trainer found for block '{block.Topic.Name}' " +
 							$"(group '{group.Name}', week {DateTimeService.WeekOfYear(week)}).");
 
 					trainerBusyWeeks[trainer.Abbreviation].Add(week);
 
 					groupAssignments[week] = new Assignment {
 						Trainer = trainer.Abbreviation,
-						BlockName = block.Name,
-						BlockColor = block.Color
+						BlockName = block.Topic.Name,
+						BlockColor = block.Topic.Color
 					};
 				}
 			}

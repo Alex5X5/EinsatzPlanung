@@ -69,9 +69,8 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 			foreach (var card in Cards) {
 				var blocks = card.Topics.Select(
 					t => new BlockConfig() {
-						Name = t.Header,
-						Count = int.Parse(t.Count),
-						Color = t.SelectedColor.ToString()
+						Topic = t.Header,
+						Count = int.Parse(t.Count)
 					}).ToList();
 				var group = new GroupConfig() {
 					Name = card.Header,

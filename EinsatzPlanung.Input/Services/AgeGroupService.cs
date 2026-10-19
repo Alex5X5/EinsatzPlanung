@@ -1,6 +1,7 @@
 ﻿namespace Einsatzplanung.Input.Services;
 
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 using Einsatzplanung.Input.Interfaces;
@@ -13,12 +14,14 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 	private IConfigService<AgeGroupConfig> ageGroupService;
 	private IEntityService<Holiday> holidayService;
 	private IEntityService<Teacher> teacherService;
+	private IEntityService<Topic> topicService;
 	private GeneralConfigService configService;
 
-	public AgeGroupService(IConfigService<AgeGroupConfig> ageGroupService, IEntityService<Holiday> holidayService, IEntityService<Teacher> teacherService, GeneralConfigService configService) {
+	public AgeGroupService(IConfigService<AgeGroupConfig> ageGroupService, IEntityService<Holiday> holidayService, IEntityService<Teacher> teacherService, IEntityService<Topic> topicService, GeneralConfigService configService) {
 		this.ageGroupService = ageGroupService;
 		this.holidayService = holidayService;
 		this.teacherService = teacherService;
+		this.topicService = topicService;
 		this.configService = configService;
 	}
 
@@ -60,10 +63,13 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 	}
 
 	private Block MapBlock(BlockConfig config) {
-		return new Block {
-			Name = config.Name,
-			Count = config.Count,
-			Color = config.Color
-		};
+		if (topicService.TryGetTopicByName(config.Topic, out Topic? topic)) {
+			return new Block {
+				Topic = topic!,
+				Count = config.Count
+			};
+		} else {
+			throw new ValidationException($"Topic '{config.Topic}' not found.");
+		}
 	}
 }

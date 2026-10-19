@@ -1,7 +1,5 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
-using Avalonia.Media;
-
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -21,13 +19,7 @@ public partial class ClassCardViewModel : CardViewModel {
 	public ClassCardViewModel(GroupConfig group, int index) : base(index) {
 		Config = group;
 		Header = group.Name;
-		var models = group.Blocks.Select(
-			x => {
-				if(Color.TryParse(x.Color, out var color))
-					return new TopicCardViewModel(x.Name, color, x.Count, RemoveTopicCommand);
-				else
-					return new TopicCardViewModel(x.Name, x.Count, RemoveTopicCommand);
-			});
+		var models = group.Blocks.Select(x => new TopicCardViewModel(x.Topic, x.Count, RemoveTopicCommand));
 		Topics = new(models);
 	}
 

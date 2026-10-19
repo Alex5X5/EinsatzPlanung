@@ -15,8 +15,8 @@ public class TeacherConfig {
 
 	public bool CanTeachBlock(Block block) {
 		return Specializations.Any(topic =>
-			string.Equals(topic.Name, block.Name, StringComparison.OrdinalIgnoreCase) ||
-			block.Name.Contains(topic.Name, StringComparison.OrdinalIgnoreCase));
+			string.Equals(topic.Name, block.Topic.Name, StringComparison.OrdinalIgnoreCase) ||
+			block.Topic.Name.Contains(topic.Name, StringComparison.OrdinalIgnoreCase));
 	}
 
 	public override string ToString() {

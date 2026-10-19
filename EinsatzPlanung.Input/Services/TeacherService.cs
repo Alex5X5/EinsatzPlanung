@@ -36,3 +36,22 @@ public class TeacherService : IEntityService<Teacher> {
 			Specializations = config.Specializations
 		};
 }
+
+public static class TeacherServiceExtensions {
+
+	public static Teacher GetTeacherByName(this IEntityService<Teacher> service, string name) {
+		return service.GetEntities().First(t => t.Name.Equals(name, StringComparison.Ordinal));
+	}
+
+	public static bool TryGetTeacherByName(this IEntityService<Teacher> service, string name, out Teacher? result) {
+
+		if (string.IsNullOrEmpty(name)) {
+			result = service.GetEntities().FirstOrDefault(t => t.Name.Equals(name, StringComparison.Ordinal));
+		} else {
+			result = null;
+		}
+
+		return result != null;
+	}
+
+}

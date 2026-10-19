@@ -57,7 +57,7 @@ public class SolverGeneratorService : IGeneratorService {
 				for (var i = 0; i < block.Count; i++) {
 					if (weekIndex >= validWeeks.Count) {
 						throw new InvalidOperationException(
-							$"Not enough remaining school weeks for block '{block.Name}' in group '{group.Name}'.");
+							$"Not enough remaining school weeks for block '{block.Topic.Name}' in group '{group.Name}'.");
 					}
 
 					slots.Add(new Slot {
@@ -89,7 +89,7 @@ public class SolverGeneratorService : IGeneratorService {
 
 			if (vars.Count == 0) {
 				throw new InvalidOperationException(
-					$"No trainer is qualified to teach block '{slots[s].Block.Name}' " +
+					$"No trainer is qualified to teach block '{slots[s].Block.Topic.Name}' " +
 					$"for group '{slots[s].Group.Name}' (week {slots[s].Week:yyyy-MM-dd}).");
 			}
 
@@ -138,8 +138,8 @@ public class SolverGeneratorService : IGeneratorService {
 
 					groupAssignments[slot.Week] = new Assignment {
 						Trainer = teachers[t].Abbreviation,
-						BlockName = slot.Block.Name,
-						BlockColor = slot.Block.Color
+						BlockName = slot.Block.Topic.Name,
+						BlockColor = slot.Block.Topic.Color
 					};
 
 					break;

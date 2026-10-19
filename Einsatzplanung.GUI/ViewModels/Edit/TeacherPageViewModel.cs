@@ -10,6 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Input.Services;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
@@ -17,6 +18,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 
 	private IConfigExportService<TeacherConfig> exportService;
 	private IConfigService<TeacherConfig> configService;
+	private IEntityService<Topic> topicService;
 
 	[ObservableProperty]
 	private ObservableCollection<TeacherCardViewModel> cards;
@@ -24,9 +26,10 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private int activeCardIndex = -1;
 
-	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, IConfigExportService<TeacherConfig> exportService) {
+	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, IConfigExportService<TeacherConfig> exportService, IEntityService<Topic> topicService) {
 		this.exportService = exportService;
 		this.configService = configService;
+		this.topicService = topicService;
 		Cards = [];
 	}
 
@@ -61,7 +64,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 				Name = card.Header,
 				Abbreviation = card.Abbreviation,
 				WeeklyHours = card.WeeklyHours,
-				Specializations = card.Topics.Select(topic => new Topic(topic.Header)).ToList()
+				Specializations = card.Topics.Select(topic => topicService.GetTopicByName(topic.Header)).ToList()
 			}).ToList();
 
 			configService.SetData(teachers);
