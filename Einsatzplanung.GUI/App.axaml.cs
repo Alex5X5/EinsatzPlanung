@@ -76,6 +76,7 @@ public partial class App : Application {
 
 
 		collection.AddSingleton<IConfigService<Topic>, TopicService>();
+		collection.AddTransient<IConfigExportService<Topic>, TopicExportService>();
 
 		collection.AddSingleton<IConfigService<TeacherConfig>, TeacherConfigService>();
 		collection.AddTransient<IConfigExportService<TeacherConfig>, TeacherExportService>();

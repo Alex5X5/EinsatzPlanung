@@ -37,7 +37,7 @@
 
 						<ItemsControl.ItemTemplate>
 
-							<DataTemplate x:DataType="vm:TopicCardViewModel">
+							<DataTemplate x:DataType="vm:BlockCardViewModel">
 
 									<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
