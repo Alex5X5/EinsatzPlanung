@@ -17,10 +17,8 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 	private const int SCOOLWEEK_COLUMN_INDEX = 3;
 	private const int TOPIC_COLUMN_INDEX = 4;
 	private const int TOPIC_WEEKS_COLUMN_INDEX = 5;
-	private const int TOPIC_COLOR_COLUMN_INDEX = 6;
 
 	private IExcelImportService excelImportService;
-	private IEntityService<Topic> topicService;
 
 	private string SourceFilePath { get; set; } = "";
 
@@ -49,7 +47,6 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 
 			bool newAgeGroup = table[row, AGE_GROUP_COLUMN_INDEX]?.Value != "";
 			bool newGroup = table[row, CLASS_GROUP_COLUMN_INDEX]?.Value != "";
-			bool newTopic = table[row, TOPIC_COLUMN_INDEX]?.Value != "";
 
 			// the age group cell is not empty
 			if (newAgeGroup) {
