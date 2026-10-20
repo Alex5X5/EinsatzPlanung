@@ -4,8 +4,8 @@
     <ResourceDictionary.ThemeDictionaries>
 
         <ResourceDictionary x:Key="Light">
-            <Color x:Key="AppBackgroundStartColor">#FFFF</Color>
-            <Color x:Key="AppBackgroundEndColor">#FFFF</Color>
+            <Color x:Key="AppBackgroundStartColor">#FFF</Color>
+            <Color x:Key="AppBackgroundEndColor">#FFF</Color>
             <Color x:Key="AppForegroundColor">#FF000000</Color>
             
             <Color x:Key="TapItemBackgroundBrush">#FFF</Color>
