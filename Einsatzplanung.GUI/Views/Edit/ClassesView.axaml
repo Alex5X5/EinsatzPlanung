@@ -4,6 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:Einsatzplanung.GUI.ViewModels.Edit"
 			 xmlns:ct="using:Einsatzplanung.GUI.Controls"
+			 xmlns:local="using:Einsatzplanung.GUI.Controls"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="Einsatzplanung.GUI.Views.Edit.ClassesView"
 			 x:DataType="vm:ClassesPageViewModel"
@@ -21,12 +22,13 @@
 					<ct:ExtendingCard.HeaderContent>
 
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
-								 TextWrapping="NoWrap"
-								 Foreground="{DynamicResource AppForegroundBrush}"
-								 HorizontalAlignment="Stretch"
-								 HorizontalContentAlignment="Center"
-								 VerticalContentAlignment="Center"
-								 ToolTip.Tip="Klassenbezeichnung eingeben" />
+								Watermark="Name der Klasse"
+								TextWrapping="NoWrap"
+								Foreground="{DynamicResource AppForegroundBrush}"
+								HorizontalAlignment="Stretch"
+								HorizontalContentAlignment="Center"
+								VerticalContentAlignment="Center"
+								ToolTip.Tip="Klassenbezeichnung eingeben" />
 
 					</ct:ExtendingCard.HeaderContent>
 						
@@ -41,18 +43,18 @@
 									<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
 										<Grid RowDefinitions="*" ColumnDefinitions="19*, *, 3*">
-											<ComboBox ItemsSource="{Binding TopicNames}"
+											<local:NoScrollComboBox ItemsSource="{Binding TopicNames}"
 												SelectedItem="{Binding Header, Mode=TwoWay}"
 												Foreground="{DynamicResource AppForegroundBrush}"
 												HorizontalAlignment="Stretch"
 												ToolTip.Tip="Der Name des Themas"/>
 											<TextBox Grid.Column="2"
-													 Text="{Binding Count, Mode=TwoWay}"
-													 TextWrapping="NoWrap"
-													 Foreground="{DynamicResource AppForegroundBrush}"
-													 HorizontalContentAlignment="Center"
-													 VerticalContentAlignment="Center" 
-													 ToolTip.Tip="Die Anzahl an Wochen des Themas"/>
+												Text="{Binding Count, Mode=TwoWay}"
+												TextWrapping="NoWrap"
+												Foreground="{DynamicResource AppForegroundBrush}"
+												HorizontalContentAlignment="Center"
+												VerticalContentAlignment="Center" 
+												ToolTip.Tip="Die Anzahl an Wochen des Themas"/>
 										</Grid>
 
 									</ct:RemovableCard>
