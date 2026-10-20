@@ -22,12 +22,13 @@
 					<ct:ExtendingCard.HeaderContent>
 
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
-								 TextWrapping="NoWrap"
-								 Foreground="{DynamicResource AppForegroundBrush}"
-								 HorizontalAlignment="Stretch"
-								 HorizontalContentAlignment="Center"
-								 VerticalContentAlignment="Center"
-								 ToolTip.Tip="Klassenbezeichnung eingeben" />
+								Watermark="Name der Klasse"
+								TextWrapping="NoWrap"
+								Foreground="{DynamicResource AppForegroundBrush}"
+								HorizontalAlignment="Stretch"
+								HorizontalContentAlignment="Center"
+								VerticalContentAlignment="Center"
+								ToolTip.Tip="Klassenbezeichnung eingeben" />
 
 					</ct:ExtendingCard.HeaderContent>
 						
@@ -48,12 +49,12 @@
 												HorizontalAlignment="Stretch"
 												ToolTip.Tip="Der Name des Themas"/>
 											<TextBox Grid.Column="2"
-													 Text="{Binding Count, Mode=TwoWay}"
-													 TextWrapping="NoWrap"
-													 Foreground="{DynamicResource AppForegroundBrush}"
-													 HorizontalContentAlignment="Center"
-													 VerticalContentAlignment="Center" 
-													 ToolTip.Tip="Die Anzahl an Wochen des Themas"/>
+												Text="{Binding Count, Mode=TwoWay}"
+												TextWrapping="NoWrap"
+												Foreground="{DynamicResource AppForegroundBrush}"
+												HorizontalContentAlignment="Center"
+												VerticalContentAlignment="Center" 
+												ToolTip.Tip="Die Anzahl an Wochen des Themas"/>
 										</Grid>
 
 									</ct:RemovableCard>
