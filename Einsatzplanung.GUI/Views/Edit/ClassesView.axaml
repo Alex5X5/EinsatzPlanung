@@ -41,13 +41,11 @@
 									<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
 										<Grid RowDefinitions="*" ColumnDefinitions="19*, *, 3*">
-											<TextBox Grid.Column="0"
-													 Text="{Binding Header, Mode=TwoWay}"
-													 TextWrapping="NoWrap"
-													 Foreground="{DynamicResource AppForegroundBrush}"
-													 HorizontalContentAlignment="Center"
-													 VerticalContentAlignment="Center" 
-													 ToolTip.Tip="Der Name des Themas"/>
+											<ComboBox ItemsSource="{Binding TopicNames}"
+												SelectedItem="{Binding Header, Mode=TwoWay}"
+												Foreground="{DynamicResource AppForegroundBrush}"
+												HorizontalAlignment="Stretch"
+												ToolTip.Tip="Der Name des Themas"/>
 											<TextBox Grid.Column="2"
 													 Text="{Binding Count, Mode=TwoWay}"
 													 TextWrapping="NoWrap"

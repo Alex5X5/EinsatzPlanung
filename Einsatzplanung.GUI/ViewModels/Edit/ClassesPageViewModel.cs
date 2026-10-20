@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
 	private IConfigExportService<GroupConfig> exportService;
 	private IConfigService<GroupConfig> configService;
+	private IEntityService<Topic> topicService;
+	private List<string> topicNames = [];
 
 	[ObservableProperty]
 	private ObservableCollection<ClassCardViewModel> cards;
@@ -23,9 +26,10 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private int activeCardIndex = -1;
 
-	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IConfigExportService<GroupConfig> exportService) {
+	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IConfigExportService<GroupConfig> exportService, IEntityService<Topic> topicService) {
 		this.exportService = exportService;
 		this.configService = configService;
+		this.topicService = topicService;
 		Cards = [];
 	}
 
@@ -38,7 +42,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 			Blocks = []
 		};
 
-		Cards.Add(new ClassCardViewModel(group, Cards.Count));
+		Cards.Add(new ClassCardViewModel(group, Cards.Count, topicNames));
 	}
 
 	public async Task ExportCardsAsync(string path) {
@@ -47,11 +51,12 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	protected override async Task OnLoadAsync() {
+		topicNames = await Task.Run(() => topicService.GetEntities().Select(topic => topic.Name).ToList());
 		List<ClassCardViewModel> cards = await Task.Run(() => {
 			var groups = configService.GetData();
 			int i = 0;
 			return groups
-				.Select(g => new ClassCardViewModel(g, i++))
+				.Select(g => new ClassCardViewModel(g, i++, topicNames))
 				.ToList();
 		});
 		Cards = new ObservableCollection<ClassCardViewModel>(cards);
