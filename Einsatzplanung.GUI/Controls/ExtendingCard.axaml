@@ -67,6 +67,10 @@
 								<Style Selector="ScrollBar /template/ Border#ScrollBarTrack">
 									<Setter Property="Opacity" Value="0" />
 								</Style>
+								<Style Selector="ScrollBar /template/ Rectangle#TrackRect">
+									<Setter Property="RadiusX" Value="4"/>
+									<Setter Property="RadiusY" Value="4"/>
+								</Style>
 							</ScrollViewer.Styles>
 
 							<StackPanel Name="PART_BodyPanel"
