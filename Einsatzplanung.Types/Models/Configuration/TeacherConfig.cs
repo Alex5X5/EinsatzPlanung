@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 using Einsatzplanung.Types.Models;
 
-public class TeacherConfig {
+public class TeacherConfig : Config {
 	
 	public required string Name { set; get; }
 	public required string Abbreviation { set; get; }

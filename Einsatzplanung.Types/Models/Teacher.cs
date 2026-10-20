@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public class Teacher {
+public class Teacher : Entity {
 	
 	public required string Name { set; get; }
 	public required string Abbreviation { set; get; }

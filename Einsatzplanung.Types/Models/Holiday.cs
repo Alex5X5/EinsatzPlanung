@@ -2,7 +2,7 @@ namespace Einsatzplanung.Types.Models;
 
 using System;
 
-public class Holiday {
+public class Holiday : Entity {
     public DateOnly From { get; set; }
     public DateOnly To { get; set; }
     public bool IsSingleDay => From == To;
