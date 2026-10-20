@@ -1,0 +1,31 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  
+        <Style Selector="TabItem">
+                <Style Selector="^">
+                        <Setter Property="Background" Value="{DynamicResource TapItemBackgroundBrush}" />    
+                        <Setter Property="Foreground" Value="{DynamicResource TapItemForegroundBrush}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
+                        <Setter Property="CornerRadius" Value="10" />
+                        <Setter Property="Margin" Value="5,5,5,20" />
+                </Style>
+
+                <Style Selector="^:selected">
+                        <Setter Property="Background" Value="{DynamicResource SelectedTapItemBackgroundBrush}" />
+                        <Setter Property="Foreground" Value="{DynamicResource SelectedTapItemForegroundBrush}" />
+                </Style>
+
+                <Style Selector="^:pointerover">
+                        <Setter Property="Foreground" Value="{DynamicResource PointeroverTapItemForegroundBrush}" />
+                </Style>
+                
+        </Style>
+        
+        <Style Selector="ContentPage.content-page-default-style">
+                <Setter Property="CornerRadius" Value="0,0,20,20" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Margin" Value="0,20,0,20" /> 
+        </Style>
+        
+</Styles>

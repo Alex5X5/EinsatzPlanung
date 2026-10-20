@@ -1,0 +1,38 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Style Selector="ScrollBar">
+        
+        <Style Selector="^ /template/ RepeatButton">
+            <!-- Hides the arrow buttons at both ends of the scrollbar -->
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+        
+        <Style Selector="^ /template/ Thumb">
+            <!-- Rounds the corners of the the draggable handle (thumb) -->
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Width" Value="4"/>
+
+            <!-- Adds a tiny Annimation for better smoothness -->
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Width" Duration="0:0:0.12" />
+                </Transitions>
+            </Setter>
+            
+        </Style>
+        
+        <!-- Makes the scrollbar track invisible -->
+        <Style Selector="^ /template/ Border#ScrollBarTrack">
+            <Setter Property="Opacity" Value="0" />
+        </Style>
+        
+        <Style Selector="^ /template/ Rectangle#TrackRect">
+            <!-- Rounds the corners of the background (track) -->
+            <Setter Property="RadiusX" Value="4"/>
+            <Setter Property="RadiusY" Value="4"/>
+        </Style>
+        
+    </Style>
+    
+</Styles>
