@@ -40,9 +40,11 @@
 									HorizontalAlignment="Stretch"
 									Margin="0,0,0,20" />
 
+						<!-- ScrollBar -->
+						 
 						<ScrollViewer Name="PART_Body"
 									  Grid.Row="1"
-									  Margin="0,0,-10,0"
+									  Margin="0,0,-10,6.7"
 									  AllowAutoHide="False">
 
 							<ScrollViewer.Resources>

@@ -52,22 +52,27 @@
     <!-- ScrollView Style -->
 
 		<Style Selector="ScrollBar /template/ RepeatButton">
-			<Setter Property="IsVisible" Value="False"/>
-		</Style>
-		<Style Selector="ScrollBar /template/ Thumb">
-			<Setter Property="CornerRadius" Value="4"/>
-			<Setter Property="Width" Value="4"/>
-			<Setter Property="Transitions">
-				<Transitions>
-					<DoubleTransition Property="Width" Duration="0:0:0.12" />
-				</Transitions>
-			</Setter>
-		</Style>
+            <!-- Hides the arrow buttons at both ends of the scrollbar -->
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+        <Style Selector="ScrollBar /template/ Thumb">
+            <!-- Rounds the corners of the the draggable handle (thumb) -->
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Width" Value="4"/>
 
-		<Style Selector="ScrollBar /template/ Border#ScrollBarTrack">
-			<Setter Property="Opacity" Value="0" />
-		</Style>
+            <!-- Adds a tiny Annimation for better smoothness -->
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Width" Duration="0:0:0.12" />
+                </Transitions>
+            </Setter>
+        </Style>
+        <!-- Makes the scrollbar track invisible -->
+        <Style Selector="ScrollBar /template/ Border#ScrollBarTrack">
+            <Setter Property="Opacity" Value="0" />
+        </Style>
         <Style Selector="ScrollBar /template/ Rectangle#TrackRect">
+            <!-- Rounds the corners of the background (track) -->
             <Setter Property="RadiusX" Value="4"/>
             <Setter Property="RadiusY" Value="4"/>
         </Style>
