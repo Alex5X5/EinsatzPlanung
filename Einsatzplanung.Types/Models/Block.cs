@@ -2,7 +2,7 @@
 
 using System;
 
-public class Block {
+public class Block : Entity {
 	
 	public int Count { get; init; }
 	public required Topic Topic { get; init; }

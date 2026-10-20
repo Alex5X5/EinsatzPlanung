@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class AgeGroupConfig {
+public class AgeGroupConfig : Config {
 
 	public string Name { set; get; } = "";
 

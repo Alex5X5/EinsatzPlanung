@@ -2,7 +2,7 @@ using System;
 
 namespace Einsatzplanung.Types.Models.Configuration;
 
-public class HolidayConfig {
+public class HolidayConfig : Config {
     public DateOnly From { get; set; }
     public DateOnly? To { get; set; }
 

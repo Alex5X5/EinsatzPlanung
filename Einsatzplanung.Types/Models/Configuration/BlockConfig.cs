@@ -2,7 +2,7 @@
 
 using System;
 
-public class BlockConfig {
+public class BlockConfig : Entity {
 	
 	public int Count { get; init; }
 	public required string Topic { get; init; }
