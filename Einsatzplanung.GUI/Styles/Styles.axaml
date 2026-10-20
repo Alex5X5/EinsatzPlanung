@@ -1,78 +1,8 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Design.PreviewWith>
-        <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
-        </Border>
-    </Design.PreviewWith>
-    
-    <!-- Button -->
-    
-    <Style Selector="Button.standard-button">
-        <Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}"/>
-        <Setter Property="Height" Value="32"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-    </Style>
-    
-    <Style Selector="Button.list-button">
-        <Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}"/>
-        <Setter Property="Height" Value="32"/>
-        <Setter Property="Width" Value="32"/>
-        <Setter Property="CornerRadius" Value="16"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-
-        <Style Selector="^.add">
-            <Setter Property="Content" Value="+"/>
-        </Style>
-
-        <Style Selector="^.rem">
-            <Setter Property="Content" Value="-"/>
-        </Style>
-    </Style>
-    
-    <Style Selector="Button.nav-bar-button">
-        <Setter Property="Height" Value="48"/>
-        <Setter Property="Width" Value="48"/>
-        <Setter Property="CornerRadius" Value="20"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="ClipToBounds" Value="False"/> 
-    </Style>
-
-    <!-- Border -->
-    
-    <Style Selector="Border.excel-bg:pointerover">
-        <Setter Property="Background" Value="{DynamicResource HoverExcelImportButtonGradient}"/>
-    </Style>    
-    
-    <Style Selector="Border.pdf-bg:pointerover">
-        <Setter Property="Background" Value="{DynamicResource HoverPdfImportButtonGradient}"/>
-    </Style>
-
-    <Style Selector="Border.extending-border.active">
-        <Setter Property="Height" Value="155" />
-    </Style>
-    
-    
-    <Style Selector="Border.extending-calendar-border">
-        <Setter Property="Height" Value="60" />
-        <Setter Property="Transitions">
-            <Transitions>
-                <DoubleTransition
-                    Property="Height"
-                    Duration="0:0:0.3"
-                    Easing="CubicEaseOut" />
-            </Transitions>
-        </Setter>
-    </Style>
-    
-    <Style Selector="Border.extending-calendar-border.active">
-        <Setter Property="Height" Value="130" />
-    </Style>
-    
+        
+    <StyleInclude Source="avares://Einsatzplanung.GUI/Styles/Buttons.axaml"/>
+    <StyleInclude Source="avares://Einsatzplanung.GUI/Styles/Borders.axaml"/>
 
     <!-- Calendar -->
     <Style Selector="CalendarDatePicker">

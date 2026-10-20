@@ -1,0 +1,42 @@
+<Styles xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	
+	<Style Selector="Button">
+		
+		<Style Selector="^.standard-button">
+			<Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}"/>
+			<Setter Property="Height" Value="32"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
+
+		<Style Selector="^.list-button">
+			<Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}"/>
+			<Setter Property="Height" Value="32"/>
+			<Setter Property="Width" Value="32"/>
+			<Setter Property="CornerRadius" Value="16"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+
+			<Style Selector="^.add">
+				<Setter Property="Content" Value="+"/>
+			</Style>
+
+			<Style Selector="^.rem">
+				<Setter Property="Content" Value="-"/>
+			</Style>
+		</Style>
+
+		<Style Selector="^.nav-bar-button">
+			<Setter Property="Height" Value="48"/>
+			<Setter Property="Width" Value="48"/>
+			<Setter Property="CornerRadius" Value="20"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="ClipToBounds" Value="False"/> 
+		</Style>
+
+	</Style>
+
+</Styles>
