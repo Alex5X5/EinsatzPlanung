@@ -3,36 +3,12 @@
         
     <StyleInclude Source="avares://Einsatzplanung.GUI/Styles/Buttons.axaml"/>
     <StyleInclude Source="avares://Einsatzplanung.GUI/Styles/Borders.axaml"/>
+    <StyleInclude Source="avares://Einsatzplanung.GUI/Styles/Tapitems.axaml"/>
+    <StyleInclude Source="avares://Einsatzplanung.GUI/Styles/Scrollview.axaml"/>
 
     <!-- Calendar -->
     <Style Selector="CalendarDatePicker">
         <Setter Property="IsDropDownOpen" Value="False"/> <!-- is buggy -->
-    </Style>
-    
-    <!-- TabItems -->
-    
-    <Style Selector="TabItem">
-        <Setter Property="Background" Value="{DynamicResource TapItemBackgroundBrush}"/>    
-        <Setter Property="Foreground" Value="{DynamicResource TapItemForegroundBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
-        <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="Margin" Value="5,5,5,20"/>
-    </Style>
-    
-    <Style Selector="TabItem:selected">
-        <Setter Property="Background" Value="{DynamicResource SelectedTapItemBackgroundBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource SelectedTapItemForegroundBrush}" />
-    </Style>
-    
-    <Style Selector="TabItem:pointerover">
-        <Setter Property="Foreground" Value="{DynamicResource PointeroverTapItemForegroundBrush}"/>
-    </Style>
-    
-    <Style Selector="ContentPage.content-page-default-style">
-        <Setter Property="CornerRadius" Value="0,0,20,20"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Margin" Value="0,20,0,20"/> 
     </Style>
     
     <!-- img -->
@@ -48,33 +24,5 @@
                 />
         </Setter>
     </Style>
-    
-    <!-- ScrollView Style -->
-
-		<Style Selector="ScrollBar /template/ RepeatButton">
-            <!-- Hides the arrow buttons at both ends of the scrollbar -->
-            <Setter Property="IsVisible" Value="False"/>
-        </Style>
-        <Style Selector="ScrollBar /template/ Thumb">
-            <!-- Rounds the corners of the the draggable handle (thumb) -->
-            <Setter Property="CornerRadius" Value="4"/>
-            <Setter Property="Width" Value="4"/>
-
-            <!-- Adds a tiny Annimation for better smoothness -->
-            <Setter Property="Transitions">
-                <Transitions>
-                    <DoubleTransition Property="Width" Duration="0:0:0.12" />
-                </Transitions>
-            </Setter>
-        </Style>
-        <!-- Makes the scrollbar track invisible -->
-        <Style Selector="ScrollBar /template/ Border#ScrollBarTrack">
-            <Setter Property="Opacity" Value="0" />
-        </Style>
-        <Style Selector="ScrollBar /template/ Rectangle#TrackRect">
-            <!-- Rounds the corners of the background (track) -->
-            <Setter Property="RadiusX" Value="4"/>
-            <Setter Property="RadiusY" Value="4"/>
-        </Style>
 
 </Styles>
