@@ -17,6 +17,7 @@ public sealed class BasicStyledPropertyFieldSuppressor : DiagnosticSuppressor {
 		suppressedDiagnosticId: "CS0414",
 		justification: "Field is consumed by the BasicStyledProperty source generator.");
 
+		suppressedDiagnosticId: "CS0169",
 	private static readonly SuppressionDescriptor NonNullableRule = new(
 		id: "EPSUP002",
 		suppressedDiagnosticId: "CS8618",
