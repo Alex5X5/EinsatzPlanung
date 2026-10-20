@@ -20,9 +20,19 @@
   
     <Application.Styles>
         
-        <StyleInclude Source="/Styles/Styles.axaml"/>
         <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
+        <StyleInclude Source="/Styles/Styles.axaml"/>
         
-        <FluentTheme />
+        
+        <!-- Override accent colors set by windows 
+        Can maybe be moved to ThemeResources.axaml but have to consider overrides -->
+        
+        <FluentTheme>
+            <FluentTheme.Palettes>
+                <ColorPaletteResources x:Key="Light" Accent="{DynamicResource AccentColor}" />
+                <ColorPaletteResources x:Key="Dark"  Accent="{DynamicResource AccentColor}"/>
+            </FluentTheme.Palettes>
+        </FluentTheme>
+        
     </Application.Styles>
 </Application>

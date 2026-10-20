@@ -19,6 +19,8 @@
             
             <Color x:Key="SeparatorColor">#87375F</Color>
             
+            <Color x:Key="AccentColor">#87375F</Color>
+            
             <Color x:Key="ButtonBorderBrush">#000000</Color>
             <Color x:Key="ImportButtonBackgroundColor">#DCD4D1D2</Color>
             <Color x:Key="HoverImportButtonBackgroundColor">#95D4DFDF</Color>
@@ -61,6 +63,8 @@
             <Color x:Key="CardBorderBrush">#FFFFFF</Color>
             
             <Color x:Key="SeparatorColor">#FFFFFF</Color>
+            
+            <Color x:Key="AccentColor">#827CEA</Color>
             
             <Color x:Key="ButtonBorderBrush">#FFFFFF</Color>
             <Color x:Key="ImportButtonBackgroundColor">#E1505050</Color>
