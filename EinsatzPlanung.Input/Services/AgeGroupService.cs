@@ -1,40 +1,30 @@
 ﻿namespace Einsatzplanung.Input.Services;
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 using Einsatzplanung.Util.Services;
 
-public class AgeGroupService : IEntityService<AgeGroup> {
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
-	private IConfigService<AgeGroupConfig> ageGroupService;
+public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
+
 	private IEntityService<Holiday> holidayService;
 	private IEntityService<Teacher> teacherService;
 	private IEntityService<Topic> topicService;
-	private GeneralConfigService configService;
+	private GeneralConfigService generalConfigService;
 
-	public AgeGroupService(IConfigService<AgeGroupConfig> ageGroupService, IEntityService<Holiday> holidayService, IEntityService<Teacher> teacherService, IEntityService<Topic> topicService, GeneralConfigService configService) {
-		this.ageGroupService = ageGroupService;
+	public AgeGroupService(IConfigService<AgeGroupConfig> ageGroupService, IEntityService<Holiday> holidayService, IEntityService<Teacher> teacherService, IEntityService<Topic> topicService, GeneralConfigService generalConfigService)
+	: base(ageGroupService) {
 		this.holidayService = holidayService;
 		this.teacherService = teacherService;
 		this.topicService = topicService;
-		this.configService = configService;
+		this.generalConfigService = generalConfigService;
 	}
 
-	public List<AgeGroup> GetEntities() {
-		List<AgeGroupConfig> configs = ageGroupService.GetData();
-		return configs.Select(MapAgeGroup).ToList();
-	}
-
-	public void SetSource(string path) {
-		ageGroupService.SetSource(path);
-	}
-
-	private AgeGroup MapAgeGroup(AgeGroupConfig config) {
+	protected override AgeGroup MapConfigData(AgeGroupConfig config) {
 		return new AgeGroup() {
 			Name = config.Name,
 			Groups = config.Groups.Select(MapGroup).ToList()
@@ -44,7 +34,7 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 	private Group MapGroup(GroupConfig config) {
 		var blocks = new List<Block>();
 
-		var currentStart = configService.YearStartDate;
+		var currentStart = generalConfigService.YearStartDate;
 
 		blocks = config.Blocks
 			.Where(x => x.Count > 0)
@@ -63,9 +53,11 @@ public class AgeGroupService : IEntityService<AgeGroup> {
 	}
 
 	private Block MapBlock(BlockConfig config) {
-		if (topicService.TryGetTopicByName(config.Topic, out Topic? topic)) {
+		string topicName = config.Topic.Name;
+		var topic = topicService.GetEntities().FirstOrDefault(x => x.Name == topicName);
+		if (topic != null) {
 			return new Block {
-				Topic = topic!,
+				Topic = topic,
 				Count = config.Count
 			};
 		} else {

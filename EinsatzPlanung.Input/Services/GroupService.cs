@@ -6,6 +6,7 @@ using Einsatzplanung.Types.Models;
 using System.Collections.Generic;
 using System.Linq;
 
+
 public class GroupService : IEntityService<Group> {
 
 	private IEntityService<AgeGroup> ageGroupService;
@@ -20,5 +21,13 @@ public class GroupService : IEntityService<Group> {
 
 	public void SetSource(string path) {
 		ageGroupService.SetSource(path);
+	}
+
+	public Group? GetById(int id) {
+		throw new System.NotImplementedException();
+	}
+
+	public bool TryGetById(int id, out Group? result) {
+		throw new System.NotImplementedException();
 	}
 }

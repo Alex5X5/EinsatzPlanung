@@ -10,7 +10,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Input.Services;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
@@ -18,8 +17,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 
 	private IConfigExportService<TeacherConfig> exportService;
 	private IConfigService<TeacherConfig> configService;
-	private IEntityService<Topic> topicService;
-	private List<string> topicNames = [];
+	private IConfigService<TopicConfig> topicService;
 
 	[ObservableProperty]
 	private ObservableCollection<TeacherCardViewModel> cards;
@@ -27,7 +25,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private int activeCardIndex = -1;
 
-	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, IConfigExportService<TeacherConfig> exportService, IEntityService<Topic> topicService) {
+	public TeacherPageViewModel(IConfigService<TeacherConfig> configService, IConfigExportService<TeacherConfig> exportService, IConfigService<TopicConfig> topicService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		this.topicService = topicService;
@@ -35,22 +33,16 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	public void AddCard() {
-		Cards.Add(new TeacherCardViewModel(new TeacherConfig(){Name = "Neuer Ausbilder", Abbreviation="Au", Specializations=[], WeeklyHours=40}, Cards.Count, topicNames));
-	}
-
-	public async Task ExportCardsAsync(string path) {
-		await SetEntitiesFromStateAsync();
-		await exportService.ExportAsync(path, configService.GetData());
+		Cards.Add(new TeacherCardViewModel(new TeacherConfig(){Name = "Neuer Ausbilder", Abbreviation="Au", Specializations=[], WeeklyHours=40}, Cards.Count));
 	}
 
 	protected override async Task OnLoadAsync() {
-		topicNames = await Task.Run(() => topicService.GetEntities().Select(topic => topic.Name).ToList());
 		List<TeacherCardViewModel> cards = await Task.Run(
 			() => {
 				var teachers = configService.GetData();
 				int i = 0;
 				return teachers
-					.Select(t => new TeacherCardViewModel(t, i++, topicNames))
+					.Select(t => new TeacherCardViewModel(t, i++))
 					.ToList();
 			});
 		Cards = new(cards);
@@ -60,15 +52,19 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 		await SetEntitiesFromStateAsync();
 	}
 
+	public async Task ExportCardsAsync(string path) {
+		await SetEntitiesFromStateAsync();
+		await exportService.ExportAsync(path, configService.GetData());
+	}
+
 	public async Task SetEntitiesFromStateAsync() {
 		await Task.Run(() => {
-			List<TeacherConfig> teachers = Cards.Select(card => new TeacherConfig {
-				Name = card.Header,
-				Abbreviation = card.Abbreviation,
-				WeeklyHours = card.WeeklyHours,
-				Specializations = card.Topics.Select(topic => topicService.GetTopicByName(topic.Header)).ToList()
-			}).ToList();
-
+			List<TeacherConfig> teachers = [];
+			foreach (var card in Cards) {
+				var teacher = card.Config;
+				teacher.Name = card.Header;
+				teachers.Add(teacher);
+			}
 			configService.SetData(teachers);
 		});
 	}

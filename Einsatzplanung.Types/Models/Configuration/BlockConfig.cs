@@ -5,9 +5,9 @@ using System;
 public class BlockConfig : Entity {
 	
 	public int Count { get; init; }
-	public required string Topic { get; init; }
+	public required TopicConfig Topic { get; init; }
 
 	public override string ToString() {
-		return $"BlockConfig[Name={Topic}, Count={Convert.ToString(Count)}]";
+		return $"BlockConfig[Name={Topic.Name}, Count={Convert.ToString(Count)}]";
 	}
 }

@@ -1,13 +1,12 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
-using System;
-
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-using Avalonia.Media;
-
 using Einsatzplanung.GUI.Interfaces;
+using Einsatzplanung.Types.Models.Configuration;
+
+using System;
 
 public partial class BlockCardViewModel : ViewModelBase, IRemovableCardViewModel {
 
@@ -17,13 +16,14 @@ public partial class BlockCardViewModel : ViewModelBase, IRemovableCardViewModel
 	[ObservableProperty]
 	private string count;
 
-	public IRelayCommand<object> RemoveCommand {
-		init; get;
-	}
+	public IRelayCommand<object> RemoveCommand { init; get; }
+	
+	public BlockConfig Config { init; get; }
 
-	public BlockCardViewModel(string header, int count, IRelayCommand<object> removeCommand) {
-		Header = header;
-		Count = Convert.ToString(count);
+	public BlockCardViewModel(BlockConfig block, IRelayCommand<object> removeCommand) {
+		Config = block;
+		Header = block.Topic.Name;
+		Count = Convert.ToString(block.Count);
 		RemoveCommand = removeCommand;
 	}
 }
