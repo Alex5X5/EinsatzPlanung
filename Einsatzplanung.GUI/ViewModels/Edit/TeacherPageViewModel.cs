@@ -19,6 +19,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	private IConfigExportService<TeacherConfig> exportService;
 	private IConfigService<TeacherConfig> configService;
 	private IEntityService<Topic> topicService;
+	private List<string> topicNames = [];
 
 	[ObservableProperty]
 	private ObservableCollection<TeacherCardViewModel> cards;
@@ -34,7 +35,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	public void AddCard() {
-		Cards.Add(new TeacherCardViewModel(new TeacherConfig(){Name = "Neuer Ausbilder", Abbreviation="Au", Specializations=[], WeeklyHours=40}, Cards.Count));
+		Cards.Add(new TeacherCardViewModel(new TeacherConfig(){Name = "Neuer Ausbilder", Abbreviation="Au", Specializations=[], WeeklyHours=40}, Cards.Count, topicNames));
 	}
 
 	public async Task ExportCardsAsync(string path) {
@@ -43,12 +44,13 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	protected override async Task OnLoadAsync() {
+		topicNames = await Task.Run(() => topicService.GetEntities().Select(topic => topic.Name).ToList());
 		List<TeacherCardViewModel> cards = await Task.Run(
 			() => {
 				var teachers = configService.GetData();
 				int i = 0;
 				return teachers
-					.Select(t => new TeacherCardViewModel(t, i++))
+					.Select(t => new TeacherCardViewModel(t, i++, topicNames))
 					.ToList();
 			});
 		Cards = new(cards);

@@ -35,11 +35,10 @@
 							<DataTemplate x:DataType="vm:SpecializationCardViewModel">
 								<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
-									<TextBox Text="{Binding Header, Mode=TwoWay}"
-											 TextWrapping="NoWrap"
-											 Foreground="{DynamicResource AppForegroundBrush}"
-											 HorizontalContentAlignment="Stretch"
-											 VerticalContentAlignment="Stretch" />
+									<ComboBox ItemsSource="{Binding TopicNames}"
+											  SelectedItem="{Binding Header, Mode=TwoWay}"
+											  Foreground="{DynamicResource AppForegroundBrush}"
+											  HorizontalAlignment="Stretch" />
 
 								</ct:RemovableCard>
 							</DataTemplate>
