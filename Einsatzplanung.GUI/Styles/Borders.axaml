@@ -1,0 +1,37 @@
+<Styles xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	
+	<Style Selector="Border">
+		
+		 <Style Selector="^.excel-bg:pointerover">
+            <Setter Property="Background" Value="{DynamicResource HoverExcelImportButtonGradient}"/>
+        </Style>    
+    
+        <Style Selector="^.pdf-bg:pointerover">
+            <Setter Property="Background" Value="{DynamicResource HoverPdfImportButtonGradient}"/>
+        </Style>
+
+        <Style Selector="^.extending-border.active">
+            <Setter Property="Height" Value="155" />
+        </Style>
+    
+    
+        <Style Selector="^.extending-calendar-border">
+            <Setter Property="Height" Value="60" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition
+                        Property="Height"
+                        Duration="0:0:0.3"
+                        Easing="CubicEaseOut" />
+                </Transitions>
+            </Setter>
+        </Style>
+    
+        <Style Selector="^.extending-calendar-border.active">
+            <Setter Property="Height" Value="130" />
+        </Style>
+
+	</Style>
+
+</Styles>
