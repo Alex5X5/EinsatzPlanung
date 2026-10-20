@@ -21,11 +21,13 @@
 
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
+								 Watermark="Name der Ausbildungskraft"
 								 TextWrapping="NoWrap"
 								 Foreground="{DynamicResource AppForegroundBrush}"
 								 HorizontalAlignment="Stretch"
 								 HorizontalContentAlignment="Center"
-								 VerticalContentAlignment="Center" />
+								 VerticalContentAlignment="Center" 
+								 ToolTip.Tip="Der Name des Themas"/>
 					</ct:ExtendingCard.HeaderContent>
 					
 					<ItemsControl ItemsSource="{Binding Topics}"

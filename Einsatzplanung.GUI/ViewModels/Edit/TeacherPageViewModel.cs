@@ -35,7 +35,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	public void AddCard() {
-		Cards.Add(new TeacherCardViewModel(new TeacherConfig(){Name = "Neuer Ausbilder", Abbreviation="Au", Specializations=[], WeeklyHours=40}, Cards.Count, topicNames));
+		Cards.Add(new TeacherCardViewModel(new TeacherConfig(){Name = "", Abbreviation="Au", Specializations=[], WeeklyHours=40}, Cards.Count, topicNames));
 	}
 
 	public async Task ExportCardsAsync(string path) {

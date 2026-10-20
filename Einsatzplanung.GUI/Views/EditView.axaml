@@ -25,7 +25,7 @@
                 <pages:ClassesView />
             </ContentPage>
 
-            <ContentPage Header="Ausbilder" 
+            <ContentPage Header="Ausbilder*innen" 
                          Classes="content-page-default-style">
                 <pages:TeacherView />
             </ContentPage>
