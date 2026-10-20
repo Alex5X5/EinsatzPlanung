@@ -8,6 +8,8 @@ using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -68,26 +70,48 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
 	public async Task SetEntitiesFromStateAsync() {
 		await Task.Run(() => {
-			List<AgeGroupConfig> ageGroups = [];
 			List<GroupConfig> groups = [];
-
-			foreach (var card in Cards) {
-				var blocks = card.Topics.Select(
-					t => new BlockConfig() {
-						Topic = t.Header,
-						Count = int.Parse(t.Count)
-					}).ToList();
+			var topicService = App.GetRequiredService<IConfigService<TopicConfig>>();
+			foreach (var groupCard in Cards) {
+				List<BlockConfig> blocks = [];
+				foreach (var blockCard in groupCard.Topics) {
+					var block = new BlockConfig() {
+						Id = blockCard.Config.Id,
+						Count = int.Parse(blockCard.Count),
+						Topic = topicService.GetById(blockCard.Config.Topic.Id) ?? TopicConfig.Default
+					};
+					blocks.Add(block);
+				}
 				var group = new GroupConfig() {
-					Name = card.Header,
-					AgeGroupName = card.Config.AgeGroupName,
-					TeacherAbbreviation = card.Config.TeacherAbbreviation,
-					SchoolWeeks = card.Config.SchoolWeeks,
+					Id = groupCard.Config.Id,
+					AgeGroupName = groupCard.Header,
+					SchoolWeeks = groupCard.Config.SchoolWeeks,
+					TeacherAbbreviation = groupCard.Config.TeacherAbbreviation,
+					Name = groupCard.Header,
 					Blocks = blocks
 				};
 				groups.Add(group);
 			}
-
 			configService.SetData(groups);
+
+			//foreach (var card in Cards) {
+			//	var blocks = card.Topics.Select(
+			//		t => new BlockConfig() {
+			//			Id = t.Config.Id,
+			//			Topic = topicService.GetById(t.Config.Id)!,
+			//			Count = int.Parse(t.Count)
+			//		}).ToList();
+			//	var group = new GroupConfig() {
+			//		Name = card.Header,
+			//		AgeGroupName = card.Config.AgeGroupName,
+			//		TeacherAbbreviation = card.Config.TeacherAbbreviation,
+			//		SchoolWeeks = card.Config.SchoolWeeks,
+			//		Blocks = blocks
+			//	};
+			//	groups.Add(group);
+			//}
+
+			//configService.SetData(groups);
 		});
 	}
 }

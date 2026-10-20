@@ -4,19 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 
-using Avalonia.Media;
-
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Einsatzplanung.GUI.Interfaces;
+using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
 public partial class ClassCardViewModel : CardViewModel {
 	
 	[ObservableProperty]
 	private string header;
+
 	public ObservableCollection<BlockCardViewModel> Topics { get; }
+	
 	public GroupConfig Config { init; get; }
 	private readonly IReadOnlyList<string> topicNames;
 
@@ -24,15 +27,19 @@ public partial class ClassCardViewModel : CardViewModel {
 		this.topicNames = topicNames;
 		Config = group;
 		Header = group.Name;
-		var models = group.Blocks.Select(
-			block => new BlockCardViewModel(block.Topic, block.Count, topicNames, RemoveTopicCommand));
+		var models = group.Blocks.Select(x => new BlockCardViewModel(x, RemoveTopicCommand));
 		Topics = new(models);
 	}
 
 	[RelayCommand]
 	private void AddTopic() {
-		if (topicNames.Count > 0)
-			Topics.Add(new BlockCardViewModel(topicNames[0], 1, topicNames, RemoveTopicCommand));
+		var topic = App.Current.Services.GetRequiredService<IConfigService<TopicConfig>>().GetData().FirstOrDefault(TopicConfig.Default);
+		var block = new BlockConfig() {
+			Id = 0,
+			Count = 1,
+			Topic = topic
+		};
+		Topics.Add(new BlockCardViewModel(block, RemoveTopicCommand));
 	}
 
 	[RelayCommand]

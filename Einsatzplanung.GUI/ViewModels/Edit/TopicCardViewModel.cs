@@ -7,17 +7,18 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Einsatzplanung.Types.Models.Configuration;
 
 public partial class TopicCardViewModel : ViewModelBase {
-	
+
 	[ObservableProperty]
 	private string header;
-	    
+
 	[ObservableProperty]
 	private Color selectedColor = Colors.DarkRed;
 
-	public TopicCardViewModel(TopicConfig topic) : this(topic.Name, Color.Parse(topic.Color)) { }
+	public TopicConfig Topic { set; get; }
 
-	public TopicCardViewModel(string header, Color selectedColor) {
-		Header = header;
-		SelectedColor = selectedColor;
+	public TopicCardViewModel(TopicConfig topic) {
+		Topic = topic;
+		Header = Topic.Name;
+		SelectedColor = Color.Parse(Topic.Color);
 	}
 }

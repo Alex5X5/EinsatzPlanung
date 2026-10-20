@@ -4,23 +4,14 @@ using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
-using System.Collections.Generic;
-using System.Linq;
+public class HolidayService : EntitiyServiceBase<Holiday, HolidayConfig> {
 
-public class HolidayService : IEntityService<Holiday> {
-    
-    private IConfigService<HolidayConfig> configService;
+	public HolidayService(IConfigService<HolidayConfig> configService) : base(configService) { }
 
-    public HolidayService(IConfigService<HolidayConfig> configService) {
-        this.configService = configService;
-    }
-
-    public List<Holiday> GetEntities() {
-        List<HolidayConfig> configs = configService.GetData();
-        return configs.Select(c => new Holiday { From = c.From, To = c.To ?? c.From }).ToList();
-	}
-
-	public void SetSource(string path) {
-		configService.SetSource(path);
+	protected override Holiday MapConfigData(HolidayConfig config) {
+		return new Holiday {
+			From = config.From,
+			To = config.To ?? config.From
+		};
 	}
 }

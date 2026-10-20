@@ -20,7 +20,7 @@ using Einsatzplanung.GUI.ViewModels.Edit;
 
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Input.Services;
-using Einsatzplanung.Input.Services.Config;
+using Einsatzplanung.Input.Services.Configuration;
 
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
@@ -109,4 +109,10 @@ public partial class App : Application {
 		collection.AddSingleton<TeacherPageViewModel>();
 	}
 
+
+	public static T GetRequiredService<T>() where T : notnull =>
+		Current.Services.GetRequiredService<T>();
+
+	public static T? GetService<T>() =>
+		Current.Services.GetService<T>();
 }

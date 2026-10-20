@@ -1,4 +1,4 @@
-﻿namespace Einsatzplanung.Input.Services.Config;
+﻿namespace Einsatzplanung.Input.Services.Configuration;
 
 using System.Collections.Generic;
 
@@ -41,4 +41,12 @@ public class GroupConfigService : IConfigService<GroupConfig> {
 		ageGroupService.SetData(ageGroups);
 	}
 
+	public GroupConfig? GetById(int id) {
+		return GetData().FirstOrDefault(x => x.Id == id);
+	}
+
+	public bool TryGetById(int id, out GroupConfig? result) {
+		result = GetById(id);
+		return result != null;
+	}
 }

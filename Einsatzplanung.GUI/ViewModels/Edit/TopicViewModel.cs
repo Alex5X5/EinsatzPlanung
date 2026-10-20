@@ -5,8 +5,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Avalonia.Media;
-
 using CommunityToolkit.Mvvm.ComponentModel;
 
 using Einsatzplanung.Excel.Interfaces;
@@ -35,7 +33,8 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	public void AddCard() {
-		Cards.Add(new TopicCardViewModel("New Topic", Colors.White));
+		var topic = configService.GetData().FirstOrDefault(TopicConfig.Default);
+		Cards.Add(new TopicCardViewModel(topic));
 	}
 
 	protected override async Task OnLoadAsync() {
@@ -58,11 +57,13 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 
 	public async Task SetEntitiesFromStateAsync() {
 		await Task.Run(() => {
-			List<TopicConfig> topics = Cards.Select(card => new TopicConfig {
-				Name = card.Header,
-				Color = card.SelectedColor.ToRgbHex()
-			}).ToList();
-
+			List<TopicConfig> topics = [];
+			foreach (var card in Cards) {
+				var topic = card.Topic;
+				topic.Name = card.Header;
+				topic.Color = card.SelectedColor.ToRgbHex();
+				topics.Add(topic);
+			}
 			configService.SetData(topics);
 		});
 	}

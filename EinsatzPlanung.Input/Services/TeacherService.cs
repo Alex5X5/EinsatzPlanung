@@ -4,54 +4,27 @@ using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 using Einsatzplanung.Types.Models;
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
-public class TeacherService : IEntityService<Teacher> {
+public class TeacherService : EntitiyServiceBase<Teacher, TeacherConfig> {
 
-	private IConfigService<TeacherConfig> configService;
+	private IEntityService<Topic> topicService;
 
-	public TeacherService(IConfigService<TeacherConfig> configService) {
-		this.configService = configService;
+	public TeacherService(IConfigService<TeacherConfig> configService, IEntityService<Topic> topicService)
+	: base(configService) {
+		this.topicService = topicService;
 	}
 
-	public List<Teacher> GetEntities() {
-		return configService.GetData().Select(MapTeacher).ToList();
-	}
-
-	public void SetEntities(List<Teacher> entities) {
-	}
-
-	public void SetSource(string path) {
-		configService.SetSource(path);
-	}
-
-	private static Teacher MapTeacher(TeacherConfig config) =>
-		new Teacher() {
+	protected override Teacher MapConfigData(TeacherConfig config) {
+		return new Teacher() {
 			Name = config.Name,
 			Abbreviation = config.Abbreviation,
 			WeeklyHours = config.WeeklyHours,
-			Specializations = config.Specializations
+			Specializations = config.Specializations.Select(MapTopic).ToList()
 		};
-}
-
-public static class TeacherServiceExtensions {
-
-	public static Teacher GetTeacherByName(this IEntityService<Teacher> service, string name) {
-		return service.GetEntities().First(t => t.Name.Equals(name, StringComparison.Ordinal));
 	}
 
-	public static bool TryGetTeacherByName(this IEntityService<Teacher> service, string name, out Teacher? result) {
-
-		if (string.IsNullOrEmpty(name)) {
-			result = service.GetEntities().FirstOrDefault(t => t.Name.Equals(name, StringComparison.Ordinal));
-		} else {
-			result = null;
-		}
-
-		return result != null;
+	private Topic MapTopic(TopicConfig config) {
+		return topicService.GetEntities().FirstOrDefault(x => x.Name == config.Name, Topic.Default);
 	}
-
 }

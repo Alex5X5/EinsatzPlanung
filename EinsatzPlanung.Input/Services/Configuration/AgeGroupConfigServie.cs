@@ -1,4 +1,4 @@
-﻿namespace Einsatzplanung.Input.Services.Config;
+﻿namespace Einsatzplanung.Input.Services.Configuration;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
-public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
+public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 
 	private const int AGE_GROUP_COLUMN_INDEX = 0;
 	private const int CLASS_GROUP_COLUMN_INDEX = 1;
@@ -18,26 +18,14 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 	private const int TOPIC_COLUMN_INDEX = 4;
 	private const int TOPIC_WEEKS_COLUMN_INDEX = 5;
 
-	private IExcelImportService excelImportService;
+	private IConfigService<TopicConfig> topicService;
 
-	private string SourceFilePath { get; set; } = "";
-
-	private List<AgeGroupConfig>? bufferedData;
-
-	public AgeGroupConfigService(IExcelImportService excelImportService, IEntityService<Topic> topicService) {
-		this.excelImportService = excelImportService;
+	public AgeGroupConfigService(IExcelImportService importService, IConfigService<TopicConfig> topicService) : base(importService) {
+		this.topicService = topicService;
 	}
 
-	public void SetSource(string path) {
-		SourceFilePath = path;
-	}
-
-	public List<AgeGroupConfig> GetData() {
-		if (bufferedData != null)
-			return bufferedData;
-
-		Table table = excelImportService.GetTable(SourceFilePath);
-
+	protected override List<AgeGroupConfig> ParseTable(Table table) {
+		List<TopicConfig> topics = topicService.GetData();
 		List<AgeGroupConfig> ageGroups = [];
 
 		AgeGroupBuilder ageGroupBuilder = new();
@@ -75,7 +63,12 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 
 			if (int.TryParse(table[row, TOPIC_WEEKS_COLUMN_INDEX]?.Value ?? "", out var topicWeeks)) {
 				string topicName = table[row, TOPIC_COLUMN_INDEX]?.Value ?? "";
-				groupBuilder.AddBlock(new BlockConfig() { Count = topicWeeks, Topic = topicName });
+				var topic = topicService.GetData().FirstOrDefault(x => x.Name == topicName);
+				if (topic != null)
+					groupBuilder.AddBlock(new BlockConfig() {
+						Count = topicWeeks,
+						Topic = topic
+					});
 			}
 		}
 
@@ -84,10 +77,6 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 			ageGroups.Add(ageGroup);
 		
 		return ageGroups;
-	}
-
-	public void SetData(List<AgeGroupConfig> data) {
-		bufferedData = data;
 	}
 
 	private class AgeGroupBuilder {
