@@ -17,21 +17,26 @@ public sealed class BasicStyledPropertyFieldSuppressor : DiagnosticSuppressor {
 		suppressedDiagnosticId: "CS0414",
 		justification: "Field is consumed by the BasicStyledProperty source generator.");
 
-		suppressedDiagnosticId: "CS0169",
-	private static readonly SuppressionDescriptor NonNullableRule = new(
+	private static readonly SuppressionDescriptor UnusedPrivateFieldRule = new(
 		id: "EPSUP002",
+		suppressedDiagnosticId: "CS0169",
+		justification: "Field is consumed by the BasicStyledProperty source generator.");
+
+	private static readonly SuppressionDescriptor NonNullableRule = new(
+		id: "EPSUP003",
 		suppressedDiagnosticId: "CS8618",
 		justification: "Field is consumed by the BasicStyledProperty source generator.");
 
 
 	public override ImmutableArray<SuppressionDescriptor> SupportedSuppressions
-		=> ImmutableArray.Create(UnusedFieldRule, NonNullableRule);
+		=> ImmutableArray.Create(UnusedFieldRule, UnusedPrivateFieldRule, NonNullableRule);
 
 	public override void ReportSuppressions(SuppressionAnalysisContext context) {
 		foreach (var diagnostic in context.ReportedDiagnostics) {
 			var rule = diagnostic.Id switch {
 				"CS0414" => UnusedFieldRule,
 				"CS8618" => NonNullableRule,
+				"CS0169" => UnusedPrivateFieldRule,
 				_ => null
 			};
 			if (rule is null)
@@ -67,7 +72,7 @@ public sealed class BasicStyledPropertyFieldSuppressor : DiagnosticSuppressor {
 				string message = diagnostic.GetMessage();
 				bool matches = type.GetMembers()
 					.OfType<IFieldSymbol>()
-					.Any(f => HasAttribute(f) && message.Contains($"'{f.Name}'"));
+					.Any(f => HasAttribute(f) && message.Contains($"\"{f.Name}\""));
 
 				if (matches)
 					context.ReportSuppression(Suppression.Create(rule, diagnostic));

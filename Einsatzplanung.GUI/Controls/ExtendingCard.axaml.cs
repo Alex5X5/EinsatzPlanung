@@ -40,7 +40,7 @@ public partial class ExtendingCard : UserControl {
 	private bool isActive = false;
 
 	[BasicStyledProperty<ExtendingCard>]
-	private RelayCommand? addButtonCommand;
+	private IRelayCommand? addButtonCommand;
 
 	private readonly Controls _children = new();
 	private readonly Controls _headerContent = new();
