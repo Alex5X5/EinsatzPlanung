@@ -8,7 +8,7 @@
 
     <!-- Calendar -->
     <Style Selector="CalendarDatePicker">
-        <Setter Property="IsDropDownOpen" Value="False"/> <!-- is buggy -->
+        <Setter Property="IsDropDownOpen" Value="False" /> <!-- is buggy -->
     </Style>
     
     <!-- img -->
@@ -25,12 +25,30 @@
         </Setter>
     </Style>
     
+    <!-- TextBox -->
+    
     <Style Selector="TextBox">
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}" />
+    </Style>
+    
+    <!-- ComboBox -->
+    
+    <Style Selector="ComboBox">
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}" />
+    </Style>
+
+    <!-- ColorPicker --> 
+    
+    <Style Selector="ColorPicker">
+        <Setter Property="IsAlphaEnabled" Value="False" />
+        <Setter Property="IsAlphaVisible" Value="False" />
+        <Setter Property="ColorSpectrumShape" Value="Box" /> <!-- Possible Values: Ring / Box (Default) -->
+    </Style>
+    
+    <Style Selector="ColorPicker /template/ DropDownButton">
+        <Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}" />
         <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
     </Style>
     
-    <Style Selector="ComboBox">
-        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
-    </Style>
-
+    
 </Styles>

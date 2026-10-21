@@ -25,9 +25,14 @@
 
 			<Style Selector="^.rem">
 				<Setter Property="Content" Value="-"/>
+				<Setter Property="Width" Value="20"/>
+				<Setter Property="Height" Value="20"/>
+				<Setter Property="MinWidth" Value="0"/>
+				<Setter Property="MinHeight" Value="0"/>
+				<Setter Property="Padding" Value="0"/>
+
 			</Style>
 		</Style>
-
 		<Style Selector="^.nav-bar-button">
 			<Setter Property="Height" Value="48"/>
 			<Setter Property="Width" Value="48"/>
