@@ -35,8 +35,6 @@
 									 ToolTip.Tip="Der Name des Themas"/>
 							<ColorPicker Grid.Column="2"
 										 Color="{Binding SelectedColor, Mode=TwoWay}"
-										 IsAlphaEnabled="False"
-										 IsAlphaVisible="False"
 										 HorizontalAlignment="Stretch"
 										 ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
 						

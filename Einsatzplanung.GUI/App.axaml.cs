@@ -35,6 +35,7 @@ public partial class App : Application {
     public IServiceProvider Services { private set; get; }
 
 	public override void Initialize() {
+		this.AttachDeveloperTools();
 		AvaloniaXamlLoader.Load(this);
 	}
 
