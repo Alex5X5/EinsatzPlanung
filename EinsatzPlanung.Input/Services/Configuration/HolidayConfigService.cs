@@ -26,6 +26,7 @@ public class HolidayConfigService : ConfigServiceBase<HolidayConfig> {
 				out var from)) {
 
 				HolidayConfig config = new() {
+					Id = Guid.NewGuid(),
 					From = DateOnly.FromDateTime(from)
 				};
 				

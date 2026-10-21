@@ -1,5 +1,7 @@
 ﻿namespace Einsatzplanung.Input.Services.Configuration;
 
+using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,14 +12,14 @@ using Einsatzplanung.Types.Models.Configuration;
 
 public abstract class ConfigServiceBase<Tc> : IConfigService<Tc> where Tc : Config {
 
-	private IExcelImportService excelImportService;
+	private IExcelImportService importService;
 
 	private List<Tc>? bufferedData;
 
 	private string SourceFilePath { get; set; } = "";
 
-	public ConfigServiceBase(IExcelImportService excelImportService) {
-		this.excelImportService = excelImportService;
+	public ConfigServiceBase(IExcelImportService importService) {
+		this.importService = importService;
 	}
 
 	public void SetSource(string path) {
@@ -31,19 +33,26 @@ public abstract class ConfigServiceBase<Tc> : IConfigService<Tc> where Tc : Conf
 	public List<Tc> GetData() {
 		if (bufferedData != null)
 			return bufferedData;
-
-		Table table = excelImportService.GetTable(SourceFilePath);
+		Table table = importService.GetTable(SourceFilePath);
 		return ParseTable(table);
 	}
 
-	public Tc? GetById(int id) {
+	public Tc? GetById(Guid id) {
 		return GetData().FirstOrDefault(x => x.Id == id);
 	}
 
-	public bool TryGetById(int id, out Tc? result) {
+	public bool TryGetById(Guid id, out Tc? result) {
 		result = GetById(id);
 		return result != null;
 	}
 
+	public async Task UpdateReferencesAsync() {
+		bufferedData = await UpdateReferencesAsync(GetData());
+	}
+
 	protected abstract List<Tc> ParseTable(Table table);
+
+	protected virtual Task<List<Tc>> UpdateReferencesAsync(List<Tc> data) {
+		return Task.FromResult(data);
+	}
 }

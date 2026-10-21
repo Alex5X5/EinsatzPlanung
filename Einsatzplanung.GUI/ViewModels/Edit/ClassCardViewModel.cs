@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
+using System;
 
 public partial class ClassCardViewModel : CardViewModel {
 	
@@ -33,9 +34,9 @@ public partial class ClassCardViewModel : CardViewModel {
 
 	[RelayCommand]
 	private void AddTopic() {
-		var topic = App.Current.Services.GetRequiredService<IConfigService<TopicConfig>>().GetData().FirstOrDefault(TopicConfig.Default);
+		var topic = App.GetRequiredService<IConfigService<TopicConfig>>().GetData().FirstOrDefault(TopicConfig.Default);
 		var block = new BlockConfig() {
-			Id = 0,
+			Id = Guid.NewGuid(),
 			Count = 1,
 			Topic = topic
 		};

@@ -1,12 +1,13 @@
 ﻿namespace Einsatzplanung.Input.Services.Configuration;
 
+using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
 using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
 public class TeacherConfigService : ConfigServiceBase<TeacherConfig> {
@@ -54,12 +55,32 @@ public class TeacherConfigService : ConfigServiceBase<TeacherConfig> {
 		return teachers;
 	}
 
+	protected override async Task<List<TeacherConfig>> UpdateReferencesAsync(List<TeacherConfig> data) {
+		return await Task.Run(
+			() => {
+				return data
+					.Select(
+						x =>
+							new TeacherConfig() {
+								Id = x.Id,
+								Abbreviation = x.Abbreviation,
+								Name = x.Name,
+								Specializations = x.Specializations
+									.Select(s => topicService.GetById(s.Id) ?? TopicConfig.Default)
+									.ToList(),
+								WeeklyHours = x.WeeklyHours
+							})
+					.ToList();
+			});
+	}
+
 	private class TeacherConfigBuilder {
 
 		private TeacherConfig? current;
 
 		private void CreateCurrentIfNull() {
 			current ??= new TeacherConfig() {
+				Id = Guid.NewGuid(),
 				Name = "",
 				Abbreviation = "",
 				WeeklyHours = 0,

@@ -1,5 +1,6 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -33,10 +34,18 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	public void AddCard() {
-		Cards.Add(new TeacherCardViewModel(new TeacherConfig(){Name = "Neuer Ausbilder", Abbreviation="Au", Specializations=[], WeeklyHours=40}, Cards.Count));
+		var teacher = new TeacherConfig() {
+			Id = Guid.NewGuid(), 
+			Name = "Neuer Ausbilder",
+			Abbreviation = "Au",
+			Specializations = [],
+			WeeklyHours = 40
+		};
+		Cards.Add(new TeacherCardViewModel(teacher, Cards.Count));
 	}
 
 	protected override async Task OnLoadAsync() {
+		await configService.UpdateReferencesAsync();
 		List<TeacherCardViewModel> cards = await Task.Run(
 			() => {
 				var teachers = configService.GetData();
@@ -60,9 +69,19 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	public async Task SetEntitiesFromStateAsync() {
 		await Task.Run(() => {
 			List<TeacherConfig> teachers = [];
-			foreach (var card in Cards) {
-				var teacher = card.Config;
-				teacher.Name = card.Header;
+			foreach (var teacherCard in Cards) {
+				List<TopicConfig> specializations = [];
+				foreach (var specCard in teacherCard.Topics) {
+					specializations.Add(topicService.GetByName(specCard.Header));
+				}
+				var teacher = new TeacherConfig() { 
+					Id = teacherCard.Config.Id,
+					Abbreviation = teacherCard.Config.Abbreviation,
+					Name = teacherCard.Header,
+					Specializations = specializations,
+					WeeklyHours = teacherCard.Config.WeeklyHours,
+				};
+				teacher.Name = teacherCard.Header;
 				teachers.Add(teacher);
 			}
 			configService.SetData(teachers);

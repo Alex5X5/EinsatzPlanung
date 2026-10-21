@@ -88,6 +88,7 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 				}
 
 				var holiday = new HolidayConfig {
+					Id = Guid.NewGuid(),
 					From = DateOnly.FromDateTime(from),
 					To = to == null ? null : DateOnly.FromDateTime(to.Value)
 				};

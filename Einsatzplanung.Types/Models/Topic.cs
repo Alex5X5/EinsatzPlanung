@@ -1,6 +1,4 @@
-﻿using Einsatzplanung.Types.Models.Configuration;
-
-namespace Einsatzplanung.Types.Models;
+﻿namespace Einsatzplanung.Types.Models;
 
 public class Topic : Entity {
 
@@ -13,9 +11,7 @@ public class Topic : Entity {
 		Color = color;
 	}
 
-	public static Topic Default => new("Neues Thema", "#FFFFFF") {
-		Id = 1
-	};
+	public static Topic Default => new("Neues Thema", "#FFFFFF");
 
 	public override string ToString() {
 		return $"Topic[Name={Name}, Color={Color}]";

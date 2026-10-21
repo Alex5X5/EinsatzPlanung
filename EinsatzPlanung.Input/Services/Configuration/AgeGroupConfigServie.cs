@@ -1,12 +1,13 @@
 ﻿namespace Einsatzplanung.Input.Services.Configuration;
 
+using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
 using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
 public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
@@ -66,6 +67,7 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 				var topic = topicService.GetData().FirstOrDefault(x => x.Name == topicName);
 				if (topic != null)
 					groupBuilder.AddBlock(new BlockConfig() {
+						Id = Guid.NewGuid(),
 						Count = topicWeeks,
 						Topic = topic
 					});
@@ -73,10 +75,43 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 		}
 
 		ageGroupBuilder.AddGroup(groupBuilder.Build());
-		if(ageGroupBuilder.Build() is AgeGroupConfig ageGroup)
+		if (ageGroupBuilder.Build() is AgeGroupConfig ageGroup)
 			ageGroups.Add(ageGroup);
-		
+
 		return ageGroups;
+	}
+
+	protected override async Task<List<AgeGroupConfig>> UpdateReferencesAsync(List<AgeGroupConfig> data) {
+		return await Task.Run(
+			() => {
+				return data
+					.Select(ageGroup =>
+						new AgeGroupConfig() {
+							Id = ageGroup.Id,
+							Name = ageGroup.Name,
+							Groups = ageGroup.Groups
+								.Select(group =>
+									new GroupConfig() {
+										Id = group.Id,
+										Name = group.Name,
+										AgeGroupName = ageGroup.Name,
+										TeacherAbbreviation = group.TeacherAbbreviation,
+										SchoolWeeks = group.SchoolWeeks,
+										Blocks = group.Blocks
+											.Select(block =>
+												new BlockConfig() {
+													Id = block.Id,
+													Count = block.Count,
+													Topic = topicService.GetById(block.Topic.Id) ?? TopicConfig.Default
+												})
+											.ToList()
+
+									})
+								.ToList()
+						})
+					.ToList();
+			}
+		);
 	}
 
 	private class AgeGroupBuilder {
@@ -85,6 +120,7 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 
 		private void CreateCurrentIfNull() {
 			current ??= new AgeGroupConfig() {
+				Id = Guid.NewGuid(),
 				Name = "",
 				Groups = []
 			};
@@ -115,6 +151,7 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 
 		private void CreateCurrentIfNull() {
 			current ??= new GroupConfig() {
+				Id = Guid.NewGuid(),
 				Name = "",
 				AgeGroupName = "",
 				SchoolWeeks = [],
