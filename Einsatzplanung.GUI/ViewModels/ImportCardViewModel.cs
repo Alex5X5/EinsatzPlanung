@@ -28,7 +28,7 @@
 		partial void OnExcelFileStatusChanged(string value) {
 			string key = Header switch {
 				"Ausbildungsinhalte" => "ImportCard.Topics",
-				"Ausbilder & Spezialisierungen" => "ImportCard.Trainer",
+				"Ausbilder*innen & Spezialisierungen" => "ImportCard.Trainer",
 				"Ausbildungsgruppen & Themen" => "ImportCard.Groups",
 				"Urlaub & Feiertage" => "ImportCard.Holiday",
 				_ => ""
@@ -43,7 +43,7 @@
 			this.selectionService = selectionService;
 			ExcelFileStatus = Header switch {
 				"Ausbildungsinhalte" => selectionService.GetSelection("ImportCard.Topics") ?? "Keine Excel-Datei ausgewählt",
-				"Ausbilder & Spezialisierungen" => selectionService.GetSelection("ImportCard.Trainer") ?? "Keine Excel-Datei ausgewählt",
+				"Ausbilder*innen & Spezialisierungen" => selectionService.GetSelection("ImportCard.Trainer") ?? "Keine Excel-Datei ausgewählt",
 				"Ausbildungsgruppen & Themen" => selectionService.GetSelection("ImportCard.Groups") ?? "Keine Excel-Datei ausgewählt",
 				"Urlaub & Feiertage" => selectionService.GetSelection("ImportCard.Holiday") ?? "Keine Excel-Datei ausgewählt",
 				_ => "Keine Excel-Datei ausgewählt"
@@ -54,8 +54,8 @@
 
         public string HelpText => Header switch
         {
-			"Ausbildungsinhalte" => "Hier werden die Themen der Ausbildung importiert. Die Spezialisierungen der Ausbilder und die Ausblidungsinhalte der Klassen werden von diesen Themen ausgewählt.",
-			"Ausbilder & Spezialisierungen" => "Hier werden Ausbilder und ihre Spezialisierungen importiert. Diese Daten werden für die Zuordnung der Einsatzzeiten verwendet.",
+			"Ausbildungsinhalte" => "Hier werden die Themen der Ausbildung importiert. Die Spezialisierungen der Ausbilder*innen und die Ausblidungsinhalte der Klassen werden von diesen Themen ausgewählt.",
+			"Ausbilder*innen & Spezialisierungen" => "Hier werden Ausbilder und ihre Spezialisierungen importiert. Diese Daten werden für die Zuordnung der Einsatzzeiten verwendet.",
             "Ausbildungsgruppen & Themen" => "Hier werden Ausbildungsgruppen und zugehörige Themen geladen. Damit können Klassen und Fächer korrekt in die Planung übernommen werden.",
             "Urlaub & Feiertage" => "Hier werden Urlaubstage und Feiertage importiert. Diese Tage werden bei der Planung berücksichtigt und nicht als normale Arbeitstage behandelt.",
             _ => "Hier können relevante Daten für diesen Bereich importiert werden."
