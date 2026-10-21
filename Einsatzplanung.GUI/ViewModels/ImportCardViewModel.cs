@@ -60,18 +60,7 @@
             "Urlaub & Feiertage" => "Hier werden Urlaubstage und Feiertage importiert. Diese Tage werden bei der Planung berücksichtigt und nicht als normale Arbeitstage behandelt.",
             _ => "Hier können relevante Daten für diesen Bereich importiert werden."
         };
-
-        //public string ExcelFileStatus
-        //{
-        //    get => _excelFileStatus;
-        //    set => SetProperty(ref _excelFileStatus, value);
-        //}
-
-        //public string PdfFileStatus
-        //{
-        //    get => _pdfFileStatus;
-        //    set => SetProperty(ref _pdfFileStatus, value);
-        //}
+        
 
         [RelayCommand]
         private async Task ImportExcel(Window window)

@@ -88,7 +88,7 @@
 									BorderThickness="0"
 									CornerRadius="10"
 									Background="{DynamicResource ImportButtonBackgroundColor}"
-									ToolTip.Tip="formatierte Excel-Datei mit Passenden Informationen einfügen">
+									ToolTip.Tip="Formatierte Excel-Datei mit Passenden Informationen einfügen">
 
 									<Grid ColumnDefinitions="Auto,*">
 
@@ -125,48 +125,7 @@
 									   VerticalAlignment="Center"
 									   TextTrimming="CharacterEllipsis" />
 
-							<!--<Button Margin="0,0,12,8"
-									Grid.Row="1"
-									Grid.Column="0"
-									Command="{Binding ImportPdfCommand}"
-									CommandParameter="{Binding $parent[Window]}"
-									Padding="0"
-									MaxHeight="30"
-									MaxWidth="120"
-									BorderThickness="0"
-									CornerRadius="10"
-									Background="{DynamicResource ImportButtonBackgroundColor}"
-									ToolTip.Tip="PDF-Datei mit Ausbilder Informationen einfügen">
-
-								  ~1~<Grid ColumnDefinitions="Auto,*">
-										<Image Source="{SvgImage /Assets/pdf.svg}"
-											   Width="24"
-											   Height="24"
-											   Grid.Column="0"
-											   Margin="1"
-											   HorizontalAlignment="Center"
-											   VerticalAlignment="Center"/>
-
-										<Border Grid.Column="1"
-												Classes="pdf-bg"
-												Background="{DynamicResource PdfImportButtonGradient}">
-											<TextBlock Text="Einfügen"
-													   Foreground="White"
-													   Padding="8,1"
-													   HorizontalAlignment="Center"
-													   VerticalAlignment="Center" />
-										</Border>
-									</Grid>@1@
-								
-							</Button>
-
-							<TextBlock Margin="0,0,0,8"
-									   Grid.Row="1"
-									   Grid.Column="1"
-									   Text="{Binding PdfFileStatus}"
-									   Foreground="{DynamicResource AppForegroundBrush}"
-									   VerticalAlignment="Center"
-									   TextTrimming="CharacterEllipsis" />-->
+						
 						</Grid>
 
 					</Grid>
