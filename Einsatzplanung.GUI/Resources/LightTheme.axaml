@@ -24,6 +24,7 @@
     <Color x:Key="ImportButtonBackgroundColor">#DCD4D1D2</Color>
     <Color x:Key="HoverImportButtonBackgroundColor">#95D4DFDF</Color>
     <Color x:Key="StandardButtonBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="StandardButtonBackgroundColorNoTransparency">#FFFFFFFF</Color>    
     
     <SvgImage x:Key="SvgImportIco">  /Assets/Light/import.svg </SvgImage>
     <SvgImage x:Key="SvgEditIco">  /Assets/Light/edit.svg </SvgImage>

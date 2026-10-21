@@ -67,8 +67,8 @@ public partial class RemovableCard : ContentControl {
 
 	static RemovableCard() {
 
-		IsActiveProperty.Changed.AddClassHandler<RemovableCard>(
-			(c, e) => c.PseudoClasses.Set(":active", (bool)e.NewValue!));
+		//IsActiveProperty.Changed.AddClassHandler<RemovableCard>(
+		//	(c, e) => c.PseudoClasses.Set(":active", (bool)e.NewValue!));
 
 	}
 }

@@ -13,6 +13,7 @@
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
 		<OutputType>Exe</OutputType>
+		<DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<OutputType>Exe</OutputType>
