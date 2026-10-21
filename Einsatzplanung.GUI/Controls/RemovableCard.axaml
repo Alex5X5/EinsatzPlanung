@@ -15,7 +15,8 @@
 							HorizontalAlignment="Stretch"
 							BorderThickness="1"				
 							Padding="10"
-							Margin="0"
+							Margin="0,10,10,0"
+							VerticalAlignment="Bottom"
 							Background="{DynamicResource CardBackgroundBrush}"
 							BorderBrush="{DynamicResource CardBorderBrush}"
 							ClipToBounds="True">
@@ -29,55 +30,19 @@
 										  ContentTemplate="{TemplateBinding ContentTemplate}" />
 
 					</Border>
-					
-					<Grid ColumnDefinitions="*,Auto">
 
 						<Button Name="PART_RemoveButton"
-								Grid.Column="1"
 								Classes="list-button rem"
+								HorizontalAlignment="Right"
+        						VerticalAlignment="Top"
 								Command="{TemplateBinding RemoveButtonCommand}"
 								CommandParameter="{Binding}"/>
-
-					</Grid>
-
 				</Panel>
 
 			</ControlTemplate>
+			
 		</Setter>
 		
-		<Style Selector="^ /template/ Border#PART_ContentBorder">
-			<Setter Property="Transitions">
-				<Transitions>
-					<ThicknessTransition Property="Margin"
-										 Delay="0:0:0"
-										 Duration="0:0:0.3"
-										 Easing="CubicEaseOut" />
-				</Transitions>
-			</Setter>
-		</Style>
-
-		<Style Selector="^:active /template/ Border#PART_ContentBorder">
-			<Setter Property="Margin" Value="0,0,50,0" />
-		</Style>
-
-		<Style Selector="^ /template/ Button#PART_RemoveButton">
-			<Setter Property="IsVisible" Value="False" />
-			<Setter Property="Opacity" Value="0" />
-			<Setter Property="Transitions">
-				<Transitions>
-					<DoubleTransition Property="Opacity"
-									  Delay="0:0:0.25"
-									  Duration="0:0:0.1"
-									  Easing="CubicEaseOut" />
-				</Transitions>
-			</Setter>
-		</Style>
-
-		<Style Selector="^:active /template/ Button#PART_RemoveButton">
-			<Setter Property="IsVisible" Value="True" />
-			<Setter Property="Opacity" Value="1" />
-		</Style>
-
 	</ControlTheme>
 
 </ResourceDictionary>
