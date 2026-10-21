@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+            
+
+    <Color x:Key="AppBackgroundStartColor">#211B2B</Color>
+    <Color x:Key="AppBackgroundEndColor">#2B2138</Color>
+    <Color x:Key="AppForegroundColor">#FFFFFFFF</Color>
+    
+    <Color x:Key="TapItemBackgroundBrush">#362F43</Color>
+    <Color x:Key="TapItemForegroundBrush">#FFFFFF</Color>
+    <Color x:Key="SelectedTapItemBackgroundBrush">#483D55</Color>
+    <Color x:Key="SelectedTapItemForegroundBrush">#FFFFFF</Color>
+    <Color x:Key="PointeroverTapItemForegroundBrush">#827CEA</Color>
+    
+    <Color x:Key="CardBackgroundColor">#20FFFFFF</Color>
+    <Color x:Key="CardBorderBrush">#FFFFFF</Color>
+    
+    <Color x:Key="TextBoxBorderBrush">#81F3FFFF</Color>
+    
+    <Color x:Key="SeparatorColor">#FFFFFF</Color>
+    
+    <Color x:Key="AccentColor">#827CEA</Color>
+    
+    <Color x:Key="ButtonBorderBrush">#FFFFFF</Color>
+    <Color x:Key="ImportButtonBackgroundColor">#E1505050</Color>
+    <Color x:Key="HoverImportButtonBackgroundColor">#20FFFFFF</Color>
+    <Color x:Key="StandardButtonBackgroundColor">#20FFFFFF</Color>
+    
+     <SvgImage x:Key="SvgImportIco">  /Assets/Dark/import.svg </SvgImage>
+     <SvgImage x:Key="SvgEditIco">  /Assets/Dark/edit.svg </SvgImage>
+     <SvgImage x:Key="SvgSaveIco">  /Assets/Dark/save.svg </SvgImage>
+
+    <LinearGradientBrush x:Key="AppBackgroundBrush"
+                         StartPoint="0%,0%"
+                         EndPoint="100%,100%">
+        <GradientStop Color="{StaticResource AppBackgroundStartColor}"
+                      Offset="0" />
+        <GradientStop Color="{StaticResource AppBackgroundEndColor}"
+                      Offset="1" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="AppForegroundBrush"
+                     Color="{StaticResource AppForegroundColor}" />
+    <SolidColorBrush x:Key="CardBackgroundBrush"
+                     Color="{StaticResource CardBackgroundColor}" />
+</ResourceDictionary>
