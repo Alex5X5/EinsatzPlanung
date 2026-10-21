@@ -1,5 +1,6 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,8 +21,7 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 
 	public string Header { get; }
 
-	[ObservableProperty]
-	private ObservableCollection<TopicCardViewModel> cards;
+	public ObservableCollection<TopicCardViewModel> Cards { set; get; }
 
 	[ObservableProperty]
 	private int activeCardIndex = -1;
@@ -33,7 +33,11 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	public void AddCard() {
-		var topic = configService.GetData().FirstOrDefault(TopicConfig.Default);
+		var topic = new TopicConfig() {
+			Id = Guid.NewGuid(),
+			Name = "Neues Thema",
+			Color = "#FFFFFF"
+		};
 		Cards.Add(new TopicCardViewModel(topic));
 	}
 
@@ -43,7 +47,9 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 				.GetData()
 				.Select(t => new TopicCardViewModel(t))
 				.ToList());
-		Cards = new(cards);
+		Cards.Clear();
+		foreach (var card in cards)
+			Cards.Add(card);
 	}
 
 	protected override async Task OnUnloadAsync() {
