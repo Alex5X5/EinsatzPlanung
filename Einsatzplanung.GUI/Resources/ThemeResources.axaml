@@ -17,6 +17,8 @@
             <Color x:Key="CardBackgroundColor">#F2F0FF</Color>
             <Color x:Key="CardBorderBrush">#40000000</Color>
             
+            <Color x:Key="TextBoxBorderBrush">#40000000</Color>
+            
             <Color x:Key="SeparatorColor">#87375F</Color>
             
             <Color x:Key="AccentColor">#87375F</Color>
@@ -61,6 +63,8 @@
             
             <Color x:Key="CardBackgroundColor">#20FFFFFF</Color>
             <Color x:Key="CardBorderBrush">#FFFFFF</Color>
+            
+            <Color x:Key="TextBoxBorderBrush">#81F3FFFF</Color>
             
             <Color x:Key="SeparatorColor">#FFFFFF</Color>
             
