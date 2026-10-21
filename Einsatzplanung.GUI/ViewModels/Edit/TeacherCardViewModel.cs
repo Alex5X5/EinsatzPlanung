@@ -20,7 +20,9 @@ public partial class TeacherCardViewModel : CardViewModel {
 	private string abbreviation;
 	[ObservableProperty]
 	private int weeklyHours;
-	public ObservableCollection<SpecializationCardViewModel> Topics { get; init; }
+
+	public ObservableCollection<SpecializationCardViewModel> Specializations { get; init; }
+	public List<string> Topics { get; init; }
 	
 	public TeacherConfig Config { init; get; }
 
@@ -29,18 +31,20 @@ public partial class TeacherCardViewModel : CardViewModel {
 		Header = teacher.Name;
 		Abbreviation = teacher.Abbreviation;
 		WeeklyHours = teacher.WeeklyHours;
-		Topics = new(teacher.Specializations.Select(t => new SpecializationCardViewModel(t, teacher.Specializations, RemoveTopicCommand)));
+		var topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetData();
+		Specializations = new(teacher.Specializations.Select(t => new SpecializationCardViewModel(t, RemoveTopicCommand)));
+		Topics = topics.Select(x => x.Name).ToList();
 	}
 
 	[RelayCommand]
 	private void AddTopic() {
 		var topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetData();
-		Topics.Add(new SpecializationCardViewModel(topics[0], topics, RemoveTopicCommand));
+		Specializations.Add(new SpecializationCardViewModel(topics[0], RemoveTopicCommand));
 	}
 
 	[RelayCommand]
 	private void RemoveTopic(object topic) {
 		if (topic is SpecializationCardViewModel topicToRemove)
-			Topics.Remove(topicToRemove);
+			Specializations.Remove(topicToRemove);
 	}
 }

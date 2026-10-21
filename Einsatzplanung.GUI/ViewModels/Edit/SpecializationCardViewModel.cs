@@ -15,19 +15,30 @@ using System.Linq;
 
 public partial class SpecializationCardViewModel : ViewModelBase, IRemovableCardViewModel {
 
+	private IConfigService<TopicConfig> topicService;
+
 	[ObservableProperty]
 	private string header;
+
+	partial void OnHeaderChanged(string value) {
+		Config = topicService.GetByName(value) ?? TopicConfig.Default;
+	}
 
 	public IReadOnlyList<string> TopicNames { get; }
 
 	public IRelayCommand<object> RemoveCommand { init; get; }
 	
-	public TopicConfig Config { init; get; }
+	public TopicConfig Config { get; private set; }
 
-	public SpecializationCardViewModel(TopicConfig topic, List<TopicConfig> topics, IRelayCommand<object> removeCommand) {
+	public SpecializationCardViewModel(TopicConfig topic, IRelayCommand<object> removeCommand) {
 		Config = topic;
+
+		topicService = App.GetRequiredService<IConfigService<TopicConfig>>();
+
 		Header = topic.Name;
-		TopicNames = topics.Select(x=>x.Name).ToList();
 		RemoveCommand = removeCommand;
+
+		var topics = topicService.GetData();
+		TopicNames = topics.Select(x=>x.Name).ToList();
 	}
 }
