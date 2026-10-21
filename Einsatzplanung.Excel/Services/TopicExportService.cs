@@ -1,6 +1,7 @@
 ﻿namespace Einsatzplanung.Excel.Services;
 
 using Einsatzplanung.Excel.Interfaces;
+using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
 using System;
@@ -9,7 +10,27 @@ using System.Text;
 using System.Threading.Tasks;
 
 public class TopicExportService : IConfigExportService<TopicConfig> {
-	public Task ExportAsync(string filePath, List<TopicConfig> entities) {
-		throw new NotImplementedException();
+
+	private readonly IExcelExportService excelExportService;
+
+	public TopicExportService(IExcelExportService excelExportService) {
+		this.excelExportService = excelExportService;
+	}
+
+	public async Task ExportAsync(string filePath, List<TopicConfig> topics) {
+		await Task.Run(() => {
+
+			Table table = new();
+			table.AddRow(["Thema", "Farbe"]);
+
+			foreach (TopicConfig topic in topics) {
+				table.AddRow([
+					topic.Name?.ToString(),
+					topic.Color?.ToString()
+				]);
+			}
+
+			excelExportService.SaveTable(filePath, table, sheetName: "Themen");
+		});
 	}
 }
