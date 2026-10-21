@@ -55,7 +55,7 @@
         public string HelpText => Header switch
         {
 			"Ausbildungsinhalte" => "Hier werden die Themen der Ausbildung importiert. Die Spezialisierungen der Ausbilder*innen und die Ausblidungsinhalte der Klassen werden von diesen Themen ausgewählt.",
-			"Ausbilder*innen & Spezialisierungen" => "Hier werden Ausbilder und ihre Spezialisierungen importiert. Diese Daten werden für die Zuordnung der Einsatzzeiten verwendet.",
+			"Ausbilder*innen & Spezialisierungen" => "Hier werden Ausbilder*innen und ihre Spezialisierungen importiert. Diese Daten werden für die Zuordnung der Einsatzzeiten verwendet.",
             "Ausbildungsgruppen & Themen" => "Hier werden Ausbildungsgruppen und zugehörige Themen geladen. Damit können Klassen und Fächer korrekt in die Planung übernommen werden.",
             "Urlaub & Feiertage" => "Hier werden Urlaubstage und Feiertage importiert. Diese Tage werden bei der Planung berücksichtigt und nicht als normale Arbeitstage behandelt.",
             _ => "Hier können relevante Daten für diesen Bereich importiert werden."
