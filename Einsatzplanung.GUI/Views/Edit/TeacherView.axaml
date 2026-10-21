@@ -30,7 +30,7 @@
 								 ToolTip.Tip="Der Name des Themas"/>
 					</ct:ExtendingCard.HeaderContent>
 					
-					<ItemsControl ItemsSource="{Binding Topics}"
+					<ItemsControl ItemsSource="{Binding Specializations}"
 								  ItemsPanel="{StaticResource ExtendingCardItemsPanel}">
 
 						<ItemsControl.ItemTemplate>

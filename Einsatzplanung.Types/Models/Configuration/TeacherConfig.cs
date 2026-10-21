@@ -6,12 +6,12 @@ using System.Collections.Generic;
 
 using Einsatzplanung.Types.Models;
 
-public class TeacherConfig {
+public class TeacherConfig : Config {
 	
 	public required string Name { set; get; }
 	public required string Abbreviation { set; get; }
 	public required int WeeklyHours { set; get; } = 40;
-	public List<Topic> Specializations { set; get; } = [];
+	public List<TopicConfig> Specializations { set; get; } = [];
 
 	public bool CanTeachBlock(Block block) {
 		return Specializations.Any(topic =>
@@ -25,6 +25,7 @@ public class TeacherConfig {
 	}
 
 	public static TeacherConfig Default => new() {
+		Id = new Guid("00000000-0000-0000-000000000acc"),
 		Name = "",
 		Abbreviation = "",
 		WeeklyHours = 0,

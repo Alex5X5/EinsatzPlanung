@@ -1,13 +1,16 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
-using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Linq;
-using System.Collections.ObjectModel;
 
 using Einsatzplanung.GUI.Interfaces;
-using CommunityToolkit.Mvvm.ComponentModel;
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Input.Services;
 using Einsatzplanung.Types.Models.Configuration;
+
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 public partial class TeacherCardViewModel : CardViewModel {
 
@@ -17,25 +20,31 @@ public partial class TeacherCardViewModel : CardViewModel {
 	private string abbreviation;
 	[ObservableProperty]
 	private int weeklyHours;
-	public ObservableCollection<SpecializationCardViewModel> Topics { get; }
-	private readonly IReadOnlyList<string> topicNames;
 
-	public TeacherCardViewModel(TeacherConfig teacher, int index, IReadOnlyList<string> topicNames) : base(index) {
-		this.topicNames = topicNames;
+	public ObservableCollection<SpecializationCardViewModel> Specializations { get; init; }
+	public List<string> Topics { get; init; }
+	
+	public TeacherConfig Config { init; get; }
+
+	public TeacherCardViewModel(TeacherConfig teacher, int index) : base(index) {
+		Config = teacher;
 		Header = teacher.Name;
 		Abbreviation = teacher.Abbreviation;
 		WeeklyHours = teacher.WeeklyHours;
-		Topics = new(teacher.Specializations.Select(t => new SpecializationCardViewModel(t.Name, topicNames, RemoveTopicCommand)));
+		var topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetData();
+		Specializations = new(teacher.Specializations.Select(t => new SpecializationCardViewModel(t, RemoveTopicCommand)));
+		Topics = topics.Select(x => x.Name).ToList();
 	}
 
 	[RelayCommand]
 	private void AddTopic() {
-		Topics.Add(new SpecializationCardViewModel(topicNames[0], topicNames, RemoveTopicCommand));
+		var topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetData();
+		Specializations.Add(new SpecializationCardViewModel(topics[0], RemoveTopicCommand));
 	}
 
 	[RelayCommand]
 	private void RemoveTopic(object topic) {
 		if (topic is SpecializationCardViewModel topicToRemove)
-			Topics.Remove(topicToRemove);
+			Specializations.Remove(topicToRemove);
 	}
 }

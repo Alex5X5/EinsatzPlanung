@@ -21,8 +21,7 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 
 	public string Header { get; }
 
-	[ObservableProperty]
-	private ObservableCollection<HolidayCardViewModel> cards;
+	public ObservableCollection<HolidayCardViewModel> Cards { set; get; }
 
 	[ObservableProperty]
 	private int activeCardIndex = -1;
@@ -56,7 +55,9 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 					})
 					.ToList();
 			});
-		Cards = new(cards);
+		Cards.Clear();
+		foreach (var card in cards)
+			Cards.Add(card);
 	}
 
 	protected override async Task OnUnloadAsync() {
@@ -88,6 +89,7 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 				}
 
 				var holiday = new HolidayConfig {
+					Id = Guid.NewGuid(),
 					From = DateOnly.FromDateTime(from),
 					To = to == null ? null : DateOnly.FromDateTime(to.Value)
 				};

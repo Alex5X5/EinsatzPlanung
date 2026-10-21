@@ -1,40 +1,29 @@
-﻿namespace Einsatzplanung.Input.Services.Config;
+﻿namespace Einsatzplanung.Input.Services.Configuration;
+
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Excel.Interfaces;
-using Einsatzplanung.Types.Models;
-
 using Einsatzplanung.Input.Interfaces;
-
-using System;
-using System.Collections.Generic;
 using Einsatzplanung.Types.Models.Configuration;
-using System.Linq;
 
-public class TeacherConfigService : IConfigService<TeacherConfig> {
+public class TeacherConfigService : ConfigServiceBase<TeacherConfig> {
 
 	private const int NAME_COLUMN_INDEX = 0;
 	private const int ABBREVIATION_COLUMN_INDEX = 1;
 	private const int SPECIALIZATION_COLUMN_INDEX = 2;
 	private const int WEEKLY_HOURS_COLUMN_INDEX = 3;
 
-	private IExcelImportService excelImportService;
-	private IEntityService<Topic> topicService;
+	private IConfigService<TopicConfig> topicService;
 
-	private string SourceFilePath { get; set; } = "";
-
-	public TeacherConfigService(IExcelImportService excelImportService, IEntityService<Topic> topicService) {
-		this.excelImportService = excelImportService;
+	public TeacherConfigService(IExcelImportService importService, IConfigService<TopicConfig> topicService) : base(importService) {
 		this.topicService = topicService;
 	}
 
-	public void SetSource(string path) {
-		SourceFilePath = path;
-	}
-
-	public List<TeacherConfig> GetData() {
-		Table table = excelImportService.GetTable(SourceFilePath);
-
+	protected override List<TeacherConfig> ParseTable(Table table) {
 		List<TeacherConfig> teachers = [];
 		
 		TeacherConfigBuilder builder = new();
@@ -54,7 +43,7 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 			string specialization = table[row, SPECIALIZATION_COLUMN_INDEX]?.Value ?? "";
 			if (string.IsNullOrEmpty(specialization))
 				continue;
-			var topic = topicService.GetEntities().FirstOrDefault(t => t.Name == specialization);
+			var topic = topicService.GetData().FirstOrDefault(t => t.Name == specialization);
 			if(topic is null)
 				continue;
 			builder.AddSpecialization(topic);
@@ -66,8 +55,23 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 		return teachers;
 	}
 
-	public void SetData(List<TeacherConfig> data) {
-		
+	protected override async Task<List<TeacherConfig>> UpdateReferencesAsync(List<TeacherConfig> data) {
+		return await Task.Run(
+			() => {
+				return data
+					.Select(
+						x =>
+							new TeacherConfig() {
+								Id = x.Id,
+								Abbreviation = x.Abbreviation,
+								Name = x.Name,
+								Specializations = x.Specializations
+									.Select(s => topicService.GetById(s.Id) ?? TopicConfig.Default)
+									.ToList(),
+								WeeklyHours = x.WeeklyHours
+							})
+					.ToList();
+			});
 	}
 
 	private class TeacherConfigBuilder {
@@ -76,6 +80,7 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 
 		private void CreateCurrentIfNull() {
 			current ??= new TeacherConfig() {
+				Id = Guid.NewGuid(),
 				Name = "",
 				Abbreviation = "",
 				WeeklyHours = 0,
@@ -101,7 +106,7 @@ public class TeacherConfigService : IConfigService<TeacherConfig> {
 			return this;
 		}
 
-		public TeacherConfigBuilder AddSpecialization(Topic specialization) {
+		public TeacherConfigBuilder AddSpecialization(TopicConfig specialization) {
 			CreateCurrentIfNull();
 			current!.Specializations.Add(specialization);
 			return this;

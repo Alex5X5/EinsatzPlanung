@@ -1,5 +1,11 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 
 using Einsatzplanung.Excel.Interfaces;
@@ -8,11 +14,6 @@ using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-
 public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
 	private IConfigExportService<GroupConfig> exportService;
@@ -20,8 +21,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	private IEntityService<Topic> topicService;
 	private List<string> topicNames = [];
 
-	[ObservableProperty]
-	private ObservableCollection<ClassCardViewModel> cards;
+	public ObservableCollection<ClassCardViewModel> Cards { set; get; }
 
 	[ObservableProperty]
 	private int activeCardIndex = -1;
@@ -35,7 +35,8 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
 	public void AddCard() {
 		var group = new GroupConfig() {
-			Name = "",
+			Id = Guid.NewGuid(),
+			Name = "Neue Klasse",
 			AgeGroupName = "",
 			TeacherAbbreviation = "",
 			SchoolWeeks = [],
@@ -51,7 +52,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	protected override async Task OnLoadAsync() {
-		topicNames = await Task.Run(() => topicService.GetEntities().Select(topic => topic.Name).ToList());
+		await configService.UpdateReferencesAsync();
 		List<ClassCardViewModel> cards = await Task.Run(() => {
 			var groups = configService.GetData();
 			int i = 0;
@@ -59,7 +60,9 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 				.Select(g => new ClassCardViewModel(g, i++, topicNames))
 				.ToList();
 		});
-		Cards = new ObservableCollection<ClassCardViewModel>(cards);
+		Cards.Clear();
+		foreach (var card in cards)
+			Cards.Add(card);
 	}
 
 	protected override async Task OnUnloadAsync() {
@@ -68,25 +71,28 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
 	public async Task SetEntitiesFromStateAsync() {
 		await Task.Run(() => {
-			List<AgeGroupConfig> ageGroups = [];
 			List<GroupConfig> groups = [];
-
-			foreach (var card in Cards) {
-				var blocks = card.Topics.Select(
-					t => new BlockConfig() {
-						Topic = t.Header,
-						Count = int.Parse(t.Count)
-					}).ToList();
+			var topicService = App.GetRequiredService<IConfigService<TopicConfig>>();
+			foreach (var groupCard in Cards) {
+				List<BlockConfig> blocks = [];
+				foreach (var blockCard in groupCard.Topics) {
+					var block = new BlockConfig() {
+						Id = blockCard.Config.Id,
+						Count = int.Parse(blockCard.Count),
+						Topic = topicService.GetById(blockCard.Config.Topic.Id) ?? TopicConfig.Default
+					};
+					blocks.Add(block);
+				}
 				var group = new GroupConfig() {
-					Name = card.Header,
-					AgeGroupName = card.Config.AgeGroupName,
-					TeacherAbbreviation = card.Config.TeacherAbbreviation,
-					SchoolWeeks = card.Config.SchoolWeeks,
+					Id = groupCard.Config.Id,
+					AgeGroupName = groupCard.Header,
+					SchoolWeeks = groupCard.Config.SchoolWeeks,
+					TeacherAbbreviation = groupCard.Config.TeacherAbbreviation,
+					Name = groupCard.Header,
 					Blocks = blocks
 				};
 				groups.Add(group);
 			}
-
 			configService.SetData(groups);
 		});
 	}

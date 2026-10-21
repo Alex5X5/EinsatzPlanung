@@ -1,15 +1,16 @@
-﻿namespace Einsatzplanung.Input.Services.Config;
+﻿namespace Einsatzplanung.Input.Services.Configuration;
 
+using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
 using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
-public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
+public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 
 	private const int AGE_GROUP_COLUMN_INDEX = 0;
 	private const int CLASS_GROUP_COLUMN_INDEX = 1;
@@ -18,26 +19,14 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 	private const int TOPIC_COLUMN_INDEX = 4;
 	private const int TOPIC_WEEKS_COLUMN_INDEX = 5;
 
-	private IExcelImportService excelImportService;
+	private IConfigService<TopicConfig> topicService;
 
-	private string SourceFilePath { get; set; } = "";
-
-	private List<AgeGroupConfig>? bufferedData;
-
-	public AgeGroupConfigService(IExcelImportService excelImportService, IEntityService<Topic> topicService) {
-		this.excelImportService = excelImportService;
+	public AgeGroupConfigService(IExcelImportService importService, IConfigService<TopicConfig> topicService) : base(importService) {
+		this.topicService = topicService;
 	}
 
-	public void SetSource(string path) {
-		SourceFilePath = path;
-	}
-
-	public List<AgeGroupConfig> GetData() {
-		if (bufferedData != null)
-			return bufferedData;
-
-		Table table = excelImportService.GetTable(SourceFilePath);
-
+	protected override List<AgeGroupConfig> ParseTable(Table table) {
+		List<TopicConfig> topics = topicService.GetData();
 		List<AgeGroupConfig> ageGroups = [];
 
 		AgeGroupBuilder ageGroupBuilder = new();
@@ -75,19 +64,54 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 
 			if (int.TryParse(table[row, TOPIC_WEEKS_COLUMN_INDEX]?.Value ?? "", out var topicWeeks)) {
 				string topicName = table[row, TOPIC_COLUMN_INDEX]?.Value ?? "";
-				groupBuilder.AddBlock(new BlockConfig() { Count = topicWeeks, Topic = topicName });
+				var topic = topicService.GetData().FirstOrDefault(x => x.Name == topicName);
+				if (topic != null)
+					groupBuilder.AddBlock(new BlockConfig() {
+						Id = Guid.NewGuid(),
+						Count = topicWeeks,
+						Topic = topic
+					});
 			}
 		}
 
 		ageGroupBuilder.AddGroup(groupBuilder.Build());
-		if(ageGroupBuilder.Build() is AgeGroupConfig ageGroup)
+		if (ageGroupBuilder.Build() is AgeGroupConfig ageGroup)
 			ageGroups.Add(ageGroup);
-		
+
 		return ageGroups;
 	}
 
-	public void SetData(List<AgeGroupConfig> data) {
-		bufferedData = data;
+	protected override async Task<List<AgeGroupConfig>> UpdateReferencesAsync(List<AgeGroupConfig> data) {
+		return await Task.Run(
+			() => {
+				return data
+					.Select(ageGroup =>
+						new AgeGroupConfig() {
+							Id = ageGroup.Id,
+							Name = ageGroup.Name,
+							Groups = ageGroup.Groups
+								.Select(group =>
+									new GroupConfig() {
+										Id = group.Id,
+										Name = group.Name,
+										AgeGroupName = ageGroup.Name,
+										TeacherAbbreviation = group.TeacherAbbreviation,
+										SchoolWeeks = group.SchoolWeeks,
+										Blocks = group.Blocks
+											.Select(block =>
+												new BlockConfig() {
+													Id = block.Id,
+													Count = block.Count,
+													Topic = topicService.GetById(block.Topic.Id) ?? TopicConfig.Default
+												})
+											.ToList()
+
+									})
+								.ToList()
+						})
+					.ToList();
+			}
+		);
 	}
 
 	private class AgeGroupBuilder {
@@ -96,6 +120,7 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 
 		private void CreateCurrentIfNull() {
 			current ??= new AgeGroupConfig() {
+				Id = Guid.NewGuid(),
 				Name = "",
 				Groups = []
 			};
@@ -126,6 +151,7 @@ public class AgeGroupConfigService : IConfigService<AgeGroupConfig> {
 
 		private void CreateCurrentIfNull() {
 			current ??= new GroupConfig() {
+				Id = Guid.NewGuid(),
 				Name = "",
 				AgeGroupName = "",
 				SchoolWeeks = [],

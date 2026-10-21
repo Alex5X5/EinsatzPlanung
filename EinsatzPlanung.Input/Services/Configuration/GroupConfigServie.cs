@@ -1,5 +1,7 @@
-﻿namespace Einsatzplanung.Input.Services.Config;
+﻿namespace Einsatzplanung.Input.Services.Configuration;
 
+using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Einsatzplanung.Input.Interfaces;
@@ -29,10 +31,11 @@ public class GroupConfigService : IConfigService<GroupConfig> {
 		var groupsByYear = data
 			.GroupBy((g) => g.AgeGroupName)
 			.ToDictionary((g) => g.Key, (g) => g.ToList());
-		
+
 		var ageGroups = groupsByYear
 			.Select(
 				pair => new AgeGroupConfig() {
+					Id = Guid.NewGuid(),
 					Name = pair.Key,
 					Groups = pair.Value
 				})
@@ -41,4 +44,16 @@ public class GroupConfigService : IConfigService<GroupConfig> {
 		ageGroupService.SetData(ageGroups);
 	}
 
+	public GroupConfig? GetById(Guid id) {
+		return GetData().FirstOrDefault(x => x.Id == id);
+	}
+
+	public bool TryGetById(Guid id, out GroupConfig? result) {
+		result = GetById(id);
+		return result != null;
+	}
+
+	public async Task UpdateReferencesAsync() {
+		await ageGroupService.UpdateReferencesAsync();
+	}
 }

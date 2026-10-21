@@ -1,6 +1,6 @@
 ﻿namespace Einsatzplanung.Types.Models;
 
-public class Topic {
+public class Topic : Entity {
 
     public string Name { get; set; }
 
@@ -10,6 +10,8 @@ public class Topic {
 		Name = name;
 		Color = color;
 	}
+
+	public static Topic Default => new("Neues Thema", "#FFFFFF");
 
 	public override string ToString() {
 		return $"Topic[Name={Name}, Color={Color}]";

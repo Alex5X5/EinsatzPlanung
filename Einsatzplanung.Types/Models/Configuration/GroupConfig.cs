@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GroupConfig {
+public class GroupConfig : Config {
 
     public required string Name { set; get; }
 

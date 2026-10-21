@@ -20,7 +20,7 @@ using Einsatzplanung.GUI.ViewModels.Edit;
 
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Input.Services;
-using Einsatzplanung.Input.Services.Config;
+using Einsatzplanung.Input.Services.Configuration;
 
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
@@ -97,16 +97,23 @@ public partial class App : Application {
 		collection.AddTransient<IGeneratorService, SolverGeneratorService>();
 		collection.AddTransient<IPlanExportService, PlanExportService>();
 
-		collection.AddSingleton<MainViewModel>();
-		collection.AddTransient<ImportViewModel>();
-		collection.AddTransient<EditViewModel>();
-		collection.AddTransient<SaveViewModel>();
-		collection.AddTransient<ImportCardViewModel>();
-		collection.AddTransient<TopicViewModel>();
-
+		collection.AddSingleton<TopicViewModel>();
 		collection.AddSingleton<HolidayViewModel>();
 		collection.AddSingleton<ClassesPageViewModel>();
 		collection.AddSingleton<TeacherPageViewModel>();
+
+		collection.AddTransient<ImportCardViewModel>();
+
+		collection.AddSingleton<MainViewModel>();
+		collection.AddTransient<ImportViewModel>();
+		collection.AddSingleton<EditViewModel>();
+		collection.AddTransient<SaveViewModel>();
 	}
 
+
+	public static T GetRequiredService<T>() where T : notnull =>
+		Current.Services.GetRequiredService<T>();
+
+	public static T? GetService<T>() =>
+		Current.Services.GetService<T>();
 }
