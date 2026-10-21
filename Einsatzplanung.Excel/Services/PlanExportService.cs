@@ -35,13 +35,13 @@ public sealed class PlanExportService : IPlanExportService
 		worksheet.Range("B1:J1").Merge();
 
 		// Header
-		worksheet.Cell("A1").Value = "Fachinformatiker";
-		worksheet.Cell("B1").Value = $"Einsatzplan der Ausbilder / Ausbildungsinhalte {_yearStartDate.Year}/{_yearEndDate.Year}";
+		worksheet.Cell("A1").Value = "Fachinformatiker*in";
+		worksheet.Cell("B1").Value = $"Einsatzplan der Ausbilder*innen / Ausbildungsinhalte {_yearStartDate.Year}/{_yearEndDate.Year}";
 
 		// Column headers
 		worksheet.Cell("A3").Value = "Lehrjahr";
 		worksheet.Cell("B3").Value = "Untergruppe";
-		worksheet.Cell("C3").Value = "Gruppen-Ausbilder";
+		worksheet.Cell("C3").Value = "Gruppen-Ausbilder*innen";
 		worksheet.Cell("D3").Value = "Tag";
 		worksheet.Cell("E3").Value = "KW";
 
@@ -111,13 +111,13 @@ public sealed class PlanExportService : IPlanExportService
 		var worksheet = workbook.Worksheets.Add("2026_2027");
 
 		// Header
-		worksheet.Cell("A1").Value = "Fachinformatiker";
-		worksheet.Cell("B1").Value = $"Einsatzplan der Ausbilder / Ausbildungsinhalte {_yearStartDate.Year}/{_yearEndDate.Year}";
+		worksheet.Cell("A1").Value = "Fachinformatiker*in";
+		worksheet.Cell("B1").Value = $"Einsatzplan der Ausbilder*innen / Ausbildungsinhalte {_yearStartDate.Year}/{_yearEndDate.Year}";
 
 		// Column headers
 		worksheet.Cell("A3").Value = "Lehrjahr";
 		worksheet.Cell("B3").Value = "Untergruppe";
-		worksheet.Cell("C3").Value = "Gruppen-Ausbilder";
+		worksheet.Cell("C3").Value = "Gruppen-Ausbilder*innen";
 		worksheet.Cell("D3").Value = "Tag";
 		worksheet.Cell("E3").Value = "KW";
 

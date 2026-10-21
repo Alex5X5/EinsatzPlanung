@@ -72,7 +72,7 @@ public partial class ImportViewModel : ViewModelBase {
 
 		Cards = [
 			new("Ausbildungsinhalte", services.GetRequiredService<IEntityService<Topic>>(), selectionService),
-			new("Ausbilder & Spezialisierungen", services.GetRequiredService<IEntityService<Teacher>>(), selectionService),
+			new("Ausbilder*innen & Spezialisierungen", services.GetRequiredService<IEntityService<Teacher>>(), selectionService),
 			new("Ausbildungsgruppen & Themen", services.GetRequiredService<IEntityService<AgeGroup>>(), selectionService),
 			new("Urlaub & Feiertage", services.GetRequiredService<IEntityService<Holiday>>(), selectionService)
 			//new("Praktikumszeiten", services.GetRequiredService<IEntityService<Teacher>>()),
