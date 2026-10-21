@@ -8,7 +8,7 @@ public class TopicConfig : Config {
 	public required string Color { set; get; }
 
 	public static TopicConfig Default => new() {
-		Id = new Guid("00000000-0000-0000-000000000acc"),
+		Id = new Guid("00000000-0000-0000-0000-000000000acc"),
 		Name = "Neues Thema",
 		Color = "#FFFFFF"
 	};

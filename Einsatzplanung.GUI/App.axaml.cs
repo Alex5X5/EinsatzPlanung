@@ -97,16 +97,17 @@ public partial class App : Application {
 		collection.AddTransient<IGeneratorService, SolverGeneratorService>();
 		collection.AddTransient<IPlanExportService, PlanExportService>();
 
-		collection.AddSingleton<MainViewModel>();
-		collection.AddTransient<ImportViewModel>();
-		collection.AddTransient<EditViewModel>();
-		collection.AddTransient<SaveViewModel>();
-		collection.AddTransient<ImportCardViewModel>();
-		collection.AddTransient<TopicViewModel>();
-
+		collection.AddSingleton<TopicViewModel>();
 		collection.AddSingleton<HolidayViewModel>();
 		collection.AddSingleton<ClassesPageViewModel>();
 		collection.AddSingleton<TeacherPageViewModel>();
+
+		collection.AddTransient<ImportCardViewModel>();
+
+		collection.AddSingleton<MainViewModel>();
+		collection.AddTransient<ImportViewModel>();
+		collection.AddSingleton<EditViewModel>();
+		collection.AddTransient<SaveViewModel>();
 	}
 
 

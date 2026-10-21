@@ -11,7 +11,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Configuration;
 
 public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
@@ -20,8 +19,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	private IConfigService<TeacherConfig> configService;
 	private IConfigService<TopicConfig> topicService;
 
-	[ObservableProperty]
-	private ObservableCollection<TeacherCardViewModel> cards;
+	public ObservableCollection<TeacherCardViewModel> Cards { set; get; }
 
 	[ObservableProperty]
 	private int activeCardIndex = -1;
@@ -54,7 +52,9 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 					.Select(t => new TeacherCardViewModel(t, i++))
 					.ToList();
 			});
-		Cards = new(cards);
+		Cards.Clear();
+		foreach (var card in cards)
+			Cards.Add(card);
 	}
 
 	protected override async Task OnUnloadAsync() {

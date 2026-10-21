@@ -18,8 +18,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	private IConfigExportService<GroupConfig> exportService;
 	private IConfigService<GroupConfig> configService;
 
-	[ObservableProperty]
-	private ObservableCollection<ClassCardViewModel> cards;
+	public ObservableCollection<ClassCardViewModel> Cards { set; get; }
 
 	[ObservableProperty]
 	private int activeCardIndex = -1;
@@ -57,7 +56,9 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 				.Select(g => new ClassCardViewModel(g, i++))
 				.ToList();
 		});
-		Cards = new ObservableCollection<ClassCardViewModel>(cards);
+		Cards.Clear();
+		foreach (var card in cards)
+			Cards.Add(card);
 	}
 
 	protected override async Task OnUnloadAsync() {
