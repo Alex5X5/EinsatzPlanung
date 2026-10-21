@@ -1,7 +1,7 @@
 ﻿namespace Einsatzplanung.Types.Models;
 
-public abstract class Entity {
+using System;
 
-	public int Id { get; init; }
+public abstract class Entity {
 
 }

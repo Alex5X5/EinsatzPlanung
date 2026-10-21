@@ -1,6 +1,6 @@
-using System;
-
 namespace Einsatzplanung.Types.Models.Configuration;
+
+using System;
 
 public class HolidayConfig : Config {
     public DateOnly From { get; set; }

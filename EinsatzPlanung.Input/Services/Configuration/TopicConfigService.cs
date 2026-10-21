@@ -28,6 +28,7 @@ namespace Einsatzplanung.Input.Services.Configuration {
 					continue;
 
 				TopicConfig config = new() {
+					Id = Guid.NewGuid(),
 					Name = name,
 					Color = color
 				};

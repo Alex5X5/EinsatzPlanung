@@ -1,18 +1,17 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
-
-using Microsoft.Extensions.DependencyInjection;
-
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
@@ -33,6 +32,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
 	public void AddCard() {
 		var group = new GroupConfig() {
+			Id = Guid.NewGuid(),
 			Name = "Neue Klasse",
 			AgeGroupName = "",
 			TeacherAbbreviation = "",
@@ -49,6 +49,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	protected override async Task OnLoadAsync() {
+		await configService.UpdateReferencesAsync();
 		List<ClassCardViewModel> cards = await Task.Run(() => {
 			var groups = configService.GetData();
 			int i = 0;
@@ -88,25 +89,6 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 				groups.Add(group);
 			}
 			configService.SetData(groups);
-
-			//foreach (var card in Cards) {
-			//	var blocks = card.Topics.Select(
-			//		t => new BlockConfig() {
-			//			Id = t.Config.Id,
-			//			Topic = topicService.GetById(t.Config.Id)!,
-			//			Count = int.Parse(t.Count)
-			//		}).ToList();
-			//	var group = new GroupConfig() {
-			//		Name = card.Header,
-			//		AgeGroupName = card.Config.AgeGroupName,
-			//		TeacherAbbreviation = card.Config.TeacherAbbreviation,
-			//		SchoolWeeks = card.Config.SchoolWeeks,
-			//		Blocks = blocks
-			//	};
-			//	groups.Add(group);
-			//}
-
-			//configService.SetData(groups);
 		});
 	}
 }

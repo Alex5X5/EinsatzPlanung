@@ -29,8 +29,7 @@ public partial class TeacherCardViewModel : CardViewModel {
 		Header = teacher.Name;
 		Abbreviation = teacher.Abbreviation;
 		WeeklyHours = teacher.WeeklyHours;
-		var topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetData();
-		Topics = new(teacher.Specializations.Select(t => new SpecializationCardViewModel(t, topics, RemoveTopicCommand)));
+		Topics = new(teacher.Specializations.Select(t => new SpecializationCardViewModel(t, teacher.Specializations, RemoveTopicCommand)));
 	}
 
 	[RelayCommand]
