@@ -71,7 +71,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 			List<TeacherConfig> teachers = [];
 			foreach (var teacherCard in Cards) {
 				List<TopicConfig> specializations = [];
-				foreach (var specCard in teacherCard.Topics) {
+				foreach (var specCard in teacherCard.Specializations) {
 					specializations.Add(topicService.GetByName(specCard.Header));
 				}
 				var teacher = new TeacherConfig() { 

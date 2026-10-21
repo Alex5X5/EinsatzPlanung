@@ -6,8 +6,6 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-using Microsoft.Extensions.DependencyInjection;
-
 using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
