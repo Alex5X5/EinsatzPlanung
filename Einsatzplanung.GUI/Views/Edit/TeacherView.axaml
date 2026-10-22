@@ -22,16 +22,19 @@
 								  RemoveButtonCommandParameter="{Binding}">
 
 					<ct:ExtendingCard.HeaderContent>
-
+						<TextBox Text="{Binding Abbreviation, Mode=TwoWay}"
+						         PlaceholderText="Kürzel der Ausbildungskraft"
+						         HorizontalContentAlignment="Center"
+						         VerticalContentAlignment="Center" />
+						
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
-								 PlaceholderText="Name der Ausbildungskraft"
-								 TextWrapping="NoWrap"
-								 Foreground="{DynamicResource AppForegroundBrush}"
-								 HorizontalAlignment="Stretch"
-								 HorizontalContentAlignment="Center"
-								 VerticalContentAlignment="Center" 
-								 ToolTip.Tip="Der Name des Themas"/>
-
+						         PlaceholderText="Name der Ausbildungskraft"
+						         TextWrapping="NoWrap"
+						         Foreground="{DynamicResource AppForegroundBrush}"
+						         HorizontalAlignment="Stretch"
+						         HorizontalContentAlignment="Center"
+						         VerticalContentAlignment="Center" 
+						         ToolTip.Tip="Der Name der Ausbilder*in"/>
 					</ct:ExtendingCard.HeaderContent>
 					
 					<ItemsControl ItemsSource="{Binding Specializations}"

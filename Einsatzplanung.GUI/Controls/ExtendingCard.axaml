@@ -37,11 +37,12 @@
 
 						<Grid RowDefinitions="Auto,*,Auto">
 
-							<StackPanel Name="PART_HeaderPanel"
-										Grid.Row="0"
-										Orientation="{TemplateBinding HeaderOrientation}"
-										HorizontalAlignment="Stretch"
-										Margin="0,0,0,20" />
+						<DockPanel Name="PART_HeaderPanel"
+									Grid.Row="0"
+									LastChildFill="True"
+									HorizontalSpacing="8"
+									HorizontalAlignment="Stretch"
+									Margin="0,0,0,20" />
 
 							<!-- ScrollBar -->
 						 
