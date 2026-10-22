@@ -90,7 +90,7 @@ public partial class App : Application {
 
 		collection.AddSingleton<IConfigService<AgeGroupConfig>, AgeGroupConfigService>();
 		collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
-		collection.AddTransient<IConfigExportService<GroupConfig>, GroupExportService>();
+		collection.AddTransient<IConfigExportService<AgeGroupConfig>, GroupExportService>();
 
 		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
 		collection.AddTransient<IEntityService<Group>, GroupService>();
