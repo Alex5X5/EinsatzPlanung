@@ -30,7 +30,7 @@
 
 							<TextBox Grid.Column="0"
 									 Text="{Binding Header, Mode=TwoWay}"
-									 Watermark="Name des Themas"
+									 PlaceholderText="Name des Themas"
 									 TextWrapping="NoWrap"
 									 Foreground="{DynamicResource AppForegroundBrush}"
 									 HorizontalContentAlignment="Center"

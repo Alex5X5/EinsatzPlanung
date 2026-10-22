@@ -24,7 +24,7 @@
 
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
-								 Watermark="TT.MM.JJJJ - TT.MM.JJJJ"
+								 PlaceholderText="TT.MM.JJJJ - TT.MM.JJJJ"
 								 TextWrapping="NoWrap"
 								 Foreground="{DynamicResource AppForegroundBrush}"
 								 HorizontalAlignment="Stretch"

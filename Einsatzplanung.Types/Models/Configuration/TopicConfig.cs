@@ -9,7 +9,7 @@ public class TopicConfig : Config {
 
 	public static TopicConfig Default => new() {
 		Id = new Guid("00000000-0000-0000-0000-000000000acc"),
-		Name = "Neues Thema",
+		Name = "",
 		Color = "#FFFFFF"
 	};
 }
