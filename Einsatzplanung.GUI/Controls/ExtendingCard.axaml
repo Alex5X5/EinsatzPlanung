@@ -34,9 +34,10 @@
 					<Grid Name="Part_Root"
 						  RowDefinitions="Auto,*,Auto">
 
-						<StackPanel Name="PART_HeaderPanel"
+						<DockPanel Name="PART_HeaderPanel"
 									Grid.Row="0"
-									Orientation="{TemplateBinding HeaderOrientation}"
+									LastChildFill="True"
+									HorizontalSpacing="8"
 									HorizontalAlignment="Stretch"
 									Margin="0,0,0,20" />
 

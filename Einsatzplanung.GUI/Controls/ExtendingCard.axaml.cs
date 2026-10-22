@@ -19,7 +19,7 @@ public partial class ExtendingCard : UserControl {
 	protected override Type StyleKeyOverride => typeof(ExtendingCard);
 
 	[BasicStyledProperty<ExtendingCard>]
-	private Orientation headerOrientation = Avalonia.Layout.Orientation.Vertical;
+	private Orientation headerOrientation = Avalonia.Layout.Orientation.Horizontal;
 
 	[BasicStyledProperty<ExtendingCard>]
 	private Orientation bodyOrientation = Avalonia.Layout.Orientation.Vertical;
@@ -46,7 +46,7 @@ public partial class ExtendingCard : UserControl {
 	private readonly Controls _headerContent = new();
 
 	private Border? _partBorder;
-	private StackPanel? _headerPanel;
+	private DockPanel? _headerPanel;
 	private StackPanel? _bodyPanel;
 	private ScrollViewer? _bodyScrollViewer;
 
@@ -60,11 +60,11 @@ public partial class ExtendingCard : UserControl {
 
 	public ExtendingCard() {
 		_children.CollectionChanged += (_, _) => SyncPanel(_bodyPanel, _children);
-		_headerContent.CollectionChanged += (_, _) => SyncPanel(_headerPanel, _headerContent);
+		_headerContent.CollectionChanged += (_, _) => SyncHeader();
 	}
 
 	static ExtendingCard() {
-		
+
 		IndexProperty.Changed.AddClassHandler<ExtendingCard>(
 			(c, e) => {
 				c.IsActive = c.ActiveCardIndex == (int)e.NewValue!;
@@ -88,9 +88,10 @@ public partial class ExtendingCard : UserControl {
 		_headerPanel?.Children.Clear();
 		_bodyPanel?.Children.Clear();
 
-		_headerPanel = e.NameScope.Find<StackPanel>("PART_HeaderPanel");
+		_headerPanel = e.NameScope.Find<DockPanel>("PART_HeaderPanel");
 		_bodyPanel = e.NameScope.Find<StackPanel>("PART_BodyPanel");
-		SyncPanel(_headerPanel, _headerContent);
+
+		SyncHeader();
 		SyncPanel(_bodyPanel, _children);
 
 		if (_partBorder is not null) {
@@ -115,6 +116,21 @@ public partial class ExtendingCard : UserControl {
 			return;
 		panel.Children.Clear();
 		panel.Children.AddRange(source);
+	}
+	
+	private void SyncHeader() {
+		SyncPanel(_headerPanel, _headerContent);
+		ApplyHeaderOrientation();
+	}
+	
+	private void ApplyHeaderOrientation() {
+		if (_headerPanel is null)
+			return;
+
+		var side = HeaderOrientation == Orientation.Horizontal ? Dock.Left : Dock.Top;
+
+		foreach (var child in _headerPanel.Children)
+			DockPanel.SetDock(child, side);
 	}
 
 	public void OnScroll(object? sender, PointerWheelEventArgs e) {
@@ -154,8 +170,7 @@ public partial class ExtendingCard : UserControl {
 		base.OnPropertyChanged(change);
 
 		if (change.Property == HeaderOrientationProperty)
-			if (_headerPanel is not null)
-				_headerPanel.Orientation = change.GetNewValue<Orientation>();
+			ApplyHeaderOrientation();
 
 		if (change.Property == BodyOrientationProperty)
 			if (_bodyPanel is not null)
