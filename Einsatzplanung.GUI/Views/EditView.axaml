@@ -41,7 +41,8 @@
                     Orientation="Horizontal"
                     Spacing="20"
                     Grid.Column="0"
-                    Grid.Row="1">
+                    Grid.Row="1"
+                    Margin="0,0,0,20">
 
             <Button Content="Als Excel Exportieren" 
                     Command="{Binding ExportCommand}"
