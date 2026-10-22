@@ -25,7 +25,7 @@ public class TeacherConfig : Config {
 	}
 
 	public static TeacherConfig Default => new() {
-		Id = new Guid("00000000-0000-0000-000000000acc"),
+		Id = new Guid("00000000-0000-0000-0000-000000000acc"),
 		Name = "",
 		Abbreviation = "",
 		WeeklyHours = 0,

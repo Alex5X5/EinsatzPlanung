@@ -22,7 +22,7 @@
 
             <ContentPage Header="Schulklassen"  
                          Classes="content-page-default-style">
-                <pages:ClassesView />
+                <pages:AgeGroupPageView />
             </ContentPage>
 
             <ContentPage Header="Ausbilder*innen" 

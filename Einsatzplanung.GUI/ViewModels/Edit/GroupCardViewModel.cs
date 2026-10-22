@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.Input;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
-public partial class ClassCardViewModel : CardViewModel {
+public partial class GroupCardViewModel : CardViewModel {
 	
 	[ObservableProperty]
 	private string header;
@@ -20,10 +20,11 @@ public partial class ClassCardViewModel : CardViewModel {
 	
 	public GroupConfig Config { init; get; }
 
-	public ClassCardViewModel(GroupConfig group, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
+	public GroupCardViewModel(GroupConfig group, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
 		Config = group;
 		Header = group.Name;
-		var models = group.Blocks.Select(x => new BlockCardViewModel(x, RemoveTopicCommand));
+		int i = 0;
+		var models = group.Blocks.Select(x => new BlockCardViewModel(x, RemoveTopicCommand, i++));
 		Topics = new(models);
 	}
 
@@ -35,7 +36,7 @@ public partial class ClassCardViewModel : CardViewModel {
 			Count = 1,
 			Topic = topic
 		};
-		Topics.Add(new BlockCardViewModel(block, RemoveTopicCommand));
+		Topics.Add(new BlockCardViewModel(block, RemoveTopicCommand, Topics.Count));
 	}
 
 	[RelayCommand]

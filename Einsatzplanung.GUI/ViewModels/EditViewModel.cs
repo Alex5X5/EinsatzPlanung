@@ -26,7 +26,7 @@ public partial class EditViewModel : ViewModelBase {
 					break;
 				}
 				case 1: {
-					ChangePage<ClassesPageViewModel>();
+					ChangePage<AgeGroupPageViewModel>();
 					break;
 				}
 				case 2: {
@@ -46,7 +46,7 @@ public partial class EditViewModel : ViewModelBase {
 		get {
 			if (CurrentPage.GetType() == typeof(TopicViewModel))
 				return 0;
-			if (CurrentPage.GetType() == typeof(ClassesPageViewModel))
+			if (CurrentPage.GetType() == typeof(AgeGroupPageViewModel))
 				return 1;
 			if (CurrentPage.GetType() == typeof(TeacherPageViewModel))
 				return 2;
@@ -61,7 +61,11 @@ public partial class EditViewModel : ViewModelBase {
 	}
 
 	private void ChangePage<T>() where T : IEditViewChild {
-		CurrentPage = App.Current.Services.GetRequiredService<T>();
+		try {
+			CurrentPage = App.Current.Services.GetService<T>();
+		} catch(Exception e){
+			Console.WriteLine("");
+		}
 	}
 
 	[RelayCommand]

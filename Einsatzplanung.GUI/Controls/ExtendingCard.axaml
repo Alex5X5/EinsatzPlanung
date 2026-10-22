@@ -112,7 +112,7 @@
 
 		<!--set the height of the border of the template to 300 when active-->
 		<Style Selector="^:active /template/ Border#PART_Border">
-			<Setter Property="Height" Value="300" />
+			<Setter Property="Height" Value="{TemplateBinding ExtendedHeight}" />
 		</Style>
 
 		<!--apply the transition to the border of the template-->

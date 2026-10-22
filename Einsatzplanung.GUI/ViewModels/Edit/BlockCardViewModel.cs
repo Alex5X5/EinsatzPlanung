@@ -11,7 +11,7 @@ using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
-public partial class BlockCardViewModel : ViewModelBase, IRemovableCardViewModel {
+public partial class BlockCardViewModel : CardViewModel, IRemovableCardViewModel {
 
 	private IConfigService<TopicConfig> topicService;
 
@@ -35,7 +35,7 @@ public partial class BlockCardViewModel : ViewModelBase, IRemovableCardViewModel
 	
 	public BlockConfig Config { get; private set; }
 
-	public BlockCardViewModel(BlockConfig block, IRelayCommand<object> removeCommand) {
+	public BlockCardViewModel(BlockConfig block, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
 		Config = block;
 
 		topicService = App.GetRequiredService<IConfigService<TopicConfig>>();

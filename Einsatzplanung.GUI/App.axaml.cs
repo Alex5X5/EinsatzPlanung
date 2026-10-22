@@ -100,7 +100,7 @@ public partial class App : Application {
 
 		collection.AddSingleton<TopicViewModel>();
 		collection.AddSingleton<HolidayViewModel>();
-		collection.AddSingleton<ClassesPageViewModel>();
+		collection.AddSingleton<AgeGroupPageViewModel>();
 		collection.AddSingleton<TeacherPageViewModel>();
 
 		collection.AddTransient<ImportCardViewModel>();

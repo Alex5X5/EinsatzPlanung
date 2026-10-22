@@ -2,9 +2,9 @@
 
 using Einsatzplanung.GUI.ViewModels.Edit;
 
-public partial class ClassesView : ViewBase<ClassesPageViewModel> {
+public partial class AgeGroupPageView : ViewBase<AgeGroupPageViewModel> {
 
-	public ClassesView() : base() {
+	public AgeGroupPageView() : base() {
 		InitializeComponent();
 	}
 }
