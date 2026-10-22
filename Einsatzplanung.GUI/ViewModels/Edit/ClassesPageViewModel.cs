@@ -17,7 +17,7 @@ using Einsatzplanung.Types.Models.Configuration;
 
 public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
-	private IConfigExportService<GroupConfig> exportService;
+	private IConfigExportService<AgeGroupConfig> exportService;
 	private IConfigService<GroupConfig> configService;
 	private IEntityService<Topic> topicService;
 	private List<string> topicNames = [];
@@ -27,7 +27,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private int activeCardIndex = -1;
 
-	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IConfigExportService<GroupConfig> exportService, IEntityService<Topic> topicService) {
+	public ClassesPageViewModel(IConfigService<GroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IEntityService<Topic> topicService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		this.topicService = topicService;
@@ -55,7 +55,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 
 	public async Task ExportCardsAsync(string path) {
 		await SetEntitiesFromStateAsync();
-		await exportService.ExportAsync(path, configService.GetData());
+		// await exportService.ExportAsync(path, configService.GetData());
 	}
 
 	protected override async Task OnLoadAsync() {
