@@ -121,6 +121,7 @@
 									   Grid.Row="0"
 									   Grid.Column="1"
 									   Text="{Binding ExcelFileStatus}"
+									   ToolTip.Tip="{Binding ExcelFileStatus}"
 									   Foreground="{DynamicResource AppForegroundBrush}"
 									   VerticalAlignment="Center"
 									   TextTrimming="CharacterEllipsis" />
