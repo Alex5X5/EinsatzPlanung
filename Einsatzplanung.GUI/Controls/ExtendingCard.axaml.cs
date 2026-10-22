@@ -154,7 +154,7 @@ public partial class ExtendingCard : UserControl {
 
 	protected override Size MeasureOverride(Size availableSize) {
 		_partRoot?.Measure(availableSize);
-		return _partBorder?.DesiredSize ?? new Size(0.0, 0.0);
+		return _partRoot?.DesiredSize ?? new Size(0.0, 0.0);
 	}
 
 	protected override Size ArrangeOverride(Size finalSize) {

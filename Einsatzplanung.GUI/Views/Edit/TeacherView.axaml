@@ -22,6 +22,7 @@
 								  RemoveButtonCommandParameter="{Binding}">
 
 					<ct:ExtendingCard.HeaderContent>
+
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
 								 PlaceholderText="Name der Ausbildungskraft"
 								 TextWrapping="NoWrap"
@@ -30,24 +31,32 @@
 								 HorizontalContentAlignment="Center"
 								 VerticalContentAlignment="Center" 
 								 ToolTip.Tip="Der Name des Themas"/>
+
 					</ct:ExtendingCard.HeaderContent>
 					
 					<ItemsControl ItemsSource="{Binding Specializations}"
 								  ItemsPanel="{StaticResource ExtendingCardItemsPanel}">
 
 						<ItemsControl.ItemTemplate>
+
 							<DataTemplate x:DataType="vm:SpecializationCardViewModel">
-								<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
-									<ComboBox ItemsSource="{Binding TopicNames}"
-											  SelectedItem="{Binding Header, Mode=TwoWay}"
-											  Foreground="{DynamicResource AppForegroundBrush}"
-											  HorizontalAlignment="Stretch" />
+									<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
-								</ct:RemovableCard>
-							</DataTemplate>
+											<ct:NoScrollComboBox ItemsSource="{Binding TopicNames}"
+																 SelectedItem="{Binding Header, Mode=TwoWay}"
+																 Foreground="{DynamicResource AppForegroundBrush}"
+																 HorizontalAlignment="Stretch"
+																 VerticalContentAlignment="Center" 
+																 ToolTip.Tip="Der Name der Spezialisierung" />
+											
+
+									</ct:RemovableCard>
+
+								</DataTemplate>
+
 						</ItemsControl.ItemTemplate>
-
+					
 					</ItemsControl>
 
 				</ct:ExtendingCard>
