@@ -35,7 +35,7 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 	public void AddCard() {
 		var topic = new TopicConfig() {
 			Id = Guid.NewGuid(),
-			Name = "Neues Thema",
+			Name = "",
 			Color = "#FFFFFF"
 		};
 		Cards.Add(new TopicCardViewModel(topic));

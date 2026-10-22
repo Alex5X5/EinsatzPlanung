@@ -22,7 +22,7 @@
 					<ct:ExtendingCard.HeaderContent>
 
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
-								Watermark="Name der Klasse"
+								PlaceholderText="Name der Klasse"
 								TextWrapping="NoWrap"
 								Foreground="{DynamicResource AppForegroundBrush}"
 								HorizontalAlignment="Stretch"

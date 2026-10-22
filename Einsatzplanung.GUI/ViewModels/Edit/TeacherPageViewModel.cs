@@ -34,7 +34,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 	public void AddCard() {
 		var teacher = new TeacherConfig() {
 			Id = Guid.NewGuid(), 
-			Name = "Neuer Ausbilder",
+			Name = "",
 			Abbreviation = "Au",
 			Specializations = [],
 			WeeklyHours = 40

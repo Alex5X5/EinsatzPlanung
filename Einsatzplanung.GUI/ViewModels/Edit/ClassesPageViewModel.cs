@@ -36,7 +36,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 	public void AddCard() {
 		var group = new GroupConfig() {
 			Id = Guid.NewGuid(),
-			Name = "Neue Klasse",
+			Name = "",
 			AgeGroupName = "",
 			TeacherAbbreviation = "",
 			SchoolWeeks = [],

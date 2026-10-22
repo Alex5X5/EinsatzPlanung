@@ -11,7 +11,7 @@ public class Topic : Entity {
 		Color = color;
 	}
 
-	public static Topic Default => new("Neues Thema", "#FFFFFF");
+	public static Topic Default => new("", "#FFFFFF");
 
 	public override string ToString() {
 		return $"Topic[Name={Name}, Color={Color}]";
