@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
@@ -43,7 +44,13 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 			Blocks = []
 		};
 
-		Cards.Add(new ClassCardViewModel(group, Cards.Count, topicNames));
+		Cards.Add(new ClassCardViewModel(group, RemoveCardCommand, Cards.Count));
+	}
+
+	[RelayCommand]
+	private void RemoveCard(object card) {
+		if (card is ClassCardViewModel classCard)
+			Cards.Remove(classCard);
 	}
 
 	public async Task ExportCardsAsync(string path) {
@@ -57,7 +64,7 @@ public partial class ClassesPageViewModel : ViewModelBase, IEditViewChild {
 			var groups = configService.GetData();
 			int i = 0;
 			return groups
-				.Select(g => new ClassCardViewModel(g, i++, topicNames))
+				.Select(g => new ClassCardViewModel(g, RemoveCardCommand, i++))
 				.ToList();
 		});
 		Cards.Clear();

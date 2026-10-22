@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
@@ -38,15 +39,23 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 			Name = "",
 			Color = "#FFFFFF"
 		};
-		Cards.Add(new TopicCardViewModel(topic));
+		Cards.Add(new TopicCardViewModel(topic, RemoveCardCommand, Cards.Count));
+	}
+
+	[RelayCommand]
+	private void RemoveCard(object card) {
+		if (card is TopicCardViewModel topicCard)
+			Cards.Remove(topicCard);
 	}
 
 	protected override async Task OnLoadAsync() {
-		List<TopicCardViewModel> cards = await Task.Run(
-			() => configService
-				.GetData()
-				.Select(t => new TopicCardViewModel(t))
-				.ToList());
+		List<TopicCardViewModel> cards = await Task.Run(() => {
+			var topics = configService.GetData();
+			int i = 0;
+			return topics
+				.Select(g => new TopicCardViewModel(g, RemoveCardCommand, i++))
+				.ToList();
+		});
 		Cards.Clear();
 		foreach (var card in cards)
 			Cards.Add(card);

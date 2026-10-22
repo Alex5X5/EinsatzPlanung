@@ -17,7 +17,9 @@
 
 				<ct:ExtendingCard Index="{Binding Index}"
 								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
-								  AddButtonCommand="{Binding AddTopicCommand}">
+								  AddButtonCommand="{Binding AddTopicCommand}"
+								  RemoveButtonCommand="{Binding RemoveCommand}"
+								  RemoveButtonCommandParameter="{Binding}">
 
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Abbreviation, Mode=TwoWay}"

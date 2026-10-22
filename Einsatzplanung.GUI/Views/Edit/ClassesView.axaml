@@ -4,7 +4,6 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:Einsatzplanung.GUI.ViewModels.Edit"
 			 xmlns:ct="using:Einsatzplanung.GUI.Controls"
-			 xmlns:local="using:Einsatzplanung.GUI.Controls"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="Einsatzplanung.GUI.Views.Edit.ClassesView"
 			 x:DataType="vm:ClassesPageViewModel"
@@ -15,9 +14,12 @@
 		<ct:EditCardsControl.ItemTemplate>
 
 			<DataTemplate x:DataType="vm:ClassCardViewModel">
+
 				<ct:ExtendingCard Index="{Binding Index}"
 								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
-								  AddButtonCommand="{Binding AddTopicCommand}">
+								  AddButtonCommand="{Binding AddTopicCommand}"
+								  RemoveButtonCommand="{Binding RemoveCommand}"
+								  RemoveButtonCommandParameter="{Binding}">
 
 					<ct:ExtendingCard.HeaderContent>
 
@@ -43,7 +45,7 @@
 									<ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
 
 										<Grid RowDefinitions="*" ColumnDefinitions="19*, *, 3*">
-											<local:NoScrollComboBox Grid.Column="0"
+											<ct:NoScrollComboBox Grid.Column="0"
 																	ItemsSource="{Binding TopicNames}"
 																	SelectedItem="{Binding Header, Mode=TwoWay}"
 																	Foreground="{DynamicResource AppForegroundBrush}"

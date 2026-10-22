@@ -1,10 +1,18 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels;
 
-public class CardViewModel : ViewModelBase {
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
-	public int Index { get; } = 0;
+public abstract partial class CardViewModel : ViewModelBase {
+	
+	[ObservableProperty]
+	private int index = 0;
 
-	public CardViewModel(int index) {
+	[ObservableProperty]
+	private IRelayCommand<object> removeCommand;
+
+	public CardViewModel(IRelayCommand<object> removeCommand, int index) {
+		RemoveCommand = removeCommand;
 		Index = index;
 	}
 

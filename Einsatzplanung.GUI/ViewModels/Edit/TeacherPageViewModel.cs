@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
@@ -39,7 +40,13 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 			Specializations = [],
 			WeeklyHours = 40
 		};
-		Cards.Add(new TeacherCardViewModel(teacher, Cards.Count));
+		Cards.Add(new TeacherCardViewModel(teacher, RemoveCardCommand, Cards.Count));
+	}
+
+	[RelayCommand]
+	private void RemoveCard(object card) {
+		if (card is TeacherCardViewModel teacherCard)
+			Cards.Remove(teacherCard);
 	}
 
 	protected override async Task OnLoadAsync() {
@@ -49,7 +56,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 				var teachers = configService.GetData();
 				int i = 0;
 				return teachers
-					.Select(t => new TeacherCardViewModel(t, i++))
+					.Select(t => new TeacherCardViewModel(t, RemoveCardCommand, i++))
 					.ToList();
 			});
 		Cards.Clear();
