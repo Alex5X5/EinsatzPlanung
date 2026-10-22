@@ -102,17 +102,13 @@ public partial class ExtendingCard : UserControl {
 		SyncHeader();
 		SyncPanel(_bodyPanel, _children);
 
-		if (_partBorder is not null) {
+		if (_partBorder is not null)
 			_partBorder.PointerEntered -= OnBorderPointerEntered;
-			_partBorder.PointerExited -= OnBorderPointerExited;
-		}
 
 		_partBorder = e.NameScope.Find<Border>("PART_Border");
 
-		if (_partBorder is not null) {
+		if (_partBorder is not null)
 			_partBorder.PointerEntered += OnBorderPointerEntered;
-			_partBorder.PointerExited += OnBorderPointerExited;
-		}
 
 		_bodyScrollViewer?.PointerWheelChanged -= OnScroll;
 		_bodyScrollViewer = e.NameScope.Find<ScrollViewer>("PART_Body");
@@ -152,20 +148,7 @@ public partial class ExtendingCard : UserControl {
 	}
 
 	private void OnBorderPointerEntered(object? sender, PointerEventArgs e) {
-		//IsActive = true;
 		ActiveCardIndex = Index;
-	}
-
-	private void OnBorderPointerExited(object? sender, PointerEventArgs e) {
-		//if (_partBorder is null)
-		//	return;
-
-		//var position = e.GetPosition(_partBorder);
-		//var bounds = new Rect(10, 10, _partBorder.Bounds.Width - 20, _partBorder.Bounds.Height - 20);
-
-		//if (bounds.Contains(position))
-		//	return;
-		//IsActive = false;
 	}
 
 	protected override Size MeasureOverride(Size availableSize) {

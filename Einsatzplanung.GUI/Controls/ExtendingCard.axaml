@@ -30,10 +30,16 @@
 							CornerRadius="6"
 							BorderThickness="1"
 							Padding="15"
-							Margin="{Binding #PART_RemoveButton.Bounds, Converter={x:Static cv:HalfBoundsToMarginConverter.Instance}}"
 							Background="{DynamicResource CardBackgroundBrush}"
 							BorderBrush="{DynamicResource CardBorderBrush}"
 							ClipToBounds="True">
+						
+						<Border.Margin>
+							<MultiBinding Converter="{x:Static cv:WidthAndHeightToMarginConverter.Instance}">
+								<Binding Path="#PART_RemoveButton.Width" />
+								<Binding Path="#PART_RemoveButton.Height" />
+							</MultiBinding>
+						</Border.Margin>
 
 						<Grid RowDefinitions="Auto,*,Auto">
 
