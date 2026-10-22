@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:ct="using:Einsatzplanung.GUI.Controls">
+					xmlns:ct="using:Einsatzplanung.GUI.Controls"
+					xmlns:cv="using:Einsatzplanung.GUI.Converters">
 
 	<Design.PreviewWith>
 		<Panel>
