@@ -16,8 +16,11 @@
 			<DataTemplate x:DataType="vm:TopicCardViewModel">
 
 				<ct:ExtendingCard AllowExtend="False"
+								  ShowAddButton="False"
+								  Index="{Binding Index}"
 								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
-								  HeaderOrientation="Vertical">
+								  RemoveButtonCommand="{Binding RemoveCommand}"
+								  RemoveButtonCommandParameter="{Binding}">
 
 					<ct:ExtendingCard.HeaderContent>
 

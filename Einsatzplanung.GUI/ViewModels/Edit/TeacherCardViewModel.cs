@@ -26,7 +26,7 @@ public partial class TeacherCardViewModel : CardViewModel {
 	
 	public TeacherConfig Config { init; get; }
 
-	public TeacherCardViewModel(TeacherConfig teacher, int index) : base(index) {
+	public TeacherCardViewModel(TeacherConfig teacher, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
 		Config = teacher;
 		Header = teacher.Name;
 		Abbreviation = teacher.Abbreviation;

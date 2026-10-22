@@ -1,5 +1,6 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
@@ -7,10 +8,8 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
-using System;
 
 public partial class ClassCardViewModel : CardViewModel {
 	
@@ -20,10 +19,8 @@ public partial class ClassCardViewModel : CardViewModel {
 	public ObservableCollection<BlockCardViewModel> Topics { get; }
 	
 	public GroupConfig Config { init; get; }
-	private readonly IReadOnlyList<string> topicNames;
 
-	public ClassCardViewModel(GroupConfig group, int index, IReadOnlyList<string> topicNames) : base(index) {
-		this.topicNames = topicNames;
+	public ClassCardViewModel(GroupConfig group, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
 		Config = group;
 		Header = group.Name;
 		var models = group.Blocks.Select(x => new BlockCardViewModel(x, RemoveTopicCommand));

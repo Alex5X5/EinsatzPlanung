@@ -16,8 +16,11 @@
 			<DataTemplate x:DataType="vm:HolidayCardViewModel">
 
 				<ct:ExtendingCard AllowExtend="False"
+								  ShowAddButton="False"
 								  Index="{Binding Index}"
-								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}">
+								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
+								  RemoveButtonCommand="{Binding RemoveCommand}"
+								  RemoveButtonCommandParameter="{Binding}">
 
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Header, Mode=TwoWay}"

@@ -42,13 +42,21 @@ public partial class ExtendingCard : UserControl {
 	[BasicStyledProperty<ExtendingCard>]
 	private IRelayCommand? addButtonCommand;
 
+	[BasicStyledProperty<ExtendingCard>]
+	private IRelayCommand? removeButtonCommand;
+
+	[BasicStyledProperty<ExtendingCard>]
+	private object? removeButtonCommandParameter;
+
 	private readonly Controls _children = new();
 	private readonly Controls _headerContent = new();
 
+	private Panel? _partRoot;
 	private Border? _partBorder;
 	private StackPanel? _headerPanel;
 	private StackPanel? _bodyPanel;
 	private ScrollViewer? _bodyScrollViewer;
+	private Button? _partRemoveButton;
 
 
 	[Content]
@@ -108,6 +116,10 @@ public partial class ExtendingCard : UserControl {
 		_bodyScrollViewer?.PointerWheelChanged -= OnScroll;
 		_bodyScrollViewer = e.NameScope.Find<ScrollViewer>("PART_Body");
 		_bodyScrollViewer?.PointerWheelChanged += OnScroll;
+
+		_partRoot = e.NameScope.Find<Panel>("PART_Root");
+
+		_partRemoveButton = e.NameScope.Find<Button>("PART_RemoveButton");
 	}
 
 	private static void SyncPanel(Panel? panel, Controls source) {
@@ -141,12 +153,12 @@ public partial class ExtendingCard : UserControl {
 	}
 
 	protected override Size MeasureOverride(Size availableSize) {
-		_partBorder?.Measure(availableSize);
+		_partRoot?.Measure(availableSize);
 		return _partBorder?.DesiredSize ?? new Size(0.0, 0.0);
 	}
 
 	protected override Size ArrangeOverride(Size finalSize) {
-		_partBorder?.Arrange(new Rect(finalSize));
+		_partRoot?.Arrange(new Rect(finalSize));
 		return finalSize;
 	}
 
@@ -160,5 +172,10 @@ public partial class ExtendingCard : UserControl {
 		if (change.Property == BodyOrientationProperty)
 			if (_bodyPanel is not null)
 				_bodyPanel.Orientation = change.GetNewValue<Orientation>();
+
+		if (change.Property == RemoveButtonCommandParameterProperty) {
+			if(_partRemoveButton is not null)
+				_partRemoveButton.CommandParameter = change.GetNewValue<object>();
+		}
 	}
 }

@@ -31,18 +31,10 @@
 					<Button Name="PART_RemoveButton"
 							Width="20"
 							Height="20"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Top"
-							HorizontalContentAlignment="Center"
-							VerticalContentAlignment="Center"
+							Classes="remove-button"
 							CornerRadius="20"
-							BorderThickness="1"
-							Padding="0"
-							Background="{DynamicResource StandardButtonBackgroundColorNoTransparency}"
 							Command="{TemplateBinding RemoveButtonCommand}"
-							CommandParameter="{Binding}">
-						<TextBlock Text="-" Margin="0"/>
-					</Button>
+							CommandParameter="{Binding}" />
 				</Grid>
 
 			</ControlTemplate>

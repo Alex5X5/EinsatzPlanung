@@ -33,6 +33,23 @@
 
 			</Style>
 		</Style>
+		
+		<Style Selector="^.remove-button">
+			<Setter Property="HorizontalAlignment" Value="Right" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
+			<Setter Property="VerticalContentAlignment" Value="Center" />
+			<Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColorNoTransparency}" />
+			<Setter Property="Content">
+				<Template>
+					<TextBlock Text="-"
+							   Margin="0"/>
+				</Template>
+			</Setter>
+		</Style>
+
 		<Style Selector="^.nav-bar-button">
 			<Setter Property="Height" Value="48"/>
 			<Setter Property="Width" Value="48"/>

@@ -17,15 +17,15 @@ public partial class RemovableCard : ContentControl {
 	public static readonly StyledProperty<bool> IsActiveProperty =
 		AvaloniaProperty.Register<RemovableCard, bool>(nameof(IsActive));
 
-	public static readonly StyledProperty<RelayCommand<object>?> RemoveButtonCommandProperty =
-		AvaloniaProperty.Register<RemovableCard, RelayCommand<object>?>(nameof(RemoveButtonCommand));
+	public static readonly StyledProperty<IRelayCommand<object>?> RemoveButtonCommandProperty =
+		AvaloniaProperty.Register<RemovableCard, IRelayCommand<object>?>(nameof(RemoveButtonCommand));
 
 	public bool IsActive {
 		get => GetValue(IsActiveProperty);
 		set => SetValue(IsActiveProperty, value);
 	}
 
-	public RelayCommand<object>? RemoveButtonCommand {
+	public IRelayCommand<object>? RemoveButtonCommand {
 		get => GetValue(RemoveButtonCommandProperty);
 		set => SetValue(RemoveButtonCommandProperty, value);
 	}

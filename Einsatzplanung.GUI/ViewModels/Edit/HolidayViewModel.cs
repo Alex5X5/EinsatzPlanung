@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Interfaces;
@@ -33,7 +34,14 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 	}
 	
 	public void AddCard() {
-		Cards.Add(new HolidayCardViewModel($"{DateTime.Now.Date:dd.MM.yyyy} - {DateTime.Now.Date:dd.MM.yyyy}", Cards.Count));
+		string header = $"{DateTime.Now.Date:dd.MM.yyyy} - {DateTime.Now.Date:dd.MM.yyyy}";
+		Cards.Add(new HolidayCardViewModel(header, RemoveCardCommand, Cards.Count));
+	}
+
+	[RelayCommand]
+	private void RemoveCard(object card) {
+		if (card is HolidayCardViewModel holidayCard)
+			Cards.Remove(holidayCard);
 	}
 
 	public async Task ExportCardsAsync(string path) {
@@ -49,9 +57,9 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 				return holidays
 					.Select(t => {
 						if (t.To == null)
-							return new HolidayCardViewModel($"{t.From:dd.MM.yyyy}", i++);
+							return new HolidayCardViewModel($"{t.From:dd.MM.yyyy}", RemoveCardCommand, i++);
 						else
-							return new HolidayCardViewModel($"{t.From:dd.MM.yyyy} - {t.To:dd.MM.yyyy}", i++);
+							return new HolidayCardViewModel($"{t.From:dd.MM.yyyy} - {t.To:dd.MM.yyyy}", RemoveCardCommand, i++);
 					})
 					.ToList();
 			});
