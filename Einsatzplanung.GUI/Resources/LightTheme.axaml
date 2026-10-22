@@ -7,9 +7,10 @@
     
     <Color x:Key="TapItemBackgroundBrush">#FFF</Color>
     <Color x:Key="TapItemForegroundBrush">Black</Color>
-    <Color x:Key="SelectedTapItemBackgroundBrush">#BA7296</Color>
-    <Color x:Key="SelectedTapItemForegroundBrush">#FFF</Color>
-    <Color x:Key="PointeroverTapItemForegroundBrush">#BA7296</Color>
+    <Color x:Key="SelectedTapItemBackgroundBrush">#FFF</Color>
+    <Color x:Key="SelectedTapItemForegroundBrush">#87375F</Color>
+    <Color x:Key="PointeroverTapItemBackgroundBrush">#FFBA7296</Color>
+    <Color x:Key="PointeroverTapItemForegroundBrush">#FFF</Color>
     
     <Color x:Key="CardBackgroundColor">#F2F0FF</Color>
     <Color x:Key="CardBorderBrush">#40000000</Color>
