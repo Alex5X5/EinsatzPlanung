@@ -76,17 +76,17 @@ public partial class TabItemControl : UserControl {
 
 	static TabItemControl() {
 
-		IndexProperty.Changed.AddClassHandler<ExtendingCard>(
+		IndexProperty.Changed.AddClassHandler<TabItemControl>(
 			(c, e) => {
 				c.IsActive = c.ActiveCardIndex == (int)e.NewValue!;
 			});
 
-		ActiveCardIndexProperty.Changed.AddClassHandler<ExtendingCard>(
+		ActiveCardIndexProperty.Changed.AddClassHandler<TabItemControl>(
 			(c, e) => {
 				c.IsActive = c.Index == (int)e.NewValue!;
 			});
 
-		IsActiveProperty.Changed.AddClassHandler<ExtendingCard>(
+		IsActiveProperty.Changed.AddClassHandler<TabItemControl>(
 			(c, e) => {
 				var newValue = (c.AllowExtend) ? (bool)e.NewValue! : false;
 				c.PseudoClasses.Set(":active", newValue);

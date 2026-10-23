@@ -5,16 +5,16 @@
 
 	<Design.PreviewWith>
 		<Panel>
-			<ct:ExtendingCard HeaderOrientation="Horizontal">
-				<ct:ExtendingCard.HeaderContent>
+			<ct:TabItemControl HeaderOrientation="Horizontal">
+				<ct:TabItemControl.HeaderContent>
 					<TextBlock Text="Header" FontWeight="Bold" />
 					<Button Content="Refresh" />
-				</ct:ExtendingCard.HeaderContent>
+				</ct:TabItemControl.HeaderContent>
 
 				<TextBlock Text="First" />
 				<TextBlock Text="Second" />
 
-			</ct:ExtendingCard>
+			</ct:TabItemControl>
 		</Panel>
     </Design.PreviewWith>
 
@@ -25,8 +25,14 @@
 			<ControlTemplate>
 				<Grid Name="PART_Root" Background="Transparent">
 					
+					<TabControl>
+						<TabItem>
+							
+						</TabItem>
+					</TabControl>
+					
 
-						<!--<Grid RowDefinitions="Auto,*,Auto">
+					<!--<Grid RowDefinitions="Auto,*,Auto">
 
 						<DockPanel Name="PART_HeaderPanel"
 									Grid.Row="0"
