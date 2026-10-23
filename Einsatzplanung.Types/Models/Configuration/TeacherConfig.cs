@@ -21,7 +21,7 @@ public class TeacherConfig : Config {
 
 	public override string ToString() {
 		return $"Teacher[Name={Name}, Abbreviation={Abbreviation}, WeeklyHours={WeeklyHours}, " +
-			$"Specializations=[{string.Join(", ", Specializations.Select(t => t.Name))}]]";
+			$"Specializations=[{string.Join(", ", Specializations.Select(t => t.ToString()))}]]";
 	}
 
 	public static TeacherConfig Default => new() {

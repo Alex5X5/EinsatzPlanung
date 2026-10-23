@@ -14,6 +14,6 @@ public class BlockConfig : Config {
 	};
 
 	public override string ToString() {
-		return $"BlockConfig[Name={Topic.Name}, Count={Convert.ToString(Count)}]";
+		return $"BlockConfig[Topic={Topic.Name}, Count={Convert.ToString(Count)}]";
 	}
 }
