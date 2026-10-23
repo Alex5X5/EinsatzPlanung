@@ -20,6 +20,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	private IConfigExportService<AgeGroupConfig> exportService;
 	private IConfigService<AgeGroupConfig> configService;
 	private IConfigService<TopicConfig> topicService;
+	private IConfigService<TeacherConfig> teacherService;
 
 	public ObservableCollection<AgeGroupCardViewModel> Cards { set; get; }
 
@@ -29,10 +30,11 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private int activeGroupCardIndex = -1;
 
-	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IConfigService<TopicConfig> topicService) {
+	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IConfigService<TopicConfig> topicService, IConfigService<TeacherConfig> teacherService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		this.topicService = topicService;
+		this.teacherService = teacherService;
 		Cards = [];
 	}
 
@@ -87,8 +89,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 								new GroupConfig() {
 									Id = groupCard.Config.Id,
 									Name = groupCard.Config.Name,
-									AgeGroupName = groupCard.Config.Name,
-									TeacherAbbreviation = groupCard.Config.TeacherAbbreviation,
+									Teacher = teacherService.GetByAbbreviation(groupCard.TeacherAbbreviation) ?? TeacherConfig.Default,
 									SchoolWeeks = groupCard.Config.SchoolWeeks,
 									Blocks = groupCard.Topics
 										.Select(blockCard =>

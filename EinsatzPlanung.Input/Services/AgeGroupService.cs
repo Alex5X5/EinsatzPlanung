@@ -11,12 +11,17 @@ using System.Linq;
 
 public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
 
-	private IEntityService<Holiday> holidayService;
-	private IEntityService<Teacher> teacherService;
-	private IEntityService<Topic> topicService;
+	private IEntityService<Holiday, HolidayConfig> holidayService;
+	private IEntityService<Teacher, TeacherConfig> teacherService;
+	private IEntityService<Topic, TopicConfig> topicService;
 	private GeneralConfigService generalConfigService;
 
-	public AgeGroupService(IConfigService<AgeGroupConfig> ageGroupService, IEntityService<Holiday> holidayService, IEntityService<Teacher> teacherService, IEntityService<Topic> topicService, GeneralConfigService generalConfigService)
+	public AgeGroupService(
+		IConfigService<AgeGroupConfig> ageGroupService,
+		IEntityService<Holiday, HolidayConfig> holidayService,
+		IEntityService<Teacher, TeacherConfig> teacherService,
+		IEntityService<Topic, TopicConfig> topicService,
+		GeneralConfigService generalConfigService)
 	: base(ageGroupService) {
 		this.holidayService = holidayService;
 		this.teacherService = teacherService;
@@ -24,7 +29,7 @@ public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
 		this.generalConfigService = generalConfigService;
 	}
 
-	protected override AgeGroup MapConfigData(AgeGroupConfig config) {
+	public override AgeGroup MapConfigData(AgeGroupConfig config) {
 		return new AgeGroup() {
 			Name = config.Name,
 			Groups = config.Groups.Select(MapGroup).ToList()
@@ -44,8 +49,7 @@ public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
 		var teachers = teacherService.GetEntities();
 		return new Group() {
 			Name = config.Name,
-			AgeGroupName = config.AgeGroupName,
-			Teacher = teachers.First(x=>x.Abbreviation == config.TeacherAbbreviation),
+			Teacher = teacherService.MapConfigData(config.Teacher),
 			SchoolWeeks = config.SchoolWeeks,
 			Blocks = blocks,
 			Holidays = holidayService.GetEntities()

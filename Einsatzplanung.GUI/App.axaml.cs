@@ -77,20 +77,26 @@ public partial class App : Application {
 
 
 		collection.AddSingleton<IConfigService<TopicConfig>, TopicConfigService>();
-		collection.AddSingleton<IEntityService<Topic>, TopicService>();
+		collection.AddTransient<IEntityService<Topic>, TopicService>();
+		collection.AddTransient<IEntityService<Topic, TopicConfig>, TopicService>();
 		collection.AddTransient<IConfigExportService<TopicConfig>, TopicExportService>();
 
 		collection.AddSingleton<IConfigService<TeacherConfig>, TeacherConfigService>();
-		collection.AddTransient<IConfigExportService<TeacherConfig>, TeacherExportService>();
 		collection.AddTransient<IEntityService<Teacher>, TeacherService>();
+		collection.AddTransient<IEntityService<Teacher, TeacherConfig>, TeacherService>();
+		collection.AddTransient<IConfigExportService<TeacherConfig>, TeacherExportService>();
 
 		collection.AddSingleton<IConfigService<HolidayConfig>, HolidayConfigService>();
 		collection.AddTransient<IEntityService<Holiday>, HolidayService>();
+		collection.AddTransient<IEntityService<Holiday, HolidayConfig>, HolidayService>();
 		collection.AddTransient<IConfigExportService<HolidayConfig>, HolidayExportService>();
 
 		collection.AddSingleton<IConfigService<AgeGroupConfig>, AgeGroupConfigService>();
-		collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
+		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
+		collection.AddTransient<IEntityService<AgeGroup, AgeGroupConfig>, AgeGroupService>();
 		collection.AddTransient<IConfigExportService<AgeGroupConfig>, GroupExportService>();
+
+		collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
 
 		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
 		collection.AddTransient<IEntityService<Group>, GroupService>();

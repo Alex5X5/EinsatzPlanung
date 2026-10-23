@@ -20,9 +20,11 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 	private const int TOPIC_WEEKS_COLUMN_INDEX = 5;
 
 	private IConfigService<TopicConfig> topicService;
+	private IConfigService<TeacherConfig> teacherService;
 
-	public AgeGroupConfigService(IExcelImportService importService, IConfigService<TopicConfig> topicService) : base(importService) {
+	public AgeGroupConfigService(IExcelImportService importService, IConfigService<TopicConfig> topicService, IConfigService<TeacherConfig> teacherService) : base(importService) {
 		this.topicService = topicService;
+		this.teacherService = teacherService;
 	}
 
 	protected override List<AgeGroupConfig> ParseTable(Table table) {
@@ -43,20 +45,22 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 				ageGroupBuilder.AddGroup(groupBuilder.Build());
 				groupBuilder = new();
 				groupBuilder.SetName(table[row, CLASS_GROUP_COLUMN_INDEX]?.Value ?? "");
-				groupBuilder.SetTeacher(table[row, Teacher_COLUMN_INDEX]?.Value ?? "");
+				var teacherAbbreviation = table[row, Teacher_COLUMN_INDEX]?.Value ?? "";
+				var teacher = teacherService.GetByAbbreviation(teacherAbbreviation) ?? TeacherConfig.Default;
+				groupBuilder.SetTeacher(teacher);
 				// try to build the current age group and add it to the list of age groups
 				if (ageGroupBuilder.Build() is AgeGroupConfig group)
 					ageGroups.Add(group);
 				ageGroupBuilder = new();
 				ageGroupBuilder.SetName(table[row, AGE_GROUP_COLUMN_INDEX]?.Value ?? "");
-				groupBuilder.SetAgeGroupName(ageGroupBuilder.Build()?.Name ?? "");
 			} else if (newGroup) {
 				// build only the current group and add it to the current age group
 				ageGroupBuilder.AddGroup(groupBuilder.Build());
 				groupBuilder = new();
-				groupBuilder.SetAgeGroupName(ageGroupBuilder.Build()?.Name ?? "");
 				groupBuilder.SetName(table[row, CLASS_GROUP_COLUMN_INDEX]?.Value ?? "");
-				groupBuilder.SetTeacher(table[row, Teacher_COLUMN_INDEX]?.Value ?? "");
+				var teacherAbbreviation = table[row, Teacher_COLUMN_INDEX]?.Value ?? "";
+				var teacher = teacherService.GetByAbbreviation(teacherAbbreviation) ?? TeacherConfig.Default;
+				groupBuilder.SetTeacher(teacher);
 			}
 
 			if (int.TryParse(table[row, SCOOLWEEK_COLUMN_INDEX]?.Value ?? "", out var schoolWeek))
@@ -64,12 +68,11 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 
 			if (int.TryParse(table[row, TOPIC_WEEKS_COLUMN_INDEX]?.Value ?? "", out var topicWeeks)) {
 				string topicName = table[row, TOPIC_COLUMN_INDEX]?.Value ?? "";
-				var topic = topicService.GetData().FirstOrDefault(x => x.Name == topicName);
-				if (topic != null)
+				if (topicService.TryGetByName(topicName, out var topic))
 					groupBuilder.AddBlock(new BlockConfig() {
 						Id = Guid.NewGuid(),
 						Count = topicWeeks,
-						Topic = topic
+						Topic = topic!
 					});
 			}
 		}
@@ -94,8 +97,7 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 									new GroupConfig() {
 										Id = group.Id,
 										Name = group.Name,
-										AgeGroupName = ageGroup.Name,
-										TeacherAbbreviation = group.TeacherAbbreviation,
+										Teacher = teacherService.GetById(group.Teacher.Id) ?? TeacherConfig.Default,
 										SchoolWeeks = group.SchoolWeeks,
 										Blocks = group.Blocks
 											.Select(block =>
@@ -153,9 +155,8 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 			current ??= new GroupConfig() {
 				Id = Guid.NewGuid(),
 				Name = "",
-				AgeGroupName = "",
 				SchoolWeeks = [],
-				TeacherAbbreviation = "",
+				Teacher = TeacherConfig.Default,
 				Blocks = []
 			};
 		}
@@ -166,15 +167,9 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 			return this;
 		}
 
-		public GroupConfigurationBuilder SetAgeGroupName(string name) {
+		public GroupConfigurationBuilder SetTeacher(TeacherConfig teacher) {
 			CreateCurrentIfNull();
-			current!.AgeGroupName = name;
-			return this;
-		}
-
-		public GroupConfigurationBuilder SetTeacher(string abbreviation) {
-			CreateCurrentIfNull();
-			current!.TeacherAbbreviation = abbreviation;
+			current!.Teacher = teacher;
 			return this;
 		}
 

@@ -1,14 +1,14 @@
 ﻿namespace Einsatzplanung.Input.Services;
 
-using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Types.Models;
-using Einsatzplanung.Types.Models.Configuration;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public abstract class EntitiyServiceBase<Te, Tc> : IEntityService<Te> where Te : Entity where Tc : Config {
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models;
+using Einsatzplanung.Types.Models.Configuration;
+
+public abstract class EntitiyServiceBase<Te, Tc> : IEntityService<Te, Tc> where Te : Entity where Tc : Config {
 
 	public IConfigService<Tc> configService;
 
@@ -25,13 +25,14 @@ public abstract class EntitiyServiceBase<Te, Tc> : IEntityService<Te> where Te :
 		return configs.Select(MapConfigData).ToList();
 	}
 
-	public Te? GetById(int id) {
-		throw new NotImplementedException();
-	}
+	//public Te? GetById(Guid id) {
+	//	throw new NotImplementedException();
+	//}
 
-	public bool TryGetById(int id, out Te? result) {
-		throw new NotImplementedException();
-	}
+	//public bool TryGetById(Guid id, out Te? result) {
+	//	List<Te> configs = GetEntities();
+	//	result = configs.FirstOrDefault(x => x.Id == id);
+	//}
 
-	protected abstract Te MapConfigData(Tc config);
+	public abstract Te MapConfigData(Tc config);
 }

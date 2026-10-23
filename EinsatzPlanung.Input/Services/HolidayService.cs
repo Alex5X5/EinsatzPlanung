@@ -8,7 +8,7 @@ public class HolidayService : EntitiyServiceBase<Holiday, HolidayConfig> {
 
 	public HolidayService(IConfigService<HolidayConfig> configService) : base(configService) { }
 
-	protected override Holiday MapConfigData(HolidayConfig config) {
+	public override Holiday MapConfigData(HolidayConfig config) {
 		return new Holiday {
 			From = config.From,
 			To = config.To ?? config.From

@@ -34,10 +34,9 @@ public partial class AgeGroupCardViewModel : CardViewModel {
 		var group = new GroupConfig() {
 			Id = Guid.NewGuid(),
 			Name = "",
-			AgeGroupName = Config.Name,
 			Blocks = [],
 			SchoolWeeks = [],
-			TeacherAbbreviation =""
+			Teacher = teacher,
 		};
 		Cards.Add(new GroupCardViewModel(group, RemoveGroupCommand, Cards.Count));
 	}

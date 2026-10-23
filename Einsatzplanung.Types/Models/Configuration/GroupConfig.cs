@@ -8,9 +8,7 @@ public class GroupConfig : Config {
 
     public required string Name { set; get; }
 
-    public required string AgeGroupName { set; get; }
-
-	public required string TeacherAbbreviation { set; get; }
+	public required TeacherConfig Teacher { set; get; }
 
     public required List<int> SchoolWeeks { set; get; }
 
@@ -18,6 +16,7 @@ public class GroupConfig : Config {
 
 	public override string ToString() {
 		return $"Group[Name={Name}, " +
+			$"Teacher={Teacher.ToString()}, " +
 			$"AgeGroupName[AgeGroupName={Name}, " +
 			$"SchoolWeeks=[{string.Join(", ", SchoolWeeks.Select(t => Convert.ToString(t)))}], " +
 			$"Blocks=[{string.Join(", ", Blocks.Select(b => b.ToString()))}]]";
