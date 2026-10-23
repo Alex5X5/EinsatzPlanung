@@ -34,7 +34,8 @@ public abstract class ConfigServiceBase<Tc> : IConfigService<Tc> where Tc : Conf
 		if (bufferedData != null)
 			return bufferedData;
 		Table table = importService.GetTable(SourceFilePath);
-		return ParseTable(table);
+		bufferedData = ParseTable(table);
+		return bufferedData;
 	}
 
 	public Tc? GetById(Guid id) {

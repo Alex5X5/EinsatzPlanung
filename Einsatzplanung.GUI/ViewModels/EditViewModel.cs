@@ -1,17 +1,23 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels;
 
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-
-using Einsatzplanung.GUI.ViewModels.Edit;
-using Microsoft.Extensions.DependencyInjection;
-
-using Avalonia.Platform.Storage;
-using Avalonia.Controls;
-using System.Threading.Tasks;
-using Einsatzplanung.GUI.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+
+using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.GUI.Services;
+using Einsatzplanung.GUI.ViewModels.Edit;
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models.Configuration;
+
+using Microsoft.Extensions.DependencyInjection;
 
 public partial class EditViewModel : ViewModelBase {
 
@@ -58,14 +64,21 @@ public partial class EditViewModel : ViewModelBase {
 	
 	public EditViewModel() {
 		SelectedPageIndex = 0;
+
+		_ = Task.Run(
+			() => {
+				List<TopicConfig> topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetData();
+				Console.WriteLine($"loaded topics:[\n   {string.Join(",\n   ", topics.Select(x => x.ToString()))}\n]");
+				var teachers = App.GetRequiredService<IConfigService<TeacherConfig>>().GetData();
+				Console.WriteLine($"loaded teachers:[\n   {string.Join(",\n   ", teachers.Select(x => x.ToString()))}\n]");
+				var groups = App.GetRequiredService<IConfigService<AgeGroupConfig>>().GetData();
+				Console.WriteLine($"loaded agegroups:[\n   {string.Join(",\n   ", groups.Select(x => x.ToString()))}\n]");
+			}
+		);
 	}
 
 	private void ChangePage<T>() where T : IEditViewChild {
-		try {
-			CurrentPage = App.Current.Services.GetService<T>();
-		} catch(Exception e){
-			Console.WriteLine("");
-		}
+		CurrentPage = App.GetRequiredService<T>();
 	}
 
 	[RelayCommand]
