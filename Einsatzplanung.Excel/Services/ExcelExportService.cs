@@ -10,6 +10,10 @@ using Einsatzplanung.Excel.Interfaces;
 public class ExcelExportService : IExcelExportService {
 
 	public void SaveTable(string path, Models.Table table, int tableIndex = 1, string sheetName="") {
+		if (path == "") {
+			Console.WriteLine("Fehler beim Speichern");
+			return;
+		}
 		XLWorkbook workbook = new();
 		var worksheetName = string.IsNullOrEmpty(sheetName)
 			? $"Tabelle {tableIndex}"
@@ -21,7 +25,7 @@ public class ExcelExportService : IExcelExportService {
 				cell.Value = table[row, col]?.Value ?? "";
 			}
 		}
-
 		workbook.SaveAs(path);
+		Console.WriteLine("Speichern Erfolgreich");
 	}
 }
