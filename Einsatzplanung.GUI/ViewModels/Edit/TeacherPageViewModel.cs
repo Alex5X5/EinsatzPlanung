@@ -83,7 +83,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 				}
 				var teacher = new TeacherConfig() { 
 					Id = teacherCard.Config.Id,
-					Abbreviation = teacherCard.Config.Abbreviation,
+					Abbreviation = teacherCard.Abbreviation,
 					Name = teacherCard.Header,
 					Specializations = specializations,
 					WeeklyHours = teacherCard.Config.WeeklyHours,

@@ -18,14 +18,6 @@ public partial class BlockCardViewModel : CardViewModel, IRemovableCardViewModel
 	[ObservableProperty]
 	private string header;
 
-	partial void OnHeaderChanged(string value) {
-		Config = new BlockConfig() {
-			Id = Guid.NewGuid(),
-			Topic = topicService.GetByName(value) ?? TopicConfig.Default,
-			Count = Config.Count
-		};
-	}
-
 	[ObservableProperty]
 	private string count;
 

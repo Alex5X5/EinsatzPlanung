@@ -17,29 +17,9 @@ public partial class GroupCardViewModel : CardViewModel {
 
 	[ObservableProperty]
 	private string header;
-	
-	partial void OnHeaderChanged(string value) {
-		Config = new GroupConfig() {
-			Id = Config.Id,
-			Name = value,
-			Blocks = Config.Blocks,
-			SchoolWeeks = Config.SchoolWeeks,
-			Teacher = Config.Teacher
-		};
-	}
 
 	[ObservableProperty]
 	private string teacherAbbreviation = "";
-
-	partial void OnTeacherAbbreviationChanged(string value) {
-		Config = new GroupConfig() {
-			Id = Config.Id,
-			Name = Config.Name,
-			Blocks = Config.Blocks,
-			SchoolWeeks = Config.SchoolWeeks,
-			Teacher = teacherService.GetByAbbreviation(value) ?? TeacherConfig.Default
-		};
-	}
 	
 	public IReadOnlyList<string> Abbreviations { get; }
 
