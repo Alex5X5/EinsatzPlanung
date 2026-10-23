@@ -1,0 +1,79 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:ct="using:Einsatzplanung.GUI.Controls"
+					xmlns:cv="using:Einsatzplanung.GUI.Converters">
+    
+
+<ControlTheme x:Key="{x:Type ct:YearTabControl}"
+              TargetType="ct:YearTabControl"
+              BasedOn="{StaticResource {x:Type TabControl}}">
+
+    <Setter Property="TabStripPlacement" Value="Left" />
+
+    <Setter Property="ItemsPanel">
+        <ItemsPanelTemplate>
+            <StackPanel Orientation="Vertical" Spacing="4" />
+        </ItemsPanelTemplate>
+    </Setter>
+
+    <Setter Property="Template">
+        <ControlTemplate>
+            <Grid ColumnDefinitions="Auto,*">
+
+                <!-- training year list-->
+                <Grid Grid.Column="0"
+                      RowDefinitions="*,Auto"
+                      MinWidth="150"
+                      Margin="0,0,16,0">
+
+                    <ScrollViewer Grid.Row="0"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <ItemsPresenter Name="PART_ItemsPresenter"
+                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                    </ScrollViewer>
+
+                    <Button Grid.Row="1"
+                            Content="+ Training year"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,8,0,0"
+                            Command="{TemplateBinding AddTabCommand}" />
+                </Grid>
+
+                <!-- classes of the selected training year -->
+                <ContentPresenter Grid.Column="1"
+                                  Name="PART_SelectedContentHost"
+                                  Content="{TemplateBinding SelectedContent}"
+                                  ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+            </Grid>
+        </ControlTemplate>
+    </Setter>
+
+    <!-- name + class count + remove button -->
+    <Setter Property="ItemTemplate">
+        <DataTemplate>
+            <Grid ColumnDefinitions="*,Auto" MinWidth="130">
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Text="{Binding ClassCountText}"
+                               FontSize="11"
+                               Opacity="0.6" />
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Classes="remove-button"
+                        Width="16" Height="16"
+                        Command="{Binding $parent[ct:YearTabControl].RemoveTabCommand}"
+                        CommandParameter="{Binding}" />
+            </Grid>
+        </DataTemplate>
+    </Setter>
+</ControlTheme>
+
+
+	<ItemsPanelTemplate x:Key="ExtendingCardItemsPanel">
+        <StackPanel Spacing="12"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center" />
+    </ItemsPanelTemplate>
+
+</ResourceDictionary>
