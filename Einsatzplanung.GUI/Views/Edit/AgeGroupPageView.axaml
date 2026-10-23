@@ -58,7 +58,7 @@
 															 HorizontalAlignment="Stretch"
 															 HorizontalContentAlignment="Center"
 															 VerticalContentAlignment="Center"
-															 ToolTip.Tip="Ausbilder Auswählen" />
+															 ToolTip.Tip="Name der Ausbildungskraft" />
 
 										<TextBox Text="{Binding Header, Mode=TwoWay}"
 												 PlaceholderText="Name der Klasse"
@@ -67,7 +67,7 @@
 												 HorizontalAlignment="Stretch"
 												 HorizontalContentAlignment="Center"
 												 VerticalContentAlignment="Center"
-												 ToolTip.Tip="Klassenbezeichnung eingeben" />
+												 ToolTip.Tip="Name der Klasse" />
 
 									</ct:ExtendingCard.HeaderContent>
 									
@@ -87,14 +87,14 @@
 																				 Foreground="{DynamicResource AppForegroundBrush}"
 																				 HorizontalAlignment="Stretch"
 																				 VerticalContentAlignment="Center" 
-																				 ToolTip.Tip="Der Name des Themas" />
+																				 ToolTip.Tip="Name des Themas" />
 															<TextBox Grid.Column="2"
 																	 Text="{Binding Count, Mode=TwoWay}"
 																	 TextWrapping="NoWrap"
 																	 Foreground="{DynamicResource AppForegroundBrush}"
 																	 HorizontalContentAlignment="Center"
 																	 VerticalContentAlignment="Center" 
-																	 ToolTip.Tip="Die Anzahl an Wochen des Themas"/>
+																	 ToolTip.Tip="Anzahl an Wochen des Themas"/>
 														</Grid>
 
 													</ct:RemovableCard>

@@ -23,9 +23,10 @@
 
 					<ct:ExtendingCard.HeaderContent>
 						<TextBox Text="{Binding Abbreviation, Mode=TwoWay}"
-						         PlaceholderText="Kürzel der Ausbildungskraft"
+						         PlaceholderText="Kürzel"
 						         HorizontalContentAlignment="Center"
-						         VerticalContentAlignment="Center" />
+						         VerticalContentAlignment="Center"
+						         ToolTip.Tip="Kürzel der Ausbildungskraft" />
 						
 						<TextBox Text="{Binding Header, Mode=TwoWay}"
 						         PlaceholderText="Name der Ausbildungskraft"
@@ -33,8 +34,8 @@
 						         Foreground="{DynamicResource AppForegroundBrush}"
 						         HorizontalAlignment="Stretch"
 						         HorizontalContentAlignment="Center"
-						         VerticalContentAlignment="Center" 
-						         ToolTip.Tip="Der Name der Ausbilder*in"/>
+						         VerticalContentAlignment="Center"
+						         ToolTip.Tip="Name der Ausbildungskraft"/>
 					</ct:ExtendingCard.HeaderContent>
 					
 					<ItemsControl ItemsSource="{Binding Specializations}"
