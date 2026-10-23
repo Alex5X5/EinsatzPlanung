@@ -28,16 +28,17 @@ public class GroupConfigService : IConfigService<GroupConfig> {
 	}
 
 	public void SetData(List<GroupConfig> data) {
-		var groupsByYear = data
-			.GroupBy((g) => g.AgeGroupName)
-			.ToDictionary((g) => g.Key, (g) => g.ToList());
-
-		var ageGroups = groupsByYear
+		var oldAgeGroups = ageGroupService.GetData();
+		
+		var ageGroups = oldAgeGroups
 			.Select(
-				pair => new AgeGroupConfig() {
-					Id = Guid.NewGuid(),
-					Name = pair.Key,
-					Groups = pair.Value
+				ageGroup => new AgeGroupConfig() {
+					Id = ageGroup.Id,
+					Name = ageGroup.Name,
+					Groups = ageGroup.Groups
+						.Select(x=>x.Id)
+						.Select(id => data.First(g=>g.Id == id))
+						.ToList()
 				})
 			.ToList();
 		
