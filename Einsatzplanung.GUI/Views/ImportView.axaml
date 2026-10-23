@@ -120,7 +120,7 @@
 							<TextBlock Margin="0,0,0,8"
 									   Grid.Row="0"
 									   Grid.Column="1"
-									   Text="{Binding ExcelFileStatus}"
+									   Text="{Binding ExcelShortendPath}"
 									   ToolTip.Tip="{Binding ExcelFileStatus}"
 									   Foreground="{DynamicResource AppForegroundBrush}"
 									   VerticalAlignment="Center"
