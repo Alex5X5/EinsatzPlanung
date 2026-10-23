@@ -34,4 +34,10 @@
 		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Controls\YearTabControl.axaml.cs">
+	    <DependentUpon>YearTabControl.axaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>
