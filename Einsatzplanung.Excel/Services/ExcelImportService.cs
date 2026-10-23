@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -30,12 +31,21 @@ public class ExcelImportService : IExcelImportService {
 	}
 
 	private List<List<Models.TableCell>> GetCellsFromFile(string path, int tableIndex) {
+		Stopwatch stopwatch = new();
+		stopwatch.Start();
+
 		List<List<Models.TableCell>> cells = [];
 		if (!File.Exists(path))
 			return [];
-		
+
+		Stopwatch wokbookStopwatch = new();
+		wokbookStopwatch.Start();
+
 		XLWorkbook workbook = new(path);
 		var worksheet = workbook.Worksheet(tableIndex);
+
+		wokbookStopwatch.Stop();
+		Console.WriteLine($"getting workbook took {wokbookStopwatch.ElapsedMilliseconds} milliseconds");
 
 		int rowCount = worksheet.Rows().Count();
 		int columnCount = worksheet.Rows().Select(r => r.Cells().Count()).Max();
@@ -62,6 +72,9 @@ public class ExcelImportService : IExcelImportService {
 			}
 			cells.Add(rowCells);
 		}
+
+		stopwatch.Stop();
+		Console.WriteLine($"getting cells took {stopwatch.ElapsedMilliseconds} milliseconds");
 
 		return cells;
 	}
