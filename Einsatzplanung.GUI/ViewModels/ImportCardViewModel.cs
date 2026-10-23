@@ -12,7 +12,8 @@
 
 	using System;
 	using System.Collections.Generic;
-    using System.Linq;
+	using System.IO;
+	using System.Linq;
     using System.Threading.Tasks;
 
     public partial class ImportCardViewModel : ObservableObject {
@@ -22,6 +23,8 @@
 
 		[ObservableProperty]
 		private string excelFileStatus = "Keine Excel-Datei ausgewählt";
+        [ObservableProperty]
+        private string excelShortendPath = "Keine Excel-Datei ausgewählt";
 		[ObservableProperty]
         private string pdfFileStatus = "Keine PDF-Datei ausgewählt";
 
@@ -41,13 +44,22 @@
             Header = header;
 			this.entityService = entityService;
 			this.selectionService = selectionService;
-			ExcelFileStatus = Header switch {
+			string path = Header switch {
 				"Ausbildungsinhalte" => selectionService.GetSelection("ImportCard.Topics") ?? "Keine Excel-Datei ausgewählt",
 				"Ausbilder*innen & Spezialisierungen" => selectionService.GetSelection("ImportCard.Trainer") ?? "Keine Excel-Datei ausgewählt",
 				"Ausbildungsgruppen & Themen" => selectionService.GetSelection("ImportCard.Groups") ?? "Keine Excel-Datei ausgewählt",
 				"Urlaub & Feiertage" => selectionService.GetSelection("ImportCard.Holiday") ?? "Keine Excel-Datei ausgewählt",
 				_ => "Keine Excel-Datei ausgewählt"
 			};
+            ExcelFileStatus = path;
+            ExcelShortendPath = path;
+            if (ExcelShortendPath.Contains(Path.DirectorySeparatorChar) || ExcelShortendPath.Contains(Path.AltDirectorySeparatorChar))
+                {
+                    var p = ExcelShortendPath.Split(new[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (p.Length > 4)
+					    ExcelShortendPath = $"{p[0]}\\{p[1]}\\...\\{p[^2]}\\{p[^1]}";
+                }
+            
         }
 
         public string Header { get; }
@@ -74,7 +86,15 @@
             ]);
 			await Task.Run(() => {
 				ExcelFileStatus = status ?? "Keine Datei ausgewählt";
+                ExcelShortendPath = ExcelFileStatus;
+                if (ExcelShortendPath.Contains(Path.DirectorySeparatorChar) || ExcelShortendPath.Contains(Path.AltDirectorySeparatorChar))
+                {
+                    var p = ExcelShortendPath.Split(new[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (p.Length > 4)
+					    ExcelShortendPath = $"{p[0]}\\{p[1]}\\...\\{p[^2]}\\{p[^1]}";
+                }
 				System.Console.WriteLine(ExcelFileStatus);
+				entityService.SetSource(ExcelShortendPath);
 				entityService.SetSource(ExcelFileStatus);
 			});
         }

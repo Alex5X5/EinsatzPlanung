@@ -33,7 +33,7 @@ public class TeacherExportService : IConfigExportService<TeacherConfig> {
 				}
 			}
 
-			excelExportService.SaveTable(filePath, table, sheetName: "Ausbilder*innen");
+			excelExportService.SaveTable(filePath, table, sheetName: "Ausbildungskräfte");
 		});
 	}
 }
