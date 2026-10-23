@@ -1,0 +1,92 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:ct="using:Einsatzplanung.GUI.Controls"
+					xmlns:cv="using:Einsatzplanung.GUI.Converters">
+
+	<Design.PreviewWith>
+		<Panel>
+			<ct:ExtendingCard HeaderOrientation="Horizontal">
+				<ct:ExtendingCard.HeaderContent>
+					<TextBlock Text="Header" FontWeight="Bold" />
+					<Button Content="Refresh" />
+				</ct:ExtendingCard.HeaderContent>
+
+				<TextBlock Text="First" />
+				<TextBlock Text="Second" />
+
+			</ct:ExtendingCard>
+		</Panel>
+    </Design.PreviewWith>
+
+	<ControlTheme x:Key="{x:Type ct:TabItemControl}" TargetType="ct:TabItemControl">
+		
+		<!--set the contents of the templated controll TabItemControl-->
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Grid Name="PART_Root" Background="Transparent">
+					
+
+						<!--<Grid RowDefinitions="Auto,*,Auto">
+
+						<DockPanel Name="PART_HeaderPanel"
+									Grid.Row="0"
+									LastChildFill="True"
+									HorizontalSpacing="8"
+									HorizontalAlignment="Stretch"
+									Margin="0,0,0,20" />
+
+							~1~ ScrollBar @1@
+						 
+							<ScrollViewer Name="PART_Body"
+										  Grid.Row="1"
+										  Margin="0,0,-10,6.7"
+										  AllowAutoHide="False">
+
+								<ScrollViewer.Resources>
+									<x:Double x:Key="ScrollBarSize">8</x:Double>
+									<x:Double x:Key="ScrollBarThumbSize">6</x:Double>
+								</ScrollViewer.Resources>
+							
+								<StackPanel Name="PART_BodyPanel"
+											Grid.Row="1"
+											Orientation="{TemplateBinding BodyOrientation}"
+											HorizontalAlignment="Stretch"
+											Margin="0,0,10,0"
+											Spacing="12" />
+							
+							</ScrollViewer>
+						
+							<Grid ColumnDefinitions="Auto, *"
+								  Grid.Row="2"
+								  IsVisible="{TemplateBinding ShowAddButton}">
+								<Button Grid.Column="1"
+										Classes="list-button add"
+										HorizontalAlignment="Right"
+										Command="{TemplateBinding AddButtonCommand}"
+										CommandParameter="{TemplateBinding RemoveButtonCommandParameter}"/>
+							</Grid>
+
+						</Grid>-->
+
+					<Button Name="PART_RemoveButton"
+							Width="20"
+							Height="20"
+							Classes="remove-button"
+							CornerRadius="10"
+							Command="{TemplateBinding RemoveButtonCommand}"
+							CommandParameter="{TemplateBinding RemoveButtonCommandParameter}" />
+				</Grid>
+
+			</ControlTemplate>
+		</Setter>
+
+	</ControlTheme>
+
+
+	<ItemsPanelTemplate x:Key="ExtendingCardItemsPanel">
+        <StackPanel Spacing="12"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center" />
+    </ItemsPanelTemplate>
+
+</ResourceDictionary>
