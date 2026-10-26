@@ -7,9 +7,22 @@
              x:Class="Einsatzplanung.GUI.Views.SaveView"
              x:DataType="vm:SaveViewModel">
 
-    <Grid RowDefinitions="Auto,Auto,Auto" VerticalAlignment="Top" Margin="0,167,0,0"> <!-- left, top, right, bottom-->
-    
-        <StackPanel Grid.Row="0"
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto" VerticalAlignment="Top" Margin="0,167,0,0">
+        <ScrollViewer Grid.Row="0"
+                      MaxHeight="140"
+                      HorizontalAlignment="Center"
+                      Margin="0,0,0,30">
+            <ItemsControl ItemsSource="{Binding ClassesNamesForSave}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ClassSelectionItem">
+                        <CheckBox Content="{Binding Name}"
+                                  IsChecked="{Binding IsSelected}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1"
                     Orientation="Horizontal"
                     Spacing="20"
                     HorizontalAlignment="Center"
@@ -24,7 +37,7 @@
                     Command="{Binding ExportCommand}"/>
         </StackPanel>
 
-        <TextBlock Grid.Row="1"
+        <TextBlock Grid.Row="2"
                     Text="{Binding SelectedFolderPath}"  
                     HorizontalAlignment="Center"
                     TextAlignment="Center"
@@ -33,7 +46,7 @@
                     FontSize="11"
                     Foreground="#4CAF50" />
 
-        <TextBlock Grid.Row="2"
+        <TextBlock Grid.Row="3"
                     Text="{Binding ErrorString}"  
                     HorizontalAlignment="Center"
                     TextAlignment="Center"
