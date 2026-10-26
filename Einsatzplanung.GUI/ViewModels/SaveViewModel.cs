@@ -79,12 +79,3 @@ public partial class SaveViewModel : ViewModelBase {
 		return Path.Join(SelectedFolderPath, $"Einsatzplan_{year}_{year+1}.xlsx");
 	}
 }
-
-public partial class ClassSelectionItem : ObservableObject {
-
-    [ObservableProperty] 
-	private string name = "";
-
-    [ObservableProperty] 
-	private bool isSelected = true;
-}
