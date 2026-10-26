@@ -8,16 +8,17 @@ using Einsatzplanung.GUI.Interfaces;
 public abstract partial class CardViewModel : ViewModelBase, IRemovableCardViewModel {
 
 	[ObservableProperty]
-	private string header = "";
+	private string header;
 
 	[ObservableProperty]
-	private int index = 0;
+	private int index;
 
 	[ObservableProperty]
 	private IRelayCommand<object> removeCommand;
 
-	public CardViewModel(IRelayCommand<object> removeCommand, int index) {
+	public CardViewModel(IRelayCommand<object> removeCommand, string header = "", int index = 0) {
 		RemoveCommand = removeCommand;
+		Header = header;
 		Index = index;
 	}
 
