@@ -13,7 +13,9 @@ using Einsatzplanung.Util.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 public partial class SaveViewModel : ViewModelBase {
@@ -38,7 +40,8 @@ public partial class SaveViewModel : ViewModelBase {
 		foreach (var group in groups) {
 			ClassesNamesForSave.Add(new ClassSelectionItem {
 				Name = group.Name,
-				IsSelected = true
+				IsSelected = true,
+				Config = group
 			});
 		}
 	}
@@ -59,7 +62,7 @@ public partial class SaveViewModel : ViewModelBase {
 					var generator = App.Current.Services.GetRequiredService<IGeneratorService>();
 					var export = App.Current.Services.GetRequiredService<IPlanExportService>();
 					var config = new GeneratorConfig() {
-						//GroupsToExport = 
+						GroupsToExport = ClassesNamesForSave.Select(card => new KeyValuePair<Guid, bool>(card.Config.Id, card.IsSelected)).ToDictionary()
 					};
 					var plan = generator.GeneratePlan(config);
 					export.ExportPlan(GetFileName(), plan);
