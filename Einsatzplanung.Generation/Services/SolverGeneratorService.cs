@@ -37,7 +37,7 @@ public class SolverGeneratorService : IGeneratorService {
 				period.To >= DateOnly.FromDateTime(weekEnd));
 	}
 
-	public Plan GeneratePlan() {
+	public Plan GeneratePlan(GeneratorConfig config) {
 		var plan = new Plan();
 
 		List<Group> groups = groupService.GetEntities();
