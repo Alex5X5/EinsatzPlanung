@@ -99,7 +99,7 @@ public partial class App : Application {
 		collection.AddTransient<IEntityService<AgeGroup, AgeGroupConfig>>(sp => sp.GetRequiredService<AgeGroupService>());
 		collection.AddTransient<IConfigExportService<AgeGroupConfig>, GroupExportService>();
 
-		collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
+		//collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
 
 		collection.AddTransient<IEntityService<Group>, GroupService>();
 

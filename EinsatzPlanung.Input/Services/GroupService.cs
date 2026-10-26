@@ -22,12 +22,4 @@ public class GroupService : IEntityService<Group> {
 	public void SetSource(string path) {
 		ageGroupService.SetSource(path);
 	}
-
-	public Group? GetById(int id) {
-		throw new System.NotImplementedException();
-	}
-
-	public bool TryGetById(int id, out Group? result) {
-		throw new System.NotImplementedException();
-	}
 }
