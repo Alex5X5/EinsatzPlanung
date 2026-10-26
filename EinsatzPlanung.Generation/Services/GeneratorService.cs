@@ -46,7 +46,7 @@ public class GeneratorService : IGeneratorService {
 			!trainerBusyWeeks[t.Abbreviation].Contains(week));
 	}
 
-	public Plan GeneratePlan() {
+	public Plan GeneratePlan(GeneratorConfig config) {
 		var plan = new Plan();
 
 		// Tracks which weeks each trainer is already committed to, across all groups.
