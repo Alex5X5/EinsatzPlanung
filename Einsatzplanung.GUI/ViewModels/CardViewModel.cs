@@ -3,8 +3,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-public abstract partial class CardViewModel : ViewModelBase {
-	
+using Einsatzplanung.GUI.Interfaces;
+
+public abstract partial class CardViewModel : ViewModelBase, IRemovableCardViewModel {
+
+	[ObservableProperty]
+	private string header = "";
+
 	[ObservableProperty]
 	private int index = 0;
 

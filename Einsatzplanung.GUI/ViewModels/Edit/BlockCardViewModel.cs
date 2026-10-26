@@ -16,26 +16,18 @@ public partial class BlockCardViewModel : CardViewModel, IRemovableCardViewModel
 	private IConfigService<TopicConfig> topicService;
 
 	[ObservableProperty]
-	private string header;
-
-	[ObservableProperty]
 	private string count;
 
 	public IReadOnlyList<string> TopicNames { get; }
-
-	public IRelayCommand<object> RemoveCommand { init; get; }
 	
 	public BlockConfig Config { get; private set; }
 
-	public BlockCardViewModel(BlockConfig block, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
+	public BlockCardViewModel(BlockConfig block, IRelayCommand<object> removeCommand, int index) : base(removeCommand, block.Topic.Name, index) {
 		Config = block;
 
 		topicService = App.GetRequiredService<IConfigService<TopicConfig>>();
 
-		Header = Config.Topic.Name;
 		Count = Config.Count.ToString();
-
-		RemoveCommand = removeCommand;
 
 		var topics = topicService.GetData();
 		TopicNames = topics.Select(x => x.Name).ToList();

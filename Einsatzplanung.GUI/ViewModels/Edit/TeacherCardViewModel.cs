@@ -3,9 +3,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Input.Services;
 using Einsatzplanung.Types.Models.Configuration;
 
 using System.Collections.Generic;
@@ -14,8 +12,6 @@ using System.Linq;
 
 public partial class TeacherCardViewModel : CardViewModel {
 
-	[ObservableProperty]
-	private string header;
 	[ObservableProperty]
 	private string abbreviation;
 	[ObservableProperty]
@@ -26,9 +22,8 @@ public partial class TeacherCardViewModel : CardViewModel {
 	
 	public TeacherConfig Config { init; get; }
 
-	public TeacherCardViewModel(TeacherConfig teacher, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
+	public TeacherCardViewModel(TeacherConfig teacher, IRelayCommand<object> removeCommand, int index) : base(removeCommand, teacher.Name, index) {
 		Config = teacher;
-		Header = teacher.Name;
 		Abbreviation = teacher.Abbreviation;
 		WeeklyHours = teacher.WeeklyHours;
 		var topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetData();
