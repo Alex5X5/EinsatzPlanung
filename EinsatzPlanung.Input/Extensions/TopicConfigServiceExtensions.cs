@@ -17,7 +17,7 @@ public static class TopicConfigServiceExtensions {
 		var topics = service.GetData();
 		topic = service
 			.GetData()
-			.First(x => x.Name == name);
+			.FirstOrDefault(x => x.Name == name);
 		return topic != null;
 	}
 }
