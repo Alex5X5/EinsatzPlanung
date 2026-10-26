@@ -24,8 +24,12 @@ public partial class EditViewModel : ViewModelBase {
 	[ObservableProperty]
 	private IEditViewChild currentPage;
 
+	private bool HasLoaded = false;
+
 	public int SelectedPageIndex {
 		set {
+			if (!HasLoaded)
+				return;
 			switch(value) {
 				case 0: {
 					ChangePage<TopicViewModel>();
@@ -50,20 +54,19 @@ public partial class EditViewModel : ViewModelBase {
 			OnPropertyChanged(nameof(SelectedPageIndex));
 		}
 		get {
-			if (CurrentPage.GetType() == typeof(TopicViewModel))
+			if (CurrentPage?.GetType() == typeof(TopicViewModel))
 				return 0;
-			if (CurrentPage.GetType() == typeof(AgeGroupPageViewModel))
+			if (CurrentPage?.GetType() == typeof(AgeGroupPageViewModel))
 				return 1;
-			if (CurrentPage.GetType() == typeof(TeacherPageViewModel))
+			if (CurrentPage?.GetType() == typeof(TeacherPageViewModel))
 				return 2;
-			if (CurrentPage.GetType() == typeof(HolidayViewModel))
+			if (CurrentPage?.GetType() == typeof(HolidayViewModel))
 				return 3;
 			return 0;
 		}	
 	}
 	
 	public EditViewModel() {
-		SelectedPageIndex = 0;
 
 		_ = Task.Run(
 			() => {
@@ -73,6 +76,8 @@ public partial class EditViewModel : ViewModelBase {
 				Console.WriteLine($"loaded teachers:[\n   {string.Join(",\n   ", teachers.Select(x => x.ToString()))}\n]");
 				var groups = App.GetRequiredService<IConfigService<AgeGroupConfig>>().GetData();
 				Console.WriteLine($"loaded agegroups:[\n   {string.Join(",\n   ", groups.Select(x => x.ToString()))}\n]");
+				HasLoaded = true;
+				SelectedPageIndex = 0;
 			}
 		);
 	}
