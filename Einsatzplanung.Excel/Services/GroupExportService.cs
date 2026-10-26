@@ -19,7 +19,7 @@ public class GroupExportService : IConfigExportService<AgeGroupConfig> {
 	public async Task ExportAsync(string filePath, List<AgeGroupConfig> ageGroups) {
 		await Task.Run(() => {
 			Table table = new();
-			table.AddRow(["Lehrjahr", "Klasse", "Ausbilder", "Schulwochen", "Thema", "Wochen", "Farbe"]);
+			table.AddRow(["Lehrjahr", "Klasse", "Ausbilder", "Schulwochen", "Thema", "Wochen"]);
 
 			bool isAgeGroupRow = false;
 			bool isGroupRow = false;
