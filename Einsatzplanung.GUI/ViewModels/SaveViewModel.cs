@@ -13,18 +13,36 @@ using Einsatzplanung.Util.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 public partial class SaveViewModel : ViewModelBase {
+
+	public System.Collections.ObjectModel.ObservableCollection<ClassSelectionItem> ClassesNamesForSave { get; } = new();
 
 	[ObservableProperty]
 	private string selectedFolderPath = GetDefaultDownloadsFolder();
 
 	[ObservableProperty]
 	private string errorString = "";
+
+	public SaveViewModel() {
+		DisplayClassesNamesForSave();
+	}
+
+	private void DisplayClassesNamesForSave() {
+		var groupService = App.GetRequiredService<IEntityService<Group>>();
+		var groups = groupService.GetEntities();
+
+		ClassesNamesForSave.Clear();
+		foreach (var group in groups) {
+			ClassesNamesForSave.Add(new ClassSelectionItem {
+				Name = group.Name,
+				IsSelected = true
+			});
+		}
+	}
+
 
 	[RelayCommand]
 	private async Task SavePath() {
@@ -40,12 +58,8 @@ public partial class SaveViewModel : ViewModelBase {
 				() => {
 					var generator = App.Current.Services.GetRequiredService<IGeneratorService>();
 					var export = App.Current.Services.GetRequiredService<IPlanExportService>();
-					var groupService = App.GetRequiredService<IEntityService<Group>>();
 					var config = new GeneratorConfig() {
-						GroupsToExport = groupService
-							.GetEntities()
-							.Select(x => new KeyValuePair<Guid, bool>(x.Id, true))
-							.ToDictionary()
+						//GroupsToExport = 
 					};
 					var plan = generator.GeneratePlan(config);
 					export.ExportPlan(GetFileName(), plan);
@@ -64,4 +78,13 @@ public partial class SaveViewModel : ViewModelBase {
 		int year = App.Current.Services.GetRequiredService<GeneralConfigService>().YearStartDate.Year;
 		return Path.Join(SelectedFolderPath, $"Einsatzplan_{year}_{year+1}.xlsx");
 	}
+}
+
+public partial class ClassSelectionItem : ObservableObject {
+
+    [ObservableProperty] 
+	private string name = "";
+
+    [ObservableProperty] 
+	private bool isSelected = true;
 }
