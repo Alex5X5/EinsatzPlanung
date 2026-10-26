@@ -9,6 +9,10 @@ public class TopicService : EntitiyServiceBase<Topic, TopicConfig> {
 	public TopicService(IConfigService<TopicConfig> configService) : base(configService) { }
 
 	public override Topic MapConfigData(TopicConfig config) {
-		return new Topic(config.Name, config.Color);
+		return new Topic() {
+			Id = config.Id,
+			Name = config.Name,
+			Color = config.Color
+		};
 	}
 }

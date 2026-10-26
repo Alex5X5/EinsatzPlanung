@@ -10,6 +10,7 @@ public class HolidayService : EntitiyServiceBase<Holiday, HolidayConfig> {
 
 	public override Holiday MapConfigData(HolidayConfig config) {
 		return new Holiday {
+			Id = config.Id,
 			From = config.From,
 			To = config.To ?? config.From
 		};

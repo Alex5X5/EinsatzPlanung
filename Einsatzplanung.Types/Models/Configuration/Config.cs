@@ -3,7 +3,5 @@
 using System;
 
 public abstract class Config : Entity {
-
-	public required Guid Id { get; init; }
 	
 }

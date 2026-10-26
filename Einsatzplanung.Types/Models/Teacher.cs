@@ -23,6 +23,7 @@ public class Teacher : Entity {
 	}
 
 	public static Teacher Default => new() {
+		Id = new Guid("00000000-0000-0000-0000-000000000acc"),
 		Name = "",
 		Abbreviation = "",
 		WeeklyHours = 0,

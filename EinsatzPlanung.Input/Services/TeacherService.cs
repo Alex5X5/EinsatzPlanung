@@ -17,6 +17,7 @@ public class TeacherService : EntitiyServiceBase<Teacher, TeacherConfig> {
 
 	public override Teacher MapConfigData(TeacherConfig config) {
 		return new Teacher() {
+			Id = config.Id,
 			Name = config.Name,
 			Abbreviation = config.Abbreviation,
 			WeeklyHours = config.WeeklyHours,

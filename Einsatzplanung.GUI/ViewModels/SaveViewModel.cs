@@ -5,13 +5,17 @@ using CommunityToolkit.Mvvm.Input;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Generation.Interfaces;
 using Einsatzplanung.GUI.Services;
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Generation;
 using Einsatzplanung.Util.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 public partial class SaveViewModel : ViewModelBase {
@@ -36,8 +40,12 @@ public partial class SaveViewModel : ViewModelBase {
 				() => {
 					var generator = App.Current.Services.GetRequiredService<IGeneratorService>();
 					var export = App.Current.Services.GetRequiredService<IPlanExportService>();
+					var groupService = App.GetRequiredService<IEntityService<Group>>();
 					var config = new GeneratorConfig() {
-						//GroupsToExport = 
+						GroupsToExport = groupService
+							.GetEntities()
+							.Select(x => new KeyValuePair<Guid, bool>(x.Id, true))
+							.ToDictionary()
 					};
 					var plan = generator.GeneratePlan(config);
 					export.ExportPlan(GetFileName(), plan);

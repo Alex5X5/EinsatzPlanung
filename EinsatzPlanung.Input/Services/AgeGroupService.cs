@@ -31,6 +31,7 @@ public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
 
 	public override AgeGroup MapConfigData(AgeGroupConfig config) {
 		return new AgeGroup() {
+			Id = config.Id,
 			Name = config.Name,
 			Groups = config.Groups.Select(MapGroup).ToList()
 		};
@@ -48,6 +49,7 @@ public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
 		
 		var teachers = teacherService.GetEntities();
 		return new Group() {
+			Id = config.Id,
 			Name = config.Name,
 			Teacher = teacherService.MapConfigData(config.Teacher),
 			SchoolWeeks = config.SchoolWeeks,
@@ -61,6 +63,7 @@ public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
 		var topic = topicService.GetEntities().FirstOrDefault(x => x.Name == topicName);
 		if (topic != null) {
 			return new Block {
+				Id = config.Id,
 				Topic = topic,
 				Count = config.Count
 			};
