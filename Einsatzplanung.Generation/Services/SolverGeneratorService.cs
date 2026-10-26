@@ -37,6 +37,12 @@ public class SolverGeneratorService : IGeneratorService {
 				period.To >= DateOnly.FromDateTime(weekEnd));
 	}
 
+	private static bool ShouldExport(GeneratorConfig config, Group group) {
+		return config.GroupsToExport != null
+			&& config.GroupsToExport.TryGetValue(group.Id, out var export)
+			&& export;
+	}
+
 	public Plan GeneratePlan(GeneratorConfig config) {
 		var plan = new Plan();
 
@@ -128,6 +134,9 @@ public class SolverGeneratorService : IGeneratorService {
 
 		for (var s = 0; s < slots.Count; s++) {
 			var slot = slots[s];
+
+			if (!ShouldExport(config, slot.Group))
+				continue;
 
 			for (var t = 0; t < teachers.Count; t++) {
 				if (x.ContainsKey((s, t)) && solver.Value(x[(s, t)]) == 1) {
