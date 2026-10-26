@@ -38,6 +38,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 		Cards = [];
 	}
 
+	[RelayCommand]
 	public void AddCard() {
 		var group = new AgeGroupConfig() {
 			Id = Guid.NewGuid(),
