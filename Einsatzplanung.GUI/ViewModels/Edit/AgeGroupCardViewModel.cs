@@ -15,6 +15,9 @@ public partial class AgeGroupCardViewModel : CardViewModel {
 
 	[ObservableProperty]
 	private string header;
+	
+	[ObservableProperty]
+	private bool isEditing;
 
 	public ObservableCollection<GroupCardViewModel> Cards { get; }
 

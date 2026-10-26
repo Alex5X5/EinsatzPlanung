@@ -8,45 +8,56 @@
 			 x:Class="Einsatzplanung.GUI.Views.Edit.AgeGroupPageView"
 			 x:DataType="vm:AgeGroupPageViewModel"
 			 Name="Root">
-	
-	<!--Lehrjahre-->
-	<!--<ct:EditCardsControl ItemsSource="{Binding Cards}">
-		
-		<ct:EditCardsControl.ItemTemplate>
-
-			<DataTemplate x:DataType="vm:AgeGroupCardViewModel">
-
-				<ct:ExtendingCard Index="{Binding Index}"
-								  ActiveCardIndex="{Binding #Root.DataContext.ActiveAgeGroupCardIndex}"
-								  ExtendedHeight="500"
-								  AddButtonCommand="{Binding AddGroupCommand}"
-								  RemoveButtonCommand="{Binding RemoveCommand}"
-								  RemoveButtonCommandParameter="{Binding}">
-					
-					<ct:ExtendingCard.HeaderContent>
-
-						<TextBox Text="{Binding Header, Mode=TwoWay}"
-								 PlaceholderText="Name des Lehrjahres"
-								 TextWrapping="NoWrap"
-								 Foreground="{DynamicResource AppForegroundBrush}"
-								 HorizontalAlignment="Stretch"
-								 HorizontalContentAlignment="Center"
-								 VerticalContentAlignment="Center"
-								 ToolTip.Tip="Name des Lehrjahres eingeben" />
-
-					</ct:ExtendingCard.HeaderContent>-->
-	
+			 
+	<!-- Lehrjahr -->
 	<Grid>
-  		<TabControl ItemsSource="{Binding Cards}">
+  		<TabControl ItemsSource="{Binding Cards}" TabStripPlacement="Left">
+		    
+		    <TabControl.Template>
+			    <ControlTemplate TargetType="TabControl">
+				    <DockPanel>
+					    
+					    <StackPanel DockPanel.Dock="Left">
+						    <ItemsPresenter Name="PART_ItemsPresenter"
+						                    ItemsPanel="{TemplateBinding ItemsPanel}" />
+						    <Button Content="+"
+						            CornerRadius="40"
+						            Width="30"
+						            Height="30"
+						            Command="{Binding AddCardCommand}"
+						            HorizontalAlignment="Center"
+						            HorizontalContentAlignment="Center"
+						            Background="White"
+						            ToolTip.Tip="Neues Lehrjahr hinzufügen" />
+					    </StackPanel>
+					    
+					    <ContentPresenter Name="PART_SelectedContentHost"
+					                      Content="{TemplateBinding SelectedContent}"
+					                      ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+
+				    </DockPanel>
+			    </ControlTemplate>
+		    </TabControl.Template>
 	  
-    	<TabControl.ItemTemplate>
+		    <TabControl.ItemTemplate>
       		<DataTemplate x:DataType="vm:AgeGroupCardViewModel">
-        		<TextBox Text="{Binding Header, Mode=TwoWay}" PlaceholderText="Name des Lehrjahres" />
+		        <Panel>
+			        <TextBlock Text="{Binding Header, Mode=TwoWay}"
+			                   MinWidth="60"
+			                   IsVisible="{Binding !IsEditing}"
+			                   DoubleTapped="OnHeaderDoubleTapped"
+			                   ToolTip.Tip="Doppelklick zum Umbenennen"/>
+			        <TextBox Text="{Binding Header, Mode=TwoWay}"
+			                 MinWidth="80"
+			                 IsVisible="{Binding IsEditing}"
+			                 LostFocus="OnHeaderLostFocus"
+			                 KeyDown="OnHeaderKeyDown"/>
+		        </Panel>
       		</DataTemplate>
     	</TabControl.ItemTemplate>
     
+		    
     <TabControl.ContentTemplate>
-
 	<!-- Klasse -->
       <DataTemplate x:DataType="vm:AgeGroupCardViewModel">
 
@@ -106,14 +117,7 @@
       </DataTemplate>
     </TabControl.ContentTemplate>
   </TabControl>
-</Grid>
+	</Grid>
 
-				<!--</ct:ExtendingCard>
-
-			</DataTemplate>
-
-		</ct:EditCardsControl.ItemTemplate>
-	
-	</ct:EditCardsControl>-->
 	
 </UserControl>
