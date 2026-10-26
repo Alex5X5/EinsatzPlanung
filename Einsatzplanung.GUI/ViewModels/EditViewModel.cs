@@ -24,12 +24,11 @@ public partial class EditViewModel : ViewModelBase {
 	[ObservableProperty]
 	private IEditViewChild currentPage;
 
-	private bool HasLoaded = false;
+	[ObservableProperty]
+	private bool hasLoaded = false;
 
 	public int SelectedPageIndex {
 		set {
-			if (!HasLoaded)
-				return;
 			switch(value) {
 				case 0: {
 					ChangePage<TopicViewModel>();

@@ -11,31 +11,41 @@
     <Grid ColumnDefinitions="*" RowDefinitions="*, Auto"
           HorizontalAlignment="Center" VerticalAlignment="Top"
           Margin="0,20,0,0" Background="Transparent">
-        
-        <TabbedPage Grid.Row="0" TabPlacement="Top" Width="700" MinWidth="500" CornerRadius="20" Background="Transparent"
-                    SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}">
+        <Panel>
+            <TextBlock Text="Laden..." IsVisible="{Binding !HasLoaded}" />
             
-            <ContentPage Header="Themen"
-                         Classes="content-page-default-style">
-                <pages:TopicView />
-            </ContentPage>
+            <ContentControl IsVisible="{Binding HasLoaded}">
+                <TabbedPage TabPlacement="Top"
+                            Width="700"
+                            MinWidth="500"
+                            CornerRadius="20"
+                            Background="Transparent"
+                            SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}">
+            
+                    <ContentPage Header="Themen"
+                                 Classes="content-page-default-style">
+                        <pages:TopicView />
+                    </ContentPage>
 
-            <ContentPage Header="Schulklassen"  
-                         Classes="content-page-default-style">
-                <pages:AgeGroupPageView />
-            </ContentPage>
+                    <ContentPage Header="Schulklassen"  
+                                 Classes="content-page-default-style">
+                        <pages:AgeGroupPageView />
+                    </ContentPage>
 
-            <ContentPage Header="Ausbilder*innen" 
-                         Classes="content-page-default-style">
-                <pages:TeacherView />
-            </ContentPage>
+                    <ContentPage Header="Ausbilder*innen" 
+                                 Classes="content-page-default-style">
+                        <pages:TeacherView />
+                    </ContentPage>
 
-            <ContentPage Header="Urlaub" 
-                         Classes="content-page-default-style">
-                <pages:HolidayView />
-            </ContentPage>
+                    <ContentPage Header="Urlaub" 
+                                 Classes="content-page-default-style">
+                        <pages:HolidayView />
+                    </ContentPage>
 
-        </TabbedPage>
+                </TabbedPage>
+            </ContentControl>
+        </Panel>
+
         
         <StackPanel HorizontalAlignment="Center"
                     Orientation="Horizontal"
