@@ -37,15 +37,17 @@
 					</ct:ExtendingCard.HeaderContent>-->
 	
 	<Grid>
-  <TabControl ItemsSource="{Binding Cards}">
+  		<TabControl ItemsSource="{Binding Cards}">
 	  
-    <TabControl.ItemTemplate>
-      <DataTemplate x:DataType="vm:AgeGroupCardViewModel">
-        <TextBlock Text="{Binding Header}" />
-      </DataTemplate>
-    </TabControl.ItemTemplate>
+    	<TabControl.ItemTemplate>
+      		<DataTemplate x:DataType="vm:AgeGroupCardViewModel">
+        		<TextBox Text="{Binding Header, Mode=TwoWay}" PlaceholderText="Name des Lehrjahres" />
+      		</DataTemplate>
+    	</TabControl.ItemTemplate>
     
     <TabControl.ContentTemplate>
+
+	<!-- Klasse -->
       <DataTemplate x:DataType="vm:AgeGroupCardViewModel">
 
         <ct:EditCardsControl ItemsSource="{Binding Cards}">
