@@ -10,7 +10,7 @@
 			 Name="Root">
 	
 	<!--Lehrjahre-->
-	<ct:EditCardsControl ItemsSource="{Binding Cards}">
+	<!--<ct:EditCardsControl ItemsSource="{Binding Cards}">
 		
 		<ct:EditCardsControl.ItemTemplate>
 
@@ -34,20 +34,29 @@
 								 VerticalContentAlignment="Center"
 								 ToolTip.Tip="Name des Lehrjahres eingeben" />
 
-					</ct:ExtendingCard.HeaderContent>
+					</ct:ExtendingCard.HeaderContent>-->
+	
+	<Grid>
+  <TabControl ItemsSource="{Binding Cards}">
+	  
+    <TabControl.ItemTemplate>
+      <DataTemplate x:DataType="vm:AgeGroupCardViewModel">
+        <TextBlock Text="{Binding Header}" />
+      </DataTemplate>
+    </TabControl.ItemTemplate>
+    
+    <TabControl.ContentTemplate>
+      <DataTemplate x:DataType="vm:AgeGroupCardViewModel">
 
-					<!--Klassen-->
-					<ct:EditCardsControl ItemsSource="{Binding Cards}">
+        <ct:EditCardsControl ItemsSource="{Binding Cards}">
+          <ct:EditCardsControl.ItemTemplate>
 
-						<ct:EditCardsControl.ItemTemplate>
-
-							<DataTemplate x:DataType="vm:GroupCardViewModel">
-
-								<ct:ExtendingCard Index="{Binding Index}"
-												  ActiveCardIndex="{Binding #Root.DataContext.ActiveGroupCardIndex}"
-												  AddButtonCommand="{Binding AddTopicCommand}"
-												  RemoveButtonCommand="{Binding RemoveCommand}"
-												  RemoveButtonCommandParameter="{Binding}">
+            <DataTemplate x:DataType="vm:GroupCardViewModel">
+              <ct:ExtendingCard Index="{Binding Index}"
+                                ActiveCardIndex="{Binding #Root.((vm:AgeGroupPageViewModel)DataContext).ActiveGroupCardIndex}"
+                                AddButtonCommand="{Binding AddTopicCommand}"
+                                RemoveButtonCommand="{Binding RemoveCommand}"
+                                RemoveButtonCommandParameter="{Binding}">
 
 									<ct:ExtendingCard.HeaderContent>
 
@@ -105,20 +114,23 @@
 					
 									</ItemsControl>
 
-								</ct:ExtendingCard>
+              </ct:ExtendingCard>
+            </DataTemplate>
 
-								</DataTemplate>
+          </ct:EditCardsControl.ItemTemplate>
+        </ct:EditCardsControl>
 
-						</ct:EditCardsControl.ItemTemplate>
-					
-					</ct:EditCardsControl>
+      </DataTemplate>
+    </TabControl.ContentTemplate>
+  </TabControl>
+</Grid>
 
-				</ct:ExtendingCard>
+				<!--</ct:ExtendingCard>
 
 			</DataTemplate>
 
 		</ct:EditCardsControl.ItemTemplate>
 	
-	</ct:EditCardsControl>
+	</ct:EditCardsControl>-->
 	
 </UserControl>
