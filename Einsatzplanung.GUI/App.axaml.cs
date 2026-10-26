@@ -82,23 +82,25 @@ public partial class App : Application {
 		collection.AddTransient<IConfigExportService<TopicConfig>, TopicExportService>();
 
 		collection.AddSingleton<IConfigService<TeacherConfig>, TeacherConfigService>();
-		collection.AddTransient<IEntityService<Teacher>, TeacherService>();
-		collection.AddTransient<IEntityService<Teacher, TeacherConfig>, TeacherService>();
+		collection.AddSingleton<TeacherService>();
+		collection.AddSingleton<IEntityService<Teacher>>(sp => sp.GetRequiredService<TeacherService>());
+		collection.AddSingleton<IEntityService<Teacher, TeacherConfig>>(sp => sp.GetRequiredService<TeacherService>());
 		collection.AddTransient<IConfigExportService<TeacherConfig>, TeacherExportService>();
 
 		collection.AddSingleton<IConfigService<HolidayConfig>, HolidayConfigService>();
-		collection.AddTransient<IEntityService<Holiday>, HolidayService>();
-		collection.AddTransient<IEntityService<Holiday, HolidayConfig>, HolidayService>();
+		collection.AddTransient<HolidayService>();
+		collection.AddTransient<IEntityService<Holiday>>(sp => sp.GetRequiredService<HolidayService>());
+		collection.AddTransient<IEntityService<Holiday, HolidayConfig>>(sp => sp.GetRequiredService<HolidayService>());
 		collection.AddTransient<IConfigExportService<HolidayConfig>, HolidayExportService>();
 
 		collection.AddSingleton<IConfigService<AgeGroupConfig>, AgeGroupConfigService>();
-		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
-		collection.AddTransient<IEntityService<AgeGroup, AgeGroupConfig>, AgeGroupService>();
+		collection.AddTransient<AgeGroupService>();
+		collection.AddTransient<IEntityService<AgeGroup>>(sp => sp.GetRequiredService<AgeGroupService>());
+		collection.AddTransient<IEntityService<AgeGroup, AgeGroupConfig>>(sp => sp.GetRequiredService<AgeGroupService>());
 		collection.AddTransient<IConfigExportService<AgeGroupConfig>, GroupExportService>();
 
 		collection.AddSingleton<IConfigService<GroupConfig>, GroupConfigService>();
 
-		collection.AddTransient<IEntityService<AgeGroup>, AgeGroupService>();
 		collection.AddTransient<IEntityService<Group>, GroupService>();
 
 		collection.AddTransient<IGeneratorService, SolverGeneratorService>();
