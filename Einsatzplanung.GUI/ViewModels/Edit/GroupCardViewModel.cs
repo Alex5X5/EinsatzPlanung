@@ -16,9 +16,6 @@ public partial class GroupCardViewModel : CardViewModel {
 	private IConfigService<TeacherConfig> teacherService;
 
 	[ObservableProperty]
-	private string header;
-
-	[ObservableProperty]
 	private string teacherAbbreviation = "";
 	
 	public IReadOnlyList<string> Abbreviations { get; }
@@ -27,11 +24,10 @@ public partial class GroupCardViewModel : CardViewModel {
 	
 	public GroupConfig Config { set; get; }
 
-	public GroupCardViewModel(GroupConfig group, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
+	public GroupCardViewModel(GroupConfig group, IRelayCommand<object> removeCommand, int index) : base(removeCommand, group.Name, index) {
 		teacherService = App.GetRequiredService<IConfigService<TeacherConfig>>();
 
 		Config = group;
-		Header = group.Name;
 		TeacherAbbreviation = Config.Teacher.Abbreviation;
 
 		var teachers = teacherService.GetData();

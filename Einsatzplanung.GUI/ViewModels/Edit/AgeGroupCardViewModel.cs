@@ -13,16 +13,12 @@ using Einsatzplanung.Types.Models.Configuration;
 
 public partial class AgeGroupCardViewModel : CardViewModel {
 
-	[ObservableProperty]
-	private string header;
-
 	public ObservableCollection<GroupCardViewModel> Cards { get; }
 
 	public AgeGroupConfig Config { init; get; }
 
-	public AgeGroupCardViewModel(AgeGroupConfig ageGroup, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
+	public AgeGroupCardViewModel(AgeGroupConfig ageGroup, IRelayCommand<object> removeCommand, int index) : base(removeCommand, ageGroup.Name, index) {
 		Config = ageGroup;
-		Header = ageGroup.Name;
 		int i = 0;
 		var models = ageGroup.Groups.Select(x => new GroupCardViewModel(x, RemoveGroupCommand, i++));
 		Cards = new(models);
