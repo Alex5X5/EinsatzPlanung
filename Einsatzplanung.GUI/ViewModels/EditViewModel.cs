@@ -87,7 +87,7 @@ public partial class EditViewModel : ViewModelBase {
 
 	[RelayCommand]
 	private async Task OnExport() {
-		var file = await FilePickerService.PickSaveLocation(
+		var file = await FilePickerService.PickSafeFileAsync(
 			new FilePickerSaveOptions {
 				Title = "Export als Excel speichern",
 				SuggestedFileName = SelectedPageIndex switch {
@@ -97,11 +97,7 @@ public partial class EditViewModel : ViewModelBase {
 					3 => "Urlaub.xlsx",
 					_ => "Export.xlsx"
 				},
-				FileTypeChoices = [
-					new FilePickerFileType("Excel-Datei") {
-						Patterns = [ "*.xlsx" ]
-					}
-				]
+				FileTypeChoices = FilePickerService.Filters.Excel
 			});
 
 		if (file is not null)

@@ -21,7 +21,7 @@ public partial class SaveViewModel : ViewModelBase {
 	public System.Collections.ObjectModel.ObservableCollection<ClassSelectionItem> ClassesNamesForSave { get; } = new();
 
 	[ObservableProperty]
-	private string selectedFolderPath = GetDefaultDownloadsFolder();
+	private string selectedFolderPath = PathService.DOWNLOADS_DIRECTORY;
 
 	[ObservableProperty]
 	private string errorString = "";
@@ -67,11 +67,6 @@ public partial class SaveViewModel : ViewModelBase {
 		} catch(Exception e) {
 			ErrorString = e.Message;
 		}
-	}
-
-	private static string GetDefaultDownloadsFolder() {
-		var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-		return Path.Combine(userProfile, "Downloads");
 	}
 
 	private string GetFileName() {

@@ -14,6 +14,7 @@ public static class PathService {
 	public static readonly string APP_DATA_DIRECTORY = Path.Combine(GetAppDataDirectory(), APP_NAME);
 	public static readonly string ASSETS_DIRECTORY = Path.Combine(APP_DATA_DIRECTORY, "assets");
 	public static readonly string CRASHES_DIRECTORY = Path.Combine(APP_DATA_DIRECTORY, "logs");
+	public static readonly string DOWNLOADS_DIRECTORY = GetDownloadsDirectory();
 
 
 	static PathService() {
@@ -97,6 +98,8 @@ public static class PathService {
 	public static string DesktopPath(string fileName) =>
 		Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), fileName);
 
+	public static string DownloadsPath(string fileName) =>
+		Path.Combine(DOWNLOADS_DIRECTORY, fileName);
 	public static string GetMainEntryPointPath() {
 		// Method 1: Try to get the entry assembly (most reliable for executable applications)
 		Assembly? entryAssembly = Assembly.GetEntryAssembly();
@@ -186,6 +189,9 @@ public static class PathService {
 
 	public static string GetAppDataDirectory() =>
 		Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+	public static string GetDownloadsDirectory() =>
+		Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
 
 	public static void PrintDetailedInfo() {
 		Console.WriteLine("=== Main Entry Point Detection Details ===");
