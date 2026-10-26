@@ -36,7 +36,10 @@ public partial class SaveViewModel : ViewModelBase {
 				() => {
 					var generator = App.Current.Services.GetRequiredService<IGeneratorService>();
 					var export = App.Current.Services.GetRequiredService<IPlanExportService>();
-					var plan = generator.GeneratePlan();
+					var config = new GeneratorConfig() {
+						//GroupsToExport = 
+					};
+					var plan = generator.GeneratePlan(config);
 					export.ExportPlan(GetFileName(), plan);
 				});
 		} catch(Exception e) {
