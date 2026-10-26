@@ -60,11 +60,11 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	protected override async Task OnLoadAsync() {
-		await configService.UpdateReferencesAsync();
+		//await configService.UpdateReferencesAsync();
 		List<AgeGroupCardViewModel> cards = await Task.Run(() => {
-			var groups = configService.GetData();
 			int i = 0;
-			return groups
+			return configService
+				.GetData()
 				.Select(g => new AgeGroupCardViewModel(g, RemoveCardCommand, i++))
 				.ToList();
 		});
@@ -83,12 +83,12 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 				.Select(ageGroupCard =>
 					new AgeGroupConfig() {
 						Id = ageGroupCard.Config.Id,
-						Name = ageGroupCard.Config.Name,
+						Name = ageGroupCard.Header,
 						Groups = ageGroupCard.Cards
 							.Select(groupCard =>
 								new GroupConfig() {
 									Id = groupCard.Config.Id,
-									Name = groupCard.Config.Name,
+									Name = groupCard.Header,
 									Teacher = teacherService.GetByAbbreviation(groupCard.TeacherAbbreviation) ?? TeacherConfig.Default,
 									SchoolWeeks = groupCard.Config.SchoolWeeks,
 									Blocks = groupCard.Topics
