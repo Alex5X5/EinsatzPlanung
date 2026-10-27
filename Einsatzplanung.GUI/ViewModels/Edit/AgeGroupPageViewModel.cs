@@ -33,11 +33,11 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private AgeGroupCardViewModel? activeCard = null;
 
-	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IConfigService<TopicConfig> topicService) {
+	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IConfigService<TopicConfig> topicService, IConfigService<TeacherConfig> teacherService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		this.topicService = topicService;
-		//this.teacherService = teacherService;
+		this.teacherService = teacherService;
 		Cards = [];
 	}
 
@@ -114,7 +114,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 									Id = groupCard.Config.Id,
 									Name = groupCard.Header,
 									SchoolWeeks = groupCard.Config.SchoolWeeks,
-									Teacher = groupCard.Config.Teacher,
+									Teacher = teacherService.GetByAbbreviation(groupCard.TeacherAbbreviation) ?? TeacherConfig.Default,
 									Blocks = groupCard.Topics
 										.Select(blockCard =>
 											new BlockConfig() {
