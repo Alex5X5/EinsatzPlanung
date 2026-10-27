@@ -20,7 +20,7 @@ public class HolidayConfigService : ConfigServiceBase<HolidayConfig> {
 
 		for (int row = 1; row < table.RowCount; row++) {
 			if (DateTime.TryParseExact( table[row, FROM_COLUMN_INDEX]?.Value,
-				"dd.MM.yyyy HH:mm:ss",
+				"dd.MM.yyyy",
 				CultureInfo.InvariantCulture,
 				DateTimeStyles.None, 
 				out var from)) {
@@ -29,9 +29,12 @@ public class HolidayConfigService : ConfigServiceBase<HolidayConfig> {
 					Id = Guid.NewGuid(),
 					From = DateOnly.FromDateTime(from)
 				};
-				
-				if (DateOnly.TryParse(table[row, TO_COLUMN_INDEX]?.Value, out var to))
-					config.To = to;
+				if (DateTime.TryParseExact( table[row, TO_COLUMN_INDEX]?.Value,
+				"dd.MM.yyyy",
+				CultureInfo.InvariantCulture,
+				DateTimeStyles.None, 
+				out var to))
+					config.To = DateOnly.FromDateTime(to);
 
 				holidays.Add(config);
 			}

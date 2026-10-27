@@ -18,6 +18,7 @@ using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
+using Einsatzplanung.Types.Models;
 
 public partial class EditViewModel : ViewModelBase {
 
@@ -75,6 +76,8 @@ public partial class EditViewModel : ViewModelBase {
 				Console.WriteLine($"loaded teachers:[\n   {string.Join(",\n   ", teachers.Select(x => x.ToString()))}\n]");
 				var groups = App.GetRequiredService<IConfigService<AgeGroupConfig>>().GetData();
 				Console.WriteLine($"loaded agegroups:[\n   {string.Join(",\n   ", groups.Select(x => x.ToString()))}\n]");
+				var holidays = App.GetRequiredService<IConfigService<HolidayConfig>>().GetData();
+				Console.WriteLine($"loaded holidays:[\n   {string.Join(",\n   ", holidays.Select(x => x.ToString()))}\n]");
 				HasLoaded = true;
 				SelectedPageIndex = 0;
 			}
