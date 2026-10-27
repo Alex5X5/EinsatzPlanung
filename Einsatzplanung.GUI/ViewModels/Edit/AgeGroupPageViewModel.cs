@@ -66,7 +66,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	[RelayCommand]
 	private void RedirectToCard(object card) {
 		if (card is AgeGroupCardViewModel ageCard) {
-			Console.WriteLine("fired!");
+			Console.WriteLine("fired redirect event!");
 			ActiveCard = ageCard;
 		}
 	}
