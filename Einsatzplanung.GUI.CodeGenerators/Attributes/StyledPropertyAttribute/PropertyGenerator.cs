@@ -19,6 +19,7 @@ using Microsoft.CodeAnalysis.Text;
 public sealed class BasicStyledPropertyGenerator : IIncrementalGenerator {
 	// ── Attribute short name (without generic arity) used for quick pre-filter
 	private const string AttributeShortName = "BasicStyledProperty";
+	private const string AttributeFullName = "Einsatzplanung.GUI.CodeGenerators.Attributes.BasicStyledPropertyAttribute";
 
 	public void Initialize(IncrementalGeneratorInitializationContext context) {
 		IncrementalValuesProvider<PropertyModel?> models =
@@ -52,8 +53,7 @@ public sealed class BasicStyledPropertyGenerator : IIncrementalGenerator {
 				continue;
 
 			var attr = symbol.GetAttributes().FirstOrDefault(
-				a => a.AttributeClass?.ConstructedFrom.ToDisplayString()
-						 .StartsWith("Einsatzplanung.GUI.CodeGenerators.Attributes.BasicStyledPropertyAttribute") == true);
+				a => a.AttributeClass?.ConstructedFrom.ToDisplayString().StartsWith(AttributeFullName) == true);
 
 			if (attr is null)
 				continue;

@@ -24,19 +24,19 @@ public partial class RedirectOrEditButton : TemplatedControl {
 	protected override Type StyleKeyOverride => typeof(RedirectOrEditButton);
 
 
-	[BasicStyledProperty<RedirectOrEditButton>]
+	[BasicStyledProperty]
 	private IRelayCommand? removeCommand;
 
-	[BasicStyledProperty<RedirectOrEditButton>]
+	[BasicStyledProperty]
 	private IRelayCommand? redirectCommand;
 
-	[BasicStyledProperty<RedirectOrEditButton>]
+	[BasicStyledProperty]
 	private object? removeCommandParameter;
 
-	[BasicStyledProperty<RedirectOrEditButton>]
+	[BasicStyledProperty]
 	private object? redirectCommandParameter;
 
-	[BasicStyledProperty<RedirectOrEditButton>]
+	[BasicStyledProperty]
 	private string text = "";
 
 	private readonly DispatcherTimer clickTimer = new();
