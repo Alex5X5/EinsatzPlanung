@@ -36,7 +36,6 @@
                         <Panel Height="30">
                             <TextBlock Name="PART_TextBlock"
                                        Text="{TemplateBinding Text}"
-                                       TextWrapping="NoWrap"
                                        TextAlignment="Center"
                                        MinWidth="10"
                                        Margin="0"
@@ -45,6 +44,9 @@
 
                             <TextBox Name="PART_TextBox"
                                      Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                     TextWrapping="NoWrap"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
                                      MinWidth="10"
                                      Padding="0"  
                                      Margin="0"
