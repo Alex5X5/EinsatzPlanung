@@ -1,0 +1,80 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:ct="using:Einsatzplanung.GUI.Controls"
+					xmlns:cv="using:Einsatzplanung.GUI.Converters">
+
+	<Design.PreviewWith>
+		<Panel>
+			<ct:RedirectOrEditButton Text="Test"/>
+		</Panel>
+    </Design.PreviewWith>
+
+	<ControlTheme x:Key="{x:Type ct:RedirectOrEditButton}" TargetType="ct:RedirectOrEditButton">
+		
+		<!--set the contents of the templated controll RedirectOrEditButton-->
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Grid Name="PART_Root" Background="Transparent">
+
+					<Border Name="PART_Border"
+							MinWidth="10"
+							MinHeight="10"
+							CornerRadius="6"
+							BorderThickness="1"
+							Padding="5"
+							Background="{DynamicResource CardBackgroundBrush}"
+							BorderBrush="{DynamicResource CardBorderBrush}"
+							ClipToBounds="True">
+						
+						<Border.Margin>
+							<MultiBinding Converter="{x:Static cv:WidthAndHeightToMarginConverter.Instance}">
+								<Binding Path="#PART_RemoveButton.Width" />
+								<Binding Path="#PART_RemoveButton.Height" />
+							</MultiBinding>
+						</Border.Margin>
+
+						<Panel>
+							<TextBlock Name="PART_TextBlock"
+									   Text="{TemplateBinding Text}"
+									   MinWidth="10"
+									   MinHeight="10" />
+
+							<TextBox Name="PART_TextBox"
+									 Text="{TemplateBinding Text}"
+									 MinWidth="10"
+									 MinHeight="10" />
+						</Panel>
+
+					</Border>
+
+					<Button Name="PART_RemoveButton"
+							Width="20"
+							Height="20"
+							Classes="remove-button"
+							CornerRadius="10"
+							Command="{TemplateBinding RemoveCommand}"
+							CommandParameter="{TemplateBinding RemoveCommandParameter}" />
+				</Grid>
+
+			</ControlTemplate>
+		</Setter>
+
+		<Style Selector="^ /template/ Border#PART_Border">
+			<Setter Property="Height" Value="60" />
+		</Style>
+		<Style Selector="^ /template/ TextBlock#PART_TextBlock">
+			<Setter Property="IsVisible" Value="True" />
+		</Style>
+		<Style Selector="^:editing /template/ TextBlock#PART_TextBlock">
+			<Setter Property="IsVisible" Value="False" />
+		</Style>
+		<Style Selector="^ /template/ TextBox#PART_TextBox">
+			<Setter Property="IsVisible" Value="False" />
+		</Style>
+		<Style Selector="^:editing /template/ TextBox#PART_TextBox">
+			<Setter Property="IsVisible" Value="True" />
+		</Style>
+
+	</ControlTheme>
+
+</ResourceDictionary>

@@ -30,7 +30,10 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private int activeGroupCardIndex = -1;
 
-	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IConfigService<TopicConfig> topicService, IConfigService<TeacherConfig> teacherService) {
+	[ObservableProperty]
+	private AgeGroupCardViewModel activeCard;
+
+	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IConfigService<TopicConfig> topicService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		this.topicService = topicService;
@@ -46,11 +49,17 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 			Groups = []
 		};
 
-		Cards.Add(new AgeGroupCardViewModel(group, RemoveCardCommand, Cards.Count));
+		Cards.Add(new AgeGroupCardViewModel(group, RemoveCardCommand, RedirectToCardCommand, Cards.Count));
 	}
 
 	[RelayCommand]
 	private void RemoveCard(object card) {
+		if (card is AgeGroupCardViewModel ageCard)
+			Cards.Remove(ageCard);
+	}
+
+	[RelayCommand]
+	private void RedirectToCard(object card) {
 		if (card is AgeGroupCardViewModel ageCard)
 			Cards.Remove(ageCard);
 	}
@@ -64,9 +73,8 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 		//await configService.UpdateReferencesAsync();
 		List<AgeGroupCardViewModel> cards = await Task.Run(() => {
 			int i = 0;
-			return configService
-				.GetData()
-				.Select(g => new AgeGroupCardViewModel(g, RemoveCardCommand, i++))
+			return groups
+				.Select(g => new AgeGroupCardViewModel(g, RemoveCardCommand, RedirectToCardCommand, i++))
 				.ToList();
 		});
 		Cards.Clear();
