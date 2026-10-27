@@ -19,6 +19,9 @@ public partial class AgeGroupCardViewModel : CardViewModel {
 
 	public IRelayCommand<object> RedirectCommand { set; get; }
 
+	[ObservableProperty]
+	private bool isActive = false;
+
 	public AgeGroupCardViewModel(AgeGroupConfig ageGroup, IRelayCommand<object> redirectCommand, IRelayCommand<object> removeCommand, int index) : base(removeCommand, ageGroup.Name, index) {
 		Config = ageGroup;
 		RedirectCommand = redirectCommand;

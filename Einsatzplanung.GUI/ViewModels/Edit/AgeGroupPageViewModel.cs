@@ -31,19 +31,19 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	private int activeGroupCardIndex = -1;
 
 	[ObservableProperty]
-	private AgeGroupCardViewModel activeCard;
+	private AgeGroupCardViewModel? activeCard = null;
 
 	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IConfigService<TopicConfig> topicService) {
 		this.exportService = exportService;
 		this.configService = configService;
 		this.topicService = topicService;
-		this.teacherService = teacherService;
+		//this.teacherService = teacherService;
 		Cards = [];
 	}
 
 	[RelayCommand]
 	public void AddCard() {
-		ActiveCard.AddGroupCommand.Execute(null);
+		ActiveCard?.AddGroupCommand?.Execute(null);
 	}
 
 	[RelayCommand]
@@ -59,15 +59,21 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 
 	[RelayCommand]
 	private void RemoveCard(object card) {
-		if (card is AgeGroupCardViewModel ageCard)
+		if (card is AgeGroupCardViewModel ageCard) {
 			Cards.Remove(ageCard);
+			if(card == ActiveCard)
+				if (Cards.Count > 0)
+					ActiveCard = Cards[0];
+		}
 	}
 
 	[RelayCommand]
 	private void RedirectToCard(object card) {
 		if (card is AgeGroupCardViewModel ageCard) {
 			Console.WriteLine("fired redirect event!");
+			ActiveCard?.IsActive = false;
 			ActiveCard = ageCard;
+			ActiveCard.IsActive = true;
 		}
 	}
 
@@ -88,8 +94,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 		Cards.Clear();
 		foreach (var card in cards)
 			Cards.Add(card);
-		if(Cards.Count > 0)
-			ActiveCard = Cards[0];
+		RedirectToCard(Cards[0]);
 	}
 
 	protected override async Task OnUnloadAsync() {

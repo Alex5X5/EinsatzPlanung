@@ -22,6 +22,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="vm:AgeGroupCardViewModel">
                         <ct:RedirectOrEditButton Text="{Binding Header}"
+                                                 IsActive="{Binding IsActive}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  RemoveCommand="{Binding RemoveCommand}"

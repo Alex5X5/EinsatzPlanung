@@ -9,6 +9,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.GUI.CodeGenerators.Attributes;
@@ -17,6 +18,7 @@ using System;
 using System.Linq;
 
 [PseudoClasses(":editing")]
+[PseudoClasses(":active")]
 public partial class RedirectOrEditButton : TemplatedControl {
 
 	private const int DOUBLE_CLICK_MAX_DELAY = 300;
@@ -25,29 +27,42 @@ public partial class RedirectOrEditButton : TemplatedControl {
 
 
 	[BasicStyledProperty]
-	private IRelayCommand? removeCommand;
+	private IRelayCommand? removeCommand = null;
 
 	[BasicStyledProperty]
-	private IRelayCommand? redirectCommand;
+	private IRelayCommand? redirectCommand = null;
 
 	[BasicStyledProperty]
-	private object? removeCommandParameter;
+	private object? removeCommandParameter = null;
 
 	[BasicStyledProperty]
-	private object? redirectCommandParameter;
+	private object? redirectCommandParameter = null;
 
 	[BasicStyledProperty]
 	private string text = "";
 
+	[BasicStyledProperty]
+	private bool isActive = true;
+
+	private bool isEditing;
+
 	private readonly DispatcherTimer clickTimer = new();
 	private Button? removeButton;
 	private TextBox? textBox;
-	private bool isEditing;
-
 
 	public RedirectOrEditButton() : base() {
 		clickTimer.Tick += OnClickTimerTick;
 		AddHandler(PointerPressedEvent, OnAnyPointerPressed, RoutingStrategies.Tunnel, handledEventsToo: true);
+	}
+
+	static RedirectOrEditButton() {
+		IsActiveProperty.Changed.AddClassHandler<RedirectOrEditButton>((x, _) => x.UpdateActivePseudoClass());
+		DataContextProperty.Changed.AddClassHandler<RedirectOrEditButton>((x, _) => x.UpdateActivePseudoClass());
+	}
+
+	private void UpdateActivePseudoClass() {
+		PseudoClasses.Set(":active", IsActive);
+		Console.WriteLine($"is active for card '{Text}' changed to {IsActive}");
 	}
 
 	protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
