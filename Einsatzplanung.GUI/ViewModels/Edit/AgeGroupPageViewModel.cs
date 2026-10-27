@@ -29,6 +29,9 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private int activeGroupCardIndex = -1;
 
+	[ObservableProperty]
+	private AgeGroupCardViewModel activeCard;
+
 	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IConfigService<TopicConfig> topicService) {
 		this.exportService = exportService;
 		this.configService = configService;
@@ -44,11 +47,17 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 			Groups = []
 		};
 
-		Cards.Add(new AgeGroupCardViewModel(group, RemoveCardCommand, Cards.Count));
+		Cards.Add(new AgeGroupCardViewModel(group, RemoveCardCommand, RedirectToCardCommand, Cards.Count));
 	}
 
 	[RelayCommand]
 	private void RemoveCard(object card) {
+		if (card is AgeGroupCardViewModel ageCard)
+			Cards.Remove(ageCard);
+	}
+
+	[RelayCommand]
+	private void RedirectToCard(object card) {
 		if (card is AgeGroupCardViewModel ageCard)
 			Cards.Remove(ageCard);
 	}
@@ -64,7 +73,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 			var groups = configService.GetData();
 			int i = 0;
 			return groups
-				.Select(g => new AgeGroupCardViewModel(g, RemoveCardCommand, i++))
+				.Select(g => new AgeGroupCardViewModel(g, RemoveCardCommand, RedirectToCardCommand, i++))
 				.ToList();
 		});
 		Cards.Clear();

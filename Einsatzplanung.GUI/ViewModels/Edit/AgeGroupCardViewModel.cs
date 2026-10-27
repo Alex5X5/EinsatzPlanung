@@ -23,7 +23,9 @@ public partial class AgeGroupCardViewModel : CardViewModel {
 
 	public AgeGroupConfig Config { init; get; }
 
-	public AgeGroupCardViewModel(AgeGroupConfig ageGroup, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
+	public IRelayCommand<object> RedirectCommand { set; get; }
+
+	public AgeGroupCardViewModel(AgeGroupConfig ageGroup, IRelayCommand<object> redirectCommand, IRelayCommand<object> removeCommand, int index) : base(removeCommand, index) {
 		Config = ageGroup;
 		Header = ageGroup.Name;
 		int i = 0;
