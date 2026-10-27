@@ -16,10 +16,10 @@ using System;
 
 public partial class ViewBase : UserControl {
 
-	[BasicStyledProperty<ViewBase>]
+	[BasicStyledProperty]
 	private IRelayCommand loadCommand;
 
-	[BasicStyledProperty<ViewBase>]
+	[BasicStyledProperty]
 	private IRelayCommand unloadCommand;
 
 	public ViewBase(object context) {

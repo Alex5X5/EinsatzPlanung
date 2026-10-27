@@ -30,6 +30,9 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private int activeGroupCardIndex = -1;
 
+	[ObservableProperty]
+	private AgeGroupCardViewModel? activeCard = null;
+
 	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IConfigService<TopicConfig> topicService, IConfigService<TeacherConfig> teacherService) {
 		this.exportService = exportService;
 		this.configService = configService;
@@ -38,20 +41,40 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 		Cards = [];
 	}
 
+	[RelayCommand]
 	public void AddCard() {
+		ActiveCard?.AddGroupCommand?.Execute(null);
+	}
+
+	[RelayCommand]
+	public void AddAgeGroup() {
 		var group = new AgeGroupConfig() {
 			Id = Guid.NewGuid(),
 			Name = "",
 			Groups = []
 		};
 
-		Cards.Add(new AgeGroupCardViewModel(group, RemoveCardCommand, Cards.Count));
+		Cards.Add(new AgeGroupCardViewModel(group, RedirectToCardCommand, RemoveCardCommand, Cards.Count));
 	}
 
 	[RelayCommand]
 	private void RemoveCard(object card) {
-		if (card is AgeGroupCardViewModel ageCard)
+		if (card is AgeGroupCardViewModel ageCard) {
 			Cards.Remove(ageCard);
+			if(card == ActiveCard)
+				if (Cards.Count > 0)
+					ActiveCard = Cards[0];
+		}
+	}
+
+	[RelayCommand]
+	private void RedirectToCard(object card) {
+		if (card is AgeGroupCardViewModel ageCard) {
+			Console.WriteLine("fired redirect event!");
+			ActiveCard?.IsActive = false;
+			ActiveCard = ageCard;
+			ActiveCard.IsActive = true;
+		}
 	}
 
 	public async Task ExportCardsAsync(string path) {
@@ -65,12 +88,13 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 			int i = 0;
 			return configService
 				.GetData()
-				.Select(g => new AgeGroupCardViewModel(g, RemoveCardCommand, i++))
+				.Select(g => new AgeGroupCardViewModel(g, RedirectToCardCommand, RemoveCardCommand, i++))
 				.ToList();
 		});
 		Cards.Clear();
 		foreach (var card in cards)
 			Cards.Add(card);
+		RedirectToCard(Cards[0]);
 	}
 
 	protected override async Task OnUnloadAsync() {
@@ -89,8 +113,8 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 								new GroupConfig() {
 									Id = groupCard.Config.Id,
 									Name = groupCard.Header,
-									Teacher = teacherService.GetByAbbreviation(groupCard.TeacherAbbreviation) ?? TeacherConfig.Default,
 									SchoolWeeks = groupCard.Config.SchoolWeeks,
+									Teacher = teacherService.GetByAbbreviation(groupCard.TeacherAbbreviation) ?? TeacherConfig.Default,
 									Blocks = groupCard.Topics
 										.Select(blockCard =>
 											new BlockConfig() {

@@ -4,6 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="avares://Einsatzplanung.GUI/Controls/ExtendingCard.axaml"/>
         <ResourceInclude Source="avares://Einsatzplanung.GUI/Controls/RemovableCard.axaml"/>
+        <ResourceInclude Source="avares://Einsatzplanung.GUI/Controls/RedirectOrEditButton.axaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

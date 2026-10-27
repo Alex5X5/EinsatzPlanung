@@ -18,37 +18,37 @@ public partial class ExtendingCard : UserControl {
 
 	protected override Type StyleKeyOverride => typeof(ExtendingCard);
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private Orientation headerOrientation = Avalonia.Layout.Orientation.Horizontal;
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private Orientation bodyOrientation = Avalonia.Layout.Orientation.Vertical;
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private bool allowExtend = true;
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private double extendedHeight = 300.0;
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private bool showAddButton = true;
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private int activeCardIndex = -1;
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private int index = 0;
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private bool isActive = false;
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private IRelayCommand? addButtonCommand;
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private IRelayCommand? removeButtonCommand;
 
-	[BasicStyledProperty<ExtendingCard>]
+	[BasicStyledProperty]
 	private object? removeButtonCommandParameter;
 
 	private readonly Controls _children = new();
