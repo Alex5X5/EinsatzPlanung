@@ -10,7 +10,7 @@
 			 Name="Root">
 			 
 	<!-- Lehrjahr -->
-	<Grid ColumnDefinitions="3*, *, 20*" ShowGridLines="True">
+	<Grid ColumnDefinitions="3*, 17*, 3*">
 				    
         <StackPanel Grid.Column="0"
                     Orientation="Vertical"
@@ -41,7 +41,7 @@
 			</StackPanel>
 		</StackPanel>
 
-        <ContentControl Grid.Column="2" Content="{Binding ActiveCard}">
+        <ContentControl Grid.Column="1" Content="{Binding ActiveCard}">
 
             <ContentControl.DataTemplates>
 
