@@ -14,44 +14,42 @@ using Einsatzplanung.Util.Services;
 
 public class GeneratorService : IGeneratorService {
 
-	// ================= Einstellungen (hier oben anpassen) =================
+	// ================= Settings =================
 
-	// Wie viele Gruppen darf ein Ausbilder in derselben Woche maximal gleichzeitig haben?
-	// Das ist die harte Grenze. Der Solver versucht trotzdem, deutlich darunter zu bleiben.
+	// Hard limit of groups a trainer may teach in parallel (solver still keeps it as low as possible)
 	private const int MaxParallelClasses = 7;
 
-	// Wie viele Wochen darf ein Thema von seiner Wunschposition (Eingabereihenfolge) abweichen?
-	// 0 = Reihenfolge ist fest, so wie beim alten Generator.
-	private const int MaxShiftWeeks = 3;
+	// How many weeks a topic may be shifted from its preferred position (0 = fixed order, may cause problems)
+	private const int MaxShiftWeeks = 5;
 
-	// Maximale Rechenzeit des Solvers in Sekunden.
+	// Solver time limit in seconds
 	private const int SolveTimeLimitSeconds = 30;
 
-	// true  = ausgeblendete Gruppen werden mitgeplant (belegen Ausbilder), aber nicht exportiert.
-	// false = ausgeblendete Gruppen werden komplett ignoriert.
+	// true  = hidden groups are planned (they occupy trainers) but not exported
+	// false = hidden groups are ignored completely
 	private static readonly bool PlanHiddenGroupsToo = true;
 
-	// ================= Gewichte (je höher, desto wichtiger) =================
-	// Der Solver sucht den Plan mit den niedrigsten Gesamtkosten.
+	// ================= Weights (higher = more important) =================
+	// The solver looks for the plan with the lowest total cost.
 
-	// Pro Woche, die nicht eingeplant werden konnte. Muss mit Abstand am höchsten sein.
+	// Per week that could not be scheduled. Must be by far the highest.
 	private const long WeightMissingWeek = 10_000;
 
-	// Pro zusätzlichem Ausbilder innerhalb eines Themas (Wechsel mitten im Thema).
+	// Per additional trainer within one topic (switch mid-topic)
 	private const long WeightTeacherSwitch = 40;
 
-	// Pro Woche, in der NICHT der zuständige Ausbilder der Gruppe unterrichtet.
+	// Per week taught by someone other than the group's own trainer
 	private const long WeightForeignTeacher = 30;
 
-	// Zweite gleichzeitige Gruppe eines Ausbilders kostet 1x, die dritte 2x, die vierte 3x ...
+	// 2nd parallel group of a trainer costs 1x, 3rd costs 2x, 4th 3x ...
 	private const long WeightParallelStep = 20;
 
-	// Pro Woche, die ein Thema von seiner Wunschposition verschoben wird.
-	// Bewusst höher als eine einzelne Doppelbelegung (20): Eine zweite Gruppe beim selben Ausbilder
-	// ist besser als ein Thema zu verschieben. Erst bei starker Überlast wird verschoben.
+	// Per week a topic is shifted from its preferred position.
+	// Deliberately higher than a double booking (20): a 2nd group for the same trainer
+	// is better than shifting a topic. Shifting only happens under heavy overload.
 	private const long WeightShiftWeek = 25;
 
-	// Gleichmäßige Verteilung der "fremden" Einsätze auf die Ausbilder.
+	// Even distribution of "foreign" assignments across trainers
 	private const long WeightBalance = 3;
 
 	// ======================================================================
@@ -71,8 +69,7 @@ public class GeneratorService : IGeneratorService {
 		return group.SchoolWeeks.Contains(DateTimeService.WeekOfYear(date));
 	}
 
-	// Eine Woche ist nur gesperrt, wenn alle 5 Arbeitstage (Mo-Fr) im Urlaub oder Feiertag liegen.
-	// Ein einzelner Feiertag mitten in der Woche sperrt die Woche also nicht.
+	// A week is blocked only if all 5 workdays (Mon-Fri) are vacation or holiday.
 	private static bool IsVacationWeek(Group group, DateTime weekStart) {
 		for (var d = 0; d < 5; d++) {
 			var day = DateOnly.FromDateTime(weekStart.AddDays(d));
@@ -114,8 +111,7 @@ public class GeneratorService : IGeneratorService {
 		}
 	}
 
-	// Erzeugt für jede Gruppe alle sinnvollen "Kandidaten":
-	// "Thema X könnte in Woche Y laufen". Der Solver wählt später daraus aus.
+	// Builds all candidates per group: "topic X could run in week Y". The generator picks from them.
 	private List<Candidate> BuildCandidates(List<Group> groups, List<Teacher> teachers, GeneratorConfig config, List<string> notes) {
 		var candidates = new List<Candidate>();
 
@@ -131,8 +127,8 @@ public class GeneratorService : IGeneratorService {
 
 			var blocks = group.Blocks.ToList();
 
-			// Wunschposition: Die Themen liegen hintereinander in den freien Wochen,
-			// genau wie beim alten Generator. blockStart ist der Index in validWeeks.
+			// Preferred position: topics run back to back in the free weeks (like the old generator).
+			// blockStart is an index into validWeeks.
 			var blockStart = 0;
 
 			for (var b = 0; b < blocks.Count; b++) {
@@ -200,12 +196,11 @@ public class GeneratorService : IGeneratorService {
 
 		var model = new CpModel();
 
-		// Alles, was "schlecht" ist, wird hier als Kosten gesammelt. Am Ende wird die Summe minimiert.
+		// All costs are collected here; the sum is minimized.
 		var objective = new List<LinearExpr>();
 
-		// ---------- Schritt 1: Variablen ----------
-		// Pro Kandidat und qualifiziertem Ausbilder eine Ja/Nein-Variable:
-		// "Ausbilder t unterrichtet dieses Thema in dieser Woche für diese Gruppe."
+		// ---------- Step 1: Variables ----------
+		// One bool per candidate and qualified trainer: "trainer t teaches this topic in this week for this group"
 		for (var c = 0; c < candidates.Count; c++) {
 			var cand = candidates[c];
 			var responsibleIndex = teachers.IndexOf(cand.Group.Teacher);
@@ -218,7 +213,7 @@ public class GeneratorService : IGeneratorService {
 				var assign = model.NewBoolVar($"x_c{c}_t{t}");
 				cand.TeacherVars[t] = assign;
 
-				// Kosten: Thema verschoben + nicht der zuständige Ausbilder
+				// Cost: topic shifted + not the responsible trainer
 				long cost = WeightShiftWeek * cand.Distance;
 
 				if (responsibleIndex >= 0 && t != responsibleIndex) {
@@ -231,7 +226,7 @@ public class GeneratorService : IGeneratorService {
 			}
 		}
 
-		// ---------- Schritt 2: Eine Gruppe hat pro Woche höchstens ein Thema mit einem Ausbilder ----------
+		// ---------- Step 2: At most one topic/trainer per group and week ----------
 		foreach (var perGroupWeek in candidates.GroupBy(c => (c.Group, c.Week))) {
 			var vars = perGroupWeek.SelectMany(c => c.TeacherVars.Values).ToList();
 
@@ -240,9 +235,8 @@ public class GeneratorService : IGeneratorService {
 			}
 		}
 
-		// ---------- Schritt 3: Jedes Thema bekommt genau seine Wochenanzahl ----------
-		// Was nicht passt, landet in "missing" (sehr teuer) und wird am Ende gemeldet,
-		// statt dass das ganze Programm abbricht.
+		// ---------- Step 3: Each topic gets exactly its number of weeks ----------
+		// Whatever doesn't fit goes into "missing" (very expensive) and is reported at the end.
 		var missingVars = new List<(Group Group, Block Block, IntVar Missing)>();
 
 		foreach (var perBlock in candidates.GroupBy(c => (c.Group, c.BlockIndex))) {
@@ -252,14 +246,14 @@ public class GeneratorService : IGeneratorService {
 			var missing = model.NewIntVar(0, firstCand.Block.Count, $"missing_{firstCand.BlockIndex}");
 			model.Add(SumOf(vars) + missing == firstCand.Block.Count);
 
-			// Frühe Themen sind minimal wichtiger als späte
+			// Early topics are slightly more important than late ones
 			var weight = WeightMissingWeek + (firstCand.BlockCount - firstCand.BlockIndex);
 			objective.Add(weight * missing);
 
 			missingVars.Add((firstCand.Group, firstCand.Block, missing));
 		}
 
-		// ---------- Schritt 4: Ausbilder in mehreren Gruppen gleichzeitig ----------
+		// ---------- Step 4: Trainer teaching several groups at once ----------
 		var loadByTeacherWeek = new Dictionary<(int Teacher, DateTime Week), List<BoolVar>>();
 
 		foreach (var cand in candidates) {
@@ -282,13 +276,12 @@ public class GeneratorService : IGeneratorService {
 
 			var load = SumOf(vars);
 
-			// Harte Grenze
+			// Hard limit
 			if (vars.Count > MaxParallelClasses) {
 				model.Add(load <= MaxParallelClasses);
 			}
 
-			// Weiche Kosten: Stufe k ist "mehr als k Gruppen gleichzeitig".
-			// Die Kosten steigen mit jeder Stufe, dadurch verteilt der Solver die Last.
+			// Soft cost: level k = "more than k groups at once". Cost grows per level, so load gets spread out.
 			for (var k = 1; k < Math.Min(vars.Count, MaxParallelClasses); k++) {
 				var above = model.NewBoolVar($"over_t{key.Teacher}_{key.Week:yyyyMMdd}_{k}");
 				model.Add(load <= k).OnlyEnforceIf(above.Not());
@@ -296,7 +289,7 @@ public class GeneratorService : IGeneratorService {
 			}
 		}
 
-		// ---------- Schritt 5: Möglichst kein Ausbilderwechsel innerhalb eines Themas ----------
+		// ---------- Step 5: Avoid trainer switches within a topic ----------
 		foreach (var perBlock in candidates.GroupBy(c => (c.Group, c.BlockIndex))) {
 			var usedBy = new Dictionary<int, BoolVar>();
 
@@ -306,7 +299,7 @@ public class GeneratorService : IGeneratorService {
 						used = model.NewBoolVar($"used_t{t}");
 						usedBy[t] = used;
 
-						// Jeder Ausbilder, der im Thema vorkommt, kostet. Ein zweiter ist also teurer.
+						// Every trainer appearing in the topic costs, so a second one is more expensive
 						objective.Add(WeightTeacherSwitch * used);
 					}
 
@@ -315,9 +308,9 @@ public class GeneratorService : IGeneratorService {
 			}
 		}
 
-		// ---------- Schritt 6: "Fremde" Einsätze gleichmäßig verteilen ----------
-		// Fremd = der Ausbilder ist nicht der zuständige der Gruppe.
-		// Wir minimieren die Wochenzahl des am meisten eingesetzten Fremd-Ausbilders.
+		// ---------- Step 6: Spread "foreign" assignments evenly ----------
+		// Foreign = trainer is not the group's responsible trainer.
+		// Minimizes the weeks of the most-used foreign trainer.
 		var foreignByTeacher = new Dictionary<int, List<BoolVar>>();
 
 		foreach (var cand in candidates) {
@@ -345,7 +338,7 @@ public class GeneratorService : IGeneratorService {
 
 		objective.Add(WeightBalance * foreignMax);
 
-		// ---------- Schritt 7: Lösen ----------
+		// ---------- Step 7: Solve ----------
 		model.Minimize(LinearExpr.Sum(objective));
 
 		var solver = new CpSolver();
@@ -361,7 +354,7 @@ public class GeneratorService : IGeneratorService {
 			notes.Add($"Zeitlimit von {SolveTimeLimitSeconds}s erreicht: Der Plan ist gut, aber evtl. nicht der beste.");
 		}
 
-		// ---------- Schritt 8: Ergebnis in den Plan schreiben ----------
+		// ---------- Step 8: Write result into the plan ----------
 		foreach (var cand in candidates) {
 			if (!ShouldExport(config, cand.Group)) {
 				continue;
@@ -387,7 +380,7 @@ public class GeneratorService : IGeneratorService {
 			}
 		}
 
-		// ---------- Schritt 9: Hinweise sammeln ----------
+		// ---------- Step 9: Collect notes ----------
 		foreach (var (group, block, missing) in missingVars) {
 			var open = solver.Value(missing);
 
@@ -434,7 +427,7 @@ public class GeneratorService : IGeneratorService {
 		return plan;
 	}
 
-	// "Thema X könnte in Woche Y für Gruppe Z laufen"
+	// "Topic X could run in week Y for group Z"
 	private sealed class Candidate {
 		public required Group Group {
 			get; init;
@@ -452,12 +445,12 @@ public class GeneratorService : IGeneratorService {
 			get; init;
 		}
 
-		// Abstand zur Wunschposition in Wochen (0 = genau dort, wo es nach Eingabereihenfolge hingehört)
+		// Distance in weeks from the preferred position (0 = exactly where input order puts it)
 		public required int Distance {
 			get; init;
 		}
 
-		// Ausbilder-Index -> Variable "unterrichtet das"
+		// Trainer index -> variable "teaches this"
 		public Dictionary<int, BoolVar> TeacherVars {
 			get;
 		} = new();
