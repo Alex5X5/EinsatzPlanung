@@ -10,16 +10,20 @@
 			 Name="Root">
 			 
 	<!-- Lehrjahr -->
-	<Grid ColumnDefinitions="*, 9*">
+	<Grid ColumnDefinitions="3*, *, 20*" ShowGridLines="True">
 				    
-        <DockPanel Grid.Column="0">
+        <StackPanel Grid.Column="0"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
             <ItemsControl ItemsSource="{Binding Cards}"
                           ItemsPanel="{StaticResource ExtendingCardItemsPanel}"
-                          DockPanel.Dock="Left"
-                          Background="Orange">
+                          Margin="0,0,0,10">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="vm:AgeGroupCardViewModel">
                         <ct:RedirectOrEditButton Text="{Binding Header}"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Stretch"
                                                  RemoveCommand="{Binding RemoveCommand}"
                                                  RemoveCommandParameter="{Binding}"
                                                  RedirectCommand="{Binding RedirectCommand}"
@@ -27,20 +31,17 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-			<StackPanel DockPanel.Dock="Top">
-				<Button Content="+"
-						CornerRadius="40"
+			<StackPanel>
+				<Button Classes="list-button add"
+						CornerRadius="15"
 						Width="30"
 						Height="30"
 						Command="{Binding AddAgeGroupCommand}"
-						HorizontalAlignment="Center"
-						HorizontalContentAlignment="Center"
-						Background="White"
 						ToolTip.Tip="Neues Lehrjahr hinzufügen" />
 			</StackPanel>
-		</DockPanel>
+		</StackPanel>
 
-        <ContentControl Grid.Column="1" Content="{Binding ActiveCard}">
+        <ContentControl Grid.Column="2" Content="{Binding ActiveCard}">
 
             <ContentControl.DataTemplates>
 
