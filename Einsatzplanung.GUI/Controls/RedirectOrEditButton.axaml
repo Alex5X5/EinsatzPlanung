@@ -37,12 +37,16 @@
 							<TextBlock Name="PART_TextBlock"
 									   Text="{TemplateBinding Text}"
 									   MinWidth="10"
-									   MinHeight="10" />
+									   Height="20"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Stretch"/>
 
 							<TextBox Name="PART_TextBox"
-									 Text="{TemplateBinding Text}"
+									 Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
 									 MinWidth="10"
-									 MinHeight="10" />
+									 Height="20"
+									 HorizontalAlignment="Center"
+									 VerticalAlignment="Stretch" />
 						</Panel>
 
 					</Border>

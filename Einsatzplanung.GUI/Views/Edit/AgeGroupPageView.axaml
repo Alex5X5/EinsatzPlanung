@@ -32,7 +32,7 @@
 						CornerRadius="40"
 						Width="30"
 						Height="30"
-						Command="{Binding AddCardCommand}"
+						Command="{Binding AddAgeGroupCommand}"
 						HorizontalAlignment="Center"
 						HorizontalContentAlignment="Center"
 						Background="White"
@@ -40,92 +40,70 @@
 			</StackPanel>
 		</DockPanel>
 
-  		<TabControl ItemsSource="{Binding Cards}" TabStripPlacement="Left">
-		    
-		    <TabControl.Template>
-			    <ControlTemplate TargetType="TabControl">
-				    
-			    </ControlTemplate>
-		    </TabControl.Template>
-	  
-		    <TabControl.ItemTemplate>
-      		    <DataTemplate x:DataType="vm:AgeGroupCardViewModel">
-		            <Panel>
-			            <TextBlock Text="{Binding Header, Mode=TwoWay}"
-			                       MinWidth="60"
-			                       IsVisible="{Binding !IsEditing}"
-			                       DoubleTapped="OnHeaderDoubleTapped"
-			                       ToolTip.Tip="Doppelklick zum Umbenennen"/>
-			            <TextBox Text="{Binding Header, Mode=TwoWay}"
-			                     MinWidth="80"
-			                     IsVisible="{Binding IsEditing}"
-			                     LostFocus="OnHeaderLostFocus"
-			                     KeyDown="OnHeaderKeyDown"/>
-		            </Panel>
-      		    </DataTemplate>
-    	    </TabControl.ItemTemplate>
-    
-		    
-            <TabControl.ContentTemplate>
-	        <!-- Klasse -->
-                <DataTemplate x:DataType="vm:AgeGroupCardViewModel">
+        <ContentControl Grid.Column="1" Content="{Binding ActiveCard}">
 
-                <ct:EditCardsControl ItemsSource="{Binding Cards}">
-                    <ct:EditCardsControl.ItemTemplate>
+            <ContentControl.DataTemplates>
 
-                    <DataTemplate x:DataType="vm:GroupCardViewModel">
-                        <ct:ExtendingCard Index="{Binding Index}"
-                                        ActiveCardIndex="{Binding #Root.((vm:AgeGroupPageViewModel)DataContext).ActiveGroupCardIndex}"
-                                        AddButtonCommand="{Binding AddTopicCommand}"
-                                        RemoveButtonCommand="{Binding RemoveCommand}"
-                                        RemoveButtonCommandParameter="{Binding}">
+                 <DataTemplate x:DataType="vm:AgeGroupCardViewModel">
 
-                        <ct:ExtendingCard.HeaderContent>
-                            <TextBox Text="{Binding Header, Mode=TwoWay}"
-                                    PlaceholderText="Name der Klasse"
-                                    TextWrapping="NoWrap"
-                                    Foreground="{DynamicResource AppForegroundBrush}"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    ToolTip.Tip="Klassenbezeichnung eingeben" />
-                        </ct:ExtendingCard.HeaderContent>
+                    <ct:EditCardsControl ItemsSource="{Binding Cards}">
+                        <ct:EditCardsControl.ItemTemplate>
 
-                        <ItemsControl ItemsSource="{Binding Topics}"
-                                        ItemsPanel="{StaticResource ExtendingCardItemsPanel}">
-                            <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="vm:BlockCardViewModel">
-                                <ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
-                                <Grid ColumnDefinitions="19*, *, 3*">
-                                    <ct:NoScrollComboBox Grid.Column="0"
-                                                        ItemsSource="{Binding TopicNames}"
-                                                        SelectedItem="{Binding Header, Mode=TwoWay}"
-                                                        Foreground="{DynamicResource AppForegroundBrush}"
-                                                        HorizontalAlignment="Stretch"
-                                                        VerticalContentAlignment="Center"
-                                                        ToolTip.Tip="Der Name des Themas" />
-                                    <TextBox Grid.Column="2"
-                                            Text="{Binding Count, Mode=TwoWay}"
-                                            TextWrapping="NoWrap"
-                                            Foreground="{DynamicResource AppForegroundBrush}"
-                                            HorizontalContentAlignment="Center"
-                                            VerticalContentAlignment="Center"
-                                            ToolTip.Tip="Die Anzahl an Wochen des Themas" />
-                                </Grid>
-                                </ct:RemovableCard>
-                            </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                        <DataTemplate x:DataType="vm:GroupCardViewModel">
+                            <ct:ExtendingCard Index="{Binding Index}"
+                                            ActiveCardIndex="{Binding #Root.((vm:AgeGroupPageViewModel)DataContext).ActiveGroupCardIndex}"
+                                            AddButtonCommand="{Binding AddTopicCommand}"
+                                            RemoveButtonCommand="{Binding RemoveCommand}"
+                                            RemoveButtonCommandParameter="{Binding}">
 
-                        </ct:ExtendingCard>
-                    </DataTemplate>
+                            <ct:ExtendingCard.HeaderContent>
+                                <TextBox Text="{Binding Header, Mode=TwoWay}"
+                                        PlaceholderText="Name der Klasse"
+                                        TextWrapping="NoWrap"
+                                        Foreground="{DynamicResource AppForegroundBrush}"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        ToolTip.Tip="Klassenbezeichnung eingeben" />
+                            </ct:ExtendingCard.HeaderContent>
 
-                    </ct:EditCardsControl.ItemTemplate>
-                </ct:EditCardsControl>
+                            <ItemsControl ItemsSource="{Binding Topics}"
+                                            ItemsPanel="{StaticResource ExtendingCardItemsPanel}">
+                                <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:BlockCardViewModel">
+                                    <ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
+                                    <Grid ColumnDefinitions="19*, *, 3*">
+                                        <ct:NoScrollComboBox Grid.Column="0"
+                                                            ItemsSource="{Binding TopicNames}"
+                                                            SelectedItem="{Binding Header, Mode=TwoWay}"
+                                                            Foreground="{DynamicResource AppForegroundBrush}"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalContentAlignment="Center"
+                                                            ToolTip.Tip="Der Name des Themas" />
+                                        <TextBox Grid.Column="2"
+                                                Text="{Binding Count, Mode=TwoWay}"
+                                                TextWrapping="NoWrap"
+                                                Foreground="{DynamicResource AppForegroundBrush}"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                ToolTip.Tip="Die Anzahl an Wochen des Themas" />
+                                    </Grid>
+                                    </ct:RemovableCard>
+                                </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            </ct:ExtendingCard>
+                        </DataTemplate>
+
+                        </ct:EditCardsControl.ItemTemplate>
+                    </ct:EditCardsControl>
 
                 </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
+
+            </ContentControl.DataTemplates>
+
+        </ContentControl>
 	</Grid>
 
 	

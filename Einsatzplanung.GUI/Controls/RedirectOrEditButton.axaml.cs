@@ -19,6 +19,8 @@ using System.Linq;
 [PseudoClasses(":editing")]
 public partial class RedirectOrEditButton : TemplatedControl {
 
+	private const int DOUBLE_CLICK_MAX_DELAY = 300;
+
 	protected override Type StyleKeyOverride => typeof(RedirectOrEditButton);
 
 
@@ -91,15 +93,14 @@ public partial class RedirectOrEditButton : TemplatedControl {
 
 		// first click: wait to see whether a second one follows
 		clickTimer.Stop();
-		var doubleTapTime = TimeSpan.FromMilliseconds(300);
-		clickTimer.Interval = doubleTapTime;
+		clickTimer.Interval = TimeSpan.FromMilliseconds(DOUBLE_CLICK_MAX_DELAY);
 		clickTimer.Start();
 	}
 
 	private void OnClickTimerTick(object? sender, EventArgs e) {
 		clickTimer.Stop();
-		if (redirectCommand?.CanExecute(redirectCommandParameter) ?? false)
-			redirectCommand.Execute(redirectCommandParameter);
+		if (RedirectCommand?.CanExecute(RedirectCommandParameter) ?? false)
+			RedirectCommand.Execute(RedirectCommandParameter);
 	}
 
 	private void SetEditing(bool value) {

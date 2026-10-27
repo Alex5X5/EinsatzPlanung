@@ -41,13 +41,18 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 
 	[RelayCommand]
 	public void AddCard() {
+		ActiveCard.AddGroupCommand.Execute(null);
+	}
+
+	[RelayCommand]
+	public void AddAgeGroup() {
 		var group = new AgeGroupConfig() {
 			Id = Guid.NewGuid(),
 			Name = "",
 			Groups = []
 		};
 
-		Cards.Add(new AgeGroupCardViewModel(group, RemoveCardCommand, RedirectToCardCommand, Cards.Count));
+		Cards.Add(new AgeGroupCardViewModel(group, RedirectToCardCommand, RemoveCardCommand, Cards.Count));
 	}
 
 	[RelayCommand]
@@ -58,8 +63,10 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 
 	[RelayCommand]
 	private void RedirectToCard(object card) {
-		if (card is AgeGroupCardViewModel ageCard)
-			Cards.Remove(ageCard);
+		if (card is AgeGroupCardViewModel ageCard) {
+			Console.WriteLine("fired!");
+			ActiveCard = ageCard;
+		}
 	}
 
 	public async Task ExportCardsAsync(string path) {
@@ -73,12 +80,14 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 			var groups = configService.GetData();
 			int i = 0;
 			return groups
-				.Select(g => new AgeGroupCardViewModel(g, RemoveCardCommand, RedirectToCardCommand, i++))
+				.Select(g => new AgeGroupCardViewModel(g, RedirectToCardCommand, RemoveCardCommand, i++))
 				.ToList();
 		});
 		Cards.Clear();
 		foreach (var card in cards)
 			Cards.Add(card);
+		if(Cards.Count > 0)
+			ActiveCard = Cards[0];
 	}
 
 	protected override async Task OnUnloadAsync() {
@@ -91,12 +100,12 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 				.Select(ageGroupCard =>
 					new AgeGroupConfig() {
 						Id = ageGroupCard.Config.Id,
-						Name = ageGroupCard.Config.Name,
+						Name = ageGroupCard.Header,
 						Groups = ageGroupCard.Cards
 							.Select(groupCard =>
 								new GroupConfig() {
 									Id = groupCard.Config.Id,
-									Name = groupCard.Config.Name,
+									Name = groupCard.Header,
 									AgeGroupName = groupCard.Config.Name,
 									TeacherAbbreviation = groupCard.Config.TeacherAbbreviation,
 									SchoolWeeks = groupCard.Config.SchoolWeeks,
