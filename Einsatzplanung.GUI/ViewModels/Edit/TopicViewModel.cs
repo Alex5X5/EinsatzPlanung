@@ -4,14 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Excel.Interfaces;
-using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.GUI.Helpers;
+using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
@@ -48,30 +49,32 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 			Cards.Remove(topicCard);
 	}
 
-	protected override async Task OnLoadAsync() {
-		List<TopicCardViewModel> cards = await Task.Run(() => {
-			var topics = configService.GetData();
+	protected override async Task OnLoadAsync(CancellationToken token) {
+		List<TopicCardViewModel> cards = await Task.Run(async () => {
+			var topics = await configService.GetDataAsync(token);
 			int i = 0;
 			return topics
 				.Select(g => new TopicCardViewModel(g, RemoveCardCommand, i++))
 				.ToList();
 		});
+		
 		Cards.Clear();
 		foreach (var card in cards)
 			Cards.Add(card);
 	}
 
-	protected override async Task OnUnloadAsync() {
+	protected override async Task OnUnloadAsync(CancellationToken token) {
 		await SetEntitiesFromStateAsync();
 	}
 
-	public async Task ExportCardsAsync(string path) {
-		await SetEntitiesFromStateAsync();
-		await exportService.ExportAsync(path, configService.GetData());
+	public async Task ExportCardsAsync(string path, CancellationToken? token = null) {
+		await SetEntitiesFromStateAsync(token);
+		var data = await configService.GetDataAsync(token);
+		await exportService.ExportAsync(path, data);
 	}
 
-	public async Task SetEntitiesFromStateAsync() {
-		await Task.Run(() => {
+	public async Task SetEntitiesFromStateAsync(CancellationToken? token = null) {
+		await Task.Run(async () => {
 			List<TopicConfig> topics = [];
 			foreach (var card in Cards) {
 				var topic = card.Topic;
@@ -79,7 +82,7 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 				topic.Color = card.SelectedColor.ToRgbHex();
 				topics.Add(topic);
 			}
-			configService.SetData(topics);
+			await configService.SetDataAsync(topics, token);
 		});
 	}
 }

@@ -21,7 +21,7 @@ public abstract class EntitiyServiceBase<Te, Tc> : IEntityService<Te, Tc> where 
 	}
 
 	public List<Te> GetEntities() {
-		List<Tc> configs = configService.GetData();
+		List<Tc> configs = configService.GetDataAsync().Result;
 		return configs.Select(MapConfigData).ToList();
 	}
 

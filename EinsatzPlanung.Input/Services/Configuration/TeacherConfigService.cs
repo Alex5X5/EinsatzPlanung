@@ -1,6 +1,7 @@
 ﻿namespace Einsatzplanung.Input.Services.Configuration;
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +24,16 @@ public class TeacherConfigService : ConfigServiceBase<TeacherConfig> {
 		this.topicService = topicService;
 	}
 
-	protected override List<TeacherConfig> ParseTable(Table table) {
+	protected override async Task<List<TeacherConfig>> ParseTableAsync(Table table, CancellationToken? token = null) {
 		List<TeacherConfig> teachers = [];
 		
 		TeacherConfigBuilder builder = new();
 		
 		for (int row = 1; row < table.RowCount; row++) {
-			
+
+			if (token?.IsCancellationRequested ?? false)
+				break;
+
 			if (!string.IsNullOrEmpty(table[row, NAME_COLUMN_INDEX]?.Value)) {
 				if (builder.Build() is TeacherConfig teacher)
 					teachers.Add(teacher);
@@ -43,10 +47,10 @@ public class TeacherConfigService : ConfigServiceBase<TeacherConfig> {
 			string specialization = table[row, SPECIALIZATION_COLUMN_INDEX]?.Value ?? "";
 			if (string.IsNullOrEmpty(specialization))
 				continue;
-			var topic = topicService.GetData().FirstOrDefault(t => t.Name == specialization);
-			if(topic is null)
+			var option = await topicService.TryGetByNameAsync(specialization);
+			if (!option.Success)
 				continue;
-			builder.AddSpecialization(topic);
+			builder.AddSpecialization(option.Value!);
 		}
 
 		if (builder.Build() is TeacherConfig t)
@@ -55,22 +59,36 @@ public class TeacherConfigService : ConfigServiceBase<TeacherConfig> {
 		return teachers;
 	}
 
-	protected override async Task<List<TeacherConfig>> UpdateReferencesAsync(List<TeacherConfig> data) {
+	protected override async Task<List<TeacherConfig>> UpdateReferencesAsync(List<TeacherConfig> data, CancellationToken? token = null) {
 		return await Task.Run(
-			() => {
-				return data
-					.Select(
-						x =>
-							new TeacherConfig() {
-								Id = x.Id,
-								Abbreviation = x.Abbreviation,
-								Name = x.Name,
-								Specializations = x.Specializations
-									.Select(s => topicService.GetById(s.Id) ?? TopicConfig.Default)
-									.ToList(),
-								WeeklyHours = x.WeeklyHours
-							})
-					.ToList();
+			async () => {
+				List<TeacherConfig> teachers = [];
+				foreach (var oldTeacher in data) {
+
+					List<TopicConfig> specializations = [];
+					foreach (var oldSpecialization in oldTeacher.Specializations) {
+
+						var option = await topicService.TryGetByIdAsync(oldSpecialization.Id, token);
+						if(option.Success)
+							specializations.Add(option.Value!);
+
+						if(token?.IsCancellationRequested ?? false)
+							break;
+					}
+
+					var teacher = new TeacherConfig() {
+						Id = oldTeacher.Id,
+						Name = oldTeacher.Name,
+						Abbreviation = oldTeacher.Abbreviation,
+						WeeklyHours = oldTeacher.WeeklyHours,
+						Specializations = specializations
+					};
+
+					if (token?.IsCancellationRequested ?? false)
+						break;
+				}
+
+				return teachers;
 			});
 	}
 

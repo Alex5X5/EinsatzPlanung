@@ -1,6 +1,8 @@
 namespace Einsatzplanung.Input.Services.Configuration;
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -15,31 +17,41 @@ public class HolidayConfigService : ConfigServiceBase<HolidayConfig> {
 
 	public HolidayConfigService(IExcelImportService importService) : base(importService) { }
 
-	protected override List<HolidayConfig> ParseTable(Table table) {
-		List<HolidayConfig> holidays = [];
+	protected override async Task<List<HolidayConfig>> ParseTableAsync(Table table, CancellationToken? token = null) {
+		return await Task.Run(
+			async () => {
+				List<HolidayConfig> holidays = [];
 
-		for (int row = 1; row < table.RowCount; row++) {
-			if (DateTime.TryParseExact( table[row, FROM_COLUMN_INDEX]?.Value,
-				"dd.MM.yyyy",
-				CultureInfo.InvariantCulture,
-				DateTimeStyles.None, 
-				out var from)) {
+				for (int row = 1; row < table.RowCount; row++) {
 
-				HolidayConfig config = new() {
-					Id = Guid.NewGuid(),
-					From = DateOnly.FromDateTime(from)
-				};
-				if (DateTime.TryParseExact( table[row, TO_COLUMN_INDEX]?.Value,
-				"dd.MM.yyyy",
-				CultureInfo.InvariantCulture,
-				DateTimeStyles.None, 
-				out var to))
-					config.To = DateOnly.FromDateTime(to);
+					if (token?.IsCancellationRequested ?? false)
+						break;
 
-				holidays.Add(config);
-			}
-		}
+					var fromCell = table[row, FROM_COLUMN_INDEX];
+					var toCell = table[row, TO_COLUMN_INDEX];
 
-		return holidays;
+					if (DateTime.TryParseExact(table[row, FROM_COLUMN_INDEX]?.Value,
+						"dd.MM.yyyy",
+						CultureInfo.InvariantCulture,
+						DateTimeStyles.None,
+						out var from)) {
+
+						HolidayConfig config = new() {
+							Id = Guid.NewGuid(),
+							From = DateOnly.FromDateTime(from)
+						};
+						if (DateTime.TryParseExact(table[row, TO_COLUMN_INDEX]?.Value,
+						"dd.MM.yyyy",
+						CultureInfo.InvariantCulture,
+						DateTimeStyles.None,
+						out var to))
+							config.To = DateOnly.FromDateTime(to);
+
+						holidays.Add(config);
+					}
+				}
+
+				return holidays;
+			});
 	}
 }

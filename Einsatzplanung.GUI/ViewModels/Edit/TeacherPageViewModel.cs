@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -49,11 +50,10 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 			Cards.Remove(teacherCard);
 	}
 
-	protected override async Task OnLoadAsync() {
-		await configService.UpdateReferencesAsync();
+	protected override async Task OnLoadAsync(CancellationToken token) {
 		List<TeacherCardViewModel> cards = await Task.Run(
-			() => {
-				var teachers = configService.GetData();
+			async () => {
+				var teachers = await configService.GetDataAsync(token);
 				int i = 0;
 				return teachers
 					.Select(t => new TeacherCardViewModel(t, RemoveCardCommand, i++))
@@ -64,22 +64,25 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 			Cards.Add(card);
 	}
 
-	protected override async Task OnUnloadAsync() {
+	protected override async Task OnUnloadAsync(CancellationToken token) {
 		await SetEntitiesFromStateAsync();
 	}
 
-	public async Task ExportCardsAsync(string path) {
-		await SetEntitiesFromStateAsync();
-		await exportService.ExportAsync(path, configService.GetData());
+	public async Task ExportCardsAsync(string path, CancellationToken? token = null) {
+		await SetEntitiesFromStateAsync(token);
+		var data = await configService.GetDataAsync(token);
+		await exportService.ExportAsync(path, data);
 	}
 
-	public async Task SetEntitiesFromStateAsync() {
-		await Task.Run(() => {
+	public async Task SetEntitiesFromStateAsync(CancellationToken? token = null) {
+		await Task.Run(async () => {
 			List<TeacherConfig> teachers = [];
 			foreach (var teacherCard in Cards) {
 				List<TopicConfig> specializations = [];
 				foreach (var specCard in teacherCard.Specializations) {
-					specializations.Add(topicService.GetByName(specCard.Header));
+					var option = await topicService.TryGetByNameAsync(specCard.Header);
+					if(option.Success)
+						specializations.Add(option.Value!);
 				}
 				var teacher = new TeacherConfig() { 
 					Id = teacherCard.Config.Id,
@@ -91,7 +94,7 @@ public partial class TeacherPageViewModel : ViewModelBase, IEditViewChild {
 				teacher.Name = teacherCard.Header;
 				teachers.Add(teacher);
 			}
-			configService.SetData(teachers);
+			await configService.SetDataAsync(teachers);
 		});
 	}
 }

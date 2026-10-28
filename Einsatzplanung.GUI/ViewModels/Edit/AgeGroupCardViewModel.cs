@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -9,7 +10,6 @@ using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
-
 
 public partial class AgeGroupCardViewModel : CardViewModel {
 
@@ -31,8 +31,9 @@ public partial class AgeGroupCardViewModel : CardViewModel {
 	}
 
 	[RelayCommand]
-	private void AddGroup() {
-		var teacher = App.GetRequiredService<IConfigService<TeacherConfig>>().GetData().FirstOrDefault(TeacherConfig.Default);
+	private async Task AddGroup() {
+		var teachers = await App.GetRequiredService<IConfigService<TeacherConfig>>().GetDataAsync();
+		var teacher = teachers.FirstOrDefault(TeacherConfig.Default);
 		var group = new GroupConfig() {
 			Id = Guid.NewGuid(),
 			Name = "",

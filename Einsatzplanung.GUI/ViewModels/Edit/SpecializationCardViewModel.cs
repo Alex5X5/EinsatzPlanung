@@ -20,10 +20,6 @@ public partial class SpecializationCardViewModel : ViewModelBase, IRemovableCard
 	[ObservableProperty]
 	private string header;
 
-	partial void OnHeaderChanged(string value) {
-		Config = topicService.GetByName(value) ?? TopicConfig.Default;
-	}
-
 	public IReadOnlyList<string> TopicNames { get; }
 
 	public IRelayCommand<object> RemoveCommand { init; get; }
@@ -38,7 +34,7 @@ public partial class SpecializationCardViewModel : ViewModelBase, IRemovableCard
 		Header = topic.Name;
 		RemoveCommand = removeCommand;
 
-		var topics = topicService.GetData();
+		var topics = topicService.GetDataAsync().Result;
 		TopicNames = topics.Select(x=>x.Name).ToList();
 	}
 }

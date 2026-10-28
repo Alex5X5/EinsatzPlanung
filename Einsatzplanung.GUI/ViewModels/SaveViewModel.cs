@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 public partial class SaveViewModel : ViewModelBase {
@@ -31,7 +32,7 @@ public partial class SaveViewModel : ViewModelBase {
 	public SaveViewModel() {
 	}
 
-	protected override async Task OnLoadAsync() {
+	protected override async Task OnLoadAsync(CancellationToken token) {
 		var items = await Task.Run(
 			() => {
 				var groupService = App.GetRequiredService<IEntityService<Group>>();

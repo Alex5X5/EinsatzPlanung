@@ -1,6 +1,7 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,15 +45,16 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 			Cards.Remove(holidayCard);
 	}
 
-	public async Task ExportCardsAsync(string path) {
+	public async Task ExportCardsAsync(string path, CancellationToken? token = null) {
 		await SetEntitiesFromStateAsync();
-		await exportService.ExportAsync(path, configService.GetData());
+		var data = await configService.GetDataAsync();
+		await exportService.ExportAsync(path, data);
 	}
 
-	protected override async Task OnLoadAsync() {
+	protected override async Task OnLoadAsync(CancellationToken token) {
 		List<HolidayCardViewModel> cards = await Task.Run(
-			() => {
-				var holidays = configService.GetData();
+			async () => {
+				var holidays = await configService.GetDataAsync(token);
 				int i = 0;
 				return holidays
 					.Select(t => {
@@ -68,11 +70,11 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 			Cards.Add(card);
 	}
 
-	protected override async Task OnUnloadAsync() {
+	protected override async Task OnUnloadAsync(CancellationToken token) {
 		await SetEntitiesFromStateAsync();
 	}
 
-	public async Task SetEntitiesFromStateAsync() {
+	public async Task SetEntitiesFromStateAsync(CancellationToken? token = null) {
 		await Task.Run(() => {
 			List<HolidayConfig> holidays = new();
 
@@ -105,7 +107,7 @@ public partial class HolidayViewModel : ViewModelBase, IEditViewChild {
 				holidays.Add(holiday);
 			}
 
-			configService.SetData(holidays);
+			configService.SetDataAsync(holidays, token);
 		});
 	}
 }

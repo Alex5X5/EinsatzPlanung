@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -77,17 +78,17 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 		}
 	}
 
-	public async Task ExportCardsAsync(string path) {
-		await SetEntitiesFromStateAsync();
-		await exportService.ExportAsync(path, configService.GetData());
+	public async Task ExportCardsAsync(string path, CancellationToken? token = null) {
+		await SetEntitiesFromStateAsync(token);
+		await exportService.ExportAsync(path, await configService.GetDataAsync());
 	}
 
-	protected override async Task OnLoadAsync() {
-		//await configService.UpdateReferencesAsync();
-		List<AgeGroupCardViewModel> cards = await Task.Run(() => {
+	protected override async Task OnLoadAsync(CancellationToken token) {
+		await configService.UpdateReferencesAsync();
+		List<AgeGroupCardViewModel> cards = await Task.Run(async () => {
 			int i = 0;
-			return configService
-				.GetData()
+			var ageGroups = await configService.GetDataAsync(token);
+			return ageGroups
 				.Select(g => new AgeGroupCardViewModel(g, RedirectToCardCommand, RemoveCardCommand, i++))
 				.ToList();
 		});
@@ -97,38 +98,68 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 		RedirectToCard(Cards[0]);
 	}
 
-	protected override async Task OnUnloadAsync() {
-		await SetEntitiesFromStateAsync();
+	protected override async Task OnUnloadAsync(CancellationToken token) {
+		await SetEntitiesFromStateAsync(token);
 	}
 
-	public async Task SetEntitiesFromStateAsync() {
-		await Task.Run(() => {
-			List<AgeGroupConfig> ageGroups = Cards
-				.Select(ageGroupCard =>
-					new AgeGroupConfig() {
+	public async Task SetEntitiesFromStateAsync(CancellationToken? token = null) {
+		await Task.Run(
+			async () => {
+				List<AgeGroupConfig> ageGroups = [];
+				foreach (var ageGroupCard in Cards) {
+
+					List<GroupConfig> groups = [];
+					foreach (var groupCard in ageGroupCard.Cards) {
+
+						List<BlockConfig> blocks = [];
+						foreach (var blockCard in groupCard.Topics) {
+
+							var topicOption = await topicService.TryGetByIdAsync(blockCard.Config.Topic.Id, token);
+							if (topicOption.Success) {
+								var block = new BlockConfig() {
+									Id = blockCard.Config.Id,
+									Count = int.TryParse(blockCard.Count, out var count) ? count : blockCard.Config.Count,
+									Topic = topicOption.Value!,
+								};
+
+								blocks.Add(block);
+							}
+
+							if (token?.IsCancellationRequested ?? false)
+								break;
+						}
+
+						var teacherOption = await teacherService.TryGetByIdAsync(groupCard.Config.Teacher.Id, token);
+						if (teacherOption.Success) {
+							var group = new GroupConfig() {
+								Id = groupCard.Config.Id,
+								Name = groupCard.Header,
+								Teacher = teacherOption.Value!,
+								SchoolWeeks = groupCard.Config.SchoolWeeks,
+								Blocks = blocks
+							};
+
+							groups.Add(group);
+						}
+
+
+						if (token?.IsCancellationRequested ?? false)
+							break;
+					}
+
+					var ageGroup = new AgeGroupConfig() {
 						Id = ageGroupCard.Config.Id,
 						Name = ageGroupCard.Header,
-						Groups = ageGroupCard.Cards
-							.Select(groupCard =>
-								new GroupConfig() {
-									Id = groupCard.Config.Id,
-									Name = groupCard.Header,
-									SchoolWeeks = groupCard.Config.SchoolWeeks,
-									Teacher = teacherService.GetByAbbreviation(groupCard.TeacherAbbreviation) ?? TeacherConfig.Default,
-									Blocks = groupCard.Topics
-										.Select(blockCard =>
-											new BlockConfig() {
-												Id = blockCard.Config.Id,
-												Count = int.Parse(blockCard.Count),
-												Topic = topicService.GetByName(blockCard.Header) ?? TopicConfig.Default
-											})
-										.ToList()
+						Groups = groups
+					};
 
-								})
-							.ToList()
-					})
-				.ToList();
-			configService.SetData(ageGroups);
-		});
+					ageGroups.Add(ageGroup);
+
+					if (token?.IsCancellationRequested ?? false)
+						break;
+				}
+
+				await configService.SetDataAsync(ageGroups);
+			});
 	}
 }
