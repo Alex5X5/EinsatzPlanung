@@ -41,7 +41,7 @@ public partial class ViewBase : UserControl {
 
 	private void OnUnload(object? sender, RoutedEventArgs args) {
 		LoadingTokenSource.Cancel();
-		LoadingTokenSource.Dispose();
+		//LoadingTokenSource.Dispose();
 		if (UnloadCommand?.CanExecute(EventArgs.Empty) ?? false)
 			UnloadCommand.Execute(EventArgs.Empty);
 	}
