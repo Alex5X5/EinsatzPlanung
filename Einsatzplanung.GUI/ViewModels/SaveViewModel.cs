@@ -29,20 +29,27 @@ public partial class SaveViewModel : ViewModelBase {
 	private string errorString = "";
 
 	public SaveViewModel() {
-		DisplayClassesNamesForSave();
 	}
 
-	private void DisplayClassesNamesForSave() {
-		var groupService = App.GetRequiredService<IEntityService<Group>>();
-		var groups = groupService.GetEntities();
+	protected override async Task OnLoadAsync() {
+		var items = await Task.Run(
+			() => {
+				var groupService = App.GetRequiredService<IEntityService<Group>>();
+				var groups = groupService.GetEntities();
+				return groups
+					.Select(
+						x =>
+							new ClassSelectionItem {
+								Name = x.Name,
+								IsSelected = true,
+								Config = x
+							})
+					.ToList();
+			});
 
 		ClassesNamesForSave.Clear();
-		foreach (var group in groups) {
-			ClassesNamesForSave.Add(new ClassSelectionItem {
-				Name = group.Name,
-				IsSelected = true,
-				Config = group
-			});
+		foreach (var item in items) {
+			ClassesNamesForSave.Add(item);
 		}
 	}
 
