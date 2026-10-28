@@ -37,15 +37,15 @@ public partial class ViewBase : UserControl {
 	private void OnLoad(object? sender, RoutedEventArgs args) {
 		if (LoadCommand?.CanExecute(LoadingTokenSource.Token) ?? false)
 			LoadCommand.Execute(LoadingTokenSource.Token);
-	}
+		}
 
 	private void OnUnload(object? sender, RoutedEventArgs args) {
 		LoadingTokenSource.Cancel();
 		//LoadingTokenSource.Dispose();
-		if (UnloadCommand?.CanExecute(EventArgs.Empty) ?? false)
-			UnloadCommand.Execute(EventArgs.Empty);
+		if (UnloadCommand?.CanExecute(CancellationToken.None) ?? false)
+			UnloadCommand.Execute(CancellationToken.None);
+		}
 	}
-}
 
 public class ViewBase<T> : ViewBase where T : ViewModelBase {
 
