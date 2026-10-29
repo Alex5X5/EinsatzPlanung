@@ -1,0 +1,36 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Einsatzplanung.GUI.ViewModels.PopUp"
+             WindowStartupLocation="CenterOwner"
+             mc:Ignorable="d" d:DesignWidth="100" d:DesignHeight="50"
+             Width="200"
+             Height="100"
+             CanMaximize="False"
+             CanMinimize="False"
+             CanResize="False"
+             x:Class="Einsatzplanung.GUI.Views.PopUp.ConfirmDialogView"
+             x:DataType="vm:ConfirmDialogViewModel"
+             Title="{Binding Header}"
+             Background="{DynamicResource AppBackgroundBrush}">
+    
+    <Grid ColumnDefinitions="*" RowDefinitions="*, *, *" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Grid.Row="0" Text="{Binding Message}"/>
+        
+        <Separator Grid.Row="1" Margin="0,0,0,20" Background="Transparent"/>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+            <Button Classes="standard-button" MinWidth="50" 
+                    Content="{Binding FirstButtonText}" 
+                    Command="{Binding YesCommand}" />
+            <Button Classes="standard-button" MinWidth="50" 
+                    Content="{Binding SecondButtonText}" 
+                    Command="{Binding NoCommand}" />
+        </StackPanel>
+        
+    </Grid>
+    
+    
+</Window>
