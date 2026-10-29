@@ -17,6 +17,13 @@ namespace Einsatzplanung.GUI.ViewModels.PopUp {
 		
 		public string SecondButtonText { get; }
 
+		/// <summary>
+		/// Creates a view model for a confirmation dialog with two buttons.
+		/// </summary>
+		/// <param name="header">The title shown at the top of the dialog.</param>
+		/// <param name="message">The message text displayed in the dialog body.</param>
+		/// <param name="f">Text of the first button (usually the confirm action). Defaults to "Ja".</param>
+		/// <param name="s">Text of the second button (usually the cancel action). Defaults to "Nein".</param>
 		public ConfirmDialogViewModel(string header, string message, string f = "Ja", string s = "Nein") {
 			Header = header;
 			Message = message;
