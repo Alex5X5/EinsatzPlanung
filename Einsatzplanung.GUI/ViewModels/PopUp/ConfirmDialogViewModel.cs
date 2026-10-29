@@ -12,10 +12,16 @@ namespace Einsatzplanung.GUI.ViewModels.PopUp {
 		public string Header { get; }
 		
 		public string Message { get; }
+		
+		public string FirstButtonText { get; }
+		
+		public string SecondButtonText { get; }
 
-		public ConfirmDialogViewModel(string header, string message) {
+		public ConfirmDialogViewModel(string header, string message, string f = "Ja", string s = "Nein") {
 			Header = header;
 			Message = message;
+			FirstButtonText = f;
+			SecondButtonText = s;
 		}
 		
 		public event Action<bool>? CloseRequested;
