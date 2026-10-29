@@ -1,12 +1,12 @@
 ﻿namespace Einsatzplanung.Input.Services.Configuration;
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 
-using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Excel.Interfaces;
+using Einsatzplanung.Excel.Models;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
@@ -27,14 +27,17 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 		this.teacherService = teacherService;
 	}
 
-	protected override List<AgeGroupConfig> ParseTable(Table table) {
-		List<TopicConfig> topics = topicService.GetData();
+	protected override async Task<List<AgeGroupConfig>> ParseTableAsync(Table table, CancellationToken? token = null) {
+		List<TopicConfig> topics = await topicService.GetDataAsync(token);
 		List<AgeGroupConfig> ageGroups = [];
 
 		AgeGroupBuilder ageGroupBuilder = new();
 		GroupConfigurationBuilder groupBuilder = new();
 
 		for (int row = 1; row < table.RowCount; row++) {
+
+			if (token?.IsCancellationRequested ?? false)
+				break;
 
 			bool newAgeGroup = table[row, AGE_GROUP_COLUMN_INDEX]?.Value != "";
 			bool newGroup = table[row, CLASS_GROUP_COLUMN_INDEX]?.Value != "";
@@ -46,7 +49,7 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 				groupBuilder = new();
 				groupBuilder.SetName(table[row, CLASS_GROUP_COLUMN_INDEX]?.Value ?? "");
 				var teacherAbbreviation = table[row, Teacher_COLUMN_INDEX]?.Value ?? "";
-				var teacher = teacherService.GetByAbbreviation(teacherAbbreviation) ?? TeacherConfig.Default;
+				var teacher = (await teacherService.GetByAbbreviationAsync(teacherAbbreviation)) ?? TeacherConfig.Default;
 				groupBuilder.SetTeacher(teacher);
 				// try to build the current age group and add it to the list of age groups
 				if (ageGroupBuilder.Build() is AgeGroupConfig group)
@@ -59,7 +62,7 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 				groupBuilder = new();
 				groupBuilder.SetName(table[row, CLASS_GROUP_COLUMN_INDEX]?.Value ?? "");
 				var teacherAbbreviation = table[row, Teacher_COLUMN_INDEX]?.Value ?? "";
-				var teacher = teacherService.GetByAbbreviation(teacherAbbreviation) ?? TeacherConfig.Default;
+				var teacher = (await teacherService.GetByAbbreviationAsync(teacherAbbreviation)) ?? TeacherConfig.Default;
 				groupBuilder.SetTeacher(teacher);
 			}
 
@@ -68,11 +71,12 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 
 			if (int.TryParse(table[row, TOPIC_WEEKS_COLUMN_INDEX]?.Value ?? "", out var topicWeeks)) {
 				string topicName = table[row, TOPIC_COLUMN_INDEX]?.Value ?? "";
-				if (topicService.TryGetByName(topicName, out var topic))
+				var topic = await topicService.TryGetByNameAsync(topicName);
+				if (topic.Success)
 					groupBuilder.AddBlock(new BlockConfig() {
 						Id = Guid.NewGuid(),
 						Count = topicWeeks,
-						Topic = topic!
+						Topic = topic.Value!
 					});
 			}
 		}
@@ -84,36 +88,57 @@ public class AgeGroupConfigService : ConfigServiceBase<AgeGroupConfig> {
 		return ageGroups;
 	}
 
-	protected override async Task<List<AgeGroupConfig>> UpdateReferencesAsync(List<AgeGroupConfig> data) {
+	protected override async Task<List<AgeGroupConfig>> UpdateReferencesAsync(List<AgeGroupConfig> data, CancellationToken? token = null) {
 		return await Task.Run(
-			() => {
-				return data
-					.Select(ageGroup =>
-						new AgeGroupConfig() {
-							Id = ageGroup.Id,
-							Name = ageGroup.Name,
-							Groups = ageGroup.Groups
-								.Select(group =>
-									new GroupConfig() {
-										Id = group.Id,
-										Name = group.Name,
-										Teacher = teacherService.GetById(group.Teacher.Id) ?? TeacherConfig.Default,
-										SchoolWeeks = group.SchoolWeeks,
-										Blocks = group.Blocks
-											.Select(block =>
-												new BlockConfig() {
-													Id = block.Id,
-													Count = block.Count,
-													Topic = topicService.GetById(block.Topic.Id) ?? TopicConfig.Default
-												})
-											.ToList()
+			async () => {
+				List<AgeGroupConfig> ageGroups = [];
+				foreach (var oldAgeGroup in data) {
 
-									})
-								.ToList()
-						})
-					.ToList();
-			}
-		);
+					List<GroupConfig> groups = [];
+					foreach (var oldGroup in oldAgeGroup.Groups) {
+
+						List<BlockConfig> blocks = [];
+						foreach (var oldBlock in oldGroup.Blocks) {
+							var block = new BlockConfig() {
+								Id = oldBlock.Id,
+								Count = oldBlock.Count,
+								Topic = await topicService.GetByIdAsync(oldBlock.Topic.Id) ?? TopicConfig.Default,
+							};
+
+							blocks.Add(block);
+
+							if (token?.IsCancellationRequested ?? false)
+								break;
+						}
+
+						var group = new GroupConfig() {
+							Id = oldGroup.Id,
+							Name = oldGroup.Name,
+							Teacher = (await teacherService.GetByIdAsync(oldGroup.Teacher.Id)) ?? TeacherConfig.Default,
+							SchoolWeeks = oldGroup.SchoolWeeks,
+							Blocks = blocks
+						};
+
+						groups.Add(group);
+
+						if (token?.IsCancellationRequested ?? false)
+							break;
+					}
+
+					var ageGroup = new AgeGroupConfig() {
+						Id = oldAgeGroup.Id,
+						Name = oldAgeGroup.Name,
+						Groups = groups
+					};
+
+					ageGroups.Add(ageGroup);
+
+					if (token?.IsCancellationRequested ?? false)
+						break;
+				}
+
+				return ageGroups;
+			});
 	}
 
 	private class AgeGroupBuilder {

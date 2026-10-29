@@ -29,7 +29,7 @@ public partial class BlockCardViewModel : CardViewModel, IRemovableCardViewModel
 
 		Count = Config.Count.ToString();
 
-		var topics = topicService.GetData();
+		var topics = topicService.GetDataAsync().Result;
 		TopicNames = topics.Select(x => x.Name).ToList();
 	}
 }

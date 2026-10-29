@@ -1,11 +1,9 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+﻿namespace Einsatzplanung.GUI.Views;
 
-namespace Einsatzplanung.GUI.Views {
-	public partial class SaveView : UserControl {
-		public SaveView() {
-			InitializeComponent();
-		}
+using Einsatzplanung.GUI.ViewModels;
+
+public partial class SaveView : ViewBase<SaveViewModel> {
+	public SaveView() : base(){
+		InitializeComponent();
 	}
 }

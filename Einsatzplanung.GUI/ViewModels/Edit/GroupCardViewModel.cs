@@ -1,9 +1,10 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -30,7 +31,7 @@ public partial class GroupCardViewModel : CardViewModel {
 		Config = group;
 		TeacherAbbreviation = Config.Teacher.Abbreviation;
 
-		var teachers = teacherService.GetData();
+		var teachers = teacherService.GetDataAsync().Result;
 		Abbreviations = teachers.Select(x => x.Abbreviation).ToList();
 
 		int i = 0;
@@ -39,8 +40,9 @@ public partial class GroupCardViewModel : CardViewModel {
 	}
 
 	[RelayCommand]
-	private void AddTopic() {
-		var topic = App.GetRequiredService<IConfigService<TopicConfig>>().GetData().FirstOrDefault(TopicConfig.Default);
+	private async Task AddTopic() {
+		var topics = await App.GetRequiredService<IConfigService<TopicConfig>>().GetDataAsync();
+		var topic = topics.FirstOrDefault(TopicConfig.Default);
 		var block = new BlockConfig() {
 			Id = Guid.NewGuid(),
 			Count = 1,

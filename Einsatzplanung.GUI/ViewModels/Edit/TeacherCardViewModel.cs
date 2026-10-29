@@ -1,14 +1,15 @@
 ﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
-
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 public partial class TeacherCardViewModel : CardViewModel {
 
@@ -26,14 +27,14 @@ public partial class TeacherCardViewModel : CardViewModel {
 		Config = teacher;
 		Abbreviation = teacher.Abbreviation;
 		WeeklyHours = teacher.WeeklyHours;
-		var topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetData();
+		var topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetDataAsync().Result;
 		Specializations = new(teacher.Specializations.Select(t => new SpecializationCardViewModel(t, RemoveTopicCommand)));
 		Topics = topics.Select(x => x.Name).ToList();
 	}
 
 	[RelayCommand]
-	private void AddTopic() {
-		var topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetData();
+	private async Task AddTopic() {
+		var topics = await App.GetRequiredService<IConfigService<TopicConfig>>().GetDataAsync();
 		Specializations.Add(new SpecializationCardViewModel(topics[0], RemoveTopicCommand));
 	}
 

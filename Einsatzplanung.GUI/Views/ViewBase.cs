@@ -13,14 +13,17 @@ using Einsatzplanung.GUI.Views.Edit;
 using Microsoft.Extensions.DependencyInjection;
 
 using System;
+using System.Threading;
 
 public partial class ViewBase : UserControl {
 
-	[BasicStyledProperty<ViewBase>]
+	[BasicStyledProperty]
 	private IRelayCommand loadCommand;
 
-	[BasicStyledProperty<ViewBase>]
+	[BasicStyledProperty]
 	private IRelayCommand unloadCommand;
+
+	private CancellationTokenSource LoadingTokenSource = new();
 
 	public ViewBase(object context) {
 		DataContext = context;
@@ -32,15 +35,17 @@ public partial class ViewBase : UserControl {
 	}
 
 	private void OnLoad(object? sender, RoutedEventArgs args) {
-		if (LoadCommand?.CanExecute(EventArgs.Empty) ?? false)
-			LoadCommand.Execute(EventArgs.Empty);
-	}
+		if (LoadCommand?.CanExecute(LoadingTokenSource.Token) ?? false)
+			LoadCommand.Execute(LoadingTokenSource.Token);
+		}
 
 	private void OnUnload(object? sender, RoutedEventArgs args) {
-		if (UnloadCommand?.CanExecute(EventArgs.Empty) ?? false)
-			UnloadCommand.Execute(EventArgs.Empty);
+		LoadingTokenSource.Cancel();
+		//LoadingTokenSource.Dispose();
+		if (UnloadCommand?.CanExecute(CancellationToken.None) ?? false)
+			UnloadCommand.Execute(CancellationToken.None);
+		}
 	}
-}
 
 public class ViewBase<T> : ViewBase where T : ViewModelBase {
 

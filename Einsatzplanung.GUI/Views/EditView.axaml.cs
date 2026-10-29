@@ -1,11 +1,9 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+﻿namespace Einsatzplanung.GUI.Views;
 
-namespace Einsatzplanung.GUI.Views {
-	public partial class EditView : UserControl {
-		public EditView() : base() {
-			InitializeComponent();
-		}
+using Einsatzplanung.GUI.ViewModels;
+
+public partial class EditView : ViewBase<EditViewModel> {
+	public EditView() : base() {
+		InitializeComponent();
 	}
 }

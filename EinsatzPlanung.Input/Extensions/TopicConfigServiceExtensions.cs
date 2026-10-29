@@ -1,23 +1,20 @@
 ﻿namespace Einsatzplanung.Input.Interfaces;
 
 using System.Linq;
+using System.Threading.Tasks;
 
+using Einsatzplanung.Types;
 using Einsatzplanung.Types.Models.Configuration;
 
 public static class TopicConfigServiceExtensions {
 
-	public static TopicConfig? GetByName(this IConfigService<TopicConfig> service, string name) {
-		var topics = service.GetData();
-		return service
-			.GetData()
-			.FirstOrDefault(x => x.Name == name);
+	public static async Task<TopicConfig?> GetByNameAsync(this IConfigService<TopicConfig> service, string name) {
+		var data = await service.GetDataAsync();
+		return data.FirstOrDefault(x => x.Name == name);
 	}
 
-	public static bool TryGetByName(this IConfigService<TopicConfig> service, string name, out TopicConfig? topic) {
-		var topics = service.GetData();
-		topic = service
-			.GetData()
-			.FirstOrDefault(x => x.Name == name);
-		return topic != null;
+	public static async Task<TryResult<TopicConfig>> TryGetByNameAsync(this IConfigService<TopicConfig> service, string name) {
+		var config = await service.GetByNameAsync(name);
+		return new TryResult<TopicConfig>(config != null, config);
 	}
 }

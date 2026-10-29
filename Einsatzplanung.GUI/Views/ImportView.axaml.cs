@@ -5,11 +5,13 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 
-public partial class ImportView : UserControl {
+using Einsatzplanung.GUI.ViewModels;
+
+public partial class ImportView : ViewBase<ImportViewModel> {
 
 	private Border? _activeCardBorder;
 
-	public ImportView() {
+	public ImportView() : base() {
         InitializeComponent();
 	}
 

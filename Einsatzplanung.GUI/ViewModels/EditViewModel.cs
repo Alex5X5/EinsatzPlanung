@@ -69,14 +69,14 @@ public partial class EditViewModel : ViewModelBase {
 	public EditViewModel() {
 
 		_ = Task.Run(
-			() => {
-				List<TopicConfig> topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetData();
+			async () => {
+				List<TopicConfig> topics = await App.GetRequiredService<IConfigService<TopicConfig>>().GetDataAsync();
 				Console.WriteLine($"loaded topics:[\n   {string.Join(",\n   ", topics.Select(x => x.ToString()))}\n]");
-				var teachers = App.GetRequiredService<IConfigService<TeacherConfig>>().GetData();
+				var teachers = await App.GetRequiredService<IConfigService<TeacherConfig>>().GetDataAsync();
 				Console.WriteLine($"loaded teachers:[\n   {string.Join(",\n   ", teachers.Select(x => x.ToString()))}\n]");
-				var groups = App.GetRequiredService<IConfigService<AgeGroupConfig>>().GetData();
+				var groups = await App.GetRequiredService<IConfigService<AgeGroupConfig>>().GetDataAsync();
 				Console.WriteLine($"loaded agegroups:[\n   {string.Join(",\n   ", groups.Select(x => x.ToString()))}\n]");
-				var holidays = App.GetRequiredService<IConfigService<HolidayConfig>>().GetData();
+				var holidays = await App.GetRequiredService<IConfigService<HolidayConfig>>().GetDataAsync();
 				Console.WriteLine($"loaded holidays:[\n   {string.Join(",\n   ", holidays.Select(x => x.ToString()))}\n]");
 				HasLoaded = true;
 				SelectedPageIndex = 0;
