@@ -3,6 +3,8 @@
 	
 	<Style Selector="Button">
 		
+		<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
+		
 		<Style Selector="^.standard-button">
 			<Setter Property="Background" Value="{DynamicResource StandardButtonBackgroundColor}"/>
 			<Setter Property="Height" Value="32"/>
