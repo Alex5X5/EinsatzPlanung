@@ -9,48 +9,73 @@
 			 x:DataType="vm:TopicViewModel"
 			 Name="Root">
 
-	<ct:EditCardsControl ItemsSource="{Binding Cards}">
-		
-		<ct:EditCardsControl.ItemTemplate>
-			
-			<DataTemplate x:DataType="vm:TopicCardViewModel">
+	<Border HorizontalAlignment="Center"
+			BorderBrush="{DynamicResource CardBorderBrush}"
+			BorderThickness="1"
+			CornerRadius="6"
+			Background="{DynamicResource CardBackgroundBrush}"
+			Padding="30,30,20,20">
 
-				<ct:ExtendingCard AllowExtend="False"
-								  ShowAddButton="False"
-								  Index="{Binding Index}"
-								  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
-								  RemoveButtonCommand="{Binding RemoveCommand}"
-								  RemoveButtonCommandParameter="{Binding}">
+		<ct:EditCardsControl x:Name="CardsControl" ItemsSource="{Binding Cards}">
 
-					<ct:ExtendingCard.HeaderContent>
+			<ct:EditCardsControl.ItemTemplate>
 
-						<Grid RowDefinitions="*"
-							  ColumnDefinitions="16*, *, 3*"
-							  HorizontalAlignment="Stretch">
+				<DataTemplate x:DataType="vm:TopicCardViewModel">
 
-							<TextBox Grid.Column="0"
-									 Text="{Binding Header, Mode=TwoWay}"
-									 PlaceholderText="Name des Themas"
-									 TextWrapping="NoWrap"
-									 Foreground="{DynamicResource AppForegroundBrush}"
-									 HorizontalContentAlignment="Center"
-									 VerticalContentAlignment="Center"
-									 ToolTip.Tip="Der Name des Themas"/>
-							<ColorPicker Grid.Column="2"
-										 Color="{Binding SelectedColor, Mode=TwoWay}"
-										 HorizontalAlignment="Stretch"
-										 ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
-						
-						</Grid>
+					<ct:ExtendingCard AllowExtend="False"
+									  ShowAddButton="False"
+									  Index="{Binding Index}"
+									  ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
+									  RemoveButtonCommand="{Binding RemoveCommand}"
+									  RemoveButtonCommandParameter="{Binding}">
 
-					</ct:ExtendingCard.HeaderContent>
+						<ct:ExtendingCard.HeaderContent>
 
-				</ct:ExtendingCard>
+							<Grid RowDefinitions="*"
+								  ColumnDefinitions="Auto, 16*, *, 3*"
+								  HorizontalAlignment="Stretch">
 
-			</DataTemplate>
+								<Grid Grid.Column="0"
+									  Width="22"
+									  Height="24"
+									  Margin="0,0,8,0"
+									  Background="Transparent"
+									  ColumnDefinitions="*,*"
+									  RowDefinitions="*,*,*"
+									  Cursor="SizeAll"
+									  ToolTip.Tip="Ziehen, um das Thema zu verschieben"
+									  PointerPressed="OnTopicDragPressed"
+									  PointerMoved="OnTopicDragMoved"
+									  PointerReleased="OnTopicDragReleased">
+									<Ellipse Grid.Row="0" Grid.Column="0" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
+									<Ellipse Grid.Row="0" Grid.Column="1" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
+									<Ellipse Grid.Row="1" Grid.Column="0" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
+									<Ellipse Grid.Row="1" Grid.Column="1" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
+									<Ellipse Grid.Row="2" Grid.Column="0" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
+									<Ellipse Grid.Row="2" Grid.Column="1" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
+								</Grid>
 
-		</ct:EditCardsControl.ItemTemplate>
+								<TextBox Grid.Column="1"
+										 Text="{Binding Header, Mode=TwoWay}"
+										 PlaceholderText="Name des Themas"
+										 TextWrapping="NoWrap"
+										 Foreground="{DynamicResource AppForegroundBrush}"
+										 HorizontalContentAlignment="Center"
+										 VerticalContentAlignment="Center"
+										 ToolTip.Tip="Der Name des Themas"/>
+								<ColorPicker Grid.Column="3"
+											 Color="{Binding SelectedColor, Mode=TwoWay}"
+											 HorizontalAlignment="Stretch"
+											 ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
 
-	</ct:EditCardsControl>
+							</Grid>
+
+						</ct:ExtendingCard.HeaderContent>
+
+					</ct:ExtendingCard>
+				</DataTemplate>
+			</ct:EditCardsControl.ItemTemplate>
+		</ct:EditCardsControl>
+	</Border>
 
 </UserControl>
