@@ -24,6 +24,7 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 	public string Header { get; }
 
 	public ObservableCollection<TopicCardViewModel> Cards { set; get; }
+	public ObservableCollection<TopicCardGroupViewModel> Groups { get; } = [];
 
 	[ObservableProperty]
 	private int activeCardIndex = -1;
@@ -40,13 +41,21 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 			Name = "",
 			Color = "#FFFFFF"
 		};
-		Cards.Add(new TopicCardViewModel(topic, RemoveCardCommand, Cards.Count));
+		var card = new TopicCardViewModel(topic, RemoveCardCommand, Cards.Count);
+		Cards.Add(card);
+		Groups.Add(new TopicCardGroupViewModel(card));
 	}
 
 	[RelayCommand]
 	private void RemoveCard(object card) {
-		if (card is TopicCardViewModel topicCard)
+		if (card is TopicCardViewModel topicCard) {
 			Cards.Remove(topicCard);
+			var group = FindGroup(topicCard);
+			group?.Cards.Remove(topicCard);
+			if (group?.Cards.Count == 0)
+				Groups.Remove(group);
+			UpdateCardIndexes();
+		}
 	}
 
 	protected override async Task OnLoadAsync(CancellationToken token) {
@@ -59,8 +68,73 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 		});
 		
 		Cards.Clear();
-		foreach (var card in cards)
+		Groups.Clear();
+		foreach (var card in cards) {
 			Cards.Add(card);
+			Groups.Add(new TopicCardGroupViewModel(card));
+		}
+	}
+
+	public void MoveCardToGroup(TopicCardViewModel card, TopicCardGroupViewModel targetGroup, int targetCardIndex) {
+		var sourceGroup = FindGroup(card);
+		if (sourceGroup is null)
+			return;
+
+		if (sourceGroup == targetGroup) {
+			int currentIndex = sourceGroup.Cards.IndexOf(card);
+			if (currentIndex < 0)
+				return;
+
+			targetCardIndex = Math.Clamp(targetCardIndex, 0, sourceGroup.Cards.Count - 1);
+			if (currentIndex != targetCardIndex)
+				sourceGroup.Cards.Move(currentIndex, targetCardIndex);
+		} else {
+			sourceGroup.Cards.Remove(card);
+			if (sourceGroup.Cards.Count == 0)
+				Groups.Remove(sourceGroup);
+
+			targetCardIndex = Math.Clamp(targetCardIndex, 0, targetGroup.Cards.Count);
+			targetGroup.Cards.Insert(targetCardIndex, card);
+		}
+
+		UpdateCardIndexes();
+	}
+
+	public void MoveCardToNewGroup(TopicCardViewModel card, int targetGroupIndex) {
+		var sourceGroup = FindGroup(card);
+		if (sourceGroup is null)
+			return;
+
+		int sourceGroupIndex = Groups.IndexOf(sourceGroup);
+		sourceGroup.Cards.Remove(card);
+		TopicCardGroupViewModel newGroup;
+		bool sourceGroupRemoved = sourceGroup.Cards.Count == 0;
+		if (sourceGroupRemoved) {
+			Groups.Remove(sourceGroup);
+			newGroup = sourceGroup;
+		} else {
+			newGroup = new TopicCardGroupViewModel(card);
+		}
+
+		if (sourceGroupRemoved && sourceGroupIndex < targetGroupIndex)
+			targetGroupIndex--;
+		targetGroupIndex = Math.Clamp(targetGroupIndex, 0, Groups.Count);
+		Groups.Insert(targetGroupIndex, newGroup);
+		UpdateCardIndexes();
+	}
+
+	private TopicCardGroupViewModel? FindGroup(TopicCardViewModel card) =>
+		Groups.FirstOrDefault(group => group.Cards.Contains(card));
+
+	private void UpdateCardIndexes() {
+		Cards.Clear();
+		int index = 0;
+		foreach (var group in Groups) {
+			foreach (var card in group.Cards) {
+				card.Index = index++;
+				Cards.Add(card);
+			}
+		}
 	}
 
 	protected override async Task OnUnloadAsync(CancellationToken token) {
@@ -84,5 +158,14 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 			}
 			await configService.SetDataAsync(topics, token);
 		});
+	}
+}
+
+public sealed class TopicCardGroupViewModel {
+
+	public ObservableCollection<TopicCardViewModel> Cards { get; } = [];
+
+	public TopicCardGroupViewModel(TopicCardViewModel card) {
+		Cards.Add(card);
 	}
 }
