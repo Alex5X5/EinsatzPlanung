@@ -50,5 +50,18 @@
         <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
     </Style>
     
+    <!-- Separator -->
+
+    <Style Selector="Separator.fade">
+        <Setter Property="Height" Value="1"/>
+        <Setter Property="Margin" Value="0,8"/>
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0%,50%" EndPoint="100%,50%">
+                <GradientStop Offset="0.0" Color="Transparent"/>
+                <GradientStop Offset="0.5" Color="{DynamicResource SeparatorColor}"/>
+                <GradientStop Offset="1.0" Color="Transparent"/>
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
     
 </Styles>
