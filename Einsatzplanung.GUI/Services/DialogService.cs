@@ -1,4 +1,6 @@
-﻿using Avalonia;
+﻿namespace Einsatzplanung.GUI.Services;
+
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 
 using Einsatzplanung.GUI.ViewModels.PopUp;
@@ -6,8 +8,6 @@ using Einsatzplanung.GUI.Views;
 using Einsatzplanung.GUI.Views.PopUp;
 
 using System.Threading.Tasks;
-
-namespace Einsatzplanung.GUI.Services {
 	public class DialogService : IDialogService {
 		public async Task<bool> ConfirmAsync(string title, string message) 
 		{
@@ -26,4 +26,3 @@ namespace Einsatzplanung.GUI.Services {
 			return await window.ShowDialog<bool>(owner);
 		}
 	}
-}

@@ -1,4 +1,6 @@
-﻿namespace Einsatzplanung.GUI.ViewModels.Edit;
+﻿using Einsatzplanung.GUI.Services;
+
+namespace Einsatzplanung.GUI.ViewModels.Edit;
 
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	private IConfigService<AgeGroupConfig> configService;
 	private IConfigService<TopicConfig> topicService;
 	private IConfigService<TeacherConfig> teacherService;
+	private readonly IDialogService dialogService;
 
 	public ObservableCollection<AgeGroupCardViewModel> Cards { set; get; }
 
@@ -34,11 +37,17 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private AgeGroupCardViewModel? activeCard = null;
 
-	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, IConfigExportService<AgeGroupConfig> exportService, IConfigService<TopicConfig> topicService, IConfigService<TeacherConfig> teacherService) {
+	public AgeGroupPageViewModel(IConfigService<AgeGroupConfig> configService, 
+		IConfigExportService<AgeGroupConfig> exportService, 
+		IConfigService<TopicConfig> topicService, 
+		IConfigService<TeacherConfig> teacherService,
+		IDialogService dialogService) 
+	{
 		this.exportService = exportService;
 		this.configService = configService;
 		this.topicService = topicService;
 		this.teacherService = teacherService;
+		this.dialogService = dialogService;
 		Cards = [];
 	}
 
@@ -59,13 +68,20 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	}
 
 	[RelayCommand]
-	private void RemoveCard(object card) {
-		if (card is AgeGroupCardViewModel ageCard) {
-			Cards.Remove(ageCard);
-			if(card == ActiveCard)
-				if (Cards.Count > 0)
-					ActiveCard = Cards[0];
+	private async Task RemoveCard(object card) {
+		if (card is not AgeGroupCardViewModel ageCard) {
+			return;
 		}
+		
+		if (Cards.Count <= 1)
+			return;
+		
+		if (!await dialogService.ConfirmAsync("Löschen", "Wirklich löschen?")) return;
+
+		Cards.Remove(ageCard);
+		if(card == ActiveCard)
+			if (Cards.Count > 0)
+				ActiveCard = Cards[0];
 	}
 
 	[RelayCommand]

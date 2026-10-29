@@ -12,8 +12,8 @@
         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Message}"/>
         
         <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
-            <Button Classes="standard-button" Content="Ja"/>
-            <Button Classes="standard-button" Content="Nein"/>
+            <Button Classes="standard-button" Content="Ja" Command="{Binding YesCommand}"/>
+            <Button Classes="standard-button" Content="Nein" Command="{Binding NoCommand}"/>
         </StackPanel>
         
     </Grid>
