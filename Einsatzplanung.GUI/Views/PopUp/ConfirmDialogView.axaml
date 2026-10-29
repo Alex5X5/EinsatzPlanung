@@ -3,17 +3,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Einsatzplanung.GUI.ViewModels.PopUp"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+             WindowStartupLocation="CenterOwner"
+             mc:Ignorable="d" d:DesignWidth="100" d:DesignHeight="50"
+             Width="200"
+             Height="100"
              x:Class="Einsatzplanung.GUI.Views.PopUp.ConfirmDialogView"
              x:DataType="vm:ConfirmDialogViewModel"
-             Title="{Binding Header}">
+             Title="{Binding Header}"
+             Background="{DynamicResource AppBackgroundBrush}">
     
-    <Grid ColumnDefinitions="*, *" RowDefinitions="*, *">
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Message}"/>
+    <Grid ColumnDefinitions="*" RowDefinitions="*, *, *" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Grid.Row="0" Text="{Binding Message}"/>
         
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
-            <Button Classes="standard-button" Content="Ja" Command="{Binding YesCommand}"/>
-            <Button Classes="standard-button" Content="Nein" Command="{Binding NoCommand}"/>
+        <Separator Grid.Row="1"/>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+            <Button Classes="standard-button" MinWidth="50" 
+                    Content="{Binding FirstButtonText}" 
+                    Command="{Binding YesCommand}" />
+            <Button Classes="standard-button" MinWidth="50" 
+                    Content="{Binding SecondButtonText}" 
+                    Command="{Binding NoCommand}" />
         </StackPanel>
         
     </Grid>
