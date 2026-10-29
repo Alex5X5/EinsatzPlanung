@@ -13,12 +13,15 @@ public class TopicConfigService : ConfigServiceBase<TopicConfig> {
 
 	private const int NAME_COLUMN_INDEX = 0;
 	private const int COLOR_COLUMN_INDEX = 1;
+	private const int LEVEL_COLUMN_INDEX = 2;
 
 	public TopicConfigService(IExcelImportService importService) : base(importService) { }
 
 	protected override async Task<List<TopicConfig>> ParseTableAsync(Table table, CancellationToken? token = null) {
 
 		List<TopicConfig> topics = [];
+
+		int levelCounter = 1;
 
 		for (int row = 1; row < table.RowCount; row++) {
 			
@@ -33,10 +36,15 @@ public class TopicConfigService : ConfigServiceBase<TopicConfig> {
 			if (string.IsNullOrEmpty(color))
 				continue;
 
+			var level = table[row, LEVEL_COLUMN_INDEX]?.Value;
+			if (string.IsNullOrEmpty(level))
+				level = Convert.ToString(levelCounter++);
+
 			TopicConfig config = new() {
 				Id = Guid.NewGuid(),
 				Name = name,
-				Color = color
+				Color = color,
+				Level = level
 			};
 
 			topics.Add(config);

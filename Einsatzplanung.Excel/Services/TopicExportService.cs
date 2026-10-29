@@ -21,12 +21,13 @@ public class TopicExportService : IConfigExportService<TopicConfig> {
 		await Task.Run(() => {
 
 			Table table = new();
-			table.AddRow(["Thema", "Farbe"]);
+			table.AddRow(["Thema", "Farbe", "Level"]);
 
 			foreach (TopicConfig topic in topics) {
 				table.AddRow([
-					topic.Name?.ToString(),
-					topic.Color?.ToString()
+					topic.Name,
+					topic.Color,
+					topic.Level
 				]);
 			}
 
