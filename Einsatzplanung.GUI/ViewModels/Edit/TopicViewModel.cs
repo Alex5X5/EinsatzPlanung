@@ -13,6 +13,7 @@ using CommunityToolkit.Mvvm.Input;
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.GUI.Helpers;
 using Einsatzplanung.GUI.Interfaces;
+using Einsatzplanung.GUI.Views.Edit;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 
@@ -24,7 +25,7 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 	public string Header { get; }
 
 	public ObservableCollection<TopicCardViewModel> Cards { set; get; }
-	public ObservableCollection<TopicCardGroupViewModel> Groups { get; } = [];
+	public ObservableCollection<ObservableCollection<TopicCardViewModel>> Groups { get; } = [];
 
 	[ObservableProperty]
 	private int activeCardIndex = -1;
@@ -43,7 +44,7 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 		};
 		var card = new TopicCardViewModel(topic, RemoveCardCommand, Cards.Count);
 		Cards.Add(card);
-		Groups.Add(new TopicCardGroupViewModel(card));
+		Groups.Add(new ObservableCollection<TopicCardViewModel>([card]));
 	}
 
 	[RelayCommand]
@@ -51,8 +52,8 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 		if (card is TopicCardViewModel topicCard) {
 			Cards.Remove(topicCard);
 			var group = FindGroup(topicCard);
-			group?.Cards.Remove(topicCard);
-			if (group?.Cards.Count == 0)
+			group?.Remove(topicCard);
+			if (group?.Count == 0)
 				Groups.Remove(group);
 			UpdateCardIndexes();
 		}
@@ -71,30 +72,34 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 		Groups.Clear();
 		foreach (var card in cards) {
 			Cards.Add(card);
-			Groups.Add(new TopicCardGroupViewModel(card));
+			Groups.Add([card]);
 		}
 	}
 
-	public void MoveCardToGroup(TopicCardViewModel card, TopicCardGroupViewModel targetGroup, int targetCardIndex) {
+	[RelayCommand]
+	public void MoveCardToGroup(CardMovedEventArgs args) {
+		if(args.Model is not TopicCardViewModel card)
+			return;
+		
 		var sourceGroup = FindGroup(card);
 		if (sourceGroup is null)
 			return;
 
-		if (sourceGroup == targetGroup) {
-			int currentIndex = sourceGroup.Cards.IndexOf(card);
+		if (sourceGroup == args.TargetGroup) {
+			int currentIndex = sourceGroup.IndexOf(card);
 			if (currentIndex < 0)
 				return;
 
-			targetCardIndex = Math.Clamp(targetCardIndex, 0, sourceGroup.Cards.Count - 1);
+			var targetCardIndex = Math.Clamp(args.TargetCardIndex, 0, sourceGroup.Count - 1);
 			if (currentIndex != targetCardIndex)
-				sourceGroup.Cards.Move(currentIndex, targetCardIndex);
+				sourceGroup.Move(currentIndex, targetCardIndex);
 		} else {
-			sourceGroup.Cards.Remove(card);
-			if (sourceGroup.Cards.Count == 0)
+			sourceGroup.Remove(card);
+			if (sourceGroup.Count == 0)
 				Groups.Remove(sourceGroup);
 
-			targetCardIndex = Math.Clamp(targetCardIndex, 0, targetGroup.Cards.Count);
-			targetGroup.Cards.Insert(targetCardIndex, card);
+			var targetCardIndex = Math.Clamp(args.TargetCardIndex, 0, args.TargetGroup.Count);
+			args.TargetGroup.Insert(targetCardIndex, card);
 		}
 
 		UpdateCardIndexes();
@@ -106,14 +111,14 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 			return;
 
 		int sourceGroupIndex = Groups.IndexOf(sourceGroup);
-		sourceGroup.Cards.Remove(card);
-		TopicCardGroupViewModel newGroup;
-		bool sourceGroupRemoved = sourceGroup.Cards.Count == 0;
+		sourceGroup.Remove(card);
+		ObservableCollection<TopicCardViewModel> newGroup;
+		bool sourceGroupRemoved = sourceGroup.Count == 0;
 		if (sourceGroupRemoved) {
 			Groups.Remove(sourceGroup);
 			newGroup = sourceGroup;
 		} else {
-			newGroup = new TopicCardGroupViewModel(card);
+			newGroup = [card];
 		}
 
 		if (sourceGroupRemoved && sourceGroupIndex < targetGroupIndex)
@@ -123,14 +128,14 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 		UpdateCardIndexes();
 	}
 
-	private TopicCardGroupViewModel? FindGroup(TopicCardViewModel card) =>
-		Groups.FirstOrDefault(group => group.Cards.Contains(card));
+	private ObservableCollection<TopicCardViewModel>? FindGroup(TopicCardViewModel card) =>
+		Groups.FirstOrDefault(group => group.Contains(card));
 
 	private void UpdateCardIndexes() {
 		Cards.Clear();
 		int index = 0;
 		foreach (var group in Groups) {
-			foreach (var card in group.Cards) {
+			foreach (var card in group) {
 				card.Index = index++;
 				Cards.Add(card);
 			}
@@ -158,14 +163,5 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 			}
 			await configService.SetDataAsync(topics, token);
 		});
-	}
-}
-
-public sealed class TopicCardGroupViewModel {
-
-	public ObservableCollection<TopicCardViewModel> Cards { get; } = [];
-
-	public TopicCardGroupViewModel(TopicCardViewModel card) {
-		Cards.Add(card);
 	}
 }

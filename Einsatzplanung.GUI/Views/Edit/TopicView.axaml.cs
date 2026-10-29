@@ -2,13 +2,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 
+using CommunityToolkit.Mvvm.Input;
+
+using Einsatzplanung.GUI.CodeGenerators.Attributes;
 using Einsatzplanung.GUI.Controls;
 using Einsatzplanung.GUI.ViewModels.Edit;
 
@@ -19,8 +24,12 @@ public partial class TopicView : ViewBase<TopicViewModel> {
 	private Point dragStart;
 	private bool isDragging;
 
+	[BasicStyledProperty]
+	private IRelayCommand<CardMovedEventArgs>? cardMovedCommand;
+
 	public TopicView() : base() {
 		InitializeComponent();
+		Bind(CardMovedCommandProperty, new Binding("MoveCardToGroupCommand"));
 	}
 
 	private void OnTopicDragPressed(object? sender, PointerPressedEventArgs e) {
@@ -56,9 +65,12 @@ public partial class TopicView : ViewBase<TopicViewModel> {
 			Border? targetBorder = GetGroupBorders()
 				.FirstOrDefault(border => GetBounds(border).Contains(pointerPosition));
 
-			if (targetBorder?.DataContext is TopicCardGroupViewModel targetGroup) {
+			if (targetBorder?.DataContext is ObservableCollection<TopicCardViewModel> targetGroup) {
 				int targetCardIndex = GetTargetCardIndex(targetBorder, pointerPosition.Y, targetGroup);
-				viewModel.MoveCardToGroup(draggedCard, targetGroup, targetCardIndex);
+				var commadArgs = new CardMovedEventArgs(draggedCard, targetGroup, targetCardIndex);
+				if(CardMovedCommand.CanExecute(commadArgs))
+					CardMovedCommand.Execute(commadArgs);
+				// viewModel.MoveCardToGroup(draggedCard, targetGroup, targetCardIndex);
 			} else {
 				int targetGroupIndex = GetTargetGroupIndex(pointerPosition.Y);
 				viewModel.MoveCardToNewGroup(draggedCard, targetGroupIndex);
@@ -74,24 +86,24 @@ public partial class TopicView : ViewBase<TopicViewModel> {
 	private IEnumerable<Border> GetGroupBorders() =>
 		GroupCardsControl.GetVisualDescendants()
 			.OfType<Border>()
-			.Where(border => border.DataContext is TopicCardGroupViewModel);
+			.Where(border => border.DataContext is ObservableCollection<TopicCardViewModel>);
 
 	private Rect GetBounds(Control control) {
 		Point? position = control.TranslatePoint(new Point(0, 0), GroupCardsControl);
 		return position is null ? default : new Rect(position.Value, control.Bounds.Size);
 	}
 
-	private int GetTargetCardIndex(Border groupBorder, double pointerY, TopicCardGroupViewModel group) {
+	private int GetTargetCardIndex(Border groupBorder, double pointerY, ObservableCollection<TopicCardViewModel> group) {
 		foreach (ExtendingCard cardContainer in groupBorder.GetVisualDescendants().OfType<ExtendingCard>()) {
 			if (cardContainer.DataContext is not TopicCardViewModel card)
 				continue;
 
 			Rect bounds = GetBounds(cardContainer);
 			if (pointerY < bounds.Y + bounds.Height / 2)
-				return group.Cards.IndexOf(card);
+				return group.IndexOf(card);
 		}
 
-		return group.Cards.Count;
+		return group.Count;
 	}
 
 	private int GetTargetGroupIndex(double pointerY) {
@@ -105,4 +117,12 @@ public partial class TopicView : ViewBase<TopicViewModel> {
 
 		return index;
 	}
+}
+
+public sealed class CardMovedEventArgs(object model, ObservableCollection<TopicCardViewModel> targetGroup, int targetCardIndex) : EventArgs {
+
+	public object Model {set; get;} = model;
+	public ObservableCollection<TopicCardViewModel> TargetGroup {set; get;} = targetGroup;
+	public int TargetCardIndex {set; get;} = targetCardIndex;
+	
 }
