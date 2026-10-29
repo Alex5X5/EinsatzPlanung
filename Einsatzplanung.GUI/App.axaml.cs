@@ -1,3 +1,5 @@
+using Einsatzplanung.GUI.Services;
+
 namespace Einsatzplanung.GUI;
 
 using System;
@@ -105,6 +107,8 @@ public partial class App : Application {
 
 		collection.AddTransient<IGeneratorService, GeneratorService>();
 		collection.AddTransient<IPlanExportService, PlanExportService>();
+		
+		collection.AddSingleton<IDialogService, DialogService>();
 
 		collection.AddSingleton<TopicViewModel>();
 		collection.AddSingleton<HolidayViewModel>();
