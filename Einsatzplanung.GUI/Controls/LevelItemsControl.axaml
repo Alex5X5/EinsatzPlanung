@@ -1,0 +1,49 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:collections="using:System.Collections"
+                    xmlns:generic="using:System.Collections.Generic"
+                    xmlns:ct="using:Einsatzplanung.GUI.Controls">
+
+    <Design.PreviewWith>
+        <StackPanel Width="400" Height="400"
+                    Spacing="10"
+                    Background="{DynamicResource SystemRegionBrush}">
+            <ct:LevelItemsControl Background="Orange" HorizontalSpacing="10" VerticalSpacing="10">
+                <ct:LevelItemsControl.ItemsSource>
+                    <generic:List x:TypeArguments="collections:IEnumerable">
+                        <generic:List x:TypeArguments="x:String">
+                            <x:String>string one</x:String>
+                            <x:String>string two</x:String>
+                            <x:String>string threeeee</x:String>
+                        </generic:List>
+                        <generic:List x:TypeArguments="x:String">
+                            <x:String>string three</x:String>
+                            <x:String>string four</x:String>
+                        </generic:List>
+                    </generic:List>
+                </ct:LevelItemsControl.ItemsSource>
+                <ct:LevelItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Border BorderBrush="Black" BorderThickness="3" Padding="1">
+                            <TextBlock Text="{Binding}" Margin="10" />
+                        </Border>
+                    </DataTemplate>
+                </ct:LevelItemsControl.ItemTemplate>
+            </ct:LevelItemsControl>
+        </StackPanel>
+    </Design.PreviewWith>
+ 
+    <ControlTheme x:Key="{x:Type ct:LevelItemsControl}" TargetType="ct:LevelItemsControl">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <StackPanel Name="PART_RowsPanel"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="{TemplateBinding HorizontalSpacing}"/>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>
