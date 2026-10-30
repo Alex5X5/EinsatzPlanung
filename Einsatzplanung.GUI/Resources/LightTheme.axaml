@@ -30,6 +30,8 @@
     <SvgImage x:Key="SvgImportIco">  /Assets/Light/import.svg </SvgImage>
     <SvgImage x:Key="SvgEditIco">  /Assets/Light/edit.svg </SvgImage>
     <SvgImage x:Key="SvgSaveIco">  /Assets/Light/save.svg </SvgImage>
+    <SvgImage x:Key="SvgDragIcoRound"> /Assets/Light/draggable-round.svg  </SvgImage>
+    <SvgImage x:Key="SvgDragIco"> /Assets/Light/draggable.svg </SvgImage>
 
     <LinearGradientBrush x:Key="AppBackgroundBrush"
                          StartPoint="0%,0%"

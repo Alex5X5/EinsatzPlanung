@@ -30,6 +30,8 @@
      <SvgImage x:Key="SvgImportIco">  /Assets/Dark/import.svg </SvgImage>
      <SvgImage x:Key="SvgEditIco">  /Assets/Dark/edit.svg </SvgImage>
      <SvgImage x:Key="SvgSaveIco">  /Assets/Dark/save.svg </SvgImage>
+    <SvgImage x:Key="SvgDragIcoRound"> /Assets/Dark/draggable-round.svg  </SvgImage>
+    <SvgImage x:Key="SvgDragIco"> /Assets/Dark/draggable.svg </SvgImage>
 
     <LinearGradientBrush x:Key="AppBackgroundBrush"
                          StartPoint="0%,0%"
