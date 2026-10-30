@@ -84,13 +84,7 @@
                                             ItemsPanel="{StaticResource ExtendingCardItemsPanel}">
                                 <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="vm:BlockCardViewModel">
-                                    <ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}"
-                                                      DragDrop.AllowDrop="True"
-                                                      PointerPressed="Item_PointerPressed"
-                                                      PointerMoved="Item_PointerMoved"
-                                                      PointerReleased="Item_PointerReleased"
-                                                      DragDrop.DragOver="Item_DragOver"
-                                                      DragDrop.Drop="Item_Drop">
+                                    <ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
                                     <Grid ColumnDefinitions="19*, *, 3*">
                                         <ct:NoScrollComboBox Grid.Column="0"
                                                              ItemsSource="{Binding TopicNames}"
