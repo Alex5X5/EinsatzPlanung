@@ -31,6 +31,10 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 	[ObservableProperty]
 	private int activeCardIndex = -1;
 
+	public bool ShowLevelView { get; } = false;
+
+	public bool ShowGroupsView { get; } = true;
+
 	public TopicViewModel(IConfigService<TopicConfig> configService, IConfigExportService<TopicConfig> exportService) {
 		this.exportService = exportService;
 		this.configService = configService;

@@ -1,21 +1,22 @@
 namespace Einsatzplanung.GUI.Controls;
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 
 using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.GUI.CodeGenerators.Attributes;
 using Einsatzplanung.GUI.ViewModels.Edit;
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 public partial class TopicGroupsControl : ContentControl {
 	
@@ -35,11 +36,17 @@ public partial class TopicGroupsControl : ContentControl {
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
 		base.OnApplyTemplate(e);
 
-		CardsControl = e.NameScope.Find<EditCardsControl>("CardsControl");
+		 CardsControl = e.NameScope.Find<EditCardsControl>("CardsControl");
+
+		if (CardsControl is null)
+			return;
+		CardsControl.PointerPressed += OnTopicDragPressed;
+		CardsControl.PointerMoved += OnTopicDragMoved;
+		CardsControl.PointerReleased += OnTopicDragReleased;
 	}
 
 	private void OnTopicDragPressed(object? sender, PointerPressedEventArgs e) {
-		if (sender is not Control handle || handle.DataContext is not TopicCardViewModel card)
+		if (sender is not Control handle)
 			return;
 
 		dragPointer = e.Pointer;
@@ -97,8 +104,9 @@ public partial class TopicGroupsControl : ContentControl {
             oldIndex = 0;
 
             // check wheter the  control that is beeing dragged is a child group widget 
-            foreach (var card in groupContainer.GetVisualDescendants().OfType<Control>()) {
-                card.Equals(draggedCard);
+            foreach (var card in groupContainer.GetVisualDescendants().OfType<ExtendingCard>()) {
+				if (card.Equals(draggedCard))
+					break;
                 oldIndex ++;
             }
 

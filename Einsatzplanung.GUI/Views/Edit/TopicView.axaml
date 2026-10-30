@@ -60,30 +60,34 @@
 			<x:Double x:Key="ScrollBarSize">8</x:Double>
 			<x:Double x:Key="ScrollBarThumbSize">6</x:Double>
 		</ScrollViewer.Resources>
-				
-		<ct:LevelItemsControl ItemsSource="{Binding Groups}"
-                              ItemMovedCommand="{Binding CardMovedCommand}"
-                              HorizontalSpacing="10"
-                              VerticalSpacing="20">
-            <ct:LevelItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="vm:TopicCardViewModel">
-                    <ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Text="{Binding Header, Mode=TwoWay}"
-                                     PlaceholderText="Name des Themas"
-                                     TextWrapping="NoWrap"
-                                     Margin="0,0,10,0"
-                                     Foreground="{DynamicResource AppForegroundBrush}"
-                                     HorizontalContentAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     ToolTip.Tip="Der Name des Themas"/>
-                            <ColorPicker Color="{Binding SelectedColor, Mode=TwoWay}"
-                                         HorizontalAlignment="Stretch"
-                                         ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
-                        </StackPanel>
-                    </ct:RemovableCard>
-                </DataTemplate>
-            </ct:LevelItemsControl.ItemTemplate>
-        </ct:LevelItemsControl>
+		<Panel>
+		    <ct:LevelItemsControl ItemsSource="{Binding Groups}"
+                                  ItemMovedCommand="{Binding CardMovedCommand}"
+                                  HorizontalSpacing="10"
+                                  VerticalSpacing="20"
+                                  IsVisible="{Binding ShowLevelView}">
+                <ct:LevelItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:TopicCardViewModel">
+                        <ct:RemovableCard RemoveButtonCommand="{Binding RemoveCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding Header, Mode=TwoWay}"
+                                         PlaceholderText="Name des Themas"
+                                         TextWrapping="NoWrap"
+                                         Margin="0,0,10,0"
+                                         Foreground="{DynamicResource AppForegroundBrush}"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         ToolTip.Tip="Der Name des Themas"/>
+                                <ColorPicker Color="{Binding SelectedColor, Mode=TwoWay}"
+                                             HorizontalAlignment="Stretch"
+                                             ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
+                            </StackPanel>
+                        </ct:RemovableCard>
+                    </DataTemplate>
+                </ct:LevelItemsControl.ItemTemplate>
+            </ct:LevelItemsControl>
+            <ct:TopicGroupsControl ItemsSource="{Binding Groups}"
+                                   IsVisible="{Binding ShowGroupsView}" />
+        </Panel>		
 	</ScrollViewer>
 </UserControl>
