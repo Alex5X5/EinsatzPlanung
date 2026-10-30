@@ -23,6 +23,7 @@ public partial class TopicView : ViewBase<TopicViewModel> {
 	private TopicCardViewModel? draggedCard;
 	private Point dragStart;
 	private bool isDragging;
+	private TopicGroupsControl GroupCardsControl;
 
 	[BasicStyledProperty]
 	private IRelayCommand<CardMovedEventArgs>? cardMovedCommand;
@@ -71,9 +72,6 @@ public partial class TopicView : ViewBase<TopicViewModel> {
 				if(CardMovedCommand.CanExecute(commadArgs))
 					CardMovedCommand.Execute(commadArgs);
 				// viewModel.MoveCardToGroup(draggedCard, targetGroup, targetCardIndex);
-			} else {
-				int targetGroupIndex = GetTargetGroupIndex(pointerPosition.Y);
-				viewModel.MoveCardToNewGroup(draggedCard, targetGroupIndex);
 			}
 		}
 

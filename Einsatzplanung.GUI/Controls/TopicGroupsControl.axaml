@@ -4,7 +4,9 @@
                     xmlns:ct="using:Einsatzplanung.GUI.Controls"
 					xmlns:vm="using:Einsatzplanung.GUI.Interfaces"
 					xmlns:cv="using:Einsatzplanung.GUI.Converters"
-                    xmlns:generic="using:System.Collections.Generic"
+                    xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+                    xmlns:collections="clr-namespace:System.Collections;assembly=System.Runtime"
+                    xmlns:viewModels="using:Einsatzplanung.GUI.ViewModels.Edit"
                     xmlns:sys="using:System">
     <ControlTheme x:Key="{x:Type ct:TopicGroupsControl}" TargetType="ct:TopicGroupsControl">
 		
@@ -16,7 +18,7 @@
 
                     <ct:EditCardsControl.ItemTemplate>
 			
-			            <DataTemplate x:DataType="generic:IEnumerable(vm:TopicCardViewModel)">
+			            <DataTemplate x:DataType="collections:IEnumerable">
 
                             <Border HorizontalAlignment="Center"
                                     BorderBrush="{DynamicResource CardBorderBrush}"
@@ -29,12 +31,12 @@
             
                                     <ct:EditCardsControl.ItemTemplate>
             
-                                        <DataTemplate x:DataType="vm:TopicCardViewModel">
+                                        <DataTemplate x:DataType="viewModels:TopicCardViewModel">
             
                                             <ct:ExtendingCard AllowExtend="False"
                                                             ShowAddButton="False"
-                                                            Index="{Binding Index}"
-                                                            ActiveCardIndex="{Binding #Root.DataContext.ActiveCardIndex}"
+                                                            Index="0"
+                                                            ActiveCardIndex="1"
                                                             RemoveButtonCommand="{Binding RemoveCommand}"
                                                             RemoveButtonCommandParameter="{Binding}">
             
@@ -52,10 +54,12 @@
                                                                 ColumnDefinitions="*,*"
                                                                 RowDefinitions="*,*,*"
                                                                 Cursor="SizeAll"
-                                                                ToolTip.Tip="Ziehen, um das Thema zu verschieben"
+                                                                ToolTip.Tip="Ziehen, um das Thema zu verschieben">
+                                                                <!--
                                                                 PointerPressed="OnTopicDragPressed"
                                                                 PointerMoved="OnTopicDragMoved"
-                                                            PointerReleased="OnTopicDragReleased">
+                                                                PointerReleased="OnTopicDragReleased">
+                                                                -->
                                                             <Ellipse Grid.Row="0" Grid.Column="0" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
                                                             <Ellipse Grid.Row="0" Grid.Column="1" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
                                                             <Ellipse Grid.Row="1" Grid.Column="0" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />

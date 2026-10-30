@@ -131,9 +131,9 @@ public partial class TopicGroupsControl : ContentControl {
 		// int currentIndex = viewModel.Cards.IndexOf(draggedCard);
 		// if (currentIndex < 0 || currentIndex == targetIndex)
 		// 	return;
-        var model = viewModel.Cards[oldGroupIndex][oldIndex];
-        viewModel.Cards[targetGroupIndex].Add(model);
-        viewModel.Cards[oldGroupIndex].RemoveAt(oldIndex);
+        var model = viewModel.Groups[oldGroupIndex][oldIndex];
+		viewModel.Groups[targetGroupIndex].Add(model);
+		viewModel.Groups[oldGroupIndex].RemoveAt(oldIndex);
 	}
 
 	private void OnTopicDragReleased(object? sender, PointerReleasedEventArgs e) {

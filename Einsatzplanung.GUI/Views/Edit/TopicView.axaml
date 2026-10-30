@@ -61,7 +61,7 @@
 			<x:Double x:Key="ScrollBarThumbSize">6</x:Double>
 		</ScrollViewer.Resources>
 				
-		<ct:LevelItemsControl ItemsSource="{Binding Cards}"
+		<ct:LevelItemsControl ItemsSource="{Binding Groups}"
                               ItemMovedCommand="{Binding CardMovedCommand}"
                               HorizontalSpacing="10"
                               VerticalSpacing="20">
