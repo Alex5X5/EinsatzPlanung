@@ -18,7 +18,7 @@
 						BorderThickness="1"
 						CornerRadius="6"
 						Background="{DynamicResource CardBackgroundBrush}"
-						Padding="20,20,10,10">
+						Padding="20,5,10,15">
 					<ItemsControl ItemsSource="{Binding}">
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
