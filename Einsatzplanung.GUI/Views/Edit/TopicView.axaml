@@ -10,6 +10,7 @@
              x:DataType="vm:TopicViewModel"
              Name="Root">
 
+             <!--
     <ct:EditCardsControl ItemsSource="{Binding Cards}">
         
         <ct:EditCardsControl.ItemTemplate>
@@ -53,7 +54,7 @@
         </ct:EditCardsControl.ItemTemplate>
 
     </ct:EditCardsControl>
-             <!--
+             -->
     <ct:LevelItemsControl ItemsSource="{Binding Cards}"
                           ItemMovedCommand="{Binding CardMovedCommand}"
                           HorizontalSpacing="10"
@@ -78,5 +79,4 @@
             </DataTemplate>
         </ct:LevelItemsControl.ItemTemplate>
     </ct:LevelItemsControl>
-             -->
 </UserControl>
