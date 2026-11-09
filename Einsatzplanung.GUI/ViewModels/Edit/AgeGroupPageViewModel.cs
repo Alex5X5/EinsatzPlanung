@@ -64,7 +64,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 			Groups = []
 		};
 
-		Cards.Add(new AgeGroupCardViewModel(group, RedirectToCardCommand, RemoveCardCommand, Cards.Count));
+		Cards.Add(new AgeGroupCardViewModel(group, RedirectToCardCommand, RemoveCardCommand, Cards.Count, Array.Empty<TeacherConfig>()));
 	}
 
 	[RelayCommand]
@@ -101,11 +101,12 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 
 	protected override async Task OnLoadAsync(CancellationToken token) {
 		await configService.UpdateReferencesAsync();
+		var teachers = await teacherService.GetDataAsync(token);
 		List<AgeGroupCardViewModel> cards = await Task.Run(async () => {
 			int i = 0;
 			var ageGroups = await configService.GetDataAsync(token);
 			return ageGroups
-				.Select(g => new AgeGroupCardViewModel(g, RedirectToCardCommand, RemoveCardCommand, i++))
+				.Select(g => new AgeGroupCardViewModel(g, RedirectToCardCommand, RemoveCardCommand, i++, teachers))
 				.ToList();
 		});
 		Cards.Clear();

@@ -14,8 +14,6 @@ using Einsatzplanung.Types.Models.Configuration;
 
 public partial class GroupCardViewModel : CardViewModel {
 
-	private IConfigService<TeacherConfig> teacherService;
-
 	[ObservableProperty]
 	private string teacherAbbreviation = "";
 	
@@ -25,13 +23,9 @@ public partial class GroupCardViewModel : CardViewModel {
 	
 	public GroupConfig Config { set; get; }
 
-	public GroupCardViewModel(GroupConfig group, IRelayCommand<object> removeCommand, int index) : base(removeCommand, group.Name, index) {
-		teacherService = App.GetRequiredService<IConfigService<TeacherConfig>>();
-
+	public GroupCardViewModel(GroupConfig group, IRelayCommand<object> removeCommand, int index, IReadOnlyList<TeacherConfig> teachers) : base(removeCommand, group.Name, index) {
 		Config = group;
 		TeacherAbbreviation = Config.Teacher.Abbreviation;
-
-		var teachers = teacherService.GetDataAsync().Result;
 		Abbreviations = teachers.Select(x => x.Abbreviation).ToList();
 
 		int i = 0;
