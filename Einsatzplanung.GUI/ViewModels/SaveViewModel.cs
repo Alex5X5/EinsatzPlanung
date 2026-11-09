@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Generation.Interfaces;
+using Einsatzplanung.Generation.Services;
 using Einsatzplanung.GUI.Services;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
@@ -67,8 +68,8 @@ public partial class SaveViewModel : ViewModelBase {
 		try {
 			await Task.Run(
 				() => {
-					var generator = App.Current.Services.GetRequiredService<IGeneratorService>();
-					var export = App.Current.Services.GetRequiredService<IPlanExportService>();
+					var generator = App.GetRequiredService<SolverGeneratorService>();
+					var export = App.GetRequiredService<IPlanExportService>();
 					var config = new GeneratorConfig() {
 						GroupsToExport = ClassesNamesForSave.Select(card => new KeyValuePair<Guid, bool>(card.Config.Id, card.IsSelected)).ToDictionary()
 					};
