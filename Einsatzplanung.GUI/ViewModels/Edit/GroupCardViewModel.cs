@@ -14,20 +14,28 @@ using Einsatzplanung.Types.Models.Configuration;
 
 public partial class GroupCardViewModel : CardViewModel {
 
+	private IConfigService<TeacherConfig> teacherService;
+
 	[ObservableProperty]
 	private string teacherAbbreviation = "";
 	
-	public IReadOnlyList<string> Abbreviations { get; }
+	public ObservableCollection<string> Abbreviations { get; private set; }
 
 	public ObservableCollection<BlockCardViewModel> Topics { get; }
 	
 	public GroupConfig Config { set; get; }
 
-	public GroupCardViewModel(GroupConfig group, IRelayCommand<object> removeCommand, int index, IReadOnlyList<TeacherConfig> teachers) : base(removeCommand, group.Name, index) {
+	public GroupCardViewModel(GroupConfig group, IRelayCommand<object> removeCommand, int index) : base(removeCommand, group.Name, index) {
+		teacherService = App.GetRequiredService<IConfigService<TeacherConfig>>();
+
 		Config = group;
 		TeacherAbbreviation = Config.Teacher.Abbreviation;
-		Abbreviations = teachers.Select(x => x.Abbreviation).ToList();
 
+		Task.Run(async () => {
+			var teachers = await teacherService.GetDataAsync();
+			Abbreviations = new(teachers.Select(x => x.Abbreviation));
+		});
+		
 		int i = 0;
 		var models = group.Blocks.Select(x => new BlockCardViewModel(x, RemoveTopicCommand, i++));
 		Topics = new(models);

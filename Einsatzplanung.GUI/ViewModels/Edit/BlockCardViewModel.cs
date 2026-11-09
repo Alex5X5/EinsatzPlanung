@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Linq;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -18,18 +20,20 @@ public partial class BlockCardViewModel : CardViewModel, IRemovableCardViewModel
 	[ObservableProperty]
 	private string count;
 
-	public IReadOnlyList<string> TopicNames { get; }
+	public ObservableCollection<string> TopicNames { get; private set; }
 	
 	public BlockConfig Config { get; private set; }
 
 	public BlockCardViewModel(BlockConfig block, IRelayCommand<object> removeCommand, int index) : base(removeCommand, block.Topic.Name, index) {
-		Config = block;
-
 		topicService = App.GetRequiredService<IConfigService<TopicConfig>>();
 
+		Config = block;
 		Count = Config.Count.ToString();
 
-		var topics = topicService.GetDataAsync().Result;
-		TopicNames = topics.Select(x => x.Name).ToList();
+		Task.Run(async ()=>{
+			var topics = await topicService.GetDataAsync();
+			TopicNames = new(topics.Select(x => x.Name));
+		});
+
 	}
 }

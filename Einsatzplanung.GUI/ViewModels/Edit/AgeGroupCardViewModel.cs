@@ -23,11 +23,11 @@ public partial class AgeGroupCardViewModel : CardViewModel {
 	[ObservableProperty]
 	private bool isActive = false;
 
-	public AgeGroupCardViewModel(AgeGroupConfig ageGroup, IRelayCommand<object> redirectCommand, IRelayCommand<object> removeCommand, int index, IReadOnlyList<TeacherConfig> teachers) : base(removeCommand, ageGroup.Name, index) {
+	public AgeGroupCardViewModel(AgeGroupConfig ageGroup, IRelayCommand<object> redirectCommand, IRelayCommand<object> removeCommand, int index) : base(removeCommand, ageGroup.Name, index) {
 		Config = ageGroup;
 		RedirectCommand = redirectCommand;
 		int i = 0;
-		var models = ageGroup.Groups.Select(x => new GroupCardViewModel(x, RemoveGroupCommand, i++, teachers));
+		var models = ageGroup.Groups.Select(x => new GroupCardViewModel(x, RemoveGroupCommand, i++));
 		Cards = new(models);
 	}
 
@@ -42,7 +42,7 @@ public partial class AgeGroupCardViewModel : CardViewModel {
 			SchoolWeeks = [],
 			Teacher = teacher,
 		};
-		Cards.Add(new GroupCardViewModel(group, RemoveGroupCommand, Cards.Count, teachers));
+		Cards.Add(new GroupCardViewModel(group, RemoveGroupCommand, Cards.Count));
 	}
 
 	[RelayCommand]
