@@ -373,7 +373,8 @@ public class GeneratorService : IGeneratorService {
 				groupAssignments[cand.Week] = new Assignment {
 					Trainer = teachers[t].Abbreviation,
 					BlockName = cand.Block.Topic.Name,
-					BlockColor = cand.Block.Topic.Color
+					BlockColor = cand.Block.Topic.Color,
+					IsHoliday = [false, false, false, false, false]
 				};
 
 				break;

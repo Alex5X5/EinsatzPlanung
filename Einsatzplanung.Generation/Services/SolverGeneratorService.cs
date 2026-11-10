@@ -55,7 +55,7 @@ public class SolverGeneratorService : IGeneratorService {
 		return group.Holidays.Any(
 			period =>
 				period.From <= DateOnly.FromDateTime(weekStart) &&
-				period.To >= DateOnly.FromDateTime(weekStart.AddDays(1)));
+				period.To >= DateOnly.FromDateTime(weekStart));
 	}
 
 	private static bool ShouldExport(GeneratorConfig config, Group group) {
@@ -180,7 +180,11 @@ public class SolverGeneratorService : IGeneratorService {
 					groupAssignments[slot.Week] = new Assignment {
 						Trainer = Teachers[teacherIndex].Abbreviation,
 						BlockName = slot.Block.Topic.Name,
-						BlockColor = slot.Block.Topic.Color
+						BlockColor = slot.Block.Topic.Color,
+						IsHoliday = Enumerable
+							.Range(0, 5)
+							.Select(x => IsVacationDay(slot.Group, slot.Week.AddDays(x)))
+							.ToArray()
 					};
 
 					break;
@@ -217,7 +221,7 @@ public class SolverGeneratorService : IGeneratorService {
 	#endregion
 
 	/// <summary>
-	/// Represents a week in which a <see cref="Teacher"/> can be assigned to a <see cref="Group"/>.
+	/// Represents a week in which a <see cref="Teacher"/> can be assigned to a <see cref="Types.Models.Group"/>.
 	/// </summary>
 	private sealed class Slot {
 		public required Group Group {
