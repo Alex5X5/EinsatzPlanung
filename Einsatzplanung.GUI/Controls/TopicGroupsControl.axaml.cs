@@ -46,14 +46,15 @@ public partial class TopicGroupsControl : ContentControl {
 	}
 
 	private void OnTopicDragPressed(object? sender, PointerPressedEventArgs e) {
-		if (sender is not Control handle)
-			return;
-
+		var container = (e.Source as Visual)?
+			.GetSelfAndVisualAncestors()
+			.OfType<Control>()
+			.FirstOrDefault(c => c.GetVisualParent() == CardsControl?.ItemsPanelRoot);
 		dragPointer = e.Pointer;
-		draggedCard = handle;
+		draggedCard = container;
 		dragStart = e.GetPosition(this);
 		isDragging = false;
-		e.Pointer.Capture(handle);
+		e.Pointer.Capture(container);
 		e.Handled = true;
 	}
 
@@ -114,31 +115,33 @@ public partial class TopicGroupsControl : ContentControl {
         }
 
 
-        // if (ItemsSource is ObservableCollection<ObservableCollection<object>> list) {
-        //     foreach (var innerList in list) {
-        //         // if (container.DataContext is not TopicCardViewModel card)
-        //         //     continue;
-        //         //get the position of 
-        //         Point? containerPosition = CardsControl?.TranslatePoint(new Point(0, 0), CardsControl);
-        //         if (containerPosition is null)
-        //             continue;
+		// if (ItemsSource is ObservableCollection<ObservableCollection<object>> list) {
+		//     foreach (var innerList in list) {
+		//         // if (container.DataContext is not TopicCardViewModel card)
+		//         //     continue;
+		//         //get the position of 
+		//         Point? containerPosition = CardsControl?.TranslatePoint(new Point(0, 0), CardsControl);
+		//         if (containerPosition is null)
+		//             continue;
 
-        //         // check  wheter the pointer is over a group box
-        //         if (pointerY < containerPosition.Value.Y + CardsControl?.Bounds.Height / 2) {
-        //             continue;
-        //         }
-        //         var index = innerList.IndexOf(draggedCard);
-        //         if (index == -1) {
-        //             continue;
-        //         }   
-        //         targetIndex = index;
-        //         break;
-        //     }
-        // }
+		//         // check  wheter the pointer is over a group box
+		//         if (pointerY < containerPosition.Value.Y + CardsControl?.Bounds.Height / 2) {
+		//             continue;
+		//         }
+		//         var index = innerList.IndexOf(draggedCard);
+		//         if (index == -1) {
+		//             continue;
+		//         }   
+		//         targetIndex = index;
+		//         break;
+		//     }
+		// }
 
 		// int currentIndex = viewModel.Cards.IndexOf(draggedCard);
 		// if (currentIndex < 0 || currentIndex == targetIndex)
 		// 	return;
+		Console.WriteLine($"groups has size ({viewModel.Groups.Count}; {string.Join(",", viewModel.Groups.Select(g => g.Count.ToString()))})");
+		Console.WriteLine($"getting viewModel at ({oldGroupIndex},{oldIndex})");
         var model = viewModel.Groups[oldGroupIndex][oldIndex];
 		viewModel.Groups[targetGroupIndex].Add(model);
 		viewModel.Groups[oldGroupIndex].RemoveAt(oldIndex);
