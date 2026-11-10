@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Media;
 using Avalonia.VisualTree;
 
 using Einsatzplanung.GUI.CodeGenerators.Attributes;
@@ -20,7 +21,9 @@ public partial class TopicGroupsControl : ContentControl {
     [BasicStyledProperty]
     private IEnumerable<IEnumerable<object>>? itemsSource = null;
 
+    private Control? draggedControl;
     private IPointer? dragPointer;
+    private Point _pressPoint;
 	private TopicCardViewModel? draggedCard;
 	private Point dragStart;
 	private bool isDragging;
@@ -60,15 +63,23 @@ public partial class TopicGroupsControl : ContentControl {
 	}
 
 	private void OnTopicDragMoved(object? sender, PointerEventArgs e) {
-		if (dragPointer != e.Pointer || draggedCard is null || CardsControl is null)
+		if (dragPointer != e.Pointer || draggedCard is null || draggedControl is null || CardsControl is null)
 			return;
 
+        var p = e.GetPosition(this);
 		Point pointerPosition = e.GetPosition(this);
 		Vector dragDelta = pointerPosition - dragStart;
-		if (!isDragging && Math.Sqrt(dragDelta.X * dragDelta.X + dragDelta.Y * dragDelta.Y) < 5)
-			return;
 
-		isDragging = true;
+		if (!isDragging){
+            if (Math.Sqrt(dragDelta.X * dragDelta.X + dragDelta.Y * dragDelta.Y) < 5)
+                return;
+
+            isDragging = true;
+            draggedControl.ZIndex = 1000;
+            draggedControl.Opacity = 0.7;
+        }
+        draggedControl.RenderTransform = new TranslateTransform(p.X, p.Y);
+
 	}
 
 	private void OnTopicDragReleased(object? sender, PointerReleasedEventArgs e) {
@@ -76,6 +87,12 @@ public partial class TopicGroupsControl : ContentControl {
 			return;
 
 		e.Pointer.Capture(null);
+        if (draggedControl is not null) {
+            draggedControl.RenderTransform = null;
+            draggedControl.Opacity = 1;
+            draggedControl.ZIndex = 0;
+            draggedControl = null;
+        }
 		if (isDragging && draggedCard is not null &&
 			DataContext is TopicViewModel viewModel &&
 			CardsControl is EditCardsControl cardsControl) {
