@@ -56,7 +56,7 @@ public partial class TopicGroupsControl : ContentControl {
 		draggedCard = card;
 		dragStart = e.GetPosition(this);
 		isDragging = false;
-		e.Pointer.Capture(handle);
+		e.Pointer.Capture(container);
 		e.Handled = true;
 	}
 
