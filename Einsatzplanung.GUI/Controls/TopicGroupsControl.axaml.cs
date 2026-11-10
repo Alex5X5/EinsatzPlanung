@@ -138,10 +138,10 @@ public partial class TopicGroupsControl : ContentControl {
 		// }
 
 		// int currentIndex = viewModel.Cards.IndexOf(draggedCard);
-		// if (currentIndex < 0 || currentIndex == targetIndex)
-		// 	return;
-		Console.WriteLine($"groups has size ({viewModel.Groups.Count}; {string.Join(",", viewModel.Groups.Select(g => g.Count.ToString()))})");
-		Console.WriteLine($"getting viewModel at ({oldGroupIndex},{oldIndex})");
+		if (oldGroupIndex >= viewModel.Groups.Count)
+			return;
+		if (oldIndex >= viewModel.Groups[oldGroupIndex].Count)
+			return;
         var model = viewModel.Groups[oldGroupIndex][oldIndex];
 		viewModel.Groups[targetGroupIndex].Add(model);
 		viewModel.Groups[oldGroupIndex].RemoveAt(oldIndex);
