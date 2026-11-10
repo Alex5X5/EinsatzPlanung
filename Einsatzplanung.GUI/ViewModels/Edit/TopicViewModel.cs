@@ -23,7 +23,7 @@ public partial class TopicViewModel : ViewModelBase, IEditViewChild {
 	private IConfigExportService<TopicConfig> exportService;
 	private IConfigService<TopicConfig> configService;
 
-	public string Header { get; }
+	public string Header { get; } = string.Empty;
 
 	public ObservableCollection<TopicCardViewModel> Cards { set; get; }
 	public ObservableCollection<ObservableCollection<TopicCardViewModel>> Groups { get; } = [];

@@ -111,7 +111,9 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 		Cards.Clear();
 		foreach (var card in cards)
 			Cards.Add(card);
-		RedirectToCard(Cards[0]);
+
+		if (Cards.Count > 0)
+			RedirectToCard(Cards[0]);
 	}
 
 	protected override async Task OnUnloadAsync(CancellationToken token) {
