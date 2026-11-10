@@ -25,8 +25,11 @@ public class SolverGeneratorService : IGeneratorService {
 	
 	// Each group has one slot per week
 	private List<Slot> Slots = [];
+
 	// Whether a teacher is assigned to a slot
 	private Dictionary<(int slot, int trainer), BoolVar> BoolVairables = [];
+
+	private CpModel Model;
 
 	public SolverGeneratorService(IEntityService<Group> groupService, IEntityService<Teacher> teacherService, GeneralConfigService configService) {
 		this.groupService = groupService;
@@ -95,12 +98,12 @@ public class SolverGeneratorService : IGeneratorService {
 		return slots;
 	}
 
-	private Dictionary<(int slot, int trainer), BoolVar> GetBoolVariables(CpModel model) {
+	private Dictionary<(int slot, int trainer), BoolVar> GetBoolVariables() {
 		Dictionary<(int slot, int trainer), BoolVar> vars = [];
 		for (var s = 0; s < Slots.Count; s++) {
 			for (var t = 0; t < Teachers.Count; t++) {
 				if (Teachers[t].CanTeachBlock(Slots[s].Block)) {
-					vars[(s, t)] = model.NewBoolVar($"x_s{s}_t{t}");
+					vars[(s, t)] = Model.NewBoolVar($"x_s{s}_t{t}");
 				}
 			}
 		}
@@ -111,7 +114,7 @@ public class SolverGeneratorService : IGeneratorService {
 
 	#region constraints
 
-	private void AddCanTeachConstraint(CpModel model) {
+	private void AddCanTeachConstraint() {
 		for (var s = 0; s < Slots.Count; s++) {
 			var vars = Enumerable.Range(0, Teachers.Count)
 				.Where(t => BoolVairables.ContainsKey((s, t)))
@@ -124,11 +127,11 @@ public class SolverGeneratorService : IGeneratorService {
 					$"for group '{Slots[s].Group.Name}' (week {Slots[s].Week:yyyy-MM-dd}).");
 			}
 
-			model.AddExactlyOne(vars);
+			Model.AddExactlyOne(vars);
 		}
 	}
 
-	private void AddMaxParallelGroupsConstraint(CpModel model) {
+	private void AddMaxParallelGroupsConstraint() {
 		var slotsByWeek = Slots.Select((slot, index) => (slot, index)).GroupBy(p => p.slot.Week);
 		foreach (var slotsAtWeek in slotsByWeek) {
 			for (var teacherIndex = 0; teacherIndex < Teachers.Count; teacherIndex++) {
@@ -138,13 +141,13 @@ public class SolverGeneratorService : IGeneratorService {
 					.ToList();
 
 				if (vars.Count > MaxConcurrentGroupsPerTeacher) {
-					model.Add(LinearExpr.Sum(vars) <= MaxConcurrentGroupsPerTeacher);
+					Model.Add(LinearExpr.Sum(vars) <= MaxConcurrentGroupsPerTeacher);
 				}
 			}
 		}
 	}
 
-	private void AddPreferGroupTeacherConstraint(CpModel model) {
+	private void AddPreferGroupTeacherConstraint() {
 		var preferenceTerms = new List<LinearExpr>();
 		for (var s = 0; s < Slots.Count; s++) {
 			var preferredIndex = Teachers.IndexOf(Slots[s].Group.Teacher);
@@ -152,7 +155,7 @@ public class SolverGeneratorService : IGeneratorService {
 				preferenceTerms.Add(BoolVairables[(s, preferredIndex)]);
 			}
 		}
-		model.Maximize(LinearExpr.Sum(preferenceTerms));
+		Model.Maximize(LinearExpr.Sum(preferenceTerms));
 	}
 
 	#endregion
@@ -193,16 +196,16 @@ public class SolverGeneratorService : IGeneratorService {
 
 		Slots = GetSlots();
 
-		var model = new CpModel();
+		Model = new();
 
-		BoolVairables = GetBoolVariables(model);
+		BoolVairables = GetBoolVariables();
 
-		AddCanTeachConstraint(model);
-		AddMaxParallelGroupsConstraint(model);
-		AddPreferGroupTeacherConstraint(model);
+		AddCanTeachConstraint();
+		AddMaxParallelGroupsConstraint();
+		AddPreferGroupTeacherConstraint();
 
 		var solver = new CpSolver();
-		var status = solver.Solve(model);
+		var status = solver.Solve(Model);
 
 		if (status != CpSolverStatus.Optimal && status != CpSolverStatus.Feasible) {
 			throw new InvalidOperationException("No trainer assignment satisfies all constraints.");
@@ -213,6 +216,9 @@ public class SolverGeneratorService : IGeneratorService {
 
 	#endregion
 
+	/// <summary>
+	/// Represents a week in which a <see cref="Teacher"/> can be assigned to a <see cref="Group"/>.
+	/// </summary>
 	private sealed class Slot {
 		public required Group Group {
 			get; init;
