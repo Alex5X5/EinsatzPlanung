@@ -20,9 +20,12 @@ public class SolverGeneratorService : IGeneratorService {
 
 	private readonly List<DateTime> weekStarts;
 
-	private List<Slot> Slots = [];
 	private List<Group> Groups = [];
 	private List<Teacher> Teachers = [];
+	
+	// Each group has one slot per week
+	private List<Slot> Slots = [];
+	// Whether a teacher is assigned to a slot
 	private Dictionary<(int slot, int trainer), BoolVar> BoolVairables = [];
 
 	public SolverGeneratorService(IEntityService<Group> groupService, IEntityService<Teacher> teacherService, GeneralConfigService configService) {
@@ -30,6 +33,8 @@ public class SolverGeneratorService : IGeneratorService {
 		this.teacherService = teacherService;
 		weekStarts = DateTimeService.GetWeekStartsInIntervall(configService.YearStartDate, configService.YearEndDate);
 	}
+
+	#region helpers
 
 	private static bool IsSchoolWeek(Group group, DateTime date) {
 		return group.SchoolWeeks.Contains(DateTimeService.WeekOfYear(date));
@@ -43,11 +48,22 @@ public class SolverGeneratorService : IGeneratorService {
 				period.To >= DateOnly.FromDateTime(weekEnd));
 	}
 
+	private static bool IsVacationDay(Group group, DateTime weekStart) {
+		return group.Holidays.Any(
+			period =>
+				period.From <= DateOnly.FromDateTime(weekStart) &&
+				period.To >= DateOnly.FromDateTime(weekStart.AddDays(1)));
+	}
+
 	private static bool ShouldExport(GeneratorConfig config, Group group) {
 		return config.GroupsToExport != null
 			&& config.GroupsToExport.TryGetValue(group.Id, out var export)
 			&& export;
 	}
+
+	#endregion
+
+	#region constraint model setup
 
 	private List<Slot> GetSlots() {
 		var slots = new List<Slot>();
@@ -91,6 +107,10 @@ public class SolverGeneratorService : IGeneratorService {
 		return vars;
 	}
 
+	#endregion
+
+	#region constraints
+
 	private void AddCanTeachConstraint(CpModel model) {
 		for (var s = 0; s < Slots.Count; s++) {
 			var vars = Enumerable.Range(0, Teachers.Count)
@@ -124,19 +144,7 @@ public class SolverGeneratorService : IGeneratorService {
 		}
 	}
 
-	public Plan GeneratePlan(GeneratorConfig config) {
-		Groups = groupService.GetEntities();
-		Teachers = teacherService.GetEntities();
-
-		var Slots = GetSlots();
-
-		var model = new CpModel();
-
-		BoolVairables = GetBoolVariables(model);
-
-		AddCanTeachConstraint(model);
-		AddMaxParallelGroupsConstraint(model);
-
+	private void AddPreferGroupTeacherConstraint(CpModel model) {
 		var preferenceTerms = new List<LinearExpr>();
 		for (var s = 0; s < Slots.Count; s++) {
 			var preferredIndex = Teachers.IndexOf(Slots[s].Group.Teacher);
@@ -145,31 +153,29 @@ public class SolverGeneratorService : IGeneratorService {
 			}
 		}
 		model.Maximize(LinearExpr.Sum(preferenceTerms));
+	}
 
-		var solver = new CpSolver();
-		var status = solver.Solve(model);
+	#endregion
 
-		if (status != CpSolverStatus.Optimal && status != CpSolverStatus.Feasible) {
-			throw new InvalidOperationException("No trainer assignment satisfies all constraints.");
-		}
+	#region plan creation
 
+	private Plan CreatePlan(GeneratorConfig config, CpSolver solver) {
 		var plan = new Plan();
-
-		for (var s = 0; s < Slots.Count; s++) {
-			var slot = Slots[s];
+		for (var slotIndex = 0; slotIndex < Slots.Count; slotIndex++) {
+			var slot = Slots[slotIndex];
 
 			if (!ShouldExport(config, slot.Group))
 				continue;
 
-			for (var t = 0; t < Teachers.Count; t++) {
-				if (BoolVairables.ContainsKey((s, t)) && solver.Value(BoolVairables[(s, t)]) == 1) {
+			for (var teacherIndex = 0; teacherIndex < Teachers.Count; teacherIndex++) {
+				if (BoolVairables.ContainsKey((slotIndex, teacherIndex)) && solver.Value(BoolVairables[(slotIndex, teacherIndex)]) == 1) {
 					if (!plan.Assignments.TryGetValue(slot.Group, out var groupAssignments)) {
 						groupAssignments = new Dictionary<DateTime, Assignment>();
 						plan.Assignments[slot.Group] = groupAssignments;
 					}
 
 					groupAssignments[slot.Week] = new Assignment {
-						Trainer = Teachers[t].Abbreviation,
+						Trainer = Teachers[teacherIndex].Abbreviation,
 						BlockName = slot.Block.Topic.Name,
 						BlockColor = slot.Block.Topic.Color
 					};
@@ -178,9 +184,34 @@ public class SolverGeneratorService : IGeneratorService {
 				}
 			}
 		}
-
 		return plan;
 	}
+
+	public Plan GeneratePlan(GeneratorConfig config) {
+		Groups = groupService.GetEntities();
+		Teachers = teacherService.GetEntities();
+
+		Slots = GetSlots();
+
+		var model = new CpModel();
+
+		BoolVairables = GetBoolVariables(model);
+
+		AddCanTeachConstraint(model);
+		AddMaxParallelGroupsConstraint(model);
+		AddPreferGroupTeacherConstraint(model);
+
+		var solver = new CpSolver();
+		var status = solver.Solve(model);
+
+		if (status != CpSolverStatus.Optimal && status != CpSolverStatus.Feasible) {
+			throw new InvalidOperationException("No trainer assignment satisfies all constraints.");
+		}
+
+		return CreatePlan(config, solver);
+	}
+
+	#endregion
 
 	private sealed class Slot {
 		public required Group Group {
@@ -193,6 +224,4 @@ public class SolverGeneratorService : IGeneratorService {
 			get; init;
 		}
 	}
-
-	private record class PlanGenerationContext(CpModel Model, List<Group> Groups, List<Teacher> Teachers, List<Slot> Slots, Dictionary<(int slot, int trainer), BoolVar> BoolVairables);
 }
