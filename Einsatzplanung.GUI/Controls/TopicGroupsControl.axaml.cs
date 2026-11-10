@@ -23,7 +23,6 @@ public partial class TopicGroupsControl : ContentControl {
 
     private Control? draggedControl;
     private IPointer? dragPointer;
-    private Point _pressPoint;
 	private TopicCardViewModel? draggedCard;
 	private Point dragStart;
 	private bool isDragging;
@@ -55,13 +54,24 @@ public partial class TopicGroupsControl : ContentControl {
 		if (e.Source is not Control handle || handle.DataContext is not TopicCardViewModel card)
 			return;
 
+		Control? container = null;
+		for (Control? current = handle; current is not null; current = current.GetVisualParent() as Control) {
+			if (ItemsControl.ItemsControlFromItemContainer(current) is EditCardsControl inner && !ReferenceEquals(inner, CardsControl)) {
+				container = current;
+				break;
+			}
+		}
+
+		if (container is null)
+			return;
+
 		dragPointer = e.Pointer;
 		draggedCard = card;
+		draggedControl = container;
 		dragStart = e.GetPosition(this);
 		isDragging = false;
 		e.Handled = true;
 	}
-
 	private void OnTopicDragMoved(object? sender, PointerEventArgs e) {
 		if (dragPointer != e.Pointer || draggedCard is null || draggedControl is null || CardsControl is null)
 			return;
@@ -78,7 +88,7 @@ public partial class TopicGroupsControl : ContentControl {
             draggedControl.ZIndex = 1000;
             draggedControl.Opacity = 0.7;
         }
-        draggedControl.RenderTransform = new TranslateTransform(p.X, p.Y);
+        draggedControl.RenderTransform = new TranslateTransform(p.X - dragStart.X, p.Y - dragStart.Y);
 
 	}
 
