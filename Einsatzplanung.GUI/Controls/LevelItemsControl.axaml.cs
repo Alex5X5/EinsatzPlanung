@@ -66,9 +66,7 @@ public partial class LevelItemsControl : TemplatedControl {
 	/// Optional factory for new rows. If null, a row of the same type as the source row is created
 	/// (works for ObservableCollection&lt;T&gt; and List&lt;T&gt;).
 	/// </summary>
-	public Func<IList>? NewRowFactory {
-		get; set;
-	}
+	public Func<IList>? NewRowFactory { get; set; }
 
 	public event EventHandler<ItemMovedEventArgs>? ItemMoved;
 

@@ -6,6 +6,8 @@
         <ResourceInclude Source="avares://Einsatzplanung.GUI/Controls/RemovableCard.axaml"/>
         <ResourceInclude Source="avares://Einsatzplanung.GUI/Controls/ExtendingCard.axaml"/>
         <ResourceInclude Source="avares://Einsatzplanung.GUI/Controls/RedirectOrEditButton.axaml"/>
+        <ResourceInclude Source="avares://Einsatzplanung.GUI/Controls/LevelItemsControl.axaml"/>
+        <ResourceInclude Source="avares://Einsatzplanung.GUI/Controls/TopicGroupsControl.axaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
