@@ -8,10 +8,9 @@ using Einsatzplanung.Types.Models;
 
 public class TeacherService : EntitiyServiceBase<Teacher, TeacherConfig> {
 
-	private IEntityService<Topic> topicService;
+	private IEntityService<Topic, TopicConfig> topicService;
 
-	public TeacherService(IConfigService<TeacherConfig> configService, IEntityService<Topic, TopicConfig> topicService)
-	: base(configService) {
+	public TeacherService(IConfigService<TeacherConfig> configService, IEntityService<Topic, TopicConfig> topicService) : base(configService) {
 		this.topicService = topicService;
 	}
 
@@ -21,11 +20,7 @@ public class TeacherService : EntitiyServiceBase<Teacher, TeacherConfig> {
 			Name = config.Name,
 			Abbreviation = config.Abbreviation,
 			WeeklyHours = config.WeeklyHours,
-			Specializations = config.Specializations.Select(MapTopic).ToList()
+			Specializations = config.Specializations.Select(topicService.MapConfigData).ToList()
 		};
-	}
-
-	private Topic MapTopic(TopicConfig config) {
-		return topicService.GetEntities().FirstOrDefault(x => x.Name == config.Name, Topic.Default);
 	}
 }

@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -73,8 +74,11 @@ public partial class SaveViewModel : ViewModelBase {
 					var config = new GeneratorConfig() {
 						GroupsToExport = ClassesNamesForSave.Select(card => new KeyValuePair<Guid, bool>(card.Config.Id, card.IsSelected)).ToDictionary()
 					};
+					var watch = Stopwatch.StartNew();
 					var plan = generator.GeneratePlan(config);
 					export.ExportPlan(GetFileName(), plan);
+					watch.Stop();
+					Console.WriteLine($"Generating took {watch.ElapsedMilliseconds} ms");
 				});
 		} catch(Exception e) {
 			ErrorString = e.Message;

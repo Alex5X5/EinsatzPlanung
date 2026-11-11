@@ -47,7 +47,6 @@ public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
 			.Select(MapBlock)
 			.ToList();
 		
-		var teachers = teacherService.GetEntities();
 		return new Group() {
 			Id = config.Id,
 			Name = config.Name,
@@ -60,15 +59,10 @@ public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
 
 	private Block MapBlock(BlockConfig config) {
 		string topicName = config.Topic.Name;
-		var topic = topicService.GetEntities().FirstOrDefault(x => x.Name == topicName);
-		if (topic != null) {
-			return new Block {
-				Id = config.Id,
-				Topic = topic,
-				Count = config.Count
-			};
-		} else {
-			throw new ValidationException($"Topic '{config.Topic}' not found.");
-		}
+		return new Block {
+			Id = config.Id,
+			Topic = topicService.MapConfigData(config.Topic),
+			Count = config.Count
+		};
 	}
 }
