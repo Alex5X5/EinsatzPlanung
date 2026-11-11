@@ -12,6 +12,7 @@ public class TopicService : EntitiyServiceBase<Topic, TopicConfig> {
 		return new Topic() {
 			Id = config.Id,
 			Name = config.Name,
+			Level = int.TryParse(config.Level, out var level) ? level : 0,
 			Color = config.Color
 		};
 	}
