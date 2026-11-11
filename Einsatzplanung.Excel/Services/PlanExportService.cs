@@ -188,11 +188,11 @@ public sealed class PlanExportService : IPlanExportService
 	}
 
 	private static Color GetForeGroundColorFromBlockColor(Color color) {
-		int average = color.R + color.G + color.B;
+		double average = ((double)color.R)*0.9 + ((double)color.G) * 1.2 + ((double)color.B) * 0.9;
 		
 		average /= 3;
-
-		if (average > 128) {
+		
+		if (average > 100) {
 			return Color.FromArgb(255,0,0,0);
 		} else {
 			return Color.FromArgb(255,255,255,255);
