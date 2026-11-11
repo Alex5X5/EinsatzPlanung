@@ -136,6 +136,16 @@ public partial class TopicGroupsControl : ContentControl {
 		Canvas.SetLeft(dragVisual, p.X - grabOffset.X);
 		Canvas.SetTop(dragVisual, p.Y - grabOffset.Y);
 	}
+	
+	private void EndDragVisual() {
+		if (dragVisual is not null)
+			overlay?.Children.Remove(dragVisual);
+		if (draggedControl is not null)
+			draggedControl.Opacity = 1;
+
+		dragVisual = null;
+		overlay = null;
+	}
 
 	private void OnTopicDragReleased(object? sender, PointerReleasedEventArgs e) {
 		if (dragPointer != e.Pointer)
@@ -168,15 +178,6 @@ public partial class TopicGroupsControl : ContentControl {
 		isDragging = false;
 	}
 
-	private void EndDragVisual() {
-		if (dragVisual is not null)
-			overlay?.Children.Remove(dragVisual);
-		if (draggedControl is not null)
-			draggedControl.Opacity = 1;
-
-		dragVisual = null;
-		overlay = null;
-	}
 
 	private ObservableCollection<TopicCardViewModel>? GetTargetGroup(
 		double pointerY,
