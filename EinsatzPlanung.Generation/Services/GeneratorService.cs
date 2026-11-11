@@ -17,17 +17,17 @@ public class GeneratorService : IGeneratorService {
 	// ================= Settings =================
 
 	// Hard limit of groups a trainer may teach in parallel (solver still keeps it as low as possible)
-	private const int MaxParallelClasses = 7;
+	private const int MAX_PARALLEL_GROUPS = 2;
 
 	// How many weeks a topic may be shifted from its preferred position (0 = fixed order, may cause problems)
-	private const int MaxShiftWeeks = 5;
+	private const int MAX_TOPIC_OFFSET = 5;
 
 	// Solver time limit in seconds
 	private const int SolveTimeLimitSeconds = 30;
 
 	// true  = hidden groups are planned (they occupy trainers) but not exported
 	// false = hidden groups are ignored completely
-	private static readonly bool PlanHiddenGroupsToo = true;
+	private static readonly bool PLAN_GROUPS_TOO = true;
 
 	// ================= Weights (higher = more important) =================
 	// The solver looks for the plan with the lowest total cost.
@@ -116,7 +116,7 @@ public class GeneratorService : IGeneratorService {
 		var candidates = new List<Candidate>();
 
 		foreach (var group in groups) {
-			if (!PlanHiddenGroupsToo && !ShouldExport(config, group)) {
+			if (!PLAN_GROUPS_TOO && !ShouldExport(config, group)) {
 				continue;
 			}
 
@@ -145,8 +145,8 @@ public class GeneratorService : IGeneratorService {
 					continue;
 				}
 
-				var firstIndex = Math.Max(0, blockStart - MaxShiftWeeks);
-				var lastIndex = Math.Min(validWeeks.Count - 1, blockEnd - 1 + MaxShiftWeeks);
+				var firstIndex = Math.Max(0, blockStart - MAX_TOPIC_OFFSET);
+				var lastIndex = Math.Min(validWeeks.Count - 1, blockEnd - 1 + MAX_TOPIC_OFFSET);
 				var created = 0;
 
 				for (var i = firstIndex; i <= lastIndex; i++) {
@@ -277,12 +277,12 @@ public class GeneratorService : IGeneratorService {
 			var load = SumOf(vars);
 
 			// Hard limit
-			if (vars.Count > MaxParallelClasses) {
-				model.Add(load <= MaxParallelClasses);
+			if (vars.Count > MAX_PARALLEL_GROUPS) {
+				model.Add(load <= MAX_PARALLEL_GROUPS);
 			}
 
 			// Soft cost: level k = "more than k groups at once". Cost grows per level, so load gets spread out.
-			for (var k = 1; k < Math.Min(vars.Count, MaxParallelClasses); k++) {
+			for (var k = 1; k < Math.Min(vars.Count, MAX_PARALLEL_GROUPS); k++) {
 				var above = model.NewBoolVar($"over_t{key.Teacher}_{key.Week:yyyyMMdd}_{k}");
 				model.Add(load <= k).OnlyEnforceIf(above.Not());
 				objective.Add(WeightParallelStep * k * above);
