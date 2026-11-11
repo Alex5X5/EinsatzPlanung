@@ -107,6 +107,7 @@ public sealed class PlanExportService : IPlanExportService
 		workbook.SaveAs(filePath);
 	}
 
+	[Obsolete("This method is deprecated and will be removed in a future release. Please use ExportPlan instead.")]
 	public void ExportWeeklyPlan(string filePath, Dictionary<(string Group, DateTime WeekStart), Assignment> weeklyAssignments)
 	{
 		XLWorkbook workbook = new();
