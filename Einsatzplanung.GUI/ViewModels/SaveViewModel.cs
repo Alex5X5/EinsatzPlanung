@@ -39,6 +39,8 @@ public partial class SaveViewModel : ViewModelBase {
 		var groups = await groupService.GetEntitiesAsync();
 		var items = await Task.Run(
 			() => {
+				var groupService = App.GetRequiredService<IEntityService<Group>>();
+				var groups = groupService.GetEntities();
 				return groups
 					.Select(
 						x =>
@@ -76,9 +78,16 @@ public partial class SaveViewModel : ViewModelBase {
 			var plan = await generator.GeneratePlanAsync(config);
 			await Task.Run(
 				() => {
+					var generator = App.Current.Services.GetRequiredService<IGeneratorService>();
+					var export = App.Current.Services.GetRequiredService<IPlanExportService>();
+					var config = new GeneratorConfig() {
+						GroupsToExport = ClassesNamesForSave.Select(card => new KeyValuePair<Guid, bool>(card.Config.Id, card.IsSelected)).ToDictionary()
+					};
+					var plan = generator.GeneratePlan(config);
 					export.ExportPlan(GetFileName(), plan);
 					
 				});
+			App.Current.Services.GetRequiredService<IPopupService>().Notify("Export Erfolgreich", "Einsatzplan erfolgreich exportiert");
 			watch.Stop();
 			Console.WriteLine($"Generating took {watch.ElapsedMilliseconds} ms");
 		} catch(Exception e) {

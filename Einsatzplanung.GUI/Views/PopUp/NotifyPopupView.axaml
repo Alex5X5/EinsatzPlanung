@@ -14,5 +14,16 @@
         x:DataType="vm:NotifyPopupViewModel"
         Title="{Binding Header}"
         Background="{DynamicResource AppBackgroundBrush}">
-    Welcome to Avalonia!
+        
+        <Grid ColumnDefinitions="*" RowDefinitions="*, *, *, *" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Grid.Row="0" Text="{Binding Message}"/>
+                <TextBlock Grid.Row="1" Text="{Binding ErrorMessage}"/>
+                <Separator Grid.Row="2" Margin="0,0,0,20" Background="Transparent"/>
+                <StackPanel Grid.Row="3" Orientation="Horizontal" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+                        <Button Classes="standard-button" MinWidth="50"
+                                Content="Ok" Command=""/>
+                </StackPanel>
+        </Grid>
+        
 </Window>
