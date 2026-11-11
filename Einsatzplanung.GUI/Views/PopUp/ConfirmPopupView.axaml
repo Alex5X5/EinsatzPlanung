@@ -10,8 +10,8 @@
              CanMaximize="False"
              CanMinimize="False"
              CanResize="False"
-             x:Class="Einsatzplanung.GUI.Views.PopUp.ConfirmDialogView"
-             x:DataType="vm:ConfirmDialogViewModel"
+             x:Class="Einsatzplanung.GUI.Views.PopUp.ConfirmPopupView"
+             x:DataType="vm:ConfirmPopupViewModel"
              Title="{Binding Header}"
              Background="{DynamicResource AppBackgroundBrush}">
     

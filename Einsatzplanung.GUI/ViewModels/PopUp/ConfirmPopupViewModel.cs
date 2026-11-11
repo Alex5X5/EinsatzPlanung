@@ -6,7 +6,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 
 namespace Einsatzplanung.GUI.ViewModels.PopUp {
-	public partial class ConfirmDialogViewModel : ViewModelBase {
+	public partial class ConfirmPopupViewModel : ViewModelBase {
 		
 		
 		public string Header { get; }
@@ -24,7 +24,7 @@ namespace Einsatzplanung.GUI.ViewModels.PopUp {
 		/// <param name="message">The message text displayed in the dialog body.</param>
 		/// <param name="f">Text of the first button (usually the confirm action). Defaults to "Ja".</param>
 		/// <param name="s">Text of the second button (usually the cancel action). Defaults to "Nein".</param>
-		public ConfirmDialogViewModel(string header, string message, string f = "Ja", string s = "Nein") {
+		public ConfirmPopupViewModel(string header, string message, string f = "Ja", string s = "Nein") {
 			Header = header;
 			Message = message;
 			FirstButtonText = f;

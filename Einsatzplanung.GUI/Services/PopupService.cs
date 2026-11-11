@@ -16,8 +16,8 @@ using System.Threading.Tasks;
 			if (owner is null)
 				return false;
 
-			var vm = new ConfirmDialogViewModel(title, message);
-			var window = new ConfirmDialogView {
+			var vm = new ConfirmPopupViewModel(title, message);
+			var window = new ConfirmPopupView {
 				DataContext = vm
 			};
 
