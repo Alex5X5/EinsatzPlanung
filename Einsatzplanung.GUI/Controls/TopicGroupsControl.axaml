@@ -55,11 +55,6 @@
                                                                 RowDefinitions="*,*,*"
                                                                 Cursor="SizeAll"
                                                                 ToolTip.Tip="Ziehen, um das Thema zu verschieben">
-                                                                <!--
-                                                                PointerPressed="OnTopicDragPressed"
-                                                                PointerMoved="OnTopicDragMoved"
-                                                                PointerReleased="OnTopicDragReleased">
-                                                                -->
                                                             <Ellipse Grid.Row="0" Grid.Column="0" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
                                                             <Ellipse Grid.Row="0" Grid.Column="1" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
                                                             <Ellipse Grid.Row="1" Grid.Column="0" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
