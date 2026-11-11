@@ -2,23 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:ct="using:Einsatzplanung.GUI.Controls"
-					xmlns:vm="using:Einsatzplanung.GUI.Interfaces"
-					xmlns:cv="using:Einsatzplanung.GUI.Converters"
+                    xmlns:vm="using:Einsatzplanung.GUI.Interfaces"
+                    xmlns:cv="using:Einsatzplanung.GUI.Converters"
                     xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
                     xmlns:collections="clr-namespace:System.Collections;assembly=System.Runtime"
                     xmlns:viewModels="using:Einsatzplanung.GUI.ViewModels.Edit"
                     xmlns:sys="using:System">
     <ControlTheme x:Key="{x:Type ct:TopicGroupsControl}" TargetType="ct:TopicGroupsControl">
-		
-		<Setter Property="Template">
-		
-			<ControlTemplate>
+        
+        <Setter Property="Template">
+        
+            <ControlTemplate>
                 
                 <ct:EditCardsControl x:Name="CardsControl" ItemsSource="{TemplateBinding ItemsSource}">
 
                     <ct:EditCardsControl.ItemTemplate>
-			
-			            <DataTemplate x:DataType="collections:IEnumerable">
+            
+                        <DataTemplate x:DataType="collections:IEnumerable">
 
                             <Border HorizontalAlignment="Center"
                                     BorderBrush="{DynamicResource CardBorderBrush}"
@@ -34,27 +34,27 @@
                                         <DataTemplate x:DataType="viewModels:TopicCardViewModel">
             
                                             <ct:ExtendingCard AllowExtend="False"
-                                                            ShowAddButton="False"
-                                                            Index="0"
-                                                            ActiveCardIndex="1"
-                                                            RemoveButtonCommand="{Binding RemoveCommand}"
-                                                            RemoveButtonCommandParameter="{Binding}">
+                                                              ShowAddButton="False"
+                                                              Index="0"
+                                                              ActiveCardIndex="1"
+                                                              RemoveButtonCommand="{Binding RemoveCommand}"
+                                                              RemoveButtonCommandParameter="{Binding}">
             
                                                 <ct:ExtendingCard.HeaderContent>
             
                                                     <Grid RowDefinitions="*"
-                                                            ColumnDefinitions="Auto, 16*, *, 3*"
-                                                            HorizontalAlignment="Stretch">
+                                                          ColumnDefinitions="Auto, 16*, *, 3*"
+                                                          HorizontalAlignment="Stretch">
             
                                                         <Grid Grid.Column="0"
-                                                                Width="22"
-                                                                Height="24"
-                                                                Margin="0,0,8,0"
-                                                                Background="Transparent"
-                                                                ColumnDefinitions="*,*"
-                                                                RowDefinitions="*,*,*"
-                                                                Cursor="SizeAll"
-                                                                ToolTip.Tip="Ziehen, um das Thema zu verschieben">
+                                                              Width="22"
+                                                              Height="24"
+                                                              Margin="0,0,8,0"
+                                                              Background="Transparent"
+                                                              ColumnDefinitions="*,*"
+                                                              RowDefinitions="*,*,*"
+                                                              Cursor="SizeAll"
+                                                              ToolTip.Tip="Ziehen, um das Thema zu verschieben">
                                                             <Ellipse Grid.Row="0" Grid.Column="0" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
                                                             <Ellipse Grid.Row="0" Grid.Column="1" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
                                                             <Ellipse Grid.Row="1" Grid.Column="0" Width="4" Height="4" Fill="{DynamicResource AppForegroundBrush}" />
@@ -64,35 +64,41 @@
                                                         </Grid>
             
                                                         <TextBox Grid.Column="1"
-                                                                Text="{Binding Header, Mode=TwoWay}"
-                                                                PlaceholderText="Name des Themas"
-                                                                TextWrapping="NoWrap"
-                                                                Foreground="{DynamicResource AppForegroundBrush}"
-                                                                HorizontalContentAlignment="Center"
-                                                                VerticalContentAlignment="Center"
-                                                                ToolTip.Tip="Der Name des Themas"/>
+                                                                 Text="{Binding Header, Mode=TwoWay}"
+                                                                 PlaceholderText="Name des Themas"
+                                                                 TextWrapping="NoWrap"
+                                                                 Foreground="{DynamicResource AppForegroundBrush}"
+                                                                 HorizontalContentAlignment="Center"
+                                                                 VerticalContentAlignment="Center"
+                                                                 ToolTip.Tip="Der Name des Themas"/>
                                                         <ColorPicker Grid.Column="3"
-                                                                    Color="{Binding SelectedColor, Mode=TwoWay}"
-                                                                    HorizontalAlignment="Stretch"
-                                                                    ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
+                                                                     Color="{Binding SelectedColor, Mode=TwoWay}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     ToolTip.Tip="Die Farbe die das Thema im Einsatzplan haben wird"/>
             
                                                     </Grid>
             
                                                 </ct:ExtendingCard.HeaderContent>
             
                                             </ct:ExtendingCard>
+
                                         </DataTemplate>
+                                        
                                     </ct:EditCardsControl.ItemTemplate>
+
                                 </ct:EditCardsControl>
+
                             </Border>
+
                         </DataTemplate>
+
                     </ct:EditCardsControl.ItemTemplate>
+
                 </ct:EditCardsControl>
-			</ControlTemplate>
 
-		</Setter>
+            </ControlTemplate>
 
-	</ControlTheme>
-	
+        </Setter>
 
+    </ControlTheme>
 </ResourceDictionary>

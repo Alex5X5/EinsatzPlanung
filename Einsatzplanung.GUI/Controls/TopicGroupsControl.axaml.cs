@@ -82,8 +82,6 @@ public partial class TopicGroupsControl : ContentControl {
 		if (dragPointer != e.Pointer || draggedCard is null || draggedControl is null || CardsControl is null)
 			return;
 
-        // var p = e.GetPosition(this);
-		// Point pointerPosition = e.GetPosition(this);
 		Vector dragDelta = e.GetPosition(this) - dragStart;
 
 		if (!isDragging){
@@ -94,7 +92,6 @@ public partial class TopicGroupsControl : ContentControl {
 			e.Pointer.Capture(CardsControl);
 			BeginDragViaual(e);
         } 
-        // draggedControl.RenderTransform = new TranslateTransform(p.X - dragStart.X, p.Y - dragStart.Y);
 		UpdateDragVisual(e);
 
 	}
@@ -125,16 +122,13 @@ public partial class TopicGroupsControl : ContentControl {
 		overlay.Children.Add(dragVisual);
 		
 		UpdateDragVisual(e);
-
 	}
 
 	private void UpdateDragVisual(PointerEventArgs e) {
 		if (dragVisual is null || overlay is null)
 			return;
-
 		var p = e.GetPosition(overlay);
-		Canvas.SetLeft(dragVisual, p.X - grabOffset.X);
-		Canvas.SetTop(dragVisual, p.Y - grabOffset.Y);
+		dragVisual.RenderTransform = new TranslateTransform(p.X - grabOffset.X, p.Y - grabOffset.Y);
 	}
 	
 	private void EndDragVisual() {
