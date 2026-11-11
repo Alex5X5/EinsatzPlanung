@@ -14,6 +14,7 @@ using Einsatzplanung.GUI.ViewModels.Edit;
 using Einsatzplanung.GUI.Views.Edit;
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,8 +23,8 @@ public partial class TopicGroupsControl : ContentControl {
 	
     [BasicStyledProperty]
     private IEnumerable<IEnumerable<object>>? itemsSource = null;
-
     private Control? draggedControl;
+
     private IPointer? dragPointer;
 	private TopicCardViewModel? draggedCard;
 	private Point dragStart;
@@ -130,7 +131,7 @@ public partial class TopicGroupsControl : ContentControl {
 		var p = e.GetPosition(overlay);
 		dragVisual.RenderTransform = new TranslateTransform(p.X - grabOffset.X, p.Y - grabOffset.Y);
 	}
-	
+
 	private void EndDragVisual() {
 		if (dragVisual is not null)
 			overlay?.Children.Remove(dragVisual);
@@ -161,7 +162,8 @@ public partial class TopicGroupsControl : ContentControl {
 			if (targetGroup is not null) {
 				int targetCardIndex = GetTargetCardIndex(targetGroup, pointerPosition.Y, cardsControl);
 				if (targetCardIndex >= 0) {
-					viewModel.MoveCardToGroup(new CardMovedEventArgs(draggedCard, targetGroup, targetCardIndex));
+					// viewModel.MoveCardToGroup(new CardMovedEventArgs(draggedCard, targetGroup, targetCardIndex));
+					MoveCard(draggedCard, targetGroup, targetCardIndex);
 				}
 			}
 		}
@@ -170,6 +172,24 @@ public partial class TopicGroupsControl : ContentControl {
 		draggedCard = null;
 		draggedControl = null;
 		isDragging = false;
+	}
+	private void MoveCard(TopicCardViewModel card, ObservableCollection<TopicCardViewModel> target, int index) {
+		if (ItemsSource is not IList groups)
+			return;
+
+		var source = groups.OfType<ObservableCollection<TopicCardViewModel>>().FirstOrDefault(g => g.Contains(card));
+		if (source is null)
+			return;
+
+		int oldIndex = source.IndexOf(card);
+		if (ReferenceEquals(source, target) && index > oldIndex)
+			index--;
+
+		source.RemoveAt(oldIndex);
+		target.Insert(Math.Clamp(index, 0, target.Count), card);
+
+		if (source.Count == 0)
+			groups.Remove(source);
 	}
 
 
