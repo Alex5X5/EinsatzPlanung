@@ -74,8 +74,8 @@ public partial class SaveViewModel : ViewModelBase {
 					};
 					var plan = generator.GeneratePlan(config);
 					export.ExportPlan(GetFileName(), plan);
-					
 				});
+			App.Current.Services.GetRequiredService<IPopupService>().Notify("Export Erfolgreich", "Einsatzplan erfolgreich exportiert");
 		} catch(Exception e) {
 			ErrorString = e.Message;
 		}
