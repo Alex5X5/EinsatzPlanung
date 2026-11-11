@@ -24,7 +24,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 	private IConfigService<AgeGroupConfig> configService;
 	private IConfigService<TopicConfig> topicService;
 	private IConfigService<TeacherConfig> teacherService;
-	private readonly IDialogService dialogService;
+	private readonly IPopupService popupService;
 
 	public ObservableCollection<AgeGroupCardViewModel> Cards { set; get; }
 
@@ -41,13 +41,13 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 		IConfigExportService<AgeGroupConfig> exportService, 
 		IConfigService<TopicConfig> topicService, 
 		IConfigService<TeacherConfig> teacherService,
-		IDialogService dialogService) 
+		IPopupService popupService) 
 	{
 		this.exportService = exportService;
 		this.configService = configService;
 		this.topicService = topicService;
 		this.teacherService = teacherService;
-		this.dialogService = dialogService;
+		this.popupService = popupService;
 		Cards = [];
 	}
 
@@ -76,7 +76,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 		if (Cards.Count <= 1)
 			return;
 		
-		if (!await dialogService.ConfirmAsync("Löschen", "Wirklich löschen?")) return;
+		if (!await popupService.ConfirmAsync("Löschen", "Wirklich löschen?")) return;
 
 		Cards.Remove(ageCard);
 		if(card == ActiveCard)

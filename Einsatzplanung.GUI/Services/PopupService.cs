@@ -8,7 +8,7 @@ using Einsatzplanung.GUI.Views;
 using Einsatzplanung.GUI.Views.PopUp;
 
 using System.Threading.Tasks;
-	public class DialogService : IDialogService {
+	public class PopupService : IPopupService {
 		public async Task<bool> ConfirmAsync(string title, string message) 
 		{
 			var owner = (Application.Current?.ApplicationLifetime
