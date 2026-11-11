@@ -108,7 +108,7 @@ public partial class App : Application {
 		collection.AddTransient<IGeneratorService, GeneratorService>();
 		collection.AddTransient<IPlanExportService, PlanExportService>();
 		
-		collection.AddSingleton<IDialogService, DialogService>();
+		collection.AddSingleton<IPopupService, PopupService>();
 
 		collection.AddSingleton<TopicViewModel>();
 		collection.AddSingleton<HolidayViewModel>();
