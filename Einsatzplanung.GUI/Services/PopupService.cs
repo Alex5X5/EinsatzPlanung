@@ -1,4 +1,6 @@
-﻿namespace Einsatzplanung.GUI.Services;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+
+namespace Einsatzplanung.GUI.Services;
 
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -25,4 +27,33 @@ using System.Threading.Tasks;
 
 			return await window.ShowDialog<bool>(owner);
 		}
+
+		public void Notify(string title, string message) {
+			var owner = (Application.Current?.ApplicationLifetime
+				as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+			if (owner is null) 
+				return;
+			
+			var vm = new NotifyPopupViewModel(title, message);
+			var window = new NotifyPopupView {
+				DataContext = vm
+			};
+
+			window.ShowDialog(owner);
+		}
+
+		public void Warn(string errorMessage ,string title = "Error", string message = "Ein fehler ist aufgetreten!") {
+			var owner = (Application.Current?.ApplicationLifetime
+				as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+			if (owner is null) 
+				return;
+			
+			var vm = new NotifyPopupViewModel(title, message, isError: true, errorMessage);
+			var window = new NotifyPopupView {
+				DataContext = vm
+			};
+
+			window.ShowDialog(owner);
+		}
+		
 	}

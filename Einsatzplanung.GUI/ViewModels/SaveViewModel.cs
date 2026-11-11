@@ -74,6 +74,7 @@ public partial class SaveViewModel : ViewModelBase {
 					};
 					var plan = generator.GeneratePlan(config);
 					export.ExportPlan(GetFileName(), plan);
+					
 				});
 		} catch(Exception e) {
 			ErrorString = e.Message;
