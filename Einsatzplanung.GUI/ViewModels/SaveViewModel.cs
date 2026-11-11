@@ -77,6 +77,7 @@ public partial class SaveViewModel : ViewModelBase {
 			await Task.Run(
 				() => {
 					export.ExportPlan(GetFileName(), plan);
+					
 				});
 			watch.Stop();
 			Console.WriteLine($"Generating took {watch.ElapsedMilliseconds} ms");
