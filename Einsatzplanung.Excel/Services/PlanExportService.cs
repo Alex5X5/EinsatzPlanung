@@ -88,6 +88,8 @@ public sealed class PlanExportService : IPlanExportService
 						if (ColorTranslator.FromHtml(assignment.BlockColor) is var color && color != Color.Empty)
 						{
 							worksheet.Cell(rowIndex, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(color);
+							Color foregroundColor = GetForeGroundColorFromBlockColor(color);
+							worksheet.Cell(rowIndex, colIndex).Style.Font.FontColor = XLColor.FromColor(foregroundColor);
 						}
 					}
 					else
@@ -165,6 +167,8 @@ public sealed class PlanExportService : IPlanExportService
 						if (ColorTranslator.FromHtml(assignment.BlockColor) is var color && color != Color.Empty)
 						{
 							worksheet.Cell(rowIndex, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(color);
+							Color foregroundColor = GetForeGroundColorFromBlockColor(color);
+							worksheet.Cell(rowIndex, colIndex).Style.Font.FontColor = XLColor.FromColor(foregroundColor);
 						}
 					}
 					else
@@ -180,6 +184,18 @@ public sealed class PlanExportService : IPlanExportService
 
 		worksheet.Columns().AdjustToContents();
 		workbook.SaveAs(filePath);
+	}
+
+	private static Color GetForeGroundColorFromBlockColor(Color color) {
+		int average = color.R + color.G + color.B;
+		
+		average /= 3;
+
+		if (average > 128) {
+			return Color.FromArgb(255,0,0,0);
+		} else {
+			return Color.FromArgb(255,255,255,255);
+		}
 	}
 
 	private static List<DateTime> GetWeeksInRange(DateTime startDate, DateTime endDate) {
