@@ -82,19 +82,20 @@ public partial class TopicGroupsControl : ContentControl {
 		if (dragPointer != e.Pointer || draggedCard is null || draggedControl is null || CardsControl is null)
 			return;
 
-        var p = e.GetPosition(this);
-		Point pointerPosition = e.GetPosition(this);
-		Vector dragDelta = pointerPosition - dragStart;
+        // var p = e.GetPosition(this);
+		// Point pointerPosition = e.GetPosition(this);
+		Vector dragDelta = e.GetPosition(this) - dragStart;
 
 		if (!isDragging){
             if (Math.Sqrt(dragDelta.X * dragDelta.X + dragDelta.Y * dragDelta.Y) < 5)
                 return;
 
             isDragging = true;
-            draggedControl.ZIndex = 1000;
+			e.Pointer.Capture(CardsControl);
 			BeginDragViaual(e);
         } 
         // draggedControl.RenderTransform = new TranslateTransform(p.X - dragStart.X, p.Y - dragStart.Y);
+		UpdateDragVisual(e);
 
 	}
 
@@ -141,6 +142,7 @@ public partial class TopicGroupsControl : ContentControl {
 			return;
 
 		e.Pointer.Capture(null);
+		EndDragVisual();
         if (draggedControl is not null) {
             draggedControl.RenderTransform = null;
             draggedControl.Opacity = 1;
@@ -162,8 +164,8 @@ public partial class TopicGroupsControl : ContentControl {
 
 		dragPointer = null;
 		draggedCard = null;
+		draggedControl = null;
 		isDragging = false;
-		EndDragVisual();
 	}
 
 	private void EndDragVisual() {
