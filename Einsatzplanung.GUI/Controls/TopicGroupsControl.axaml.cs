@@ -7,6 +7,8 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 
+using DocumentFormat.OpenXml.Drawing.Charts;
+
 using Einsatzplanung.GUI.CodeGenerators.Attributes;
 using Einsatzplanung.GUI.ViewModels.Edit;
 using Einsatzplanung.GUI.Views.Edit;
@@ -25,6 +27,9 @@ public partial class TopicGroupsControl : ContentControl {
     private IPointer? dragPointer;
 	private TopicCardViewModel? draggedCard;
 	private Point dragStart;
+	private OverlayLayer? overlay;
+	private Point grabOffset;
+	private Border? dragVisual;
 	private bool isDragging;
     private EditCardsControl? CardsControl;
 
@@ -72,6 +77,7 @@ public partial class TopicGroupsControl : ContentControl {
 		isDragging = false;
 		e.Handled = true;
 	}
+	
 	private void OnTopicDragMoved(object? sender, PointerEventArgs e) {
 		if (dragPointer != e.Pointer || draggedCard is null || draggedControl is null || CardsControl is null)
 			return;
@@ -86,10 +92,49 @@ public partial class TopicGroupsControl : ContentControl {
 
             isDragging = true;
             draggedControl.ZIndex = 1000;
-            draggedControl.Opacity = 0.7;
-        }
+        } else {
+			BeginDragViaual(e);
+		}
         draggedControl.RenderTransform = new TranslateTransform(p.X - dragStart.X, p.Y - dragStart.Y);
 
+	}
+
+	private void BeginDragViaual(PointerEventArgs e) {
+		if (draggedControl is null) {
+			return;
+		}
+
+		overlay = OverlayLayer.GetOverlayLayer(draggedControl);
+		if (overlay is null) {
+			return;
+		}
+
+		grabOffset = e.GetPosition(draggedControl);
+		dragVisual = new Border {
+			Width = draggedControl.Width,
+			Height = draggedControl.Height,
+			Background = new VisualBrush {
+				Visual = draggedControl,
+				Stretch = Stretch.None,
+				AlignmentX = AlignmentX.Left,
+				AlignmentY = AlignmentY.Top
+			},
+			Opacity = 1,
+			IsHitTestVisible = false
+		};
+		overlay.Children.Add(dragVisual);
+		
+		UpdateDragVisual(e);
+
+	}
+
+	private void UpdateDragVisual(PointerEventArgs e) {
+		if (dragVisual is null || overlay is null)
+			return;
+
+		var p = e.GetPosition(overlay);
+		Canvas.SetLeft(dragVisual, p.X - grabOffset.X);
+		Canvas.SetTop(dragVisual, p.Y - grabOffset.Y);
 	}
 
 	private void OnTopicDragReleased(object? sender, PointerReleasedEventArgs e) {
@@ -119,6 +164,17 @@ public partial class TopicGroupsControl : ContentControl {
 		dragPointer = null;
 		draggedCard = null;
 		isDragging = false;
+		EndDragVisual();
+	}
+
+	private void EndDragVisual() {
+		if (dragVisual is not null)
+			overlay?.Children.Remove(dragVisual);
+		if (draggedControl is not null)
+			draggedControl.Opacity = 1;
+
+		dragVisual = null;
+		overlay = null;
 	}
 
 	private ObservableCollection<TopicCardViewModel>? GetTargetGroup(
