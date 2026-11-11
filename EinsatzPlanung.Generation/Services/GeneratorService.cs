@@ -36,7 +36,7 @@ public class GeneratorService : IGeneratorService {
 	private const long WeightMissingWeek = 10_000;
 
 	// Per additional trainer within one topic (switch mid-topic)
-	private const long WeightTeacherSwitch = 40;
+	private const long WeightTeacherSwitch = 60;
 
 	// Per week taught by someone other than the group's own trainer
 	private const long WeightForeignTeacher = 30;
@@ -84,9 +84,9 @@ public class GeneratorService : IGeneratorService {
 	}
 
 	private static bool ShouldExport(GeneratorConfig config, Group group) {
-		return config.GroupsToExport != null
-			&& config.GroupsToExport.TryGetValue(group.Id, out var export)
-			&& export;
+		if(config.GroupsToExport is null)
+			return false;
+		return config.GroupsToExport.TryGetValue(group.Id, out var export) && export;
 	}
 
 	private static LinearExpr SumOf(IEnumerable<BoolVar> vars) {
@@ -112,8 +112,8 @@ public class GeneratorService : IGeneratorService {
 	}
 
 	// Builds all candidates per group: "topic X could run in week Y". The generator picks from them.
-	private List<Candidate> BuildCandidates(List<Group> groups, List<Teacher> teachers, GeneratorConfig config, List<string> notes) {
-		var candidates = new List<Candidate>();
+	private List<AssignmentCandidate> BuildCandidates(List<Group> groups, List<Teacher> teachers, GeneratorConfig config, List<string> notes) {
+		var candidates = new List<AssignmentCandidate>();
 
 		foreach (var group in groups) {
 			if (!PLAN_GROUPS_TOO && !ShouldExport(config, group)) {
@@ -124,15 +124,12 @@ public class GeneratorService : IGeneratorService {
 				.Where(week => !IsSchoolWeek(group, week) && !IsVacationWeek(group, week))
 				.OrderBy(week => week)
 				.ToList();
-
-			var blocks = group.Blocks.ToList();
-
-			// Preferred position: topics run back to back in the free weeks (like the old generator).
+			
 			// blockStart is an index into validWeeks.
 			var blockStart = 0;
 
-			for (var b = 0; b < blocks.Count; b++) {
-				var block = blocks[b];
+			for (var b = 0; b < group.Blocks.Count; b++) {
+				var block = group.Blocks[b];
 				var blockEnd = blockStart + block.Count;
 				var visible = ShouldExport(config, group);
 
@@ -158,11 +155,10 @@ public class GeneratorService : IGeneratorService {
 						distance = i - (blockEnd - 1);
 					}
 
-					candidates.Add(new Candidate {
+					candidates.Add(new AssignmentCandidate {
 						Group = group,
 						Block = block,
 						BlockIndex = b,
-						BlockCount = blocks.Count,
 						Week = validWeeks[i],
 						Distance = distance
 					});
@@ -422,38 +418,25 @@ public class GeneratorService : IGeneratorService {
 				notes.Add($"Ausbilder '{teachers[perTeacher.Key].Abbreviation}': in {parallelWeeks} Woche(n) für mehrere Gruppen gleichzeitig eingeplant (maximal {loads.Max()}).");
 			}
 		}
-
+		
 		PrintNotes(notes);
 
 		return plan;
 	}
 
 	// "Topic X could run in week Y for group Z"
-	private sealed class Candidate {
-		public required Group Group {
-			get; init;
-		}
-		public required Block Block {
-			get; init;
-		}
-		public required int BlockIndex {
-			get; init;
-		}
-		public required int BlockCount {
-			get; init;
-		}
-		public required DateTime Week {
-			get; init;
-		}
+	private sealed class AssignmentCandidate {
+		
+		public required Group Group { get; init; }
+		public required Block Block { get; init; }
+		public required int BlockIndex { get; init; }
+		public int BlockCount => Group.Blocks.Count;
+		public required DateTime Week { get; init; }
 
 		// Distance in weeks from the preferred position (0 = exactly where input order puts it)
-		public required int Distance {
-			get; init;
-		}
+		public required int Distance { get; init; }
 
-		// Trainer index -> variable "teaches this"
-		public Dictionary<int, BoolVar> TeacherVars {
-			get;
-		} = new();
+		// Trainer week -> variable "teaches this"
+		public Dictionary<int, BoolVar> TeacherVars { get; } = [];
 	}
 }
