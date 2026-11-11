@@ -92,10 +92,9 @@ public partial class TopicGroupsControl : ContentControl {
 
             isDragging = true;
             draggedControl.ZIndex = 1000;
-        } else {
 			BeginDragViaual(e);
-		}
-        draggedControl.RenderTransform = new TranslateTransform(p.X - dragStart.X, p.Y - dragStart.Y);
+        } 
+        // draggedControl.RenderTransform = new TranslateTransform(p.X - dragStart.X, p.Y - dragStart.Y);
 
 	}
 
@@ -111,8 +110,8 @@ public partial class TopicGroupsControl : ContentControl {
 
 		grabOffset = e.GetPosition(draggedControl);
 		dragVisual = new Border {
-			Width = draggedControl.Width,
-			Height = draggedControl.Height,
+			Width = draggedControl.Bounds.Width,
+			Height = draggedControl.Bounds.Height,
 			Background = new VisualBrush {
 				Visual = draggedControl,
 				Stretch = Stretch.None,
