@@ -76,21 +76,34 @@ public class SolverGeneratorService : IGeneratorService {
 				.Where(week => !IsSchoolWeek(group, week) && !IsVacationWeek(group, week))
 				.OrderBy(week => week)
 				.ToList();
+			var blocksByLevel = group.Blocks
+				.GroupBy(block => block.Topic.Level)
+				.OrderBy(g => g.Key);
+			
+			var weekOffset = 0;
 
-			var weekIndex = 0;
+			foreach (var blocks in blocksByLevel) {
 
-			foreach (var block in group.Blocks) {
-				for (var i = 0; i < block.Count; i++) {
-					if (weekIndex >= validWeeks.Count) {
-						throw new InvalidOperationException(
-							$"Not enough remaining school weeks for block '{block.Topic.Name}' in group '{group.Name}'.");
+				var levelCount = blocks.Sum(block => block.Count);
+
+				if (weekOffset + levelCount > validWeeks.Count)
+					throw new InvalidOperationException($"Not enough remaining school weeks for level {blocks.Key} for group '{group.Name}'.");
+
+				var levelWeeks = validWeeks.Skip(weekOffset).Take(levelCount).ToList();
+				weekOffset += levelCount;
+
+				// Every block of this level is a candidate for every week of the level's range.
+				foreach (var block in blocks) {
+					if (block.Count == 0)
+						continue;
+
+					foreach (var week in levelWeeks) {
+						slots.Add(new Slot {
+							Group = group,
+							Block = block,
+							Week = week
+						});
 					}
-
-					slots.Add(new Slot {
-						Group = group,
-						Block = block,
-						Week = validWeeks[weekIndex++]
-					});
 				}
 			}
 		}
@@ -114,20 +127,47 @@ public class SolverGeneratorService : IGeneratorService {
 
 	#region constraints
 
-	private void AddCanTeachConstraint() {
-		for (var s = 0; s < Slots.Count; s++) {
-			var vars = Enumerable.Range(0, Teachers.Count)
-				.Where(t => BoolVairables.ContainsKey((s, t)))
-				.Select(t => BoolVairables[(s, t)])
+	private void AddOneBlockPerWeekConstraint() {
+		var slotsByGroupAndWeek = Slots
+			.Select((slot, index) => (slot, index))
+			.GroupBy(p => (p.slot.Group, p.slot.Week));
+		
+		foreach (var slots in slotsByGroupAndWeek) {
+			var vars = slots
+				.SelectMany(p => Enumerable.Range(0, Teachers.Count)
+					.Where(t => BoolVairables.ContainsKey((p.index, t)))
+					.Select(t => BoolVairables[(p.index, t)]))
 				.ToList();
 
 			if (vars.Count == 0) {
 				throw new InvalidOperationException(
-					$"No trainer is qualified to teach block '{Slots[s].Block.Topic.Name}' " +
-					$"for group '{Slots[s].Group.Name}' (week {Slots[s].Week:yyyy-MM-dd}).");
+					$"No trainer is qualified for any block of group '{slots.Key.Group.Name}' " +
+					$"in week {slots.Key.Week:yyyy-MM-dd}.");
 			}
 
 			Model.AddExactlyOne(vars);
+		}
+	}
+
+	private void AddBlockCountConstraint() {
+		var slotsByGroupBlock = Slots
+			.Select((slot, index) => (slot, index))
+			.GroupBy(p => (p.slot.Group, p.slot.Block));
+
+		foreach (var groupBlock in slotsByGroupBlock) {
+			var vars = groupBlock
+				.SelectMany(p => Enumerable.Range(0, Teachers.Count)
+					.Where(t => BoolVairables.ContainsKey((p.index, t)))
+					.Select(t => BoolVairables[(p.index, t)]))
+				.ToList();
+
+			if (vars.Count == 0) {
+				throw new InvalidOperationException(
+					$"No trainer is qualified to teach block '{groupBlock.Key.Block.Topic.Name}' " +
+					$"for group '{groupBlock.Key.Group.Name}'.");
+			}
+
+			Model.Add(LinearExpr.Sum(vars) == groupBlock.Key.Block.Count);
 		}
 	}
 
@@ -204,7 +244,8 @@ public class SolverGeneratorService : IGeneratorService {
 
 		BoolVairables = GetBoolVariables();
 
-		AddCanTeachConstraint();
+		AddOneBlockPerWeekConstraint();
+		AddBlockCountConstraint();
 		AddMaxParallelGroupsConstraint();
 		AddPreferGroupTeacherConstraint();
 
