@@ -1,4 +1,4 @@
-﻿namespace Einsatzplanung.GUI.Services; 
+﻿namespace Einsatzplanung.GUI.Interfaces; 
 
 using System.Threading.Tasks;
 
@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 		void Notify(string title, string message);
 
-		void Warn(string errorMessage, string title, string message);
+		void Warn(string errorMessage, string? title = null, string? message = null);
 	}

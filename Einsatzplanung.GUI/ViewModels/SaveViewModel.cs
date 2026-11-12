@@ -1,4 +1,6 @@
-﻿namespace Einsatzplanung.GUI.ViewModels;
+﻿using Einsatzplanung.GUI.Interfaces;
+
+namespace Einsatzplanung.GUI.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -64,20 +66,23 @@ public partial class SaveViewModel : ViewModelBase {
 
 	[RelayCommand]
 	private async Task Export() {
+		IPopupService popupService = App.Current.Services.GetRequiredService<IPopupService>();
 		try {
 			await Task.Run(
 				() => {
 					var generator = App.Current.Services.GetRequiredService<IGeneratorService>();
 					var export = App.Current.Services.GetRequiredService<IPlanExportService>();
 					var config = new GeneratorConfig() {
-						GroupsToExport = ClassesNamesForSave.Select(card => new KeyValuePair<Guid, bool>(card.Config.Id, card.IsSelected)).ToDictionary()
+						GroupsToExport = ClassesNamesForSave.Select(card => 
+							new KeyValuePair<Guid, bool>(card.Config.Id, card.IsSelected)).ToDictionary()
 					};
 					var plan = generator.GeneratePlan(config);
 					export.ExportPlan(GetFileName(), plan);
 				});
-			App.Current.Services.GetRequiredService<IPopupService>().Notify("Export Erfolgreich", "Einsatzplan erfolgreich exportiert");
+			popupService.Notify("Export Erfolgreich", "Einsatzplan erfolgreich exportiert");
 		} catch(Exception e) {
 			ErrorString = e.Message;
+			popupService.Warn(e.Message);
 		}
 	}
 

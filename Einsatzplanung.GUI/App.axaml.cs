@@ -1,5 +1,3 @@
-using Einsatzplanung.GUI.Services;
-
 namespace Einsatzplanung.GUI;
 
 using System;
@@ -19,6 +17,8 @@ using Einsatzplanung.Generation.Services;
 using Einsatzplanung.GUI.Views;
 using Einsatzplanung.GUI.ViewModels;
 using Einsatzplanung.GUI.ViewModels.Edit;
+using Einsatzplanung.GUI.Services;
+using Einsatzplanung.GUI.Interfaces;
 
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Input.Services;
