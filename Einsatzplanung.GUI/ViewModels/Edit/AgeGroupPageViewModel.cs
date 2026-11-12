@@ -101,6 +101,7 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 
 	protected override async Task OnLoadAsync(CancellationToken token) {
 		await configService.UpdateReferencesAsync();
+		var teachers = await teacherService.GetDataAsync(token);
 		List<AgeGroupCardViewModel> cards = await Task.Run(async () => {
 			int i = 0;
 			var ageGroups = await configService.GetDataAsync(token);

@@ -88,6 +88,8 @@ public sealed class PlanExportService : IPlanExportService
 						if (ColorTranslator.FromHtml(assignment.BlockColor) is var color && color != Color.Empty)
 						{
 							worksheet.Cell(rowIndex, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(color);
+							Color foregroundColor = GetForeGroundColorFromBlockColor(color);
+							worksheet.Cell(rowIndex, colIndex).Style.Font.FontColor = XLColor.FromColor(foregroundColor);
 						}
 					}
 					else
@@ -105,6 +107,7 @@ public sealed class PlanExportService : IPlanExportService
 		workbook.SaveAs(filePath);
 	}
 
+	[Obsolete("This method is deprecated and will be removed in a future release. Please use ExportPlan instead.")]
 	public void ExportWeeklyPlan(string filePath, Dictionary<(string Group, DateTime WeekStart), Assignment> weeklyAssignments)
 	{
 		XLWorkbook workbook = new();
@@ -165,6 +168,8 @@ public sealed class PlanExportService : IPlanExportService
 						if (ColorTranslator.FromHtml(assignment.BlockColor) is var color && color != Color.Empty)
 						{
 							worksheet.Cell(rowIndex, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(color);
+							Color foregroundColor = GetForeGroundColorFromBlockColor(color);
+							worksheet.Cell(rowIndex, colIndex).Style.Font.FontColor = XLColor.FromColor(foregroundColor);
 						}
 					}
 					else
@@ -180,6 +185,18 @@ public sealed class PlanExportService : IPlanExportService
 
 		worksheet.Columns().AdjustToContents();
 		workbook.SaveAs(filePath);
+	}
+
+	private static Color GetForeGroundColorFromBlockColor(Color color) {
+		double average = ((double)color.R)*0.9 + ((double)color.G) * 1.2 + ((double)color.B) * 0.9;
+		
+		average /= 3;
+		
+		if (average > 100) {
+			return Color.FromArgb(255,0,0,0);
+		} else {
+			return Color.FromArgb(255,255,255,255);
+		}
 	}
 
 	private static List<DateTime> GetWeeksInRange(DateTime startDate, DateTime endDate) {

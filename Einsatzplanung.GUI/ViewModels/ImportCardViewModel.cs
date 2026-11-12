@@ -78,7 +78,13 @@
 			string? status = await FilePickerService.PickLoadFileExcelAsync();
 
 			await Task.Run(() => {
-				ExcelFileStatus = status ?? "Keine Datei ausgewählt";
+                if (string.IsNullOrEmpty(status)) {
+                    // ExcelFileStatus = "Keine Datei ausgewählt";
+                    // ExcelShortendPath = ExcelFileStatus;
+                    return;
+                }
+
+				ExcelFileStatus = status;
                 ExcelShortendPath = ExcelFileStatus;
                 if (ExcelShortendPath.Contains(Path.DirectorySeparatorChar) || ExcelShortendPath.Contains(Path.AltDirectorySeparatorChar))
                 {

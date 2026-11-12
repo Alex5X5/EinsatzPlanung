@@ -13,23 +13,30 @@ using Einsatzplanung.Types.Models.Configuration;
 
 public partial class TeacherCardViewModel : CardViewModel {
 
+	private IConfigService<TopicConfig> topicService;
+
 	[ObservableProperty]
 	private string abbreviation;
 	[ObservableProperty]
 	private int weeklyHours;
 
 	public ObservableCollection<SpecializationCardViewModel> Specializations { get; init; }
-	public List<string> Topics { get; init; }
+	public List<string> Topics { get; private set; }
 	
 	public TeacherConfig Config { init; get; }
 
 	public TeacherCardViewModel(TeacherConfig teacher, IRelayCommand<object> removeCommand, int index) : base(removeCommand, teacher.Name, index) {
+		topicService = App.GetRequiredService<IConfigService<TopicConfig>>();
+		
 		Config = teacher;
 		Abbreviation = teacher.Abbreviation;
 		WeeklyHours = teacher.WeeklyHours;
-		var topics = App.GetRequiredService<IConfigService<TopicConfig>>().GetDataAsync().Result;
 		Specializations = new(teacher.Specializations.Select(t => new SpecializationCardViewModel(t, RemoveTopicCommand)));
-		Topics = topics.Select(x => x.Name).ToList();
+		
+		Task.Run(async () => {
+			var topics = await topicService.GetDataAsync();
+			Topics = topics.Select(x => x.Name).ToList();
+		});
 	}
 
 	[RelayCommand]

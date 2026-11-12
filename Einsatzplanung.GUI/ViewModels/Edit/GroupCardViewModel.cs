@@ -19,7 +19,7 @@ public partial class GroupCardViewModel : CardViewModel {
 	[ObservableProperty]
 	private string teacherAbbreviation = "";
 	
-	public IReadOnlyList<string> Abbreviations { get; }
+	public ObservableCollection<string> Abbreviations { get; private set; }
 
 	public ObservableCollection<BlockCardViewModel> Topics { get; }
 	
@@ -31,9 +31,11 @@ public partial class GroupCardViewModel : CardViewModel {
 		Config = group;
 		TeacherAbbreviation = Config.Teacher.Abbreviation;
 
-		var teachers = teacherService.GetDataAsync().Result;
-		Abbreviations = teachers.Select(x => x.Abbreviation).ToList();
-
+		Task.Run(async () => {
+			var teachers = await teacherService.GetDataAsync();
+			Abbreviations = new(teachers.Select(x => x.Abbreviation));
+		});
+		
 		int i = 0;
 		var models = group.Blocks.Select(x => new BlockCardViewModel(x, RemoveTopicCommand, i++));
 		Topics = new(models);
