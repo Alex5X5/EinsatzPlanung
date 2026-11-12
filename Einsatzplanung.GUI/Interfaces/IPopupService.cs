@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 		void Notify(string title, string message);
 
-		void Warn(string errorMessage, string? title = null, string? message = null);
+		void Warn(string errorMessage,string title = "Error", string message = "Ein fehler ist aufgetreten!");
 	}
