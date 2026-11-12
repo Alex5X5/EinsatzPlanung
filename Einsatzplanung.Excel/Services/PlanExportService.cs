@@ -99,8 +99,6 @@ public sealed class PlanExportService : IPlanExportService {
 				colIndex = 6;
 				foreach (var weekStart in weeks) {
 					// DateTime currentDate = weekStart.AddDays(day);
-					if (ColorTranslator.FromHtml(assignment.BlockColor) is var color && color != Color.Empty)
-					{
 					if (assignments.TryGetValue(weekStart, out var assignment)) {
 						if (assignment.IsHoliday[day]) {
 							worksheet.Cell(row, colIndex).Value = "U";
@@ -108,11 +106,8 @@ public sealed class PlanExportService : IPlanExportService {
 							worksheet.Cell(row, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(Color.White);
 						} else {
 							worksheet.Cell(row, colIndex).Value = assignment.Trainer;
-							if (ColorTranslator.FromHtml(assignment.BlockColor) is var color && color != Color.Empty) {
-								Color foregroundColor = GetForeGroundColorFromBlockColor(color);
-								worksheet.Cell(rowIndex, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(color);
-								worksheet.Cell(rowIndex, colIndex).Style.Font.FontColor = XLColor.FromColor(foregroundColor);
-							}
+							if (ColorTranslator.FromHtml(assignment.BlockColor) is var color && color != Color.Empty)
+								worksheet.Cell(row, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(color);
 						}
 					} else {
 						worksheet.Cell(row, colIndex).Value = "X";
