@@ -121,13 +121,15 @@ public sealed class PlanExportServiceTests
 			{
 				Trainer = "Lu",
 				BlockName = "Block A",
-				BlockColor = "#FF0000"
+				BlockColor = "#FF0000",
+				IsHoliday = [false, false, false, false, false]
 			},
 			[("FI26a", new DateTime(2024, 6, 24))] = new Assignment
 			{
 				Trainer = "Ki",
 				BlockName = "Block B",
-				BlockColor = "#00FF00"
+				BlockColor = "#00FF00",
+				IsHoliday = [false, false, false, false, false]
 			}
 		};
 
@@ -149,51 +151,59 @@ public sealed class PlanExportServiceTests
 			{
 				Trainer = "Lu",
 				BlockName = "Block A",
-				BlockColor = "#FF0000"
+				BlockColor = "#FF0000",
+				IsHoliday = [false, false, false, false, false]
 			},
 			[("FI26a", new DateTime(2024, 6, 24))] = new Assignment
 			{
 				Trainer = "Ki",
 				BlockName = "Block B",
-				BlockColor = "#00FF00"
+				BlockColor = "#00FF00",
+				IsHoliday = [false, false, false, false, false]
 			},
 			[("FI26a", new DateTime(2024, 7, 1))] = new Assignment
 			{
 				Trainer = "Sch",
 				BlockName = "Block C",
-				BlockColor = "#0000FF"
+				BlockColor = "#0000FF",
+				IsHoliday = [false, false, false, false, false]
 			},
 			// FI26b assignments
 			[("FI26b", new DateTime(2024, 6, 17))] = new Assignment
 			{
 				Trainer = "He",
 				BlockName = "Block A",
-				BlockColor = "#FF0000"
+				BlockColor = "#FF0000",
+				IsHoliday = [false, false, false, false, false]
 			},
 			[("FI26b", new DateTime(2024, 6, 24))] = new Assignment
 			{
 				Trainer = "Sb",
 				BlockName = "Block B",
-				BlockColor = "#00FF00"
+				BlockColor = "#00FF00",
+				IsHoliday = [false, false, false, false, false]
 			},
 			[("FI26b", new DateTime(2024, 7, 1))] = new Assignment
 			{
 				Trainer = "F",
 				BlockName = "Block C",
-				BlockColor = "#0000FF"
+				BlockColor = "#0000FF",
+				IsHoliday = [false, false, false, false, false]
 			},
 			// FI27a assignments
 			[("FI27a", new DateTime(2024, 6, 17))] = new Assignment
 			{
 				Trainer = "U",
 				BlockName = "Block A",
-				BlockColor = "#FF0000"
+				BlockColor = "#FF0000",
+				IsHoliday = [false, false, false, false, false]
 			},
 			[("FI27a", new DateTime(2024, 6, 24))] = new Assignment
 			{
 				Trainer = "Lu",
 				BlockName = "Block B",
-				BlockColor = "#00FF00"
+				BlockColor = "#00FF00",
+				IsHoliday = [false, false, false, false, false]
 			}
 		};
 
@@ -215,27 +225,31 @@ public sealed class PlanExportServiceTests
 			{
 				Trainer = "OT",
 				BlockName = "Old Block",
-				BlockColor = "#808080"
+				BlockColor = "#808080",
+				IsHoliday = [false, false, false, false, false]
 			},
 			// In range
 			[("FI26a", new DateTime(2024, 6, 17))] = new Assignment
 			{
 				Trainer = "CT",
 				BlockName = "Current Block",
-				BlockColor = "#FF0000"
+				BlockColor = "#FF0000",
+				IsHoliday = [false, false, false, false, false]
 			},
 			[("FI26a", new DateTime(2024, 9, 2))] = new Assignment
 			{
 				Trainer = "MT",
 				BlockName = "Mid Block",
-				BlockColor = "#00FF00"
+				BlockColor = "#00FF00",
+				IsHoliday = [false, false, false, false, false]
 			},
 			// After range
 			[("FI26a", new DateTime(2025, 1, 6))] = new Assignment
 			{
 				Trainer = "FT",
 				BlockName = "Future Block",
-				BlockColor = "#0000FF"
+				BlockColor = "#0000FF",
+				IsHoliday = [false, false, false, false, false]
 			}
 		};
 
@@ -262,13 +276,15 @@ public sealed class PlanExportServiceTests
 			{
 				Trainer = "MM",
 				BlockName = "Block A",
-				BlockColor = "#FF0000"
+				BlockColor = "#FF0000",
+				IsHoliday = [false, false, false, false, false]
 			},
 			[new DateTime(2024, 6, 18)] = new Assignment // Tuesday
 			{
 				Trainer = "Ki",
 				BlockName = "Block B",
-				BlockColor = "#00FF00"
+				BlockColor = "#00FF00",
+				IsHoliday = [false, false, false, false, false]
 			}
 		};
 

@@ -1,10 +1,11 @@
 ﻿namespace Einsatzplanung.Generation.Interfaces;
 
+using System.Threading.Tasks;
+
 using Einsatzplanung.Types.Models.Generation;
-using Einsatzplanung.Types.Models.Configuration;
 
 public interface IGeneratorService {
 
-	public Plan GeneratePlan(GeneratorConfig config);
+	public Task<Plan> GeneratePlanAsync(GeneratorConfig config);
 
 }

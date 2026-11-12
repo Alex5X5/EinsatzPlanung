@@ -1,11 +1,11 @@
 ﻿namespace Einsatzplanung.Input.Services;
 
-using Einsatzplanung.Input.Interfaces;
-using Einsatzplanung.Types.Models;
-
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
+using Einsatzplanung.Input.Interfaces;
+using Einsatzplanung.Types.Models;
 
 public class GroupService : IEntityService<Group> {
 
@@ -15,8 +15,9 @@ public class GroupService : IEntityService<Group> {
 		this.ageGroupService = ageGroupService;
 	}
 
-	public List<Group> GetEntities() {
-		return ageGroupService.GetEntities().SelectMany((group) => group.Groups).ToList();
+	public async Task<List<Group>> GetEntitiesAsync() {
+		var ageGroups = await ageGroupService.GetEntitiesAsync();
+		return ageGroups.SelectMany((group) => group.Groups).ToList();
 	}
 
 	public void SetSource(string path) {

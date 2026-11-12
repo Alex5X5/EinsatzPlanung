@@ -1,8 +1,8 @@
 ﻿namespace Einsatzplanung.Input.Services;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
@@ -20,9 +20,9 @@ public abstract class EntitiyServiceBase<Te, Tc> : IEntityService<Te, Tc> where 
 		configService.SetSource(path);
 	}
 
-	public List<Te> GetEntities() {
-		List<Tc> configs = configService.GetDataAsync().Result;
-		return configs.Select(MapConfigData).ToList();
+	public async Task<List<Te>> GetEntitiesAsync() {
+		List<Tc> configs = await configService.GetDataAsync();
+		return (await Task.WhenAll(configs.Select(async x => await MapConfigDataAsync(x)))).ToList();
 	}
 
 	//public Te? GetById(Guid id) {
@@ -34,5 +34,5 @@ public abstract class EntitiyServiceBase<Te, Tc> : IEntityService<Te, Tc> where 
 	//	result = configs.FirstOrDefault(x => x.Id == id);
 	//}
 
-	public abstract Te MapConfigData(Tc config);
+	public abstract Task<Te> MapConfigDataAsync(Tc config);
 }

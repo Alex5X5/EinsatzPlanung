@@ -106,6 +106,7 @@ public partial class App : Application {
 		collection.AddTransient<IEntityService<Group>, GroupService>();
 
 		collection.AddTransient<IGeneratorService, GeneratorService>();
+		collection.AddTransient<SolverGeneratorService>();
 		collection.AddTransient<IPlanExportService, PlanExportService>();
 		
 		collection.AddSingleton<IDialogService, DialogService>();
