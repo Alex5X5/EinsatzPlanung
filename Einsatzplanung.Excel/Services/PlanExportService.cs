@@ -87,40 +87,40 @@ public sealed class PlanExportService : IPlanExportService {
 		}
 
 		// Data rows
-		int row = 5;
+		int rowIndex = 5;
 		foreach (var (group, assignments) in plan.Assignments)
 		{
 			// 5 rows per group (Mo-Fr)
 			for (int day = 0; day < 5; day++)
 			{
-				worksheet.Cell(row, YEAR_COLUMN).Value = day == 0 ? "1. Lj." : "";
-				worksheet.Cell(row, GROUP_COLUMN).Value = day == 0 ? group.Name : "";
-				worksheet.Cell(row, TEACHER_COLUMN).Value = day == 0 ? group.Teacher.Abbreviation : "";
-				worksheet.Cell(row, DAY_COLUMN).Value = GetDayName(day);
+				worksheet.Cell(rowIndex, YEAR_COLUMN).Value = day == 0 ? "1. Lj." : "";
+				worksheet.Cell(rowIndex, GROUP_COLUMN).Value = day == 0 ? group.Name : "";
+				worksheet.Cell(rowIndex, TEACHER_COLUMN).Value = day == 0 ? group.Teacher.Abbreviation : "";
+				worksheet.Cell(rowIndex, DAY_COLUMN).Value = GetDayName(day);
 				
 				colIndex = 6;
 				foreach (var weekStart in weeks) {
 					// DateTime currentDate = weekStart.AddDays(day);
 					if (assignments.TryGetValue(weekStart, out var assignment)) {
 						if (assignment.IsHoliday[day]) {
-							worksheet.Cell(row, colIndex).Value = "U";
-							worksheet.Cell(row, colIndex).Style.Font.Bold = true;
-							worksheet.Cell(row, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(Color.White);
+							worksheet.Cell(rowIndex, colIndex).Value = "U";
+							worksheet.Cell(rowIndex, colIndex).Style.Font.Bold = true;
+							worksheet.Cell(rowIndex, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(Color.White);
 						} else {
-							worksheet.Cell(row, colIndex).Value = assignment.Trainer;
+							worksheet.Cell(rowIndex, colIndex).Value = assignment.Trainer;
 							if (ColorTranslator.FromHtml(assignment.BlockColor) is var color && color != Color.Empty) {
 								Color foregroundColor = GetForeGroundColorFromBlockColor(color);
-								worksheet.Cell(row, colIndex).Style.Font.FontColor = XLColor.FromColor(foregroundColor);
-								worksheet.Cell(row, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(color);
+								worksheet.Cell(rowIndex, colIndex).Style.Font.FontColor = XLColor.FromColor(foregroundColor);
+								worksheet.Cell(rowIndex, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(color);
 							}
 						}
 					} else {
-						worksheet.Cell(row, colIndex).Value = "X";
+						worksheet.Cell(rowIndex, colIndex).Value = "X";
 					}
 					colIndex++;
 				}
 
-				row++;
+				rowIndex++;
 			}
 		}
 
