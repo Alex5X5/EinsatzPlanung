@@ -5,6 +5,7 @@ using System.Linq;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models.Configuration;
 using Einsatzplanung.Types.Models;
+using System.Threading.Tasks;
 
 public class TeacherService : EntitiyServiceBase<Teacher, TeacherConfig> {
 
@@ -14,13 +15,13 @@ public class TeacherService : EntitiyServiceBase<Teacher, TeacherConfig> {
 		this.topicService = topicService;
 	}
 
-	public override Teacher MapConfigData(TeacherConfig config) {
+	public override async Task<Teacher> MapConfigDataAsync(TeacherConfig config) {
 		return new Teacher() {
 			Id = config.Id,
 			Name = config.Name,
 			Abbreviation = config.Abbreviation,
 			WeeklyHours = config.WeeklyHours,
-			Specializations = config.Specializations.Select(topicService.MapConfigData).ToList()
+			Specializations = (await Task.WhenAll(config.Specializations.Select(topicService.MapConfigDataAsync))).ToList()
 		};
 	}
 }
