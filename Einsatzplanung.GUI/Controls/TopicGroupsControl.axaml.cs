@@ -31,6 +31,7 @@ public partial class TopicGroupsControl : ContentControl {
 	private OverlayLayer? overlay;
 	private Point grabOffset;
 	private Border? dragVisual;
+	private Border? dropIndicator;
 	private bool isDragging;
     private EditCardsControl? CardsControl;
 
@@ -93,8 +94,45 @@ public partial class TopicGroupsControl : ContentControl {
 			e.Pointer.Capture(CardsControl);
 			BeginDragViaual(e);
         } 
-		UpdateDragVisual(e);
 
+		UpdateDragVisual(e);
+		UpdateDropIndicator(e);
+
+	}
+
+	private void UpdateDropIndicator(PointerEventArgs e) {
+		if (dropIndicator is null || overlay is null || draggedCard is null ||
+			DataContext is not TopicViewModel vm || CardsControl is not EditCardsControl cc)
+			return;
+
+		double y = e.GetPosition(cc).Y;
+		var group = GetTargetGroup(y, vm, cc);
+		if (group is null || group.Count == 0) {
+			dropIndicator.IsVisible = false;
+			return;
+		}
+
+		int index = GetTargetCardIndex(group, y, cc);
+		int old = group.IndexOf(draggedCard);
+		if (old >= 0 && (index == old || index == old + 1)) {
+			dropIndicator.IsVisible = false;
+			return;
+		}
+
+		bool atEnd = index >= group.Count;
+		var anchor = group[atEnd ? group.Count - 1 : index];
+		var container = cc.GetVisualDescendants().OfType<ExtendingCard>()
+			.FirstOrDefault(c => ReferenceEquals(c.DataContext, anchor));
+
+		if (container?.TranslatePoint(default, overlay) is not Point pos) {
+			dropIndicator.IsVisible = false;
+			return;
+		}
+
+		dropIndicator.Width = container.Bounds.Width;
+		dropIndicator.RenderTransform = new TranslateTransform(
+			pos.X, pos.Y + (atEnd ? container.Bounds.Height : 0) - 1.5);
+		dropIndicator.IsVisible = true;
 	}
 
 	private void BeginDragViaual(PointerEventArgs e) {
@@ -120,7 +158,15 @@ public partial class TopicGroupsControl : ContentControl {
 			Opacity = 1,
 			IsHitTestVisible = false
 		};
+		dropIndicator = new Border {
+			Height = 3,
+			CornerRadius = new CornerRadius(1.5),
+			Background = Brushes.Blue,
+			IsHitTestVisible = false,
+			IsVisible = false
+		};
 		overlay.Children.Add(dragVisual);
+		overlay.Children.Add(dropIndicator);
 		
 		UpdateDragVisual(e);
 	}
@@ -137,7 +183,10 @@ public partial class TopicGroupsControl : ContentControl {
 			overlay?.Children.Remove(dragVisual);
 		if (draggedControl is not null)
 			draggedControl.Opacity = 1;
+		if (dropIndicator is not null)
+			overlay?.Children.Remove(dropIndicator);
 
+		dropIndicator = null;
 		dragVisual = null;
 		overlay = null;
 	}
