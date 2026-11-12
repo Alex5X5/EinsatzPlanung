@@ -21,6 +21,8 @@
     
     <Color x:Key="AccentColor">#827CEA</Color>
     
+    <Color x:Key="ErrorColor">#451c1d</Color>
+    
     <Color x:Key="ButtonBorderBrush">#FFFFFF</Color>
     <Color x:Key="ImportButtonBackgroundColor">#E1505050</Color>
     <Color x:Key="HoverImportButtonBackgroundColor">#20FFFFFF</Color>
