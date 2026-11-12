@@ -8,6 +8,7 @@ using Einsatzplanung.Util.Services;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
 
@@ -29,39 +30,36 @@ public class AgeGroupService : EntitiyServiceBase<AgeGroup, AgeGroupConfig> {
 		this.generalConfigService = generalConfigService;
 	}
 
-	public override AgeGroup MapConfigData(AgeGroupConfig config) {
+	public override async Task<AgeGroup> MapConfigDataAsync(AgeGroupConfig config) {
 		return new AgeGroup() {
 			Id = config.Id,
 			Name = config.Name,
-			Groups = config.Groups.Select(MapGroup).ToList()
+			Groups = (await Task.WhenAll(config.Groups.Select(MapGroupAsync))).ToList()
 		};
 	}
 
-	private Group MapGroup(GroupConfig config) {
+	private async Task<Group> MapGroupAsync(GroupConfig config) {
 		var blocks = new List<Block>();
 
 		var currentStart = generalConfigService.YearStartDate;
 
-		blocks = config.Blocks
-			.Where(x => x.Count > 0)
-			.Select(MapBlock)
-			.ToList();
+		blocks = (await Task.WhenAll(config.Blocks.Where(x => x.Count > 0).Select(MapBlockAsync))).ToList();
 		
 		return new Group() {
 			Id = config.Id,
 			Name = config.Name,
-			Teacher = teacherService.MapConfigData(config.Teacher),
+			Teacher = await teacherService.MapConfigDataAsync(config.Teacher),
 			SchoolWeeks = config.SchoolWeeks,
 			Blocks = blocks,
-			Holidays = holidayService.GetEntities()
+			Holidays = await holidayService.GetEntitiesAsync()
 		};
 	}
 
-	private Block MapBlock(BlockConfig config) {
+	private async Task<Block> MapBlockAsync(BlockConfig config) {
 		string topicName = config.Topic.Name;
 		return new Block {
 			Id = config.Id,
-			Topic = topicService.MapConfigData(config.Topic),
+			Topic = await topicService.MapConfigDataAsync(config.Topic),
 			Count = config.Count
 		};
 	}

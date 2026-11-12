@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Google.OrTools.Sat;
 
@@ -176,12 +177,12 @@ public class GeneratorService : IGeneratorService {
 		return candidates;
 	}
 
-	public Plan GeneratePlan(GeneratorConfig config) {
+	public async Task<Plan> GeneratePlanAsync(GeneratorConfig config) {
 		var plan = new Plan();
 		var notes = new List<string>();
 
-		List<Group> groups = groupService.GetEntities();
-		List<Teacher> teachers = teacherService.GetEntities();
+		var groups = await groupService.GetEntitiesAsync();
+		var teachers = await teacherService.GetEntitiesAsync();
 
 		var candidates = BuildCandidates(groups, teachers, config, notes);
 

@@ -11,6 +11,7 @@ using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
 using Einsatzplanung.Types.Models.Generation;
 using Einsatzplanung.Util.Services;
+using System.Threading.Tasks;
 
 public class SolverGeneratorService : IGeneratorService {
 	
@@ -351,9 +352,9 @@ public class SolverGeneratorService : IGeneratorService {
 		return plan;
 	}
 
-	public Plan GeneratePlan(GeneratorConfig config) {
-		Groups = groupService.GetEntities();
-		Teachers = teacherService.GetEntities();
+	public async Task<Plan> GeneratePlanAsync(GeneratorConfig config) {
+		Groups = await groupService.GetEntitiesAsync();
+		Teachers = await teacherService.GetEntitiesAsync();
 
 		Slots = GetSlots();
 
