@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.Input;
 
 using Einsatzplanung.Excel.Interfaces;
 using Einsatzplanung.Generation.Interfaces;
-using Einsatzplanung.Generation.Services;
 using Einsatzplanung.GUI.Services;
 using Einsatzplanung.Input.Interfaces;
 using Einsatzplanung.Types.Models;
@@ -15,7 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -35,8 +33,6 @@ public partial class SaveViewModel : ViewModelBase {
 	}
 
 	protected override async Task OnLoadAsync(CancellationToken token) {
-		var groupService = App.GetRequiredService<IEntityService<Group>>();
-		var groups = await groupService.GetEntitiesAsync();
 		var items = await Task.Run(
 			() => {
 				var groupService = App.GetRequiredService<IEntityService<Group>>();
@@ -73,6 +69,7 @@ public partial class SaveViewModel : ViewModelBase {
 		var config = new GeneratorConfig() {
 			GroupsToExport = ClassesNamesForSave.Select(card => new KeyValuePair<Guid, bool>(card.Config.Id, card.IsSelected)).ToDictionary()
 		};
+		IPopupService popupService = App.Current.Services.GetRequiredService<IPopupService>();
 		try {
 			var watch = Stopwatch.StartNew();
 			var plan = await generator.GeneratePlanAsync(config);
@@ -81,7 +78,8 @@ public partial class SaveViewModel : ViewModelBase {
 					var generator = App.Current.Services.GetRequiredService<IGeneratorService>();
 					var export = App.Current.Services.GetRequiredService<IPlanExportService>();
 					var config = new GeneratorConfig() {
-						GroupsToExport = ClassesNamesForSave.Select(card => new KeyValuePair<Guid, bool>(card.Config.Id, card.IsSelected)).ToDictionary()
+						GroupsToExport = ClassesNamesForSave.Select(card => 
+							new KeyValuePair<Guid, bool>(card.Config.Id, card.IsSelected)).ToDictionary()
 					};
 					var plan = generator.GeneratePlan(config);
 					export.ExportPlan(GetFileName(), plan);
@@ -90,8 +88,10 @@ public partial class SaveViewModel : ViewModelBase {
 			App.Current.Services.GetRequiredService<IPopupService>().Notify("Export Erfolgreich", "Einsatzplan erfolgreich exportiert");
 			watch.Stop();
 			Console.WriteLine($"Generating took {watch.ElapsedMilliseconds} ms");
+			popupService.Notify("Export Erfolgreich", "Einsatzplan erfolgreich exportiert");
 		} catch(Exception e) {
 			ErrorString = e.Message;
+			popupService.Warn(e.Message);
 		}
 	}
 
