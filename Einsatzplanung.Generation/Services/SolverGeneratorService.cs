@@ -279,7 +279,7 @@ public class SolverGeneratorService : IGeneratorService {
 	}
 
 	/// <summary>
-	/// Prefer the same <see cref="Teacher"/> across all weeks of a <see cref="Group"/> with the same topic.
+	/// Prefer the same <see cref="Teacher"/> across all weeks of a <see cref="Group"/> with the same <see cref="Topic"/>.
 	/// </summary>
 	private void AddPreferSameTeacherObjective(List<LinearExpr> preferenceTerms) {
 		var slotsByGroupAndTopic = Slots
@@ -303,15 +303,13 @@ public class SolverGeneratorService : IGeneratorService {
 				if (teacherVars.Count == 0)
 					continue;
 
-				// teacherUsed is 1 if this teacher teaches at least one week of the group's topic
 				var teacherUsed = Model.NewBoolVar(
 					$"used_{slotsWithGroupAndTopic.Key.Group.Id}_{slotsWithGroupAndTopic.Key.Topic.Name}_t{teacherIndex}");
 
 				foreach (var x in teacherVars) {
-					Model.AddImplication(x, teacherUsed); // x => teacherUsed
+					Model.AddImplication(x, teacherUsed);
 				}
 
-				// Since we maximize, teacherUsed will be 0 whenever the teacher isn't actually assigned
 				preferenceTerms.Add(LinearExpr.Term(teacherUsed, -PreferSameTeacherWeight));
 			}
 		}
