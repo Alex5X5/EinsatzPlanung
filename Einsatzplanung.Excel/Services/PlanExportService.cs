@@ -32,6 +32,8 @@ public sealed class PlanExportService : IPlanExportService {
 	private const double DAY_COLUMN_WIDTH = 3.5;
 	private const double WEEK_COLUMN_WIDTH = 3.5;
 
+	private const int FOREGROUND_THRESHOLD = 100;
+
 	public PlanExportService(GeneralConfigService configService) {
 		_yearStartDate = configService.YearStartDate;
 		_yearEndDate = configService.YearEndDate;
@@ -106,8 +108,11 @@ public sealed class PlanExportService : IPlanExportService {
 							worksheet.Cell(row, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(Color.White);
 						} else {
 							worksheet.Cell(row, colIndex).Value = assignment.Trainer;
-							if (ColorTranslator.FromHtml(assignment.BlockColor) is var color && color != Color.Empty)
+							if (ColorTranslator.FromHtml(assignment.BlockColor) is var color && color != Color.Empty) {
+								Color foregroundColor = GetForeGroundColorFromBlockColor(color);
+								worksheet.Cell(row, colIndex).Style.Font.FontColor = XLColor.FromColor(foregroundColor);
 								worksheet.Cell(row, colIndex).Style.Fill.BackgroundColor = XLColor.FromColor(color);
+							}
 						}
 					} else {
 						worksheet.Cell(row, colIndex).Value = "X";
@@ -208,7 +213,7 @@ public sealed class PlanExportService : IPlanExportService {
 		
 		average /= 3;
 		
-		if (average > 100) {
+		if (average > FOREGROUND_THRESHOLD) {
 			return Color.FromArgb(255,0,0,0);
 		} else {
 			return Color.FromArgb(255,255,255,255);
