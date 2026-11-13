@@ -33,6 +33,10 @@ public partial class TopicGroupsControl : ContentControl {
 	private Border? dragVisual;
 	private Border? dropIndicator;
 	private bool isDragging;
+	private const double NewGroupZone = 20;
+	private const double IndicatorThickness = 3;
+	private sealed record GroupArea(ObservableCollection<TopicCardViewModel> Group, Rect Bounds);
+	private sealed record DropTarget(ObservableCollection<TopicCardViewModel>? Group, int Position, Rect Indicator);
     private EditCardsControl? CardsControl;
 
 	public TopicGroupsControl() : base() {
@@ -101,37 +105,18 @@ public partial class TopicGroupsControl : ContentControl {
 	}
 
 	private void UpdateDropIndicator(PointerEventArgs e) {
-		if (dropIndicator is null || overlay is null || draggedCard is null ||
-			DataContext is not TopicViewModel vm || CardsControl is not EditCardsControl cc)
+		if (dropIndicator is null || overlay is null)
 			return;
 
-		double y = e.GetPosition(cc).Y;
-		var group = GetTargetGroup(y, vm, cc);
-		if (group is null || group.Count == 0) {
+		DropTarget? target = FindDropTarget(e.GetPosition(this).Y);
+		if (target is null || this.TranslatePoint(target.Indicator.Position, overlay) is not Point indicatorPosition) {
 			dropIndicator.IsVisible = false;
 			return;
 		}
 
-		int index = GetTargetCardIndex(group, y, cc);
-		int old = group.IndexOf(draggedCard);
-		if (old >= 0 && (index == old || index == old + 1)) {
-			dropIndicator.IsVisible = false;
-			return;
-		}
-
-		bool atEnd = index >= group.Count;
-		var anchor = group[atEnd ? group.Count - 1 : index];
-		var container = cc.GetVisualDescendants().OfType<ExtendingCard>()
-			.FirstOrDefault(c => ReferenceEquals(c.DataContext, anchor));
-
-		if (container?.TranslatePoint(default, overlay) is not Point pos) {
-			dropIndicator.IsVisible = false;
-			return;
-		}
-
-		dropIndicator.Width = container.Bounds.Width;
-		dropIndicator.RenderTransform = new TranslateTransform(
-			pos.X, pos.Y + (atEnd ? container.Bounds.Height : 0) - 1.5);
+		dropIndicator.Width = target.Indicator.Width;
+		dropIndicator.Height = target.Indicator.Height;
+		dropIndicator.RenderTransform = new TranslateTransform(indicatorPosition.X, indicatorPosition.Y);
 		dropIndicator.IsVisible = true;
 	}
 
@@ -203,19 +188,8 @@ public partial class TopicGroupsControl : ContentControl {
             draggedControl.ZIndex = 0;
             draggedControl = null;
         }
-		if (isDragging && draggedCard is not null &&
-			DataContext is TopicViewModel viewModel &&
-			CardsControl is EditCardsControl cardsControl) {
-			Point pointerPosition = e.GetPosition(cardsControl);
-			ObservableCollection<TopicCardViewModel>? targetGroup = GetTargetGroup(pointerPosition.Y, viewModel, cardsControl);
-			if (targetGroup is not null) {
-				int targetCardIndex = GetTargetCardIndex(targetGroup, pointerPosition.Y, cardsControl);
-				if (targetCardIndex >= 0) {
-					// viewModel.MoveCardToGroup(new CardMovedEventArgs(draggedCard, targetGroup, targetCardIndex));
-					MoveCard(draggedCard, targetGroup, targetCardIndex);
-				}
-			}
-		}
+		if (isDragging && FindDropTarget(e.GetPosition(this).Y) is DropTarget target)
+			ApplyDrop(target);
 
 		dragPointer = null;
 		draggedCard = null;
@@ -241,49 +215,140 @@ public partial class TopicGroupsControl : ContentControl {
 			groups.Remove(source);
 	}
 
+	private DropTarget? FindDropTarget(double pointerY) {
+		List<GroupArea> groupAreas = GetGroupAreas();
+		if (groupAreas.Count == 0)
+			return null;
 
-	private ObservableCollection<TopicCardViewModel>? GetTargetGroup(
-		double pointerY,
-		TopicViewModel viewModel,
-		EditCardsControl cardsControl) {
-		ObservableCollection<TopicCardViewModel>? lastGroup = null;
-		foreach (Border border in cardsControl.GetVisualDescendants()
-			.OfType<Border>()
-			.Where(border => border.DataContext is ObservableCollection<TopicCardViewModel>)) {
-			var group = (ObservableCollection<TopicCardViewModel>)border.DataContext!;
-			if (!viewModel.Groups.Contains(group))
-				continue;
+		DropTarget? newGroupTarget = FindNewGroupTarget(pointerY, groupAreas);
+		if (newGroupTarget is not null && !IsSamePlace(newGroupTarget, groupAreas))
+			return newGroupTarget;
 
-			Point? position = border.TranslatePoint(new Point(0, 0), cardsControl);
-			if (position is null)
-				continue;
+		DropTarget? cardTarget = FindCardTarget(pointerY, groupAreas);
+		if (cardTarget is not null && !IsSamePlace(cardTarget, groupAreas))
+			return cardTarget;
 
-			lastGroup = group;
-			if (pointerY < position.Value.Y + border.Bounds.Height / 2)
-				return group;
-		}
-
-		return lastGroup;
+		return null;
 	}
 
-	private int GetTargetCardIndex(
-		ObservableCollection<TopicCardViewModel> group,
-		double pointerY,
-		EditCardsControl cardsControl) {
-		foreach (ExtendingCard cardContainer in cardsControl.GetVisualDescendants()
-			.OfType<ExtendingCard>()
-			.Where(card => card.DataContext is TopicCardViewModel)) {
-			var card = (TopicCardViewModel)cardContainer.DataContext!;
-			int index = group.IndexOf(card);
-			if (index < 0)
+	private DropTarget? FindNewGroupTarget(double pointerY, List<GroupArea> groupAreas) {
+		for (int gap = 0; gap <= groupAreas.Count; gap++) {
+			bool isFirstGap = gap == 0;
+			bool isLastGap = gap == groupAreas.Count;
+
+			double gapTop = isFirstGap ? groupAreas[0].Bounds.Top : groupAreas[gap - 1].Bounds.Bottom;
+			double gapBottom = isLastGap ? groupAreas[gap - 1].Bounds.Bottom : groupAreas[gap].Bounds.Top;
+
+			bool isPointerAboveZone = !isFirstGap && pointerY < gapTop - NewGroupZone;
+			bool isPointerBelowZone = !isLastGap && pointerY > gapBottom + NewGroupZone;
+			if (isPointerAboveZone || isPointerBelowZone)
 				continue;
 
-			Point? position = cardContainer.TranslatePoint(new Point(0, 0), cardsControl);
-			if (position is not null && pointerY < position.Value.Y + cardContainer.Bounds.Height / 2)
-				return index;
+			GroupArea neighbor = groupAreas[isLastGap ? gap - 1 : gap];
+			double lineY = (gapTop + gapBottom) / 2;
+			return new DropTarget(null, gap, HorizontalLine(neighbor.Bounds, lineY));
 		}
 
-		return group.Count;
+		return null;
+	}
+
+	private DropTarget? FindCardTarget(double pointerY, List<GroupArea> groupAreas) {
+		GroupArea? hoveredGroup = groupAreas.FirstOrDefault(area => area.Bounds.Top <= pointerY && pointerY <= area.Bounds.Bottom);
+		if (hoveredGroup is null)
+			return null;
+
+		List<Rect> cardRects = GetCardRects(hoveredGroup.Group);
+		if (cardRects.Count == 0)
+			return new DropTarget(hoveredGroup.Group, 0, HorizontalLine(hoveredGroup.Bounds, hoveredGroup.Bounds.Center.Y));
+
+		int cardIndex = cardRects.FindIndex(cardRect => pointerY < cardRect.Center.Y);
+		if (cardIndex < 0)
+			cardIndex = cardRects.Count;
+
+		double lineY = cardIndex < cardRects.Count ? cardRects[cardIndex].Top : cardRects[^1].Bottom;
+		return new DropTarget(hoveredGroup.Group, cardIndex, HorizontalLine(cardRects[0], lineY));
+	}
+
+	#region helpers
+	private List<GroupArea> GetGroupAreas() {
+		var groupAreas = new List<GroupArea>();
+		if (ItemsSource is not IList groups)
+			return groupAreas;
+
+		foreach (Border border in this.GetVisualDescendants().OfType<Border>()) {
+			if (border.DataContext is not ObservableCollection<TopicCardViewModel> group || !groups.Contains(group))
+				continue;
+			if (groupAreas.Any(area => ReferenceEquals(area.Group, group)))
+				continue;
+			if (border.TranslatePoint(default, this) is not Point topLeft)
+				continue;
+
+			groupAreas.Add(new GroupArea(group, new Rect(topLeft, border.Bounds.Size)));
+		}
+
+		return groupAreas;
+	}
+
+	private List<Rect> GetCardRects(ObservableCollection<TopicCardViewModel> group) {
+		List<ExtendingCard> cardViews = this.GetVisualDescendants().OfType<ExtendingCard>().ToList();
+		var cardRects = new List<Rect>();
+
+		foreach (TopicCardViewModel card in group) {
+			ExtendingCard? cardView = cardViews.FirstOrDefault(view => ReferenceEquals(view.DataContext, card));
+			if (cardView?.TranslatePoint(default, this) is Point topLeft)
+				cardRects.Add(new Rect(topLeft, cardView.Bounds.Size));
+		}
+
+		return cardRects;
+	}
+
+	private bool IsSamePlace(DropTarget target, List<GroupArea> groupAreas) {
+		if (draggedCard is not TopicCardViewModel card)
+			return true;
+
+		int sourceGroupIndex = groupAreas.FindIndex(area => area.Group.Contains(card));
+		if (sourceGroupIndex < 0)
+			return true;
+
+		ObservableCollection<TopicCardViewModel> sourceGroup = groupAreas[sourceGroupIndex].Group;
+
+		if (target.Group is null)
+			return sourceGroup.Count == 1 && IsGapNextToItem(target.Position, sourceGroupIndex);
+
+		return ReferenceEquals(target.Group, sourceGroup) && IsGapNextToItem(target.Position, sourceGroup.IndexOf(card));
+	}
+
+	private static bool IsGapNextToItem(int gapIndex, int itemIndex) =>
+		gapIndex == itemIndex || gapIndex == itemIndex + 1;
+
+	private static Rect HorizontalLine(Rect area, double y) =>
+		new(area.X, y - IndicatorThickness / 2, area.Width, IndicatorThickness);
+	
+	#endregion
+
+	private void ApplyDrop(DropTarget target) {
+		if (draggedCard is null)
+			return;
+
+		if (target.Group is null)
+			MoveCardToNewGroup(draggedCard, target.Position);
+		else
+			MoveCard(draggedCard, target.Group, target.Position);
+	}
+
+	private void MoveCardToNewGroup(TopicCardViewModel card, int groupPosition) {
+		if (ItemsSource is not IList groups)
+			return;
+
+		var sourceGroup = groups.OfType<ObservableCollection<TopicCardViewModel>>().FirstOrDefault(group => group.Contains(card));
+		if (sourceGroup is null)
+			return;
+
+		sourceGroup.Remove(card);
+		groups.Insert(Math.Clamp(groupPosition, 0, groups.Count), new ObservableCollection<TopicCardViewModel> { card });
+
+		if (sourceGroup.Count == 0)
+			groups.Remove(sourceGroup);
 	}
 	
 }
