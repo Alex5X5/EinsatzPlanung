@@ -131,15 +131,15 @@ public partial class TopicGroupsControl : ContentControl {
 			return;
 		}
 
-		grabOffset = e.GetPosition(draggedControl);
+		double scale = draggedControl.TransformToVisual(overlay)?.M11 ?? 1; 
+
+		grabOffset = e.GetPosition(draggedControl) * scale;
 		dragVisual = new Border {
-			Width = draggedControl.Bounds.Width,
-			Height = draggedControl.Bounds.Height,
+			Width = draggedControl.Bounds.Width * scale,
+			Height = draggedControl.Bounds.Height * scale,
 			Background = new VisualBrush {
 				Visual = draggedControl,
-				Stretch = Stretch.None,
-				AlignmentX = AlignmentX.Left,
-				AlignmentY = AlignmentY.Top
+				Stretch = Stretch.Fill,
 			},
 			Opacity = 1,
 			IsHitTestVisible = false
