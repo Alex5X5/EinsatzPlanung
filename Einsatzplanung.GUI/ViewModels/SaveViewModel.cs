@@ -66,6 +66,7 @@ public partial class SaveViewModel : ViewModelBase {
 
 	[RelayCommand]
 	private async Task Export() {
+		ErrorString = ""; //Resetting Error Message when trying to export again
 		IPopupService popupService = App.Current.Services.GetRequiredService<IPopupService>();
 		try {
 			await Task.Run(
