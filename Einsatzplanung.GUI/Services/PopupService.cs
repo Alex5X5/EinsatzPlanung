@@ -32,14 +32,15 @@ using System.Threading.Tasks;
 		}
 
 		public void Notify(string title, string message) {
-			var owner = (Application.Current?.ApplicationLifetime
-				as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-			if (owner is null) 
-				return;
-			
-			
-
-			window.ShowDialog(owner);
+			throw new NotImplementedException();
+			// var owner = (Application.Current?.ApplicationLifetime
+			// 	as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+			// if (owner is null) 
+			// 	return;
+			//
+			//
+			//
+			// window.ShowDialog(owner);
 		}
 
 		public void Warn(string errorMessage ,string title = "Error", string message = "Ein fehler ist aufgetreten!") {
