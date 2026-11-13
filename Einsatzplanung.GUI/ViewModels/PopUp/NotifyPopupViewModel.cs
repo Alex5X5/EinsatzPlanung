@@ -1,4 +1,9 @@
-﻿namespace Einsatzplanung.GUI.ViewModels.PopUp;
+﻿using Avalonia.Interactivity;
+using Avalonia.Media;
+
+using System;
+
+namespace Einsatzplanung.GUI.ViewModels.PopUp;
 using CommunityToolkit.Mvvm.Input;
 
 public partial class NotifyPopupViewModel : ViewModelBase {

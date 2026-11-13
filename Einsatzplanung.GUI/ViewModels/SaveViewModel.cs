@@ -1,4 +1,6 @@
-﻿namespace Einsatzplanung.GUI.ViewModels;
+﻿using Einsatzplanung.GUI.Interfaces;
+
+namespace Einsatzplanung.GUI.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -64,6 +66,7 @@ public partial class SaveViewModel : ViewModelBase {
 
 	[RelayCommand]
 	private async Task Export() {
+		ErrorString = ""; //Resetting Error Message when trying to export again
 		var generator = App.GetRequiredService<SolverGeneratorService>();
 		var export = App.GetRequiredService<IPlanExportService>();
 		var config = new GeneratorConfig() {
