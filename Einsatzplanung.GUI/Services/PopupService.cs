@@ -37,10 +37,7 @@ using System.Threading.Tasks;
 			if (owner is null) 
 				return;
 			
-			var vm = new NotifyPopupViewModel(title, message);
-			var window = new NotifyPopupView {
-				DataContext = vm
-			};
+			
 
 			window.ShowDialog(owner);
 		}
