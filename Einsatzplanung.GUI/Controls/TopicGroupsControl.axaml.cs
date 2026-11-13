@@ -35,6 +35,7 @@ public partial class TopicGroupsControl : ContentControl {
 	private bool isDragging;
 	private const double NewGroupZone = 20;
 	private const double IndicatorThickness = 3;
+	private const double IndicatorGap = 4;
 	private sealed record GroupArea(ObservableCollection<TopicCardViewModel> Group, Rect Bounds);
 	private sealed record DropTarget(ObservableCollection<TopicCardViewModel>? Group, int Position, Rect Indicator);
     private EditCardsControl? CardsControl;
@@ -146,7 +147,7 @@ public partial class TopicGroupsControl : ContentControl {
 		dropIndicator = new Border {
 			Height = 3,
 			CornerRadius = new CornerRadius(1.5),
-			Background = Brushes.Blue,
+			Background = Brushes.SkyBlue,
 			IsHitTestVisible = false,
 			IsVisible = false
 		};
@@ -264,8 +265,16 @@ public partial class TopicGroupsControl : ContentControl {
 		int cardIndex = cardRects.FindIndex(cardRect => pointerY < cardRect.Center.Y);
 		if (cardIndex < 0)
 			cardIndex = cardRects.Count;
+		
+		double lineY;
+		if (cardIndex == 0)
+			lineY = cardRects[0].Top - IndicatorGap;
+		else if (cardIndex == cardRects.Count)
+			lineY = cardRects[^1].Bottom + IndicatorGap;
+		else
+			lineY = (cardRects[cardIndex - 1].Bottom + cardRects[cardIndex].Top) / 2;
 
-		double lineY = cardIndex < cardRects.Count ? cardRects[cardIndex].Top : cardRects[^1].Bottom;
+		// double lineY = cardIndex < cardRects.Count ? cardRects[cardIndex].Top : cardRects[^1].Bottom;
 		return new DropTarget(hoveredGroup.Group, cardIndex, HorizontalLine(cardRects[0], lineY));
 	}
 
