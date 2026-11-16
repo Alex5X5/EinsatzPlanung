@@ -20,6 +20,6 @@ public interface IEntityService<T> : IEntityService where T : Entity {
 
 public interface IEntityService {
 
-	public void SetSource(string path);
+	public void SetSource(string path, bool reload = false);
 
 }

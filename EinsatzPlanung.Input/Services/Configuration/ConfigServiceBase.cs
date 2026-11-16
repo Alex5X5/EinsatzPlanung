@@ -24,8 +24,12 @@ public abstract class ConfigServiceBase<Tc> : IConfigService<Tc> where Tc : Conf
 		this.importService = importService;
 	}
 
-	public void SetSource(string path) {
+	public void SetSource(string path, bool reload = false) {
+		if (SourceFilePath == path && !reload)
+			return;
+
 		SourceFilePath = path;
+		bufferedData = null;
 	}
 
 	public async Task SetDataAsync(List<Tc> data, CancellationToken? token = null) {

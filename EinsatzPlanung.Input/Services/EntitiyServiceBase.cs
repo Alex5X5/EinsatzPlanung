@@ -16,8 +16,8 @@ public abstract class EntitiyServiceBase<Te, Tc> : IEntityService<Te, Tc> where 
 		this.configService = configService;
 	}
 
-	public void SetSource(string path) {
-		configService.SetSource(path);
+	public void SetSource(string path, bool reload = false) {
+		configService.SetSource(path, reload);
 	}
 
 	public async Task<List<Te>> GetEntitiesAsync() {

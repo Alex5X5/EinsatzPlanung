@@ -20,7 +20,7 @@ public class GroupService : IEntityService<Group> {
 		return ageGroups.SelectMany((group) => group.Groups).ToList();
 	}
 
-	public void SetSource(string path) {
-		ageGroupService.SetSource(path);
+	public void SetSource(string path, bool reload = false) {
+		ageGroupService.SetSource(path, reload);
 	}
 }

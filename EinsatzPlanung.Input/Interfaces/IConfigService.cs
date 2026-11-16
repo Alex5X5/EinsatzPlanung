@@ -21,7 +21,7 @@ public interface IConfigService<T> : IConfigService where T : Config {
 
 public interface IConfigService {
 
-	public void SetSource(string path);
+	public void SetSource(string path, bool reload = false);
 
 	public Task UpdateReferencesAsync(CancellationToken? token = null);
 

@@ -35,9 +35,10 @@ public partial class ViewBase : UserControl {
 	}
 
 	private void OnLoad(object? sender, RoutedEventArgs args) {
+		LoadingTokenSource = new CancellationTokenSource();
 		if (LoadCommand?.CanExecute(LoadingTokenSource.Token) ?? false)
 			LoadCommand.Execute(LoadingTokenSource.Token);
-		}
+	}
 
 	private void OnUnload(object? sender, RoutedEventArgs args) {
 		LoadingTokenSource.Cancel();

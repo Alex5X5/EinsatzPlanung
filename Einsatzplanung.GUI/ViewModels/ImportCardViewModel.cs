@@ -92,7 +92,7 @@
                     if (p.Length > 4)
 					    ExcelShortendPath = $"{p[0]}\\{p[1]}\\...\\{p[^2]}\\{p[^1]}";
                 }
-				entityService.SetSource(ExcelFileStatus);
+				entityService.SetSource(ExcelFileStatus, reload: true);
 			});
         }
 
