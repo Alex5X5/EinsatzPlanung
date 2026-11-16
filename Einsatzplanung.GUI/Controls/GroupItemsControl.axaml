@@ -8,7 +8,7 @@
                     xmlns:collections="clr-namespace:System.Collections;assembly=System.Runtime"
                     xmlns:viewModels="using:Einsatzplanung.GUI.ViewModels.Edit"
                     xmlns:sys="using:System">
-    <ControlTheme x:Key="{x:Type ct:TopicGroupsControl}" TargetType="ct:TopicGroupsControl">
+    <ControlTheme x:Key="{x:Type ct:GroupItemsControl}" TargetType="ct:GroupItemsControl">
         
         <Setter Property="Template">
         
