@@ -33,6 +33,7 @@ public partial class TopicGroupsControl : ContentControl {
 	private Border? dragVisual;
 	private Border? dropIndicator;
 	private bool isDragging;
+	private double dragScale = 1;
 	private const double NewGroupZone = 20;
 	private const double IndicatorThickness = 3;
 	private const double IndicatorGap = 4;
@@ -115,7 +116,7 @@ public partial class TopicGroupsControl : ContentControl {
 			return;
 		}
 
-		dropIndicator.Width = target.Indicator.Width;
+		dropIndicator.Width = target.Indicator.Width * dragScale;
 		dropIndicator.Height = target.Indicator.Height;
 		dropIndicator.RenderTransform = new TranslateTransform(indicatorPosition.X, indicatorPosition.Y);
 		dropIndicator.IsVisible = true;
@@ -131,12 +132,12 @@ public partial class TopicGroupsControl : ContentControl {
 			return;
 		}
 
-		double scale = draggedControl.TransformToVisual(overlay)?.M11 ?? 1; 
+		dragScale = draggedControl.TransformToVisual(overlay)?.M11 ?? 1; 
 
-		grabOffset = e.GetPosition(draggedControl) * scale;
+		grabOffset = e.GetPosition(draggedControl) * dragScale;
 		dragVisual = new Border {
-			Width = draggedControl.Bounds.Width * scale,
-			Height = draggedControl.Bounds.Height * scale,
+			Width = draggedControl.Bounds.Width * dragScale,
+			Height = draggedControl.Bounds.Height * dragScale,
 			Background = new VisualBrush {
 				Visual = draggedControl,
 				Stretch = Stretch.Fill,
@@ -145,7 +146,7 @@ public partial class TopicGroupsControl : ContentControl {
 			IsHitTestVisible = false
 		};
 		dropIndicator = new Border {
-			Height = 3,
+			Height = IndicatorThickness * dragScale,
 			CornerRadius = new CornerRadius(1.5),
 			Background = Brushes.SkyBlue,
 			IsHitTestVisible = false,
