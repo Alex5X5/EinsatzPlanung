@@ -19,29 +19,29 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-public partial class TopicGroupsControl : ContentControl {
+public partial class GroupItemsControl : ContentControl {
 	
     [BasicStyledProperty]
     private IEnumerable<IEnumerable<object>>? itemsSource = null;
+
+	private Point dragStart;
+	private Point grabOffset;
+	private IPointer? dragPointer;
+	private TopicCardViewModel? draggedCard;
     private Control? draggedControl;
 
-    private IPointer? dragPointer;
-	private TopicCardViewModel? draggedCard;
-	private Point dragStart;
+	private EditCardsControl? CardsControl;
 	private OverlayLayer? overlay;
-	private Point grabOffset;
 	private Border? dragVisual;
 	private Border? dropIndicator;
+
 	private bool isDragging;
 	private double dragScale = 1;
 	private const double NewGroupZone = 20;
 	private const double IndicatorThickness = 3;
 	private const double IndicatorGap = 4;
-	private sealed record GroupArea(ObservableCollection<TopicCardViewModel> Group, Rect Bounds);
-	private sealed record DropTarget(ObservableCollection<TopicCardViewModel>? Group, int Position, Rect Indicator);
-    private EditCardsControl? CardsControl;
 
-	public TopicGroupsControl() : base() {
+	public GroupItemsControl() : base() {
         
     }
 
@@ -360,5 +360,8 @@ public partial class TopicGroupsControl : ContentControl {
 		if (sourceGroup.Count == 0)
 			groups.Remove(sourceGroup);
 	}
-	
+
+	private sealed record GroupArea(ObservableCollection<TopicCardViewModel> Group, Rect Bounds);
+	private sealed record DropTarget(ObservableCollection<TopicCardViewModel>? Group, int Position, Rect Indicator);
+
 }

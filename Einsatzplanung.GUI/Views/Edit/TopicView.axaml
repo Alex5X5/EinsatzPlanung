@@ -86,7 +86,7 @@
                     </DataTemplate>
                 </ct:LevelItemsControl.ItemTemplate>
             </ct:LevelItemsControl>
-            <ct:TopicGroupsControl ItemsSource="{Binding Groups}"
+            <ct:GroupItemsControl ItemsSource="{Binding Groups}"
                                    IsVisible="{Binding ShowGroupsView}" />
         </Panel>		
 	</ScrollViewer>
