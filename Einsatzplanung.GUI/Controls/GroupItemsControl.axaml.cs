@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-public partial class GroupItemsControl : ContentControl {
+public partial class GroupItemsControl : TemplatedControl {
 	
     [BasicStyledProperty]
     private IEnumerable<IEnumerable<object>>? itemsSource = null;
