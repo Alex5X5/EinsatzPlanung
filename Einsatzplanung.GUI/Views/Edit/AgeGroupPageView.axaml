@@ -68,7 +68,7 @@
                                                      HorizontalAlignment="Stretch"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
-                                                     ToolTip.Tip="Ausbilder Auswählen" />
+                                                     ToolTip.Tip="Zugeteilter Ausbilder" />
 
                                 <TextBox Text="{Binding Header, Mode=TwoWay}"
                                         PlaceholderText="Name der Klasse"
@@ -77,7 +77,7 @@
                                         HorizontalAlignment="Stretch"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        ToolTip.Tip="Klassenbezeichnung eingeben" />
+                                        ToolTip.Tip="Name der Klasse" />
                             </ct:ExtendingCard.HeaderContent>
 
                             <ItemsControl ItemsSource="{Binding Topics}"

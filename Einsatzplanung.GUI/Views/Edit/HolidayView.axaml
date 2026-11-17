@@ -30,7 +30,7 @@
 								 HorizontalAlignment="Stretch"
 								 HorizontalContentAlignment="Center"
 								 VerticalContentAlignment="Center"
-								 ToolTip.Tip="Urlaubs- oder Feiertagsbezeichnung" />
+								 ToolTip.Tip="Urlaubs- oder Feiertagsdatum" />
 					</ct:ExtendingCard.HeaderContent>
 
 				</ct:ExtendingCard>
