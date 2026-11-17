@@ -56,13 +56,17 @@
 
             <Button Content="Als Excel Exportieren" 
                     Command="{Binding ExportCommand}"
+                    ToolTip.Tip="Aktuelle Seite als Vorlage speichern"
                     HorizontalAlignment="Center" Classes="standard-button" Margin="0,20,0,0"/>
 
             <Button Content="Hinzufügen"
                     Command="{Binding AddCommand}" 
+                    ToolTip.Tip="Neues Element Erstellen"
                     HorizontalAlignment="Center" Classes="standard-button" Margin="0,20,0,0"/>
             
-            <Button Content="Weiter" Command="{Binding GoToNextPageCommand}" 
+            <Button Content="Weiter" 
+                    Command="{Binding GoToNextPageCommand}" 
+                    ToolTip.Tip="Zur Exportansicht weitergehen"
                     HorizontalAlignment="Center" Classes="standard-button" Margin="0,20,0,0"/>
 
         </StackPanel>
