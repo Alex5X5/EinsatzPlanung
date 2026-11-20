@@ -1,4 +1,6 @@
-﻿using Einsatzplanung.GUI.Interfaces;
+﻿using Avalonia.Controls;
+
+using Einsatzplanung.GUI.Interfaces;
 using Einsatzplanung.GUI.Windows.PopUp;
 
 using System;
@@ -13,48 +15,48 @@ using Einsatzplanung.GUI.Views;
 using Einsatzplanung.GUI.Views.PopUp;
 
 using System.Threading.Tasks;
-	public class PopupService : IPopupService {
-		public async Task<bool> ConfirmAsync(string title, string message) 
-		{
-			var owner = (Application.Current?.ApplicationLifetime
-				as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-			if (owner is null)
-				return false;
 
-			var vm = new ConfirmPopupViewModel(title, message);
-			var window = new ConfirmPopupView {
-				DataContext = vm
-			};
+public class PopupService : IPopupService {
 
-			vm.CloseRequested += result => window.Close(result);
+	private readonly IPopupFactory _popupFactory;
 
-			return await window.ShowDialog<bool>(owner);
-		}
-
-		public void Notify(string title, string message) {
-			throw new NotImplementedException();
-			// var owner = (Application.Current?.ApplicationLifetime
-			// 	as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-			// if (owner is null) 
-			// 	return;
-			//
-			//
-			//
-			// window.ShowDialog(owner);
-		}
-
-		public void Warn(string errorMessage ,string title = "Error", string message = "Ein fehler ist aufgetreten!") {
-			var owner = (Application.Current?.ApplicationLifetime
-				as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-			if (owner is null) 
-				return;
-			
-			var vm = new NotifyPopupViewModel(title, message, isError: true, errorMessage);
-			var window = new NotifyPopupView {
-				DataContext = vm
-			};
-
-			window.ShowDialog(owner);
-		}
-		
+	public PopupService(IPopupFactory popupFactory) {
+		_popupFactory = popupFactory;
 	}
+
+	public async Task<bool> ConfirmAsync(string title, string message) {
+		var owner = (Application.Current?.ApplicationLifetime
+			as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+		if (owner is null)
+			return false;
+
+		var vm = new ConfirmPopupViewModel(title, message);
+		var window = new ConfirmPopupView { DataContext = vm };
+
+		vm.CloseRequested += result => window.Close(result);
+
+		return await window.ShowDialog<bool>(owner);
+	}
+
+	public void Notify(string title, string message) {
+		Window owner = GetOwner();
+
+		NotifyPopupView window = _popupFactory.CreateNotifyPopup(title, message);
+
+		window.ShowDialog(owner);
+	}
+
+	public void Warn(string errorMessage, string title = "Error", string message = "Ein fehler ist aufgetreten!") {
+		Window owner = GetOwner();
+
+		NotifyPopupView window = _popupFactory.CreateNotifyPopup(title, message, true, errorMessage);
+
+		window.ShowDialog(owner);
+	}
+
+	private static Window GetOwner() {
+		Window? owner = (Application.Current?.ApplicationLifetime
+			as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+		return owner ?? throw new NullReferenceException();
+	}
+}
