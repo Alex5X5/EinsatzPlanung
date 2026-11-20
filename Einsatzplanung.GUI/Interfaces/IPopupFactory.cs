@@ -1,9 +1,9 @@
-﻿using Einsatzplanung.GUI.Views.PopUp;
+﻿using Einsatzplanung.GUI.ViewModels.PopUp;
+using Einsatzplanung.GUI.Views.PopUp;
 using Einsatzplanung.GUI.Windows.PopUp;
 
 namespace Einsatzplanung.GUI.Interfaces {
-	public interface IPopupFactory
-	{
+	public interface IPopupFactory {
 		NotifyPopupView CreateNotifyPopup(
 			string title,
 			string message,
@@ -11,8 +11,8 @@ namespace Einsatzplanung.GUI.Interfaces {
 			string? errorMessage = ""
 		);
 
-		ConfirmPopupView CreateConfirmPopup(
+		(ConfirmPopupViewModel vm, ConfirmPopupView view) CreateConfirmPopup(
 			string title,
-			string message
-		);
+			string message);
 	}
+}

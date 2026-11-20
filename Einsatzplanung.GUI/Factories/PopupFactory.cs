@@ -16,15 +16,15 @@ public class PopupFactory : IPopupFactory {
 		};
 	}
 	
-	public ConfirmPopupView CreateConfirmPopup(
-		string title,
+	public (ConfirmPopupViewModel vm, ConfirmPopupView view) CreateConfirmPopup(string title,
 		string message)
 	{
-		var vm = new ConfirmPopupViewModel(title, message);
-		return new ConfirmPopupView
-		{
+		ConfirmPopupViewModel vm = new(title, message);
+		ConfirmPopupView view = new() {
 			DataContext = vm
 		};
+		
+		return (vm, view);
 	}
 	
 }
