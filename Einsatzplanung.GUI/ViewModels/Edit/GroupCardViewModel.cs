@@ -18,6 +18,9 @@ public partial class GroupCardViewModel : CardViewModel {
 
 	[ObservableProperty]
 	private string teacherAbbreviation = "";
+
+	[ObservableProperty]
+	private string schoolWeeks = "";
 	
 	public ObservableCollection<string> Abbreviations { get; private set; }
 
@@ -30,6 +33,7 @@ public partial class GroupCardViewModel : CardViewModel {
 
 		Config = group;
 		TeacherAbbreviation = Config.Teacher.Abbreviation;
+		SchoolWeeks = string.Join(", ", Config.SchoolWeeks);
 
 		Task.Run(async () => {
 			var teachers = await teacherService.GetDataAsync();

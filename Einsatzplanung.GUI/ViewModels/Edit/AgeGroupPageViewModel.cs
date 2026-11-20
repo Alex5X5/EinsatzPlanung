@@ -154,8 +154,11 @@ public partial class AgeGroupPageViewModel : ViewModelBase, IEditViewChild {
 								Id = groupCard.Config.Id,
 								Name = groupCard.Header,
 								Teacher = teacherOption.Value!,
-								SchoolWeeks = groupCard.Config.SchoolWeeks,
-								Blocks = blocks
+								SchoolWeeks = groupCard.SchoolWeeks
+									.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+									.Select(int.Parse)
+									.ToList(),
+								Blocks = blocks,
 							};
 
 							groups.Add(group);
